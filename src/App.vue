@@ -1,9 +1,10 @@
+<script setup>
+  import NavigationComponent from '@/components/Navigation/Navigation'
+</script>
+
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <navigation-component/>
     <router-view/>
   </div>
 </template>
