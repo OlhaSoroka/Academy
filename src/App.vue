@@ -1,16 +1,22 @@
-<script setup>
-  import NavigationComponent from '@/components/Navigation/Navigation'
-</script>
-
 <template>
   <div id="app">
-    <navigation-component/>
-    <router-view/>
+      <navigation-menu/>
+      <router-view></router-view>
   </div>
 </template>
 
+
+<script>
+  import NavigationMenu from '@/components/Navigation/TheNavigationMenu'
+  export default {
+  components: {
+    NavigationMenu
+  }}
+</script>
+
 <style lang="scss">
 #app {
+  display: flex;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
