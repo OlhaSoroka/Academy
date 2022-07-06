@@ -25,7 +25,7 @@
             </ValidationProvider>    
             <input 
                 type="submit" 
-                class="border bg-sky-600 hover:bg-sky-700 px-6 py-2 my-4 rounded-full" value="Submit">            
+                class="border rounded-full bg-sky-400 hover:bg-sky-700 px-6 py-2 my-4" value="Submit">            
 
         </form>    
     </ValidationObserver>
@@ -34,8 +34,16 @@
 </template>
 
 <script>
+
+import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
+import { ValidationObserver } from 'vee-validate'
+
 export default {
   name: "LoginForm",
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   data: () => ({
     formData: {
       email: "",
