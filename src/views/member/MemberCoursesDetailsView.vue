@@ -1,13 +1,12 @@
 <template>
-<div>MemberCoursesDetailsView</div>
+    <div>MemberCoursesDetailsView</div>
 </template>
 
 <script>
 export default {
-	
+
 }
 </script>
 
 <style>
-
 </style>

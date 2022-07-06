@@ -3,25 +3,25 @@
         <slot>
         </slot>
         <td
-            v-if="deleteable"
+            v-if="deleteable || false"
             class="
             text-red-700 
             cursor-pointer 
             hover:bg-red-50
             "
-            @click="deleteThisRow"
+            @click="deleteRow"
         >
             delete
         </td>
         <td
-            v-if="editable"
+            v-if="editable || false"
             class="
             text-blue-700 
             cursor-pointer
             hover:bg-blue-50
 
             "
-            @click="editThisRow"
+            @click="editRow"
         >
             edit
         </td>
@@ -31,15 +31,15 @@
 <script>
 export default {
     props: {
-        propsData: Number,
+        propsData: String,
         deleteable: Boolean,
         editable: Boolean,
     },
     methods: {
-        deleteThisRow() {
+        deleteRow() {
             this.$emit("deleteHandler", this.propsData)
         },
-        editThisRow() {
+        editRow() {
             this.$emit("editHandler", this.propsData)
         }
     }
