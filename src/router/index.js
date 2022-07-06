@@ -40,30 +40,64 @@ import {
 	ADMIN_MANAGERS,
 	ADMIN_COURSES,
 	ADMIN_COURSES_DETAILS,
-} from './routes.constant';
+} from '../constants/routes.constant';
+
+import { ADMIN_ROLE, MANAGER_ROLE, MEMBER_ROLE } from '@/constants/roles.constant';
 
 Vue.use(VueRouter);
 
+// FAKE USER
+const user = {
+	userName: 'John Snow',
+	isAuth: true,
+	role: MEMBER_ROLE, // MANAGER_ROLE, ADMIN_ROLE
+};
+
 const routes = [
+	{
+		path: '/',
+		meta: { requiresAuth: true },
+		beforeEnter: (to, from, next) => {
+			switch (user.role) {
+				case MEMBER_ROLE:
+					next({ name: MEMBER });
+					break;
+				case MANAGER_ROLE:
+					next({ name: MANAGER });
+					break;
+				case ADMIN_ROLE:
+					next({ name: ADMIN });
+					break;
+				default:
+					break;
+			}
+		},
+	},
 	{
 		path: '/login',
 		name: LOGIN,
 		component: LoginView,
+		meta: { requiresAuth: false },
 	},
 	{
 		path: '/reset',
 		name: RESET,
 		component: ResetView,
+		meta: { requiresAuth: false },
 	},
 
 	{
 		path: '/member',
 		name: MEMBER,
 		component: MemberView,
-		redirect: { name: 'member-courses' },
+		redirect: { name: MEMBER_COURSES },
+		meta: { requiresAuth: true, requiredRole: MEMBER_ROLE },
 		beforeEnter: (to, from, next) => {
-			// TODO: add user member role check here
-			next();
+			if (to.matched.some((route) => route.meta.requiredRole === user.role)) {
+				next();
+			} else {
+				next({ path: '/' });
+			}
 		},
 		children: [
 			{
@@ -94,10 +128,14 @@ const routes = [
 		path: '/manager',
 		name: MANAGER,
 		component: ManagerView,
-		redirect: { name: 'manager-members' },
+		redirect: { name: MANAGER_MEMBERS },
+		meta: { requiresAuth: true, requiredRole: MANAGER_ROLE },
 		beforeEnter: (to, from, next) => {
-			// TODO: add user manager role check here
-			next();
+			if (to.matched.some((route) => route.meta.requiredRole === user.role)) {
+				next();
+			} else {
+				next({ path: '/' });
+			}
 		},
 		children: [
 			{
@@ -128,10 +166,14 @@ const routes = [
 		path: '/admin',
 		name: ADMIN,
 		component: AdminView,
-		redirect: { name: 'admin-members' },
+		redirect: { name: ADMIN_MEMBERS },
+		meta: { requiresAuth: true, requiredRole: ADMIN_ROLE },
 		beforeEnter: (to, from, next) => {
-			// TODO: add user admin role check here
-			next();
+			if (to.matched.some((route) => route.meta.requiredRole === user.role)) {
+				next();
+			} else {
+				next({ path: '/' });
+			}
 		},
 		children: [
 			{
@@ -171,8 +213,17 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	// TODO: check if user is authorized here
-
-	next();
+	if (to.matched.some((route) => route.meta.requiresAuth)) {
+		if (!user.isAuth) {
+			next({
+				name: LOGIN,
+			});
+		} else {
+			next();
+		}
+	} else {
+		next();
+	}
 });
 
 export default router;

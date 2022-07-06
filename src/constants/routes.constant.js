@@ -17,7 +17,4 @@ export const ADMIN='admin';
 export const ADMIN_MEMBERS='admin-members';
 export const ADMIN_COURSES='admin-courses';
 export const ADMIN_COURSES_DETAILS='admin-courses-details';
-
-
-
 export const ADMIN_MANAGERS = 'admin-managers';
