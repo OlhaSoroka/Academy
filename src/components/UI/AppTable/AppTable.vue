@@ -1,7 +1,7 @@
 <template>
 
     <table
-        class="rounded-2x shadow-lg w-11/12 m-auto"
+        class="app-table"
         v-if="!isDataLoading"
     >
         <thead class="table-head">
@@ -14,7 +14,7 @@
                     v-for="[key, value] in getEntriesFromArray(headerData)"
                     :key="key"
                     @click="sortTable(key)"
-                    class="select-none"
+                    class="app-table-header__th"
                 >
                     <!-- make the header from props headerData-->
                     <span>
@@ -27,7 +27,7 @@
                 </th>
             </AppTableRow>
         </thead>
-        <tbody>
+        <tbody class="table-tbody">
             <AppTableRow
                 v-for="(item) in tableData"
                 :key="item.id"
@@ -131,3 +131,13 @@ export default {
     },
 }
 </script>
+<style lang="scss">
+.app-table {
+    @apply rounded-2x shadow-lg w-11/12 m-auto;
+
+    &-header__th {
+        @apply select-none;
+
+    }
+}
+</style>
