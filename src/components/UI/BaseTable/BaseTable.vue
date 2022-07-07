@@ -1,13 +1,11 @@
 <template>
-
     <table
-        class="app-table"
+        class="BaseTable"
         v-if="!isDataLoading"
     >
         <thead class="table-head">
-
             <!-- if props logo is true we`ll add column with logos-->
-            <AppTableRow>
+            <BaseTableRow>
                 <td v-if="logo">
                 </td>
                 <th
@@ -20,15 +18,14 @@
                     <span>
                         {{ value }}
                     </span>
-
                     <!-- arrows which visualize the current sort state-->
                     <AppArrowDown v-if="key === sort.value && sort.countOfClick % 2 == 0" />
                     <AppArrowUp v-if="key === sort.value && sort.countOfClick % 2 !== 0" />
                 </th>
-            </AppTableRow>
+            </BaseTableRow>
         </thead>
         <tbody class="table-tbody">
-            <AppTableRow
+            <BaseTableRow
                 v-for="(item) in tableData"
                 :key="item.id"
                 :props-data="item.id"
@@ -51,23 +48,21 @@
                     v-for="(prop, index) in getEntriesFromArray(headerData)"
                     :key="index"
                 >{{ item[prop[0]] }}</td>
-            </AppTableRow>
+            </BaseTableRow>
         </tbody>
-
     </table>
     <!-- if data is loading -->
     <AppPreloader v-else />
-
 </template>
  
 <script>
-import AppTableRow from './AppTableRow.vue'
+import BaseTableRow from './BaseTableRow.vue'
 import AppPreloader from '../Preloader/AppPreloader.vue';
 import AppArrowDown from '../Icons/AppArrowDown.vue';
 import AppArrowUp from '../Icons/AppArrowUp.vue';
 export default {
     components: {
-        AppTableRow,
+        BaseTableRow,
         AppPreloader,
         AppArrowDown,
         AppArrowUp
@@ -80,7 +75,33 @@ export default {
     deleteBtns - flag (does table needs a delete buttons)
     logo - flag (does table has fields with logos)
     */
-    props: ['tableData', 'isDataLoading', 'editBtns', "deleteBtns", "headerData", "logo"],
+    props: {
+        tableData: {
+            required: true,
+            type: Array,
+        },
+        isDataLoading: {
+            required: true,
+            type: Boolean,
+        },
+        editBtns: {
+            required: true,
+            type: Boolean,
+        },
+        deleteBtns: {
+            required: true,
+            type: Boolean,
+        },
+        headerData: {
+            required: true,
+            type: Object,
+        },
+        logo: {
+            required: true,
+            type: Boolean,
+            default: false
+        },
+    },
     data() {
         return {
             /*
@@ -98,10 +119,10 @@ export default {
     },
     methods: {
         onEdit(id) {
-            this.$emit("onEdit", id)
+            this.$emit("edit", id)
         },
         onDelete(id) {
-            this.$emit('onDelete', id)
+            this.$emit('delete', id)
         },
         getEntriesFromArray(array) {
             return array.reduce((acc, el) => [...acc, Object.entries(el)[0]], [])
@@ -137,7 +158,6 @@ export default {
 
     &-header__th {
         @apply select-none;
-
     }
 }
 </style>
