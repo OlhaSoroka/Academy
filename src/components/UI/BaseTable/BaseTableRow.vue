@@ -3,7 +3,7 @@
         <slot>
         </slot>
         <td
-            v-if="deleteable"
+            v-if="deletable"
             class="text-red-700 cursor-pointer hover:bg-red-50"
             @click="deleteRow"
         >
@@ -26,7 +26,7 @@ export default {
             type: String,
             required: true,
         },
-        deleteable: {
+        deletable: {
             type: Boolean,
             required: false,
             default: false,

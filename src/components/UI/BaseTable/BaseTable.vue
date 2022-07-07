@@ -30,7 +30,7 @@
                 :key="item.id"
                 :props-data="item.id"
                 :editable="editBtns"
-                :deleteable="deleteBtns"
+                :deletable="deleteBtns"
                 @onDelete="onDelete"
                 @onEdit="onEdit"
             >
