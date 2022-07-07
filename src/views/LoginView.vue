@@ -16,7 +16,7 @@
 
     import LoginForm from '@/components/LoginForm'
     export default ({
-        name: 'LogIn',
+        name: 'LoginView',
         components: {
             LoginForm
         },
