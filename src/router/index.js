@@ -27,7 +27,6 @@ const fakeUser = {
 localStorage.setItem('user', JSON.stringify(fakeUser));
 
 const checkUserRole= (to, from, next) => {
-	console.log(to);
 	const user = JSON.parse(localStorage.getItem('user'));
 	if (to.matched.some((route) => route.meta.requiredRoles.includes(user.role))) {
 		next();
