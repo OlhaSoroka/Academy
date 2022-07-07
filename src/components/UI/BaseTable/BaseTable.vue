@@ -97,7 +97,7 @@ export default {
             type: Object,
         },
         logo: {
-            required: true,
+            required: false,
             type: Boolean,
             default: false
         },
