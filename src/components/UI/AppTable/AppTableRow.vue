@@ -4,23 +4,14 @@
         </slot>
         <td
             v-if="deleteable || false"
-            class="
-            text-red-700 
-            cursor-pointer 
-            hover:bg-red-50
-            "
+            class="text-red-700 cursor-pointer hover:bg-red-50"
             @click="deleteRow"
         >
             delete
         </td>
         <td
             v-if="editable || false"
-            class="
-            text-blue-700 
-            cursor-pointer
-            hover:bg-blue-50
-
-            "
+            class="text-blue-700 cursor-pointer hover:bg-blue-50"
             @click="editRow"
         >
             edit
@@ -37,10 +28,10 @@ export default {
     },
     methods: {
         deleteRow() {
-            this.$emit("deleteHandler", this.propsData)
+            this.$emit("onDelete", this.propsData)
         },
         editRow() {
-            this.$emit("editHandler", this.propsData)
+            this.$emit("onEdit", this.propsData)
         }
     }
 }

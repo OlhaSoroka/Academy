@@ -3,8 +3,11 @@
 		:tableData="tableData"
 		:is-data-loading="isLoading"
 		:header-data="headingData"
+		@onDelete="deleteRow"
+		@onEdit="editRow"
 		:delete-btns="true"
 		:edit-btns="true"
+		:logo="true"
 	/>
 </template>
 
@@ -19,13 +22,21 @@ export default {
 			tableData: [],
 			isLoading: false,
 			headingData: [
-				{ "course": "Курс" },
-				{ "role": "Роль" },
-				{ "initialScore": "хз че-это" },
 				{ "fullName": "Полное имя" },
-				{ "email": "E-mail" }
+				{ "role": "Роль" },
+				{ "email": "E-mail" },
+				{ "initialScore": "Какой-то номер" },
+				{ "course": "Курс" },
 			],
 		}
+	},
+	methods: {
+		deleteRow(id) {
+			this.tableData = this.tableData.filter(el => el.id !== id)
+		},
+		editRow(id) {
+			console.log(id);
+		},
 	},
 	mounted() {
 		this.isLoading = true
