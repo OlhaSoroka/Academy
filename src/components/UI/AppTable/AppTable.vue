@@ -5,20 +5,25 @@
         v-if="!isDataLoading"
     >
         <thead class="table-head">
+
+            <!-- if props logo is true we`ll add column with logos-->
             <AppTableRow>
                 <td v-if="logo">
                 </td>
                 <th
-                    v-for="(item) in getEntriesFromArray(headerData)"
-                    :key="item[0]"
-                    @click="sortTable(item[0])"
+                    v-for="[key, value] in getEntriesFromArray(headerData)"
+                    :key="key"
+                    @click="sortTable(key)"
                     class="select-none"
                 >
+                    <!-- make the header from props headerData-->
                     <span>
-                        {{ item[1] }}
+                        {{ value }}
                     </span>
-                    <AppArrowDown v-if="item[0] === sort.value && sort.countOfClick % 2 == 0" />
-                    <AppArrowUp v-if="item[0] === sort.value && sort.countOfClick % 2 !== 0" />
+
+                    <!-- arrows which visualize the current sort state-->
+                    <AppArrowDown v-if="key === sort.value && sort.countOfClick % 2 == 0" />
+                    <AppArrowUp v-if="key === sort.value && sort.countOfClick % 2 !== 0" />
                 </th>
             </AppTableRow>
         </thead>
@@ -26,12 +31,13 @@
             <AppTableRow
                 v-for="(item) in tableData"
                 :key="item.id"
+                :props-data="item.id"
                 :editable="editBtns"
                 :deleteable="deleteBtns"
                 @onDelete="onDelete"
                 @onEdit="onEdit"
-                :props-data="item.id"
             >
+                <!-- fill the logo column if logo flag is true-->
                 <td v-if="logo">
                     <img
                         :src="logoUrl(item)"
@@ -40,6 +46,7 @@
                     />
 
                 </td>
+                <!-- fill the row according to the header-->
                 <td
                     v-for="(prop, index) in getEntriesFromArray(headerData)"
                     :key="index"
@@ -48,6 +55,7 @@
         </tbody>
 
     </table>
+    <!-- if data is loading -->
     <AppPreloader v-else />
 
 </template>
@@ -64,9 +72,20 @@ export default {
         AppArrowDown,
         AppArrowUp
     },
+    /*
+    headerData - data that visialize columns names in heading
+    tableData - data to rows
+    isDataLoading - flag of loading data
+    editBtns - flag (does table needs a edit buttons)
+    deleteBtns - flag (does table needs a delete buttons)
+    logo - flag (does table has fields with logos)
+    */
     props: ['tableData', 'isDataLoading', 'editBtns', "deleteBtns", "headerData", "logo"],
     data() {
         return {
+            /*
+            table only able to sort by 1 column and a-z || z-a ways
+            */
             sort: {
                 value: null,
                 countOfClick: 0
@@ -112,6 +131,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss">
-</style>
