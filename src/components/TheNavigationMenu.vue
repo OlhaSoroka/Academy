@@ -1,24 +1,24 @@
 <template>
     <div class="navigation-menu">
-        <router-link :to="{ name: 'users'}">
+        <router-link :to="{ name: USERS}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-members"></use>
           </svg>
           <span class="navigation-menu-text">Users</span>
         </router-link> 
-        <router-link v-if="role==='admin'" :to="{ name: 'managers'}">
+        <router-link v-if="role==='admin'" :to="{ name: MANAGERS}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-managers"></use>
           </svg>
           <span class="navigation-menu-text">Managers</span>
         </router-link> 
-        <router-link :to="{ name: 'courses-dashboard'}">
+        <router-link :to="{ name: COURSE_DASHBOARD}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-courses"></use>
           </svg>
           <span class="navigation-menu-text">Courses</span>
         </router-link> 
-        <router-link class="navigation-menu-profile" :to="{ name: 'profile'}">
+        <router-link class="navigation-menu-profile" :to="{ name: PROFILE}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-profile"></use>
           </svg>
@@ -28,6 +28,7 @@
 </template> 
 
  <script>
+ import {PROFILE, USERS, MANAGERS, COURSE_DASHBOARD} from '@/constants/routes.constant'
   export default{
     name: 'NavigationMenu',
     props: {
@@ -35,6 +36,11 @@
         default: 'user',
         type: String
       } 
+    },
+    data(){
+      return {
+        PROFILE, USERS, MANAGERS, COURSE_DASHBOARD
+      }
     }
   }
 </script>
