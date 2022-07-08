@@ -68,8 +68,9 @@ export default {
         BaseArrowUp
     },
     /*
-    headerData - data that visialize columns names in heading
-    tableData - data to rows
+    headerData - [{name O f Prop In Object : name That Should be on page }, ...]
+    example : [{'fullname':' Повне ім'я }]
+    tableData - data to rows 
     isDataLoading - flag of loading data
     editBtns - flag (does table needs a edit buttons)
     deleteBtns - flag (does table needs a delete buttons)
