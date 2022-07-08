@@ -23,7 +23,7 @@
 export default {
     props: {
         propsData: {
-            type: String,
+            type: [String, Number],
             required: true,
         },
         deletable: {

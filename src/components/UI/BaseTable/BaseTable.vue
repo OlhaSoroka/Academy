@@ -5,7 +5,7 @@
     >
         <thead class="table-head">
             <!-- if props logo is true we`ll add column with logos-->
-            <BaseTableRow>
+            <BaseTableRow :props-data="1">
                 <td v-if="logo">
                 </td>
                 <th
@@ -19,8 +19,8 @@
                         {{ value }}
                     </span>
                     <!-- arrows which visualize the current sort state-->
-                    <AppArrowDown v-if="key === sort.value && sort.countOfClick % 2 == 0" />
-                    <AppArrowUp v-if="key === sort.value && sort.countOfClick % 2 !== 0" />
+                    <BaseArrowDown v-if="key === sort.value && sort.countOfClick % 2 == 0" />
+                    <BaseArrowUp v-if="key === sort.value && sort.countOfClick % 2 !== 0" />
                 </th>
             </BaseTableRow>
         </thead>
@@ -52,20 +52,20 @@
         </tbody>
     </table>
     <!-- if data is loading -->
-    <AppPreloader v-else />
+    <BaseSpinner v-else />
 </template>
  
 <script>
 import BaseTableRow from './BaseTableRow.vue'
-import AppPreloader from '../Preloader/AppPreloader.vue';
-import AppArrowDown from '../Icons/AppArrowDown.vue';
-import AppArrowUp from '../Icons/AppArrowUp.vue';
+import BaseSpinner from '../BaseSpinner/BaseSpinner.vue';
+import BaseArrowDown from '../BaseIcons/BaseArrowDown.vue';
+import BaseArrowUp from '../BaseIcons/BaseArrowUp.vue';
 export default {
     components: {
         BaseTableRow,
-        AppPreloader,
-        AppArrowDown,
-        AppArrowUp
+        BaseSpinner,
+        BaseArrowDown,
+        BaseArrowUp
     },
     /*
     headerData - data that visialize columns names in heading
@@ -94,7 +94,7 @@ export default {
         },
         headerData: {
             required: true,
-            type: Object,
+            type: Array,
         },
         logo: {
             required: false,
@@ -152,7 +152,7 @@ export default {
     },
 }
 </script>
-<style lang="scss">
+<!-- <style lang="scss">
 .app-table {
     @apply rounded-2x shadow-lg w-11/12 m-auto;
 
@@ -160,4 +160,4 @@ export default {
         @apply select-none;
     }
 }
-</style>
+</style> -->
