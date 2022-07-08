@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import NavigationMenu from './components/TheNavigationMenu.vue'
+  import NavigationMenu from '@/components/TheNavigationMenu.vue'
   export default {
     components: {
       NavigationMenu
