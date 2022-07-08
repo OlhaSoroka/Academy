@@ -9,11 +9,13 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "express": "^4.18.1",
     "serve-static": "^1.15.0",
     "vee-validate": "^3.4.14",
     "vue": "^2.6.14",
+    "vue-axios": "^3.4.1",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
@@ -44,7 +46,8 @@
       "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "@babel/eslint-parser"
+      "parser": "@babel/eslint-parser",
+      "requireConfigFile": false
     },
     "rules": {}
   },

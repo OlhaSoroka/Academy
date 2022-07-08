@@ -1,8 +1,17 @@
 <template>
   <div id="app">
-      <router-view></router-view>
+      <CoursesView />
   </div>
 </template>
+
+<script>
+import CoursesView from "./views/CoursesView.vue"
+export default {
+  components: {
+CoursesView
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
