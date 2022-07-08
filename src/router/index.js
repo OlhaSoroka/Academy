@@ -35,6 +35,21 @@ const checkUserRole= (to, from, next) => {
 	}
 };
 
+const checkUserAuth= (to, from, next) => {
+	const user = JSON.parse(localStorage.getItem('user'));
+
+	if (to.matched.some((route) => route.meta.requiresAuth)) {
+		if (!user.isAuth) {
+			next({
+				name: LOGIN,
+			});
+		} else {
+			next();
+		}
+	} else {
+		next();
+	}
+}
 const routes = [
 	{
 		path: '/',
@@ -109,20 +124,6 @@ const router = new VueRouter({
 	routes,
 });
 
-router.beforeEach((to, from, next) => {
-	const user = JSON.parse(localStorage.getItem('user'));
-
-	if (to.matched.some((route) => route.meta.requiresAuth)) {
-		if (!user.isAuth) {
-			next({
-				name: LOGIN,
-			});
-		} else {
-			next();
-		}
-	} else {
-		next();
-	}
-});
+router.beforeEach(checkUserAuth);
 
 export default router;
