@@ -13,6 +13,7 @@ const CoursesDashboardView = () => import(/* webpackChunkName:'courses'*/ '../vi
 
 import { ADMIN_ROLE, MANAGER_ROLE, USER_ROLE } from '@/constants/roles.constant';
 import { LOGIN, RESET, PROFILE, MANAGERS, USERS, COURSE_DASHBOARD, COURSE_DETAILS } from '@/constants/routes.constant';
+import { authGuard, roleGuard } from './utils';
 
 Vue.use(VueRouter);
 
@@ -26,30 +27,6 @@ const fakeUser = {
 };
 localStorage.setItem('user', JSON.stringify(fakeUser));
 
-const checkUserRole= (to, from, next) => {
-	const user = JSON.parse(localStorage.getItem('user'));
-	if (to.matched.some((route) => route.meta.requiredRoles.includes(user.role))) {
-		next();
-	} else {
-		next({ path: '/' });
-	}
-};
-
-const checkUserAuth= (to, from, next) => {
-	const user = JSON.parse(localStorage.getItem('user'));
-
-	if (to.matched.some((route) => route.meta.requiresAuth)) {
-		if (!user.isAuth) {
-			next({
-				name: LOGIN,
-			});
-		} else {
-			next();
-		}
-	} else {
-		next();
-	}
-}
 const routes = [
 	{
 		path: '/',
@@ -74,7 +51,7 @@ const routes = [
 		name: PROFILE,
 		component: ProfileView,
 		meta: { requiresAuth: true, requiredRoles: [USER_ROLE, MANAGER_ROLE, ADMIN_ROLE] },
-		beforeEnter: checkUserRole,
+		beforeEnter: roleGuard,
 	},
 
 	{
@@ -82,7 +59,7 @@ const routes = [
 		name: USERS,
 		component: UsersView,
 		meta: { requiresAuth: true, requiredRoles: [USER_ROLE, MANAGER_ROLE, ADMIN_ROLE] },
-		beforeEnter: checkUserRole,
+		beforeEnter: roleGuard,
 	},
 
 	{
@@ -90,7 +67,7 @@ const routes = [
 		name: MANAGERS,
 		component: ManagersView,
 		meta: { requiresAuth: true, requiredRoles: [ADMIN_ROLE] },
-		beforeEnter: checkUserRole,
+		beforeEnter: roleGuard,
 	},
 
 	{
@@ -109,7 +86,7 @@ const routes = [
 				component: CourseDetailsView,
 			},
 		],
-		beforeEnter: checkUserRole,
+		beforeEnter: roleGuard,
 	},
 
 	{
@@ -124,6 +101,6 @@ const router = new VueRouter({
 	routes,
 });
 
-router.beforeEach(checkUserAuth);
+router.beforeEach(authGuard);
 
 export default router;
