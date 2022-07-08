@@ -1,10 +1,11 @@
 <template>
-<div>MemberListView</div>
+	<div>
+		CoursesDetailsView
+	</div>
 </template>
-
 <script>
 export default {
-	
+
 }
 </script>
 

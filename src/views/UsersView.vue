@@ -1,10 +1,11 @@
 <template>
-<div>MemberProfileView</div>
+	<div>
+		UsersView
+	</div>
 </template>
-
 <script>
 export default {
-	
+
 }
 </script>
 
