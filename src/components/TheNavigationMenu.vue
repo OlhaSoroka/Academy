@@ -1,24 +1,24 @@
 <template>
     <div class="navigation-menu">
-        <router-link to="/users">
+        <router-link :to="{ name: 'users'}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-members"></use>
           </svg>
           <span class="navigation-menu-text">Users</span>
         </router-link> 
-        <router-link v-if="role==='admin'" to="/managers">
+        <router-link v-if="role==='admin'" :to="{ name: 'managers'}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-managers"></use>
           </svg>
           <span class="navigation-menu-text">Managers</span>
         </router-link> 
-        <router-link to="/courses">
+        <router-link :to="{ name: 'courses-dashboard'}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-courses"></use>
           </svg>
           <span class="navigation-menu-text">Courses</span>
         </router-link> 
-        <router-link class="navigation-menu-profile" to="/profile">
+        <router-link class="navigation-menu-profile" :to="{ name: 'profile'}">
           <svg class="navigation-menu-icon" width="16" height="16">
             <use href="../icons/sprite-navigation.svg#icon-profile"></use>
           </svg>
@@ -46,8 +46,10 @@
   }
   .navigation-menu > *{
     @apply text-left flex text-base px-2 py-3 
-    hover:bg-sky-400 hover:text-stone-50 hover:duration-500
-    focus:m-1 focus:fill-stone-50 focus:duration-500;
+    hover:bg-sky-400 hover:text-stone-50 
+    hover:fill-stone-50 hover:duration-500
+    focus:bg-sky-400 focus:text-stone-50 focus:duration-500
+    focus:fill-stone-50 
   }
   .navigation-menu-profile {
     @apply absolute w-48 bottom-2;
