@@ -11,7 +11,7 @@ const CoursesView = () => import(/* webpackChunkName:'courses'*/ '../views/Cours
 const CourseDetailsView = () => import(/* webpackChunkName:'course-details'*/ '../views/CourseDetailsView.vue');
 const CoursesDashboardView = () => import(/* webpackChunkName:'courses'*/ '../views/CoursesDashboardView.vue');
 
-import { ADMIN_ROLE, MANAGER_ROLE, USER_ROLE } from '@/constants/roles.constant';
+import { ADMIN_ROLE } from '@/constants/roles.constant';
 import { LOGIN, RESET, PROFILE, MANAGERS, USERS, COURSE_DASHBOARD, COURSE_DETAILS } from '@/constants/routes.constant';
 import { authGuard, roleGuard } from './utils';
 
@@ -50,16 +50,14 @@ const routes = [
 		path: '/profile',
 		name: PROFILE,
 		component: ProfileView,
-		meta: { requiresAuth: true, requiredRoles: [USER_ROLE, MANAGER_ROLE, ADMIN_ROLE] },
-		beforeEnter: roleGuard,
+		meta: { requiresAuth: true,},
 	},
 
 	{
 		path: '/users',
 		name: USERS,
 		component: UsersView,
-		meta: { requiresAuth: true, requiredRoles: [USER_ROLE, MANAGER_ROLE, ADMIN_ROLE] },
-		beforeEnter: roleGuard,
+		meta: { requiresAuth: true,},
 	},
 
 	{
@@ -73,7 +71,7 @@ const routes = [
 	{
 		path: '/courses',
 		component: CoursesView,
-		meta: { requiresAuth: true, requiredRoles: [USER_ROLE, MANAGER_ROLE, ADMIN_ROLE] },
+		meta: { requiresAuth: true, },
 		children: [
 			{
 				path: '',
@@ -86,7 +84,6 @@ const routes = [
 				component: CourseDetailsView,
 			},
 		],
-		beforeEnter: roleGuard,
 	},
 
 	{
