@@ -28,7 +28,6 @@
 </template> 
 
  <script>
-/*use example: after import =>  "<BaseButton variant='btn_red' @click="handleClick"> Delete </BaseButton>"*/
   export default{
     name: 'NavigationMenu',
     props: {
