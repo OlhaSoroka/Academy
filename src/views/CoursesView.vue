@@ -12,8 +12,10 @@
 				{ 'status': 'Status' }
 			]"
 		/>
+   <!--  <button @click="showrole">Role</button> -->
+   <!-- <router-view></router-view> -->
 	</div>
-  
+   
 </template>
 
 <script>
@@ -23,21 +25,23 @@ import BaseTable from '../components/UI/BaseTable/BaseTable.vue'
 export default{
   data (){
     return{
-      role:  "user"
+      
     }},
   mounted() {
-    this.GET_COURSES_FROM_API()
+    this.GET_COURSES_FROM_API(), 
+    localStorage.setItem("role", "user")
   },
-  computed: {
-      coursForUser() {return this.getCoursesMainInfoSorted()}
+  computed: {  
+      coursForUser() {return this.getCoursesMainInfoSorted()},
+      role() {return localStorage.getItem("role")}
   },
-
+ 
   methods: {
     ...mapActions(['GET_COURSES_FROM_API']),
      ...mapGetters(['getCoursesMainInfoSorted']),
-    showcours(){
-      console.log(this.getCoursesMainInfoSorted())
-    }
+    /* showrole(){
+      console.log(localStorage.getItem("user"))
+    } */
   },
   components: {
     BaseTable
