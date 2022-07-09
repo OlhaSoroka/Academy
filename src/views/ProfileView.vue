@@ -1,14 +1,8 @@
 <template>
-	<div>
-		ProfileView
-	</div>
+  <div>ProfileView</div>
 </template>
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>
