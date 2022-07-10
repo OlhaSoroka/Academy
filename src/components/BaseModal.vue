@@ -1,11 +1,19 @@
 <template>
   <div>
     <transition name="fade">
-      <div class="modal" v-if="show">
-        <div class="modal__backdrop" @click="closeModal()" />
+      <div
+        v-if="show"
+        class="modal"
+      >
+        <div
+          class="modal__backdrop"
+          @click="closeModal()"
+        />
 
         <div class="modal__dialog">
-          <div class="modal__header">{{ header }}</div>
+          <div class="modal__header">
+            {{ header }}
+          </div>
 
           <div class="modal__body">
             <slot name="body" />
@@ -23,16 +31,16 @@
 <script>
 export default {
   name: "BaseModal",
-  data() {
-    return {
-      show: true,
-    };
-  },
   props: {
     header: {
       type: String,
       required: true,
     },
+  },
+  data() {
+    return {
+      show: true,
+    };
   },
   methods: {
     closeModal() {
@@ -47,18 +55,18 @@ export default {
 };
 /* 
  use example: 
-	<div @click="$refs.modal.openModal()">LoginView</div>     ===>   use $ref to open or close modal 
-	<BaseModal :header="'Custom Header' ref="modal">           ===>   header text comes from props
-		<template v-slot:body><h1>Custom content</h1></template>  ===>   slot for custom content
-		<template v-slot:footer>                                      
-			<div class="mx-2 inline-block">
-				<BaseButton @click="confirm" :variant="'btn_green'>Yes</BaseButton> ===> slot for adding buttons with custom methods
-			</div>
-			<div class="mx-2 inline-block">
-				<BaseButton @click="cancel" :variant="'btn_red'">No</BaseButton>     
-			</div>
-		</template>
-	</BaseModal>
+  <div @click="$refs.modal.openModal()">LoginView</div>     ===>   use $ref to open or close modal 
+  <BaseModal :header="'Custom Header' ref="modal">           ===>   header text comes from props
+    <template v-slot:body><h1>Custom content</h1></template>  ===>   slot for custom content
+    <template v-slot:footer>                                      
+      <div class="mx-2 inline-block">
+        <BaseButton @click="confirm" :variant="'btn_green'>Yes</BaseButton> ===> slot for adding buttons with custom methods
+      </div>
+      <div class="mx-2 inline-block">
+        <BaseButton @click="cancel" :variant="'btn_red'">No</BaseButton>     
+      </div>
+    </template>
+  </BaseModal>
 */
 </script>
 
@@ -70,9 +78,11 @@ export default {
 .modal__backdrop {
   @apply bg-black opacity-30 fixed top-0 right-0 bottom-0 left-0 z-10 p-2;
 }
+
 .modal__dialog {
   @apply bg-white relative w-2/5 my-60 mx-auto flex flex-col rounded-md z-20 p-3;
 }
+
 .modal__header {
   @apply px-5 pt-3.5 flex align-middle justify-center font-semibold;
 }
@@ -89,6 +99,7 @@ export default {
 .fade-leave-active {
   transition: opacity 0.2s;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
