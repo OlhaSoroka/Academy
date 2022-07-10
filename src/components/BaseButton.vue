@@ -32,14 +32,14 @@ export default {
 }
 
 .btn_green {
-  @apply bg-emerald-500 hover: bg-emerald-700;
+  @apply bg-emerald-500 hover:bg-emerald-700;
 }
 
 .btn_red {
-  @apply bg-red-500 hover: bg-red-700;
+  @apply bg-red-500 hover:bg-red-700;
 }
 
 .btn_black {
-  @apply bg-stone-500 hover: bg-stone-700;
+  @apply bg-stone-500 hover:bg-stone-700;
 }
 </style>
