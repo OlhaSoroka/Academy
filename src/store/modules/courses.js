@@ -1,4 +1,5 @@
-import axios from "axios"
+/* import axios from "axios" */
+import axiosCall from "./service/coursesService"
 
 
 export default {
@@ -8,24 +9,22 @@ export default {
     }
   },
   getters: {
-    getCourses(state) {
+    courses(state) {
       return state.courses
     },
-    getCoursesMainInfoSorted(state) {
-        let Arr = [];
-        state.courses.map((e)=> {Arr.push(new Object({name:e.name, date:e.date, status:e.status, id:e.id}))})
-        return Arr.sort((a, b) => a.date > b.date ? 1 : -1)}
+    sortedCourses(state) {
+        return state.courses.sort((a, b) => a.date > b.date ? 1 : -1)}
       },
   mutations: {
-    SET_COURSES(state, courses){
+    setCourses(state, courses){
         state.courses = courses
       }
   },
   actions: {
-    GET_COURSES_FROM_API(context){
-        axios.get('https://fake-server-vue-js-app.herokuapp.com/posts')
-        .then((response) => context.commit('SET_COURSES', response.data))
-        .catch(error => {console.log(error)})
+    getCourses({commit}){
+      axiosCall
+      .then((response) => commit('setCourses', response.data))
+      .catch(error => {console.log(error)})
   }
 }}
   

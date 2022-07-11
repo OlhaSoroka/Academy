@@ -1,58 +1,58 @@
 <template>
-    <table
-        class="BaseTable"
-        v-if="!isDataLoading"
-    >
-        <thead class="table-head">
-            <!-- if props logo is true we`ll add column with logos-->
-            <BaseTableRow :props-data="1">
-                <td v-if="logo">
-                </td>
-                <th
-                    v-for="[key, value] in getEntriesFromArray(headerData)"
-                    :key="key"
-                    @click="sortTable(key)"
-                    class="app-table-header__th"
-                >
-                    <!-- make the header from props headerData-->
-                    <span>
-                        {{ value }}
-                    </span>
-                    <!-- arrows which visualize the current sort state-->
-                    <BaseArrowDown v-if="key === sort.value && sort.countOfClick % 2 == 0" />
-                    <BaseArrowUp v-if="key === sort.value && sort.countOfClick % 2 !== 0" />
-                </th>
-            </BaseTableRow>
-        </thead>
-        <tbody class="table-tbody">
-            <BaseTableRow
-                v-for="(item) in tableData"
-                :key="item.id"
-                :props-data="item.id"
-                :editable="editBtns"
-                :deletable="deleteBtns"
-                @onDelete="onDelete"
-                @onEdit="onEdit"
-            >
-                <!-- fill the logo column if logo flag is true-->
-                <td v-if="logo">
-                    <img
-                        :src="logoUrl(item)"
-                        alt="image"
-                        width="40"
-                    />
-
-                </td>
-                <!-- fill the row according to the header-->
-                <td
-                    v-for="(prop, index) in getEntriesFromArray(headerData)"
-                    :key="index"
-                >{{ item[prop[0]] }}</td>
-            </BaseTableRow>
-        </tbody>
-    </table>
-    <!-- if data is loading -->
-    <BaseSpinner v-else />
+  <table
+    v-if="!isDataLoading"
+    class="BaseTable"
+  >
+    <thead class="table-head">
+      <!-- if props logo is true we`ll add column with logos-->
+      <BaseTableRow :props-data="1">
+        <td v-if="logo" />
+        <th
+          v-for="[key, value] in getEntriesFromArray(headerData)"
+          :key="key"
+          class="app-table-header__th"
+          @click="sortTable(key)"
+        >
+          <!-- make the header from props headerData-->
+          <span>
+            {{ value }}
+          </span>
+          <!-- arrows which visualize the current sort state-->
+          <BaseArrowDown v-if="key === sort.value && sort.countOfClick % 2 == 0" />
+          <BaseArrowUp v-if="key === sort.value && sort.countOfClick % 2 !== 0" />
+        </th>
+      </BaseTableRow>
+    </thead>
+    <tbody class="table-tbody">
+      <BaseTableRow
+        v-for="(item) in tableData"
+        :key="item.id"
+        :props-data="item.id"
+        :editable="editBtns"
+        :deletable="deleteBtns"
+        @onDelete="onDelete"
+        @onEdit="onEdit"
+      >
+        <!-- fill the logo column if logo flag is true-->
+        <td v-if="logo">
+          <img
+            :src="logoUrl(item)"
+            alt="image"
+            width="40"
+          >
+        </td>
+        <!-- fill the row according to the header-->
+        <td
+          v-for="(prop, index) in getEntriesFromArray(headerData)"
+          :key="index"
+        >
+          {{ item[prop[0]] }}
+        </td>
+      </BaseTableRow>
+    </tbody>
+  </table>
+  <!-- if data is loading -->
+  <BaseSpinner v-else />
 </template>
  
 <script>
