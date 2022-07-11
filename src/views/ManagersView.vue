@@ -1,7 +1,6 @@
 <template>
-	<div>ManagerCorsesView</div>
+  <div>ManagersView</div>
 </template>
-
 <script>
 export default {};
 </script>

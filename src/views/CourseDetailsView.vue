@@ -1,9 +1,6 @@
 <template>
-	<div>
-		<router-view></router-view>
-	</div>
+  <div>CoursesDetailsView</div>
 </template>
-
 <script>
 export default {};
 </script>

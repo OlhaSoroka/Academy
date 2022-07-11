@@ -1,7 +1,6 @@
 <template>
-	<div>ManagerProfileView</div>
+  <div>UsersView</div>
 </template>
-
 <script>
 export default {};
 </script>

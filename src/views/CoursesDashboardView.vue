@@ -1,7 +1,6 @@
 <template>
-	<div>ManagerMembersView</div>
+  <div>CoursesDashboardView</div>
 </template>
-
 <script>
 export default {};
 </script>
