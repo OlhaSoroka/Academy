@@ -1,8 +1,18 @@
 <template>
   <div id="app">
+    <navigation-menu />
     <router-view />
   </div>
 </template>
+
+<script>
+  import NavigationMenu from '@/components/TheNavigationMenu.vue'
+  export default {
+    components: {
+      NavigationMenu
+    }
+  }
+</script>
 
 <style lang="scss">
 #app {
