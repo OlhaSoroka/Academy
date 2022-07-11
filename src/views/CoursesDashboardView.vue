@@ -1,7 +1,8 @@
 <template>
-	<div  class="flex justify-center flex-col">
+	<div class="flex justify-center flex-col">
 	<h2>Courses Dashboard View</h2> 
-	<BaseTable v-if="role==='user'"
+	<BaseTable 
+			v-if="role==='user'"
 			:table-data=coursForUser
 			:edit-btns="false"
 			:is-data-loading="false"
@@ -23,14 +24,16 @@ export default{
 				{ 'status': 'Status' }
 			]
     }},
-  mounted() {
-    this.GET_COURSES_FROM_API(), 
-    localStorage.setItem("role", "user")
-  },
   computed: {  
       coursForUser() {return this.getCoursesMainInfoSorted()},
       role() {return localStorage.getItem("role")}
   },
+ 
+ mounted() {
+    this.GET_COURSES_FROM_API(), 
+    localStorage.setItem("role", "user")
+  },
+  
  
   methods: {
     ...mapActions(['GET_COURSES_FROM_API']),
@@ -41,8 +44,7 @@ export default{
   }
 
   }
+
 </script>
 
-<style>
-
-</style>
+<style></style>
