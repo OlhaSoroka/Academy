@@ -1,12 +1,12 @@
 <template>
-    <div class="login">
+    <div class="loginview">
         <h1 class="text-pink-400">This is LOGIN page</h1>        
         <div class="max-w-xl mx-auto px-4">
             <div class="rounded-lg shadow-lg p-4">
                 <LoginForm @submitAuth='authSubmitted'/>
                 <p 
                         @click="sendPasswordToEmail" 
-                        class="mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline">Send Password to Email</p>
+                        class="mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline">Send Password to Email</p>                
             </div>
         </div>    
     </div>    
@@ -22,14 +22,17 @@
         },
         data() {
             return {
-                authSubmitted: Object
+                authSubmitted: Object,                
             }
         }, 
         methods: {
             sendPasswordToEmail(){
                  
-            }   
-        }        
+            },            
+        },        
     })
-
 </script>
+
+<style scoped>
+
+</style>

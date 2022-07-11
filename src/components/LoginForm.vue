@@ -74,7 +74,7 @@ export default {
     formData: {
       email: "",
       password: "",
-    },
+    },    
   }),
   methods: {
     onSubmit() {
@@ -93,30 +93,31 @@ export default {
       )
         .then(this.handleResponse)
         .then((user) => {
-          if (user.stsTokenManager) {
-            localStorage.setItem("user", JSON.stringify(user));
-            console.log(1, user);
+          console.log(user);
+          if (user.stsTokenManager) {            
+            localStorage.setItem("user", JSON.stringify(user));            
           }
           return user;
         });
     },
     logout() {
-      localStorage.removeItem("user");
+      localStorage.removeItem("user");      
     },
-    handleResponse(response) {
-      return response.text().then((text) => {
+     handleResponse(response) {      
+       return response.text()
+       .then((text) => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
-          if (response.status === 401) {
-            this.logout();
-            location.reload(true);
-          }
-          const error = (data && data.message) || response.statusText;
-          return Promise.reject(error);
+            if (response.status === 401) {                
+                this.logout();
+                location.reload(true);
+            }
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
         }
         return data;
-      });
-    },
+    });
+}
   },
 };
 </script>
