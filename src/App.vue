@@ -1,14 +1,13 @@
 <template>
   <div id="app">
-      <CoursesView />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import CoursesView from "./views/CoursesView.vue"
 export default {
   components: {
-CoursesView
+
   }
 }
 </script>
