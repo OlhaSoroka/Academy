@@ -134,6 +134,7 @@ export default {
 		},
 	},
 	mounted() {
+    console.log("mounted");
 		this.fetchUser();
 	},
 	methods: {

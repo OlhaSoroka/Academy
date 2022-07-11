@@ -1,25 +1,31 @@
 <template>
-	<div>
-		<transition name="fade">
-			<div v-if="show" class="modal">
-				<div class="modal__backdrop" @click="closeModal()" />
+  <div>
+    <transition name="fade">
+      <div
+        v-if="show"
+        class="modal"
+      >
+        <div
+          class="modal__backdrop"
+          @click="closeModal()"
+        />
 
-				<div class="modal__dialog">
-					<div class="modal__header">
-						{{ header }}
-					</div>
+        <div class="modal__dialog">
+          <div class="modal__header">
+            {{ header }}
+          </div>
 
-					<div class="modal__body">
-						<slot name="body" />
-					</div>
+          <div class="modal__body">
+            <slot name="body" />
+          </div>
 
-					<div class="modal__footer">
-						<slot name="footer" />
-					</div>
-				</div>
-			</div>
-		</transition>
-	</div>
+          <div class="modal__footer">
+            <slot name="footer" />
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
