@@ -1,74 +1,116 @@
 <template>
-	<div class="profile__container">
-		<div class="profile__image_container">
-			<div class="profile__image_block"><img :src="userProfileImage" /></div>
-		</div>
+  <div class="profile__container">
+    <div class="profile__image_container">
+      <div class="profile__image_block">
+        <img :src="userProfileImage">
+      </div>
+    </div>
 
-		<div class="profile__info_container">
-			<div class="profile__user_info_wrapper">
-				<div class="profile__info_subtitle">Name Surname</div>
-				<div class="profile__info_title">{{ user.fullName }}</div>
-			</div>
-			<div class="profile__user_info_wrapper">
-				<div class="profile__info_subtitle">Email</div>
-				<div class="profile__info_title">{{ user.email }}</div>
-			</div>
-			<div class="profile__course_info_wrapper">
-				<div class="profile__course_item">
-					<div class="profile__info_subtitle">Course</div>
-					<div class="profile__info_title">{{ user.course }}</div>
-				</div>
-				<div class="profile__course_item">
-					<div class="profile__info_subtitle">Score</div>
-					<div class="profile__info_title">{{ user.initialScore }}</div>
-				</div>
-			</div>
-			<div class="profile__buttons_wrapper">
-				<div class="mr-5">
-					<BaseButton @click="$refs.fileInput.click()">Change Profile Image</BaseButton
-					><input @change="fileLoaded" ref="fileInput" v-show="false" type="file" />
-				</div>
-				<div class="mr-5"><BaseButton @click="openPasswordChangeModal">Change password</BaseButton></div>
-			</div>
-		</div>
-		<BaseModal :header="'Change password'" ref="modal">
-			<template v-slot:body>
-				<div class="flex flex-col items-center mt-5 ">
-					<div class="mb-3">
-						<BaseInput
-							type="password"
-							label="Old password"
-							vid="password"
-							placeholder="Enter old password"
-							v-model="oldPassword"
-						></BaseInput>
-					</div>
-					<div class="mb-3">
-						<BaseInput
-							type="password"
-							label="New password"
-							vid="password"
-							placeholder="Enter new password"
-							v-model="newPassword"
-						></BaseInput>
-					</div>
-					<div class="mb-3">
-						<BaseInput
-							type="password"
-							label="Confirm new password"
-							vid="password"
-							placeholder="Confirm password"
-							v-model="confirmedPassword"
-						></BaseInput>
-					</div>
-				</div>
-				<div class="flex justify-center mt-5 ">
-					<div class="w-1/5 mx-1"><BaseButton @click="submitPasswordChange">Submit</BaseButton></div>
-					<div class="w-1/5 mx-1"><BaseButton @click="cancelPasswordChange" :variant="'btn_red'">Cancel</BaseButton></div>
-				</div>
-			</template>
-		</BaseModal>
-	</div>
+    <div class="profile__info_container">
+      <div class="profile__user_info_wrapper">
+        <div class="profile__info_subtitle">
+          Name Surname
+        </div>
+        <div class="profile__info_title">
+          {{ user.fullName }}
+        </div>
+      </div>
+      <div class="profile__user_info_wrapper">
+        <div class="profile__info_subtitle">
+          Email
+        </div>
+        <div class="profile__info_title">
+          {{ user.email }}
+        </div>
+      </div>
+      <div class="profile__course_info_wrapper">
+        <div class="profile__course_item">
+          <div class="profile__info_subtitle">
+            Course
+          </div>
+          <div class="profile__info_title">
+            {{ user.course }}
+          </div>
+        </div>
+        <div class="profile__course_item">
+          <div class="profile__info_subtitle">
+            Score
+          </div>
+          <div class="profile__info_title">
+            {{ user.initialScore }}
+          </div>
+        </div>
+      </div>
+      <div class="profile__buttons_wrapper">
+        <div class="mr-5">
+          <BaseButton @click="$refs.fileInput.click()">
+            Change Profile Image
+          </BaseButton><input
+            v-show="false"
+            ref="fileInput"
+            type="file"
+            @change="fileLoaded"
+          >
+        </div>
+        <div class="mr-5">
+          <BaseButton @click="openPasswordChangeModal">
+            Change password
+          </BaseButton>
+        </div>
+      </div>
+    </div>
+    <BaseModal
+      ref="modal"
+      :header="'Change password'"
+    >
+      <template #body>
+        <div class="flex flex-col items-center mt-5">
+          <div class="mb-3">
+            <BaseInput
+              v-model="oldPassword"
+              type="password"
+              label="Old password"
+              vid="password"
+              placeholder="Enter old password"
+            />
+          </div>
+          <div class="mb-3">
+            <BaseInput
+              v-model="newPassword"
+              type="password"
+              label="New password"
+              vid="password"
+              placeholder="Enter new password"
+            />
+          </div>
+          <div class="mb-3">
+            <BaseInput
+              v-model="confirmedPassword"
+              type="password"
+              label="Confirm new password"
+              vid="password"
+              placeholder="Confirm password"
+            />
+          </div>
+        </div>
+        <div class="flex justify-center mt-5">
+          <div class="w-1/5 mx-1">
+            <BaseButton @click="submitPasswordChange">
+              Submit
+            </BaseButton>
+          </div>
+          <div class="w-1/5 mx-1">
+            <BaseButton
+              :variant="'btn_red'"
+              @click="cancelPasswordChange"
+            >
+              Cancel
+            </BaseButton>
+          </div>
+        </div>
+      </template>
+    </BaseModal>
+  </div>
 </template>
 <script>
 import BaseButton from '@/components/BaseButton.vue';
@@ -77,15 +119,6 @@ import BaseInput from '@/components/BaseInput.vue';
 import { mapActions, mapGetters } from 'vuex';
 export default {
 	components: { BaseButton, BaseModal, BaseInput },
-	mounted() {
-		this.fetchUser();
-	},
-	computed: {
-		...mapGetters('user', ['user']),
-		userProfileImage() {
-			return this.profileImage || this.user.avatarUrl;
-		},
-	},
 	data() {
 		return {
 			oldPassword: '',
@@ -93,6 +126,15 @@ export default {
 			confirmedPassword: '',
 			profileImage: null,
 		};
+	},
+	computed: {
+		...mapGetters('user', ['user']),
+		userProfileImage() {
+			return this.profileImage || this.user.avatarUrl;
+		},
+	},
+	mounted() {
+		this.fetchUser();
 	},
 	methods: {
 		...mapActions('user', ['fetchUser', 'changePassword', 'changeProfileImage']),
@@ -124,7 +166,7 @@ export default {
 
 <style lang="postcss" scoped>
 .profile__container {
-	@apply w-2/3  mx-auto  shadow-xl flex my-60 justify-center ;
+	@apply w-2/3  mx-auto  shadow-xl flex my-60 justify-center;
 }
 .profile__image_container {
 	@apply bg-emerald-500 flex justify-center items-center p-12;

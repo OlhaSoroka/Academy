@@ -1,14 +1,8 @@
 <template>
-	<div>
-		UsersView
-	</div>
+  <div>UsersView</div>
 </template>
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>
