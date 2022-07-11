@@ -49,11 +49,8 @@
             <span class="text-center text-red-500">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
-        <input
-          type="submit"
-          class="border rounded-full bg-sky-400 hover:bg-sky-700 px-6 py-2 my-4"
-          value="Submit"
-        />
+        <BaseButton variant="btn_green" 
+        @click="onSubmit"> Submit </BaseButton>
       </form>
     </ValidationObserver>
   </div>
@@ -62,23 +59,25 @@
 <script>
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { ValidationObserver } from "vee-validate";
-//import axios from "axios";
+import BaseButton from "@/components/BaseButton";
+import { mapActions } from "vuex";
 
 export default {
   name: "LoginForm",
   components: {
     ValidationProvider,
     ValidationObserver,
+    BaseButton,
   },
   data: () => ({
     formData: {
       email: "",
       password: "",
-    },    
+    },
   }),
   methods: {
+    ...mapActions(["setUserToState"]),
     onSubmit() {
-      console.log(this.formData);
       this.login(this.formData.email, this.formData.password);
     },
     login(email, password) {
@@ -93,31 +92,29 @@ export default {
       )
         .then(this.handleResponse)
         .then((user) => {
-          console.log(user);
-          if (user.stsTokenManager) {            
-            localStorage.setItem("user", JSON.stringify(user));            
+          if (user.stsTokenManager) {
+            localStorage.setItem("user", JSON.stringify(user));
+            this.setUserToState(user);
           }
           return user;
         });
     },
     logout() {
-      localStorage.removeItem("user");      
+      localStorage.removeItem("user");
     },
-     handleResponse(response) {      
-       return response.text()
-       .then((text) => {
+    handleResponse(response) {
+      return response.text().then((text) => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
-            if (response.status === 401) {                
-                this.logout();
-                location.reload(true);
-            }
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
+          if (response.status === 401) {
+            this.logout();
+          }
+          const error = (data && data.message) || response.statusText;
+          return Promise.reject(error);
         }
         return data;
-    });
-}
+      });
+    },
   },
 };
 </script>
