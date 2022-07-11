@@ -25,7 +25,7 @@ export default {
 	name: 'BaseModal',
 	data() {
 		return {
-			show: true,
+			show: false,
 		};
 	},
 	props: {
@@ -71,10 +71,10 @@ export default {
 	@apply bg-black opacity-30 fixed top-0 right-0 bottom-0 left-0 z-10 p-2
 } 
 .modal__dialog {
-	@apply bg-white relative w-2/5 my-60 mx-auto flex flex-col rounded-md z-20 p-3;
+	@apply bg-white relative w-2/6 my-60 mx-auto flex flex-col rounded-md z-20 p-3;
 }
 .modal__header {
-	@apply  px-5 pt-3.5 flex align-middle justify-center font-semibold ;
+	@apply  px-5 pt-3.5 flex align-middle justify-center font-semibold text-2xl ;
 }
 
 .modal__body {

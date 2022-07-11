@@ -25,7 +25,7 @@
 
 <style lang="postcss" scoped>
     .btn{
-      @apply p-2 px-4 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75
+      @apply w-full p-2 px-4 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75
     }
     .btn_green{
       @apply bg-emerald-500 hover:bg-emerald-700

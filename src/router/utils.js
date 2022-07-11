@@ -13,7 +13,7 @@ export const authGuard= (to, from, next) => {
 	const user = JSON.parse(localStorage.getItem('user'));
 
 	if (to.matched.some((route) => route.meta.requiresAuth)) {
-		if (!user.isAuth) {
+		if (!user) {
 			next({
 				name: LOGIN,
 			});
