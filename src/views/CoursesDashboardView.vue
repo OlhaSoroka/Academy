@@ -9,15 +9,18 @@
       :delete-btns="false"
       :header-data="headers"
     />
+    <BaseSpinner v-if="isLoading" />
   </div>
 </template>
+
 <script>
 import {mapActions, mapGetters} from 'vuex';
 import BaseTable from '../components/UI/BaseTable/BaseTable.vue'
+import BaseSpinner from '../components/UI/BaseSpinner/BaseSpinner.vue'
 
-export default{
-	components: {
-    BaseTable
+export default {
+    components: {
+    BaseTable, BaseSpinner
   },
   data (){
     return{
@@ -28,8 +31,15 @@ export default{
 			]
     }},
   computed: {  
-      coursForUser() {return this.sortedCourses()},
-      role() {return localStorage.getItem("role")}
+      coursForUser() {
+        return this.sortedCourses()
+        },
+      role() {
+        return localStorage.getItem("role")
+        },
+      isLoading() {
+        return this.loadingStatus()
+      }
   },
  mounted() {
     this.getCourses(), 
@@ -37,7 +47,7 @@ export default{
   },
   methods: {
     ...mapActions(['getCourses']),
-     ...mapGetters(['sortedCourses']),
+     ...mapGetters(['sortedCourses', 'loadingStatus']),
   }
   }
 
