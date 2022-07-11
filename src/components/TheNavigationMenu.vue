@@ -1,30 +1,52 @@
 <template>
-    <div class="navigation-menu">
-        <router-link :to="{ name: USERS}">
-          <svg class="navigation-menu-icon" width="16" height="16">
-            <use href="../icons/sprite-navigation.svg#icon-members"></use>
-          </svg>
-          <span class="navigation-menu-text">Users</span>
-        </router-link> 
-        <router-link v-if="role==='admin'" :to="{ name: MANAGERS}">
-          <svg class="navigation-menu-icon" width="16" height="16">
-            <use href="../icons/sprite-navigation.svg#icon-managers"></use>
-          </svg>
-          <span class="navigation-menu-text">Managers</span>
-        </router-link> 
-        <router-link :to="{ name: COURSE_DASHBOARD}">
-          <svg class="navigation-menu-icon" width="16" height="16">
-            <use href="../icons/sprite-navigation.svg#icon-courses"></use>
-          </svg>
-          <span class="navigation-menu-text">Courses</span>
-        </router-link> 
-        <router-link class="navigation-menu-profile" :to="{ name: PROFILE}">
-          <svg class="navigation-menu-icon" width="16" height="16">
-            <use href="../icons/sprite-navigation.svg#icon-profile"></use>
-          </svg>
-          <span class="navigation-menu-text">Profile</span>
-        </router-link>
-    </div> 
+  <div class="navigation-menu">
+    <router-link :to="{ name: USERS}">
+      <svg 
+        class="navigation-menu-icon" 
+        width="16" 
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-members" />
+      </svg>
+      <span class="navigation-menu-text">Users</span>
+    </router-link> 
+    <router-link 
+      v-if="role==='admin'" 
+      :to="{ name: MANAGERS}"
+    >
+      <svg 
+        class="navigation-menu-icon" 
+        width="16" 
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-managers" />
+      </svg>
+      <span class="navigation-menu-text">Managers</span>
+    </router-link> 
+    <router-link :to="{ name: COURSE_DASHBOARD}">
+      <svg 
+        class="navigation-menu-icon" 
+        width="16" 
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-courses" />
+      </svg>
+      <span class="navigation-menu-text">Courses</span>
+    </router-link> 
+    <router-link 
+      class="navigation-menu-profile" 
+      :to="{ name: PROFILE}"
+    >
+      <svg 
+        class="navigation-menu-icon" 
+        width="16" 
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-profile" />
+      </svg>
+      <span class="navigation-menu-text">Profile</span>
+    </router-link>
+  </div> 
 </template> 
 
  <script>
