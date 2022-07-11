@@ -2,53 +2,18 @@
   <div class="loginform">
     <ValidationObserver v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
-        <ValidationProvider
-          name="E-mail"
-          rules="required|email"
-          v-slot="{ errors }"
-        >
-          <div class="my-2">
-            <label>Email</label>
-            <input
-              type="email"
-              v-model="formData.email"
-              class="
-                px-4
-                my-2
-                min-w-full
-                mx-auto
-                border border-grey-500
-                rounded-full
-                focus:outline-none focus:ring-1 focus:border-blue-300
-              "
-            />
-            <span class="text-center text-red-500">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
-
-        <ValidationProvider
-          name="Password"
-          rules="required|max:15|min:6"
-          v-slot="{ errors }"
-        >
-          <div class="my-2">
-            <label>Password</label>
-            <input
-              type="password"
-              v-model="formData.password"
-              class="
-                px-4
-                my-2
-                min-w-full
-                mx-auto
-                border border-grey-500
-                rounded-full
-                focus:outline-none focus:ring-1 focus:border-blue-300
-              "
-            />
-            <span class="text-center text-red-500">{{ errors[0] }}</span>
-          </div>
-        </ValidationProvider>
+        <BaseInput type="email" 
+        label="Email" 
+        vid="email"         
+        placeholder="aaa@gmail.com"
+        @input="receiveEmail"/>
+        
+        <BaseInput type="password" 
+        label="Password" 
+        vid="password"        
+        placeholder="qwe123"
+        @input="receivePassword"/>
+ 
         <BaseButton variant="btn_green" 
         @click="onSubmit"> Submit </BaseButton>
       </form>
@@ -57,17 +22,17 @@
 </template>
 
 <script>
-import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseButton";
+import BaseInput from '@/components/BaseInput'
 import { mapActions } from "vuex";
 
 export default {
   name: "LoginForm",
-  components: {
-    ValidationProvider,
+  components: {    
     ValidationObserver,
     BaseButton,
+    BaseInput
   },
   data: () => ({
     formData: {
@@ -79,6 +44,12 @@ export default {
     ...mapActions(["setUserToState"]),
     onSubmit() {
       this.login(this.formData.email, this.formData.password);
+    },
+    receiveEmail(email){
+      this.formData.email = email  
+    },
+    receivePassword(password){
+      this.formData.password = password 
     },
     login(email, password) {
       const requestOptions = {

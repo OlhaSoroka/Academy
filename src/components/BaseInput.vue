@@ -1,6 +1,11 @@
 <template>
-<ValidationProvider :name='label || vid' :vid=vid :rules=allRules v-slot="{ errors }">
-  <label v-if="label" class="min-w-[100px] inline-block">{{label}}</label>
+<ValidationProvider 
+    :name='label || vid' 
+    :vid=vid 
+    :rules=allRules 
+    v-slot="{ errors }">
+  <label v-if="label" 
+      class="min-w-[100px] inline-block">{{label}}</label>
   <input
     class="BaseInput"
     v-bind="$attrs"
