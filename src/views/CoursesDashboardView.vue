@@ -38,8 +38,7 @@ export default {
       }
   },
  mounted() {
-    this.getCourses(), 
-    localStorage.setItem("role", "user")
+    this.getCourses()
   },
   methods: {
     ...mapActions(['getCourses']),
