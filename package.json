@@ -63,7 +63,8 @@
             "max": 1
           }
         }
-      ]
+      ],
+      "no-console": "error"
     }
   },
   "browserslist": [

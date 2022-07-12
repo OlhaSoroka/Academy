@@ -38,6 +38,7 @@ Object.keys(rules).forEach(rule => {
 components: {
   ValidationProvider 
 },
+
 inheritAttrs: false,
    props: {
   label: {

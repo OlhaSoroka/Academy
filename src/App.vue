@@ -7,6 +7,12 @@
     <router-view class="w-full" />
   </div>
 </template>
+<script>
+export default {
+  mounted() {
+  }
+}
+</script>
 
 <script>
   import NavigationMenu from '@/components/TheNavigationMenu.vue'

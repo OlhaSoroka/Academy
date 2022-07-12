@@ -1,6 +1,4 @@
-/* import axios from "axios" */
-import axiosCall from "./service/coursesService"
-
+import {getAllCourses} from "../../api/course/index"
 
 export default {
     state() {
@@ -28,9 +26,9 @@ export default {
   },
   actions: {
     getCourses({commit}){
-      axiosCall
-      .then((response) => commit('setCourses', response.data))
-      .catch(error => {console.log(error)})
+      getAllCourses()
+      .then((data) => commit('setCourses', data))
+      .catch(error => {this.$router.push({ path: '/404', params: {error: error}})})
       .finally(() => commit('chengeLoadingStatus'))
   }
 }}
