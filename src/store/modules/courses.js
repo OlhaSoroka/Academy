@@ -28,7 +28,8 @@ export default {
     getCourses({commit}){
       getAllCourses()
       .then((data) => commit('setCourses', data))
-      .catch(error => {this.$router.push({ path: '/404', params: {error: error}})})
+      // eslint-disable-next-line
+      .catch(error => {console.log(error)})
       .finally(() => commit('chengeLoadingStatus'))
   }
 }}

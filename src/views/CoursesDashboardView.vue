@@ -2,7 +2,6 @@
   <div class="flex justify-center flex-col">
     <h2>Courses Dashboard View</h2> 
     <BaseTable 
-      v-if="role==='user'"
       :table-data="coursForUser"
       :edit-btns="false"
       :is-data-loading="false"
@@ -33,9 +32,6 @@ export default {
   computed: {  
       coursForUser() {
         return this.sortedCourses()
-        },
-      role() {
-        return localStorage.getItem("role")
         },
       isLoading() {
         return this.loadingStatus()
