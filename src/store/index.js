@@ -16,8 +16,7 @@ export default new Vuex.Store({
   },
   actions: {
     setUserToState({commit}, user){
-      commit('setUser', user)      
-      console.log(user);
+      commit('setUser', user)            
     }
   },
   modules: {},

@@ -26,6 +26,7 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseButton";
 import BaseInput from '@/components/BaseInput'
 import { mapActions } from "vuex";
+import logIn from '@/api/user/index'
 
 export default {
   name: "LoginForm",
@@ -43,7 +44,10 @@ export default {
   methods: {
     ...mapActions(["setUserToState"]),
     onSubmit() {
-      this.login(this.formData.email, this.formData.password);
+      //this.loginToSite(this.formData.email, this.formData.password);
+     logIn({email:"allen@test.com", password:"test1234"})
+       .then(data => console.log(1, data)) 
+
     },
     receiveEmail(email){
       this.formData.email = email  
@@ -51,7 +55,7 @@ export default {
     receivePassword(password){
       this.formData.password = password 
     },
-    login(email, password) {
+    loginToSite(email, password) {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,6 +67,7 @@ export default {
       )
         .then(this.handleResponse)
         .then((user) => {
+          console.log(user)
           if (user.stsTokenManager) {
             localStorage.setItem("user", JSON.stringify(user));
             this.setUserToState(user);
