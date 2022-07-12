@@ -1,20 +1,24 @@
 <template>
-<ValidationProvider 
-    :name='label || vid' 
-    :vid=vid 
-    :rules=allRules 
-    v-slot="{ errors }">
-  <label v-if="label" 
-      class="min-w-[100px] inline-block">{{label}}</label>
-  <input
-    class="BaseInput"
-    v-bind="$attrs"
-    v-on="listeners"
-    v-model="value"
+  <ValidationProvider
+    v-slot="{ errors }"
+    :name="label || vid"
+    :vid="vid"
+    :rules="allRules"
   >
-   <p class="text-red-700 text-sm">{{ errors[0] }}</p>
-</ValidationProvider>
-
+    <label
+      v-if="label"
+      class="min-w-[100px] inline-block"
+    >{{ label }}</label>
+    <input
+      v-bind="$attrs"
+      v-model="value"
+      class="BaseInput"
+      v-on="listeners"
+    >
+    <p class="text-red-700 text-sm">
+      {{ errors[0] }}
+    </p>
+  </ValidationProvider>
 </template>
 
 <script>
@@ -31,12 +35,11 @@ Object.keys(rules).forEach(rule => {
 });
 
   export default {
-    data(){
-      return{
-        value: "",
-        emailRules: "required|email",
-        passwordRules: "required|min:6",
-    }},
+components: {
+  ValidationProvider 
+},
+
+inheritAttrs: false,
    props: {
   label: {
     type: [String, Boolean],
@@ -55,8 +58,12 @@ Object.keys(rules).forEach(rule => {
     default: 'text'
   }
 },
-
-inheritAttrs: false,
+    data(){
+      return{
+        value: "",
+        emailRules: "required|email",
+        passwordRules: "required|min:6",
+    }},
 computed: {
   listeners() {
     return {
@@ -76,9 +83,6 @@ methods: {
   onInput(value) {
     this.$emit('input', value);
   }
-},
-components: {
-  ValidationProvider 
 }
   };
   </script>

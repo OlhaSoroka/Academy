@@ -2,20 +2,21 @@
   <div class="loginform">
     <ValidationObserver v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
-        <BaseInput type="email" 
-        label="Email" 
-        vid="email"         
-        placeholder="aaa@gmail.com"
-        @input="receiveEmail"/>
-        
-        <BaseInput type="password" 
-        label="Password" 
-        vid="password"        
-        placeholder="qwe123"
-        @input="receivePassword"/>
- 
-        <BaseButton variant="btn_green" 
-        @click="onSubmit"> Submit </BaseButton>
+        <BaseInput
+          type="email"
+          label="Email"
+          vid="email"
+          placeholder="aaa@gmail.com"
+          @input="receiveEmail"
+        />
+        <BaseInput
+          type="password"
+          label="Password"
+          vid="password"
+          placeholder="qwe123"
+          @input="receivePassword"
+        />
+        <BaseButton variant="btn_green" @click="onSubmit"> Submit </BaseButton>
       </form>
     </ValidationObserver>
   </div>
@@ -24,15 +25,15 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseButton";
-import BaseInput from '@/components/BaseInput'
+import BaseInput from "@/components/BaseInput";
 import { mapActions } from "vuex";
 
 export default {
   name: "LoginForm",
-  components: {    
+  components: {
     ValidationObserver,
     BaseButton,
-    BaseInput
+    BaseInput,
   },
   data: () => ({
     formData: {
@@ -45,11 +46,11 @@ export default {
     onSubmit() {
       this.login(this.formData.email, this.formData.password);
     },
-    receiveEmail(email){
-      this.formData.email = email  
+    receiveEmail(email) {
+      this.formData.email = email;
     },
-    receivePassword(password){
-      this.formData.password = password 
+    receivePassword(password) {
+      this.formData.password = password;
     },
     login(email, password) {
       const requestOptions = {
