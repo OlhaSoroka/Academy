@@ -95,7 +95,11 @@
         </div>
         <div class="flex justify-center mt-5">
           <div class="w-1/5 mx-1">
-            <BaseButton @click="submitPasswordChange">
+            <BaseButton
+           
+              :disabled="!isChangePasswordFormValid"
+              @click="submitPasswordChange"
+            >
               Submit
             </BaseButton>
           </div>
@@ -132,6 +136,13 @@ export default {
 		userProfileImage() {
 			return this.profileImage || this.user.avatarUrl;
 		},
+    isChangePasswordFormValid() {
+      if (this.oldPassword && this.newPassword && this.confirmedPassword && this.newPassword===this.confirmedPassword ) {
+        return true
+      } else{
+        return false
+      }
+    }
 	},
 	mounted() {
     console.log("mounted");
