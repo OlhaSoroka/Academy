@@ -9,6 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "express": "^4.18.1",
     "serve-static": "^1.15.0",
@@ -47,7 +48,9 @@
       "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "@babel/eslint-parser"
+      "parser": "@babel/eslint-parser",
+           "requireConfigFile": false
+
     },
     "rules": {
       "vue/max-attributes-per-line": [
@@ -60,7 +63,8 @@
             "max": 1
           }
         }
-      ]
+      ],
+      "no-console": "error"
     }
   },
   "browserslist": [
