@@ -1,8 +1,11 @@
 <template>
-  <div class="profile__container">
+  <div
+    v-if="user"
+    class="profile__container"
+  >
     <div class="profile__image_container">
       <div class="profile__image_block">
-        <img :src="userProfileImage">
+        <img :src="user.avatarUrl">
       </div>
     </div>
 
@@ -43,14 +46,9 @@
       </div>
       <div class="profile__buttons_wrapper">
         <div class="mr-5">
-          <BaseButton @click="$refs.fileInput.click()">
+          <BaseButton @click="openProfileImageChangeModal">
             Change Profile Image
-          </BaseButton><input
-            v-show="false"
-            ref="fileInput"
-            type="file"
-            @change="fileLoaded"
-          >
+          </BaseButton>
         </div>
         <div class="mr-5">
           <BaseButton @click="openPasswordChangeModal">
@@ -60,7 +58,31 @@
       </div>
     </div>
     <BaseModal
-      ref="modal"
+      ref="profileImageModal"
+      :header="'Change profile image'"
+    >
+      <template #body>
+        <div class="flex flex-col items-center text-start mt-5">
+          <BaseInput
+            v-model="profileImage"
+            type="text"
+            label="Profile photo link"
+            placeholder="Paste profile photo link"
+          />
+          <div class="mt-5">
+            <BaseButton
+              :disabled="!isProfileImageLinkValid"
+              @click="submitProfileImage"
+            >
+              Submit
+            </BaseButton>
+          </div>
+        </div>
+      </template>
+    </BaseModal>
+
+    <BaseModal
+      ref="passwordModal"
       :header="'Change password'"
     >
       <template #body>
@@ -96,7 +118,6 @@
         <div class="flex justify-center mt-5">
           <div class="w-1/5 mx-1">
             <BaseButton
-           
               :disabled="!isChangePasswordFormValid"
               @click="submitPasswordChange"
             >
@@ -128,7 +149,7 @@ export default {
 			oldPassword: '',
 			newPassword: '',
 			confirmedPassword: '',
-			profileImage: null,
+			profileImage: '',
 		};
 	},
 	computed: {
@@ -136,41 +157,34 @@ export default {
 		userProfileImage() {
 			return this.profileImage || this.user.avatarUrl;
 		},
-    isChangePasswordFormValid() {
-      if (this.oldPassword && this.newPassword && this.confirmedPassword && this.newPassword===this.confirmedPassword ) {
-        return true
-      } else{
-        return false
-      }
-    }
+		isChangePasswordFormValid() {
+			return this.oldPassword && this.newPassword && this.confirmedPassword && this.newPassword === this.confirmedPassword;
+		},
+		isProfileImageLinkValid() {
+			return this.profileImage.length > 0;
+		},
 	},
 	mounted() {
-    console.log("mounted");
-		this.fetchUser();
+		this.fetchUser('91d00e54-b58b-4ab9-961f-b12e943fa0dc');
 	},
 	methods: {
 		...mapActions('user', ['fetchUser', 'changePassword', 'changeProfileImage']),
 		openPasswordChangeModal() {
-			console.log(this.$refs);
-			this.$refs.modal.openModal();
+			this.$refs.passwordModal.openModal();
 		},
 		submitPasswordChange() {
 			this.changePassword({ oldPassword: this.oldPassword, newPassword: this.newPassword });
-			this.$refs.modal.closeModal();
+			this.$refs.passwordModal.closeModal();
 		},
 		cancelPasswordChange() {
-			this.$refs.modal.closeModal();
+			this.$refs.passwordModal.closeModal();
 		},
-		fileLoaded(event) {
-			const file = event.target.files[0];
-			const fileReader = new FileReader();
-			fileReader.onloadend = () => {
-				this.profileImage = fileReader.result;
-				this.changeProfileImage(this.profileImage);
-			};
-			if (file.type === 'image/jpeg') {
-				fileReader.readAsDataURL(file);
-			}
+		openProfileImageChangeModal() {
+			this.$refs.profileImageModal.openModal();
+		},
+		submitProfileImage() {
+			this.changeProfileImage(this.profileImage);
+			this.$refs.profileImageModal.closeModal();
 		},
 	},
 };
