@@ -21,8 +21,8 @@ export default {
     setCourses(state, courses){
         state.courses = courses
       },
-    chengeLoadingStatus(state)
-      {state.isLoading = false}
+    changeLoadingStatus(state)
+      {state.isLoading = !state.isLoading}
   },
   actions: {
     getCourses({commit}){
@@ -30,7 +30,7 @@ export default {
       .then((data) => commit('setCourses', data))
       // eslint-disable-next-line
       .catch(error => {console.log(error)})
-      .finally(() => commit('chengeLoadingStatus'))
+      .finally(() => commit('changeLoadingStatus'))
   }
 }}
   
