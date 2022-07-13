@@ -36,9 +36,6 @@ export default {
 			type: String,
 			required: true,
 		},
-    loading:{
-      
-    }
 	},
 	data() {
 		return {
