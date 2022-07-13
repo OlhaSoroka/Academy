@@ -4,7 +4,7 @@ export default {
     state() {
     return {
          courses: [],
-         isLoading: true
+         isLoading: false
     }
   },
   getters: {
@@ -26,11 +26,12 @@ export default {
   },
   actions: {
     getCourses({commit}){
-      getAllCourses()
-      .then((data) => commit('setCourses', data))
-      // eslint-disable-next-line
-      .catch(error => {console.log(error)})
-      .finally(() => commit('changeLoadingStatus'))
-  }
+        commit('changeLoadingStatus')
+        getAllCourses()
+        .then((data) => commit('setCourses', data))
+        // eslint-disable-next-line
+        .catch(error => {console.log(error)})
+        .finally(() => commit('changeLoadingStatus'))
+    }
 }}
   
