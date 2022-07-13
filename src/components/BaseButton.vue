@@ -1,9 +1,12 @@
 <template>
   <button
-    :class="[classes, {btn_disabled: disabled}]"
+    :class="[classes, { btn_disabled: disabled }]"
     v-on="$listeners"
   >
-    <slot />
+    <div v-if="loading">
+      <div class="btn_loading" />
+    </div>
+    <slot v-else />
   </button>
 </template>
 
@@ -20,6 +23,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		loading: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
 		classes() {
@@ -31,7 +38,7 @@ export default {
 
 <style lang="postcss" scoped>
 .btn {
-	@apply w-full p-2 px-4 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+	@apply min-h-[40px] w-full p-2 px-4 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
 }
 .btn_green {
 	@apply bg-emerald-500 hover:bg-emerald-700;
@@ -44,5 +51,9 @@ export default {
 }
 .btn_disabled {
 	@apply opacity-50 pointer-events-auto;
+}
+.btn_loading {
+	@apply w-6 h-6 border-4 border-white border-double border-t-transparent rounded-full animate-spin;
+
 }
 </style>

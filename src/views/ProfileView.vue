@@ -48,7 +48,10 @@
       </div>
       <div class="profile__buttons_wrapper">
         <div class="mr-5">
-          <BaseButton @click="openProfileImageChangeModal">
+          <BaseButton
+            :loading="isImageLoading"
+            @click="openProfileImageChangeModal"
+          >
             Change Profile Image
           </BaseButton>
         </div>
@@ -74,6 +77,7 @@
           <div class="mt-5">
             <BaseButton
               :disabled="!isProfileImageLinkValid"
+              
               @click="submitProfileImage"
             >
               Submit
@@ -155,7 +159,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('user', ['user']),
+		...mapGetters('user', ['user','isImageLoading']),
 		userProfileImage() {
 			return this.profileImage || this.user.avatarUrl;
 		},
@@ -165,8 +169,10 @@ export default {
 		isProfileImageLinkValid() {
 			return this.profileImage.length > 0;
 		},
+    
 	},
 	mounted() {
+    /* TODO:  temporary. remove after Authorization implementation */ 
 		this.fetchUser('91d00e54-b58b-4ab9-961f-b12e943fa0dc');
 	},
 	methods: {
