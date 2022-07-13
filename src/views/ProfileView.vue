@@ -5,7 +5,9 @@
   >
     <div class="profile__image_container">
       <div class="profile__image_block">
-        <img :src="user.avatarUrl">
+        <img
+          :src="user.avatarUrl"
+        >
       </div>
     </div>
 
@@ -192,13 +194,13 @@ export default {
 
 <style lang="postcss" scoped>
 .profile__container {
-	@apply w-2/3  mx-auto  shadow-xl flex my-60 justify-center;
+	@apply w-2/3 h-2/3 self-center mx-auto shadow-xl flex justify-center;
 }
 .profile__image_container {
 	@apply bg-emerald-500 flex justify-center items-center p-12;
 }
 .profile__image_block img {
-	@apply rounded-full shadow-md w-80 h-80;
+	@apply rounded-full shadow-md max-w-xs w-full h-full block;
 }
 .profile__info_container {
 	@apply p-12 text-start grow;
