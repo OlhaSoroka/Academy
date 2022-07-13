@@ -2,24 +2,24 @@
   <div class="flex justify-center flex-col">
     <h2>Courses Dashboard View</h2> 
     <BaseTable 
-      :table-data="coursForUser"
+      :table-data="{ 
+        headingData : headers,
+        bodyData : courses
+      }"
       :edit-btns="false"
-      :is-data-loading="false"
+      :is-data-loading="isLoading"
       :delete-btns="false"
-      :header-data="headers"
     />
-    <BaseSpinner v-if="isLoading" />
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
 import BaseTable from '../components/UI/BaseTable/BaseTable.vue'
-import BaseSpinner from '../components/UI/BaseSpinner/BaseSpinner.vue'
 
 export default {
     components: {
-    BaseTable, BaseSpinner
+    BaseTable
   },
   data (){
     return{
@@ -30,7 +30,7 @@ export default {
 			]
     }},
   computed: {  
-      coursForUser() {
+      courses() {
         return this.sortedCourses()
         },
       isLoading() {
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     ...mapActions(['getCourses']),
-     ...mapGetters(['sortedCourses', 'loadingStatus']),
+    ...mapGetters(['sortedCourses', 'loadingStatus']),
   }
   }
 
