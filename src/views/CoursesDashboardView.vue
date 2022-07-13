@@ -30,11 +30,12 @@ export default {
 			]
     }},
   computed: {  
+    ...mapGetters(['sortedCourses', 'loadingStatus']),
       courses() {
-        return this.sortedCourses()
+        return this.sortedCourses
         },
       isLoading() {
-        return this.loadingStatus()
+        return this.loadingStatus
       }
   },
  mounted() {
@@ -42,7 +43,6 @@ export default {
   },
   methods: {
     ...mapActions(['getCourses']),
-    ...mapGetters(['sortedCourses', 'loadingStatus']),
   }
   }
 
