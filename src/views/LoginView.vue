@@ -17,6 +17,9 @@
         >
           Send Password to Email
         </p>
+        <p @click="logOutFromSite">
+          Log out
+        </p>
       </div>
     </div>
   </div>
@@ -24,6 +27,9 @@
 
 <script>
 import LoginForm from "@/components/LoginForm";
+import { mapGetters } from "vuex";
+import { logout } from "@/api/user/index";
+
 export default {
   name: "LoginView",
   components: {
@@ -34,8 +40,21 @@ export default {
       authSubmitted: Object,
     };
   },
+  computed: {
+    ...mapGetters(['user','accessToken']),
+  },
   methods: {
     sendPasswordToEmail() {},
+    logOutFromSite() {
+      console.log(this.user.email)
+      logout(this.accessToken)
+      // firebase..auth().signOut()
+      //   .then(() => {
+      //     this.$router.replace({
+      //       name: "COURSE_DASHBOARD"
+      //     });
+      //   });
+    }
   },
 };
 </script>

@@ -1,8 +1,7 @@
 <template>
   <div class="loginform">
     <ValidationObserver v-slot="{ handleSubmit }">
-      <form @submit.prevent="handleSubmit(onSubmit)">
-        {{ user }}
+      <form @submit.prevent="handleSubmit(onSubmit)">        
         <BaseInput
           type="email"
           label="Email"
@@ -44,11 +43,10 @@ export default {
     formData: {
       email: "",
       password: "",
-    },
-    user: "",
+    },    
   }),
   computed: {
-    ...mapGetters({ user: "user" }),
+    ...mapGetters(['user']),
   },
   methods: {
     ...mapActions(["setUserToState"]),
@@ -57,6 +55,7 @@ export default {
         if (user.stsTokenManager.accessToken) {
           localStorage.setItem("user", JSON.stringify(user));
           this.setUserToState(user);
+          this.$router.push({name: "COURSE_DASHBOARD"});
         }
         return user;
       });
