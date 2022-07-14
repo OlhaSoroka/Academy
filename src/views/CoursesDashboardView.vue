@@ -21,14 +21,14 @@ export default {
     components: {
     BaseTable
   },
-  data (){
-    return{
-      headers: [
-				{ 'name': 'Course Name' },
-				{ 'date': 'Date' },
-				{ 'status': 'Status' }
-			]
-    }},
+data (){
+ return{
+  headers: [
+   { 'name': 'Course Name' },
+   { 'date': 'Date' },
+   { 'status': 'Status' }
+   ]
+     }},
   computed: {  
     ...mapGetters(['sortedCourses', 'loadingStatus']),
       courses() {
