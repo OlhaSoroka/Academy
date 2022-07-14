@@ -21,14 +21,17 @@ const CourseDetailsView = () =>
   );
 const CoursesDashboardView = () =>
   import(/* webpackChunkName:'courses'*/ "../views/CoursesDashboardView.vue");
+const AdminMembersView = () =>
+  import(/* webpackChunkName:'admin-members'*/ "../views/AdminMembersView.vue");
 
-import { ADMIN_ROLE } from "@/constants/roles.constant";
+import { MANAGER_ROLE, ADMIN_ROLE } from "@/constants/roles.constant";
 import {
   LOGIN,
   RESET,
   PROFILE,
   MANAGERS,
   USERS,
+  ADMIN_MEMBERS,
   COURSE_DASHBOARD,
   COURSE_DETAILS,
 } from "@/constants/routes.constant";
@@ -83,6 +86,14 @@ const routes = [
     path: "/managers",
     name: MANAGERS,
     component: ManagersView,
+    meta: { requiresAuth: true, requiredRoles: [MANAGER_ROLE] },
+    beforeEnter: roleGuard,
+  },
+
+  {
+    path: "/admin-members",
+    name: ADMIN_MEMBERS,
+    component: AdminMembersView,
     meta: { requiresAuth: true, requiredRoles: [ADMIN_ROLE] },
     beforeEnter: roleGuard,
   },

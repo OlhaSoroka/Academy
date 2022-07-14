@@ -1,14 +1,10 @@
 <template>
   <div>
     <transition name="fade">
-      <div
-        v-if="show"
-        class="modal"
-      >
-        <div
-          class="modal__backdrop"
-          @click="closeModal()"
-        />
+      <div v-if="show" 
+      class="modal">
+        <div class="modal__backdrop" 
+        @click="closeModal()" />
 
         <div class="modal__dialog">
           <div class="modal__header">
@@ -39,7 +35,7 @@ export default {
   },
   data() {
     return {
-      show: true,
+      show: false,
     };
   },
   methods: {
