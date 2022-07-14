@@ -1,9 +1,9 @@
 /* eslint-disable */ 
 <template>
   <div>
-    <div v-if="users" class="AdminMemberView">
+    <div v-if="usersCatalor" class="AdminMemberView">
       <h1>Admin Member view</h1>
-      <BaseTable :table-data="{ 
+      <BaseTable :table-data="{
         headingData : this.headers,
         bodyData: this.usersCatalor
       }" :edit-btns="true" :is-data-loading="false" :delete-btns="true" @onEdit="openEdit" />
@@ -26,7 +26,7 @@ import BaseTable from '../components/UI/BaseTable/BaseTable'
 
 export default {
     name: "AdminMembersView",
-    comments: {
+    components: { 
         BaseTable,
     },
     computed: {
@@ -43,14 +43,16 @@ export default {
         closeEdit() {
             this.showModal = false;
             this.updateUser(this.eventModel[0]);
-        },
-    },
-    mounted() {
-        this.fetchUsers();
+      },
+      async asingFetch() {
+        await this.fetchUsers(); 
         if (this.users) {
-            this.usersCatalor = this.users.filter((e) => e.role === "user");
+          this.usersCatalor = this.users.filter((e) => e.role === "user");
         }
-        console.log(this.usersCatalor, "user catalog");
+      }
+    },  
+    mounted() {
+      this.asingFetch();
     },
     data() {
         return {
