@@ -7,7 +7,7 @@
         bodyData : courses
       }"
       :edit-btns="false"
-      :is-data-loading="isLoading"
+      :is-data-loading="loadingStatus"
       :delete-btns="false"
     />
   </div>
@@ -21,22 +21,19 @@ export default {
     components: {
     BaseTable
   },
-  data (){
-    return{
-      headers: [
-				{ 'name': 'Course Name' },
-				{ 'date': 'Date' },
-				{ 'status': 'Status' }
-			]
-    }},
+data (){
+ return{
+  headers: [
+   { 'name': 'Course Name' },
+   { 'date': 'Date' },
+   { 'status': 'Status' }
+   ]
+     }},
   computed: {  
     ...mapGetters(['sortedCourses', 'loadingStatus']),
       courses() {
         return this.sortedCourses
-        },
-      isLoading() {
-        return this.loadingStatus
-      }
+        }
   },
  mounted() {
     this.getCourses()
@@ -45,7 +42,6 @@ export default {
     ...mapActions(['getCourses']),
   }
   }
-
 </script>
 
 <style></style>
