@@ -45,11 +45,11 @@ export default {
   methods: {
     closeModal() {
       this.show = false;
-      document.querySelector("body").classList.remove("overflow-hidden");
+      document.querySelector('body').classList.remove('overflow-hidden');
     },
     openModal() {
       this.show = true;
-      document.querySelector("body").classList.add("overflow-hidden");
+      document.querySelector('body').classList.add('overflow-hidden');
     },
   },
 };
