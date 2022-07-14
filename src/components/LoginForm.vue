@@ -55,7 +55,8 @@ export default {
         if (user.stsTokenManager.accessToken) {
           localStorage.setItem("user", JSON.stringify(user));
           this.setUserToState(user);
-          this.$router.push({name: "COURSE_DASHBOARD"});
+          this.$router.push({name: "COURSE_DASHBOARD"})
+          .catch(() => {});
         }
         return user;
       });
