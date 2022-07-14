@@ -7,7 +7,7 @@
         bodyData : courses
       }"
       :edit-btns="false"
-      :is-data-loading="isLoading"
+      :is-data-loading="loadingStatus"
       :delete-btns="false"
     />
   </div>
@@ -33,10 +33,7 @@ export default {
     ...mapGetters(['sortedCourses', 'loadingStatus']),
       courses() {
         return this.sortedCourses
-        },
-      isLoading() {
-        return this.loadingStatus
-      }
+        }
   },
  mounted() {
     this.getCourses()
@@ -45,7 +42,6 @@ export default {
     ...mapActions(['getCourses']),
   }
   }
-
 </script>
 
 <style></style>
