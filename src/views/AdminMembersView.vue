@@ -6,7 +6,7 @@
       <BaseTable :table-data="{
         headingData : this.headers,
         bodyData: this.usersCatalor
-      }" :edit-btns="true" :is-data-loading="loadingStatus" :delete-btns="true" @onEdit="openEdit" />
+      }" :edit-btns="true" :is-data-loading="loadingStatus" :delete-btns="true" @onEdit="openEdit" @onDelete="deleteUser" />
       <BaseButton :loading="loadingStatus" @click.prevent="openAdminMemberCreateModal">
         Create new user
       </BaseButton>
@@ -16,7 +16,7 @@
         <div v-for="input in inputs" :key="input.label" class="form_control">
           <label class="form_label">{{ input.label }}</label>
           <input v-model="eventModel[0][input.model]" type="text" class="form_model" />
-        </div> 
+        </div>
       </form>
       <button @click.prevent="closeEdit">Close</button>
     </div>
@@ -58,7 +58,7 @@ export default {
         ...mapGetters(["loadingStatus", "users"]),
     },
     methods: {
-        ...mapActions(["fetchUsers", "updateUser"]),
+      ...mapActions(["fetchUsers", "updateUser", "createNewUser", "delteUser"]),
       openEdit(id) {
             console.log(id, 'id')
             this.showModal = true;
@@ -76,6 +76,9 @@ export default {
         console.log (this.createModel, 'create model')
         this.$refs.adminMemberCreateModal.closeModal();
         this.createNewUser(this.createModel);
+      },
+      deteleteUser(id) {
+        this.delteUser(id)
       },
       async asingFetch() {
         await this.fetchUsers(); 
