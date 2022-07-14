@@ -41,7 +41,8 @@ export default {
             this.$emit("delete", this.propsData)
         },
         editRow() {
-            this.$emit("edit", this.propsData)
+          this.$emit("edit", this.propsData)
+          //console.log(this.propsData, 'data')
         }
     }
 }

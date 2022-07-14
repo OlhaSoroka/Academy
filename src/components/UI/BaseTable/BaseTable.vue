@@ -31,7 +31,7 @@
         :editable="editBtns"
         :deletable="deleteBtns"
         @onDelete="onDelete"
-        @onEdit="onEdit"
+        @onEdit="onEdit" 
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
@@ -121,8 +121,10 @@ export default {
   updated() {
     this.items = this.tableData['bodyData']
   },
+  emits: ['onEdit'],
   methods: {
     onEdit(id) {
+      console.log(id)
       this.$emit("edit", id)
     },
     onDelete(id) {

@@ -69,7 +69,7 @@
 
  <style lang="scss">
   .navigation-menu{
-     @apply bg-stone-50 text-sky-700 w-48 h-screen;
+     @apply bg-stone-50 text-sky-700 w-48 h-0;
      font-family: font-mono;
   }
   .navigation-menu > *{
