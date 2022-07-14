@@ -74,6 +74,7 @@ export default {
       },
       submitAdminCreateButton() {
         console.log (this.createModel, 'create model')
+        this.$refs.adminMemberCreateModal.closeModal();
         this.createNewUser(this.createModel);
       },
       async asingFetch() {
