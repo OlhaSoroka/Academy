@@ -1,25 +1,15 @@
 <template>
   <div class="loginview">
-    <h1 class="text-pink-400">This is LOGIN page</h1>
+    <h1 class="text-pink-400">This is LOGIN page</h1>    
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
         <LoginForm @submitAuth="authSubmitted" />
-        <p
-          class="
-            mx-2
-            cursor-pointer
-            text-center
-            hover:opacity-75
-            transition-opacity
-            underline
-          "
-          @click="sendPasswordToEmail"
-        >
-          Send Password to Email
-        </p>
-        <p @click="logOutFromSite">
-          Log out
-        </p>
+        <p 
+          class="link" 
+          @click="sendPasswordToEmail">Send Password to Email</p>
+        <p 
+          class="link" 
+          @click="logOutFromSite">Log out</p>
       </div>
     </div>
   </div>
@@ -41,23 +31,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['user','accessToken']),
+    ...mapGetters(["user", "accessToken"]),
   },
   methods: {
     sendPasswordToEmail() {},
     logOutFromSite() {
-      console.log(this.user.email)
-      logout(this.accessToken)
-      // firebase..auth().signOut()
-      //   .then(() => {
-      //     this.$router.replace({
-      //       name: "COURSE_DASHBOARD"
-      //     });
-      //   });
-    }
+      logout(this.accessToken);
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
+.link {
+  @apply mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline;
+}
 </style>

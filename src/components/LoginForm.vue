@@ -1,7 +1,7 @@
 <template>
   <div class="loginform">
     <ValidationObserver v-slot="{ handleSubmit }">
-      <form @submit.prevent="handleSubmit(onSubmit)">        
+      <form @submit.prevent="handleSubmit(onSubmit)">
         <BaseInput
           type="email"
           label="Email"
@@ -18,8 +18,11 @@
           @input="receivePassword"
         />
 
-        <BaseButton variant="btn_green" 
-                    type="submit"> Submit </BaseButton>
+        <BaseButton 
+          variant="btn_green" 
+          type="submit"> 
+          Submit 
+        </BaseButton>
       </form>
     </ValidationObserver>
   </div>
@@ -43,23 +46,27 @@ export default {
     formData: {
       email: "",
       password: "",
-    },    
+    },
   }),
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(["user"]),
   },
   methods: {
-    ...mapActions(["setUserToState"]),
+    ...mapActions(["setUser"]),
     onSubmit() {
-      logIn(this.formData).then((user) => {
-        if (user.stsTokenManager.accessToken) {
-          localStorage.setItem("user", JSON.stringify(user));
-          this.setUserToState(user);
-          this.$router.push({name: "COURSE_DASHBOARD"})
-          .catch(() => {});
-        }
-        return user;
-      });
+      logIn(this.formData)
+        .then((user) => {
+          if (user.stsTokenManager.accessToken) {
+            localStorage.setItem("user", JSON.stringify(user));
+            this.setUser(user);
+            //this.$router.push({name: "COURSE_DASHBOARD"})
+          }
+          //return user;
+        })
+        .catch((error) => {
+          console.log(error.message);
+          this.setUser({});
+        });
     },
     receiveEmail(email) {
       this.formData.email = email;

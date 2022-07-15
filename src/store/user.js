@@ -13,11 +13,11 @@ export default {
   },
   mutations: {
     SET_USER(state, user) {
-      state.user = user;
+      state.user = user;      
     },
   },
   actions: {
-    setUserToState({ commit }, user) {
+    setUser({ commit }, user) {      
       commit("SET_USER", user);
     },
   },
