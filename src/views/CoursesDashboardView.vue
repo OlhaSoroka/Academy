@@ -4,7 +4,7 @@
     <BaseButton
       @click="
         $router.push({
-          name: 'courses-details',
+          name: COURSE_DETAILS,
           params: { id: sortedCourses[0].id },
         })
       "
@@ -15,10 +15,16 @@
 </template>
 <script>
 import BaseButton from "../components/BaseButton.vue";
+import { COURSE_DETAILS } from "../constants/routes.constant";
 import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
     BaseButton,
+  },
+  data() {
+    return {
+      COURSE_DETAILS,
+    };
   },
   computed: {
     ...mapGetters(["sortedCourses"]),

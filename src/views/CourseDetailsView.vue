@@ -1,6 +1,7 @@
 <template>
-  <div class="flex justify-center flex-col" 
-       v-if="courseItem">
+  <div 
+    v-if="courseItem" 
+    class="flex justify-center flex-col">
     <h2>CoursesDetailsView</h2>
     <h3>Main Info</h3>
     <BaseTable
@@ -59,8 +60,7 @@
     />
     <form 
       class="border" 
-      @submit.prevent="submit"
-    >
+      @submit.prevent="submit">
       <textarea 
         v-model="comments" 
         class="border" 
@@ -73,20 +73,19 @@
         :class="{
           disable: !comments,
         }"
-        class="m-3 relative bottom-5" 
+        class="m-3 relative bottom-5"
       >
         Send comment
       </BaseButton>
     </form>
-    <BaseButton @click="$router.push( { name:'courses-details', params: {id: nextId()} })"> 
-      Next course 
-    </BaseButton>
+    <BaseButton @click="nextPage"> Next course </BaseButton>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BaseButton from "../components/BaseButton.vue";
 import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
+import { COURSE_DETAILS } from "../constants/routes.constant";
 
 export default {
   components: {
@@ -96,6 +95,7 @@ export default {
   data() {
     return {
       comments: "",
+      COURSE_DETAILS,
       headerMainInfo: [
         { name: "Course Name" },
         { date: "Date" },
@@ -105,13 +105,8 @@ export default {
         { fullName: "Fullname" },
         { initialScore: "initialScore" },
       ],
-      headerHomework: [
-        { name: "Homework Name" }, 
-        { date: "Date" }
-      ],
-      headerResults: [
-        { "result in results": "Results" }
-      ],
+      headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
+      headerResults: [{ "result in results": "Results" }],
       headerComments: [
         { message: "Message" },
         { createdAt: "Date" },
@@ -135,13 +130,19 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses", "newComment"]),
+    nextPage() {
+      this.$router.push({
+        name: COURSE_DETAILS,
+        params: { id: this.nextId() },
+      });
+    },
     nextId() {
-      return (this.nextCourseId(
+      return this.nextCourseId(
         this.courseIndex(this.courseById(this.$route.params.id))
-      ));
+      );
     },
     submit() {
-      let newItem = this.courseById(this.id);
+      let newItem = this.courseById(this.$route.params.id);
       newItem.comments.push({
         id: Date.now(),
         message: this.comments,
