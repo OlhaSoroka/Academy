@@ -15,36 +15,51 @@
     >
       edit
     </td>
+    <td
+      v-if="viewed"
+      class="text-green-700 cursor-pointer hover:bg-blue-50"
+      @click="viewedRow"
+    >
+      Details
+    </td>
   </tr>
 </template>
 
 <script>
 export default {
-    props: {
-        propsData: {
-            type: [String, Number],
-            required: true,
-        },
-        deletable: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
-        editable: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
+  props: {
+    propsData: {
+      type: [String, Number],
+      required: true,
     },
-    methods: {
-        deleteRow() {
-            this.$emit("delete", this.propsData)
-        },
-        editRow() {
-            this.$emit("edit", this.propsData)
-        }
-    }
-}
+    deletable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    viewed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  methods: {
+    deleteRow() {
+      this.$emit("delete", this.propsData);
+    },
+    editRow() {
+      this.$emit("edit", this.propsData);
+    },
+    viewedRow() {
+      this.$emit("view", this.propsData);
+    },
+  },
+};
 </script>
 
 <style lang="scss" >
