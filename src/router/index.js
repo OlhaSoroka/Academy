@@ -86,7 +86,7 @@ const routes = [
     path: "/managers",
     name: MANAGERS,
     component: ManagersView,
-    meta: { requiresAuth: true, requiredRoles: [MANAGER_ROLE] },
+    meta: { requiresAuth: true, requiredRoles: [MANAGER_ROLE, ADMIN_ROLE] },
     beforeEnter: roleGuard,
   },
 
