@@ -1,10 +1,10 @@
-import {getAllCourses} from "../../api/course/index"
+import { getAllCourses } from "../../api/course/index"
 
 export default {
-    state() {
+  state() {
     return {
-         courses: [],
-         isLoading: false
+      courses: [],
+      isLoading: false
     }
   },
   getters: {
@@ -14,24 +14,24 @@ export default {
     sortedCourses(state) {
       return state.courses.sort((a, b) => a.date > b.date ? 1 : -1)
     },
-    loadingStatus(state){
+    loadingStatus(state) {
       return state.isLoading
-    }},
+    }
+  },
   mutations: {
-    setCourses(state, courses){
-        state.courses = courses
-      },
-    changeLoadingStatus(state)
-      {state.isLoading = !state.isLoading}
+    setCourses(state, courses) {
+      state.courses = courses
+    },
+    changeLoadingStatus(state) { state.isLoading = !state.isLoading }
   },
   actions: {
-    getCourses({commit}){
-        commit('changeLoadingStatus')
-        getAllCourses()
+    getCourses({ commit }) {
+      commit('changeLoadingStatus')
+      getAllCourses()
         .then((data) => commit('setCourses', data))
         // eslint-disable-next-line
-        .catch(error => {console.log(error)})
+        .catch(error => { console.log(error) })
         .finally(() => commit('changeLoadingStatus'))
     }
-}}
-  
+  }
+}
