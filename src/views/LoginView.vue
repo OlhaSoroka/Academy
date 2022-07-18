@@ -1,6 +1,7 @@
 <template>
   <div class="loginview">
-    <h1 class="text-pink-400">This is LOGIN page</h1>
+    <h1 class="text-pink-400">This is LOGIN page</h1>    
+    {{accessToken}}    
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
         <LoginForm @submitAuth="authSubmitted" />
@@ -13,7 +14,7 @@
             transition-opacity
             underline
           "
-          @click="sendPasswordToEmail"
+          @click="getAllUsers1"
         >
           Send Password to Email
         </p>
@@ -24,6 +25,9 @@
 
 <script>
 import LoginForm from "@/components/LoginForm";
+import { mapGetters } from "vuex";
+import { getAllUsers, logout } from "@/api/user/index";
+
 export default {
   name: "LoginView",
   components: {
@@ -31,11 +35,18 @@ export default {
   },
   data() {
     return {
-      authSubmitted: Object,
+      authSubmitted: Object,            
     };
+  },
+  computed: {
+    ...mapGetters( ['user', 'accessToken'] ),     
   },
   methods: {
     sendPasswordToEmail() {},
+    getAllUsers1() {
+      console.log(getAllUsers(this.accessToken)) 
+      logout(this.accessToken)  
+    }
   },
 };
 </script>
