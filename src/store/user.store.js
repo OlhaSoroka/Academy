@@ -1,13 +1,13 @@
 import { gethUserByID, updateUserByID } from '@/api/user';
 /* TODO: temporary. remove after Authorization implementation */
 const token =
-	'eyJhbGciOiJSUzI1NiIsImtpZCI6ImVhNWY2NDYxMjA4Y2ZmMGVlYzgwZDFkYmI1MjgyZTkyMDY0MjAyNWEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXVkIjoiaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXV0aF90aW1lIjoxNjU3NzA2MTg1LCJ1c2VyX2lkIjoiVGNkVVRqTUpHQVBzQnZ2Um5MQmxCaGtTMjRjMiIsInN1YiI6IlRjZFVUak1KR0FQc0J2dlJuTEJsQmhrUzI0YzIiLCJpYXQiOjE2NTc3MDYxODUsImV4cCI6MTY1NzcwOTc4NSwiZW1haWwiOiJvc29yb2thMDgwMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsib3Nvcm9rYTA4MDJAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.cZoQZ2eIgRR2To0tQ20YNxm1QIS_1dlcxiGVP6wp-wW1v4w4yAnXA4EyWOKsFiGg0ddi9r-uYyH1_mNXCZrLrGXWkkV0mIfK0zaHq0LJyMYLzJixKAUaj8t2l-Wa-DClScu81Ep_CF-aPVxlAH9y-tf6DSo2Tba-40jc1SdknrsGrcvZse73nB2vrrJ4WMXNq_A_Wz1W-7499n5fsGuWE8_8np9cthcf6cl66knFKbE4_2F0q45KJe34Xq09mIS3MiEO2Vp-Jw33hsfFG0UdqB-KVfB1ycBB5MF6YVuVt58sWfgFqPeu51RSVpQ4XN_IbPUB1xvGGZupRsBEAcGbUg';
+	'eyJhbGciOiJSUzI1NiIsImtpZCI6ImVhNWY2NDYxMjA4Y2ZmMGVlYzgwZDFkYmI1MjgyZTkyMDY0MjAyNWEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXVkIjoiaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXV0aF90aW1lIjoxNjU4MTUyOTc3LCJ1c2VyX2lkIjoiOTFLeE11NkxyRWdFUE5kWDFsS3hhTXZISFFNMiIsInN1YiI6IjkxS3hNdTZMckVnRVBOZFgxbEt4YU12SEhRTTIiLCJpYXQiOjE2NTgxNTI5NzcsImV4cCI6MTY1ODE1NjU3NywiZW1haWwiOiJ3ZWJwb3J0YWxhZG1pbkBpbnZlbnRvcnNvZnQuY28iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsid2VicG9ydGFsYWRtaW5AaW52ZW50b3Jzb2Z0LmNvIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.jJTz-x99_I6UGfkr5bi1ZYhrK9CQ_z9JHqTmQxKike39NTVBq8tGc-uuxhlJXJMiWsG3bD-Xz1FHuhDHBfAPUfLKcdfYdgdrk0h4kv2-87tO747lAEVjOMfoQq7BlAj1NHpAjJGElSzY8wVEdwmvcsvk0Osbthp5acll55luNlI1kfeF91rLWWRyXHMPbRI_YdfYTAzIHTedmMuP3vU3WGIj2YEDxYoPe_GIfnskgB3wHluW7meLvudaCfonWgYW0m-1Yon5ft9WJDlDjVtacIl2pF_RjITLe2tAcoPRyhOHAdOCUU6CANmS3PYvzQaBw183G53zs8tG7Fx2ixb3uw';
 
 /* eslint-disable no-console */
 export default {
 	state: {
 		user: null,
-		isImageLoading: false,
+		isImageLoading: true,
 	},
 	getters: {
 		user: (state) => state.user,
@@ -17,14 +17,14 @@ export default {
 		async fetchUser(store, id) {
 			const user = await gethUserByID(id, token);
 			store.commit('SET_USER', user);
-			store.commit('SET_IMAGE_LOADING', false);
+			store.commit('TOGGLE_IMAGE_LOADING');
 		},
 		async changePassword(store, passwords) {
 			console.log(store, passwords);
 			// make put request to change a user password
 		},
 		async changeProfileImage(store, image) {
-			store.commit('SET_IMAGE_LOADING', true);
+			store.commit('TOGGLE_IMAGE_LOADING');
 			await updateUserByID(
 				store.state.user.id,
 				{
@@ -39,8 +39,8 @@ export default {
 		SET_USER(state, user) {
 			state.user = user;
 		},
-		SET_IMAGE_LOADING(state, isImageLoading) {
-			state.isImageLoading = isImageLoading;
+		TOGGLE_IMAGE_LOADING(state) {
+			state.isImageLoading = !state.isImageLoading;
 		},
 	},
 	namespaced: true,
