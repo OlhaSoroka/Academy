@@ -33,7 +33,7 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseButton";
 import BaseInput from "@/components/BaseInput";
 import { mapGetters, mapActions } from "vuex";
-import { logIn } from "@/api/user/index";
+import {getAuth,signInWithEmailAndPassword} from 'firebase/auth'
 
 export default {
   name: "LoginForm",
@@ -54,18 +54,16 @@ export default {
   methods: {
     ...mapActions(["setUser"]),
     onSubmit() {
-      logIn(this.formData)
-        .then((user) => {
-          if (user.stsTokenManager.accessToken) {
-            localStorage.setItem("user", JSON.stringify(user));
-            this.setUser(user);
-            //this.$router.push({name: "COURSE_DASHBOARD"})
-          }
-          //return user;
-        })
-        .catch((error) => {
+      const auth = getAuth()
+      signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
+      .then(response => {
+        localStorage.setItem("user", JSON.stringify(response.user));
+        this.setUser(response.user);        
+      })       
+       .catch((error) => {
           console.log(error.message);
           this.setUser({});
+          localStorage.removeItem("user");
         });
     },
     receiveEmail(email) {
@@ -73,23 +71,8 @@ export default {
     },
     receivePassword(password) {
       this.formData.password = password;
-    },
-    logout() {
-      localStorage.removeItem("user");
-    },
-    handleResponse(response) {
-      return response.text().then((text) => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-          if (response.status === 401) {
-            this.logout();
-          }
-          const error = (data && data.message) || response.statusText;
-          return Promise.reject(error);
-        }
-        return data;
-      });
-    },
+    },    
+    
   },
 };
 </script>

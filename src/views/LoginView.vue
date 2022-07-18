@@ -7,9 +7,7 @@
         <p 
           class="link" 
           @click="sendPasswordToEmail">Send Password to Email</p>
-        <p 
-          class="link" 
-          @click="logOutFromSite">Log out</p>
+
       </div>
     </div>
   </div>
@@ -18,7 +16,6 @@
 <script>
 import LoginForm from "@/components/LoginForm";
 import { mapGetters } from "vuex";
-import { logout } from "@/api/user/index";
 
 export default {
   name: "LoginView",
@@ -34,10 +31,7 @@ export default {
     ...mapGetters(["user", "accessToken"]),
   },
   methods: {
-    sendPasswordToEmail() {},
-    logOutFromSite() {
-      logout(this.accessToken);
-    },
+    sendPasswordToEmail() {},    
   },
 };
 </script>
