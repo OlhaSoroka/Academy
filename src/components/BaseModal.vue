@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      show: true,
+      show: false,
     };
   },
   methods: {
@@ -84,7 +84,7 @@ export default {
 }
 
 .modal__header {
-  @apply px-5 pt-3.5 flex align-middle justify-center font-semibold;
+  @apply px-5 pt-3.5 flex align-middle justify-center font-semibold mt-3;
 }
 
 .modal__body {

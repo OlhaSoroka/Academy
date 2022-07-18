@@ -1,7 +1,13 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    class="flex"
+  >
     <navigation-menu />
+    <div class="grow">
     <router-view />
+    </div>
+
   </div>
 </template>
 <script>

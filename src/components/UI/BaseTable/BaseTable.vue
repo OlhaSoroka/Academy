@@ -30,8 +30,8 @@
         :props-data="item.id"
         :editable="editBtns"
         :deletable="deleteBtns"
-        @onDelete="onDelete"
-        @onEdit="onEdit"
+        @delete="onDelete"
+        @edit="onEdit"
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
@@ -167,12 +167,8 @@ export default {
   },
 }
 </script>
-<!-- <style lang="scss">
-.app-table {
-    @apply rounded-2x shadow-lg w-11/12 m-auto;
-
-    &-header__th {
-        @apply select-none;
-    }
-}
-</style> -->
+<style lang="postcss">
+  .BaseTable {
+    @apply w-full;
+  }
+</style> 

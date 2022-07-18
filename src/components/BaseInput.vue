@@ -7,7 +7,7 @@
   >
     <label
       v-if="label"
-      class="min-w-[100px] inline-block"
+      class="min-w-[100px] inline-block text-start"
     >{{ label }}</label>
     <input
       v-bind="$attrs"
