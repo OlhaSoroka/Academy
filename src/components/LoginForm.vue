@@ -2,7 +2,6 @@
   <div class="loginform">
     <ValidationObserver v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
-        {{ user }}
         <BaseInput
           type="email"
           label="Email"
@@ -30,7 +29,7 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseButton";
 import BaseInput from "@/components/BaseInput";
 import { mapGetters, mapActions } from "vuex";
-import { logIn } from "@/api/user/index";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default {
   name: "LoginForm",
@@ -52,13 +51,19 @@ export default {
   methods: {
     ...mapActions(["setUserToState"]),
     onSubmit() {
-      logIn(this.formData).then((user) => {
-        if (user.stsTokenManager.accessToken) {
-          localStorage.setItem("user", JSON.stringify(user));
-          this.setUserToState(user);          
-        }
-        return user;
-      });
+      
+         const auth = getAuth()
+         signInWithEmailAndPassword(auth, this.formData.email, this.formData.password )
+         .then(response => {
+          localStorage.setItem("user", JSON.stringify(response.user));
+          console.log(response.user)
+          this.setUserToState(response.user);
+          //this.$router.push({name: 'COURSE_DASHBOARD'}) 
+         })
+         .catch( (error) => {
+          console.log(error.message);
+          this.setUserToState({});
+         })    
     },
     receiveEmail(email) {
       this.formData.email = email;
