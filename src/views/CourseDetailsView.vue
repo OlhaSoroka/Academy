@@ -1,7 +1,8 @@
 <template>
   <div 
     v-if="courseItem" 
-    class="flex justify-center flex-col">
+    class="flex justify-center flex-col"
+  >
     <h2>CoursesDetailsView</h2>
     <h3>Main Info</h3>
     <BaseTable
@@ -105,8 +106,13 @@ export default {
         { fullName: "Fullname" },
         { initialScore: "initialScore" },
       ],
-      headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
-      headerResults: [{ "result in results": "Results" }],
+      headerHomework: [
+        { name: "Homework Name" }, 
+        { date: "Date" }
+      ],
+      headerResults: [
+        { "result in results": "Results" }
+      ],
       headerComments: [
         { message: "Message" },
         { createdAt: "Date" },
