@@ -9,7 +9,6 @@
           vid="email"          
           placeholder="aaa@gmail.com"                    
         />
-
         <BaseInput
           v-model="formData.password"
           type="password"
@@ -17,13 +16,15 @@
           vid="password"
           placeholder="qwe123"          
         />
-
         <BaseButton 
           variant="btn_green" 
           type="submit"> 
           Submit 
         </BaseButton>
       </form>
+      <p class="text-pink-400">
+        {{ errorHandler.message }}
+      </p>
     </ValidationObserver>
   </div>
 </template>
@@ -47,6 +48,10 @@ export default {
       email: "",
       password: "",
     },
+    errorHandler: {
+      isError: false,
+      message: ''
+    }
   }),
   computed: {
     ...mapGetters(["user"]),
@@ -59,9 +64,14 @@ export default {
       .then(response => {
         localStorage.setItem("user", JSON.stringify(response.user));
         this.setUser(response.user)        
+        this.errorHandler.isError = false
+        this.errorHandler.message = ''
+        this.$router.push({ name: "courses-dashboard"} )
       })       
        .catch((error) => {          
           console.log(error.message)
+          this.errorHandler.isError = true
+          this.errorHandler.message = error.message
           this.logout();
           this.setUser({});
           localStorage.removeItem("user");
@@ -77,3 +87,7 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" scoped>
+
+</style>

@@ -1,12 +1,16 @@
 <template>
   <div class="loginview">
-    <h1 class="text-pink-400">This is LOGIN page</h1>    
+    <h1 class="text-pink-400">
+      This is LOGIN page
+    </h1>    
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
-        <LoginForm  />
+        <LoginForm />
         <p 
           class="link" 
-          @click="sendPasswordToEmail">Send Password to Email</p>
+          @click="sendPasswordToEmail">
+          Send Password to Email
+        </p>
       </div>
     </div>
   </div>
@@ -22,8 +26,7 @@ export default {
     LoginForm,
   },
   data() {
-    return {
-      //authSubmitted: Object,
+    return {      
     };
   },
   computed: {
