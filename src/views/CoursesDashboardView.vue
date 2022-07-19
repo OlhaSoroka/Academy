@@ -30,7 +30,6 @@ export default {
         { date: "Date" },
         { status: "Status" },
       ],
-      cours: []
     };
   },
   computed: {
@@ -45,8 +44,7 @@ export default {
   methods: {
     ...mapActions(["getCourses"]),
     couserDetaislView(id) {
-      this.cours =  this.courses.find((e) => e.id === id)
-      this.$router.push({ name: "courses-details", params: { id: id, courseList: this.cours} });
+      this.$router.push({ name: "courses-details", params: { id: id } });
     },
   },
 };

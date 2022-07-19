@@ -1,32 +1,34 @@
 <template>
   <div>
-    <div 
+    <div v-if="course" 
     class="flex justify-center flex-col">
       <BaseTable
         :table-data="{
           headingData: headers,
-          bodyData: courseList,
+          bodyData: [course],
         }"
         :edit-btns="false"
-        :is-data-loading="false"
+        :is-data-loading="loadingStatus"
         :delete-btns="false"
         :view-btns="false"
       />
     </div>
     <BaseButton variant="btn_black" 
-    @click="getBackCourseDetailsView">Back</BaseButton>
+    @click="getBackCourseDetailsView"
+      >Back</BaseButton
+    >
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
 import BaseButton from "../components/BaseButton";
 
 export default {
   name: "CourseDetailsView",
   props: {
-    id: Number,
-    courseList: Object
+    id: [String, Number],
   },
   components: {
     BaseTable,
@@ -39,20 +41,22 @@ export default {
         { date: "Date" },
         { status: "Status" },
       ],
-      test: {
-        name: "Ilon Mask",
-        date: "17/05/2022",
-        status: "Not started yet",
-      },
     };
   },
-  mounted() {
-    console.log(this.courseList, 'course list')
-  },
   methods: {
+    ...mapActions(["getCourses"]),
     getBackCourseDetailsView() {
       this.$router.back();
     },
+  },
+  computed: {
+    ...mapGetters(["loadingStatus", "courseById"]),
+    course() {
+      return this.courseById(this.$route.params.id);
+    },
+  },
+  mounted() {
+    this.getCourses();
   },
 };
 </script>
