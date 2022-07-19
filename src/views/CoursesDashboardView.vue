@@ -33,7 +33,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["sortedCourses", "loadingStatus", "courses"]),
+    ...mapGetters(["sortedCourses", "loadingStatus"]),
     courses() {
       return this.sortedCourses;
     },
