@@ -5,8 +5,9 @@
   >
     <div class="profile__image_container">
       <div class="profile__image_block">
+        <!-- disable image cache -->
         <img
-          :src="user.avatarUrl"
+          :src="user.avatarUrl + '?' + Date.now()"
         >
       </div>
     </div>
@@ -62,137 +63,37 @@
         </div>
       </div>
     </div>
-    <BaseModal
-      ref="profileImageModal"
-      :header="'Change profile image'"
-    >
-      <template #body>
-        <div class="flex flex-col items-center text-start mt-5">
-          <BaseInput
-            v-model="profileImage"
-            type="text"
-            label="Profile photo link"
-            placeholder="Paste profile photo link"
-          />
-          <div class="mt-5">
-            <BaseButton
-              :disabled="!isProfileImageLinkValid"
-              
-              @click="submitProfileImage"
-            >
-              Submit
-            </BaseButton>
-          </div>
-        </div>
-      </template>
-    </BaseModal>
-
-    <BaseModal
-      ref="passwordModal"
-      :header="'Change password'"
-    >
-      <template #body>
-        <div class="flex flex-col items-center mt-5">
-          <div class="mb-3">
-            <BaseInput
-              v-model="oldPassword"
-              type="password"
-              label="Old password"
-              vid="password"
-              placeholder="Enter old password"
-            />
-          </div>
-          <div class="mb-3">
-            <BaseInput
-              v-model="newPassword"
-              type="password"
-              label="New password"
-              vid="password"
-              placeholder="Enter new password"
-            />
-          </div>
-          <div class="mb-3">
-            <BaseInput
-              v-model="confirmedPassword"
-              type="password"
-              label="Confirm new password"
-              vid="password"
-              placeholder="Confirm password"
-            />
-          </div>
-        </div>
-        <div class="flex justify-center mt-5">
-          <div class="w-1/5 mx-1">
-            <BaseButton
-              :disabled="!isChangePasswordFormValid"
-              @click="submitPasswordChange"
-            >
-              Submit
-            </BaseButton>
-          </div>
-          <div class="w-1/5 mx-1">
-            <BaseButton
-              :variant="'btn_red'"
-              @click="cancelPasswordChange"
-            >
-              Cancel
-            </BaseButton>
-          </div>
-        </div>
-      </template>
-    </BaseModal>
+    <ChangeImageModal :toggle-modal="isChangeImageModalOpen" />
+    <ChangePasswordModal :toggle-modal="isChangePasswordModalOpen" />
   </div>
 </template>
 <script>
 import BaseButton from '@/components/BaseButton.vue';
-import BaseModal from '@/components/BaseModal.vue';
-import BaseInput from '@/components/BaseInput.vue';
+import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
+import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
 import { mapActions, mapGetters } from 'vuex';
 export default {
-	components: { BaseButton, BaseModal, BaseInput },
+	components: { BaseButton, ChangeImageModal, ChangePasswordModal },
 	data() {
 		return {
-			oldPassword: '',
-			newPassword: '',
-			confirmedPassword: '',
-			profileImage: '',
+			isChangePasswordModalOpen: false,
+			isChangeImageModalOpen: false,
 		};
 	},
 	computed: {
-		...mapGetters('user', ['user','isImageLoading']),
-		userProfileImage() {
-			return this.profileImage || this.user.avatarUrl;
-		},
-		isChangePasswordFormValid() {
-			return this.oldPassword && this.newPassword && this.confirmedPassword && this.newPassword === this.confirmedPassword;
-		},
-		isProfileImageLinkValid() {
-			return this.profileImage.length > 0;
-		},
-    
+		...mapGetters('user', ['user', 'isImageLoading']),
 	},
 	mounted() {
-    /* TODO:  temporary. remove after Authorization implementation */ 
+		/* TODO:  temporary. remove after Authorization implementation */
 		this.fetchUser('91d00e54-b58b-4ab9-961f-b12e943fa0dc');
 	},
 	methods: {
-		...mapActions('user', ['fetchUser', 'changePassword', 'changeProfileImage']),
-		openPasswordChangeModal() {
-			this.$refs.passwordModal.openModal();
-		},
-		submitPasswordChange() {
-			this.changePassword({ oldPassword: this.oldPassword, newPassword: this.newPassword });
-			this.$refs.passwordModal.closeModal();
-		},
-		cancelPasswordChange() {
-			this.$refs.passwordModal.closeModal();
-		},
+		...mapActions('user', ['fetchUser']),
 		openProfileImageChangeModal() {
-			this.$refs.profileImageModal.openModal();
+			this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
 		},
-		submitProfileImage() {
-			this.changeProfileImage(this.profileImage);
-			this.$refs.profileImageModal.closeModal();
+		openPasswordChangeModal() {
+			this.isChangePasswordModalOpen = !this.isChangePasswordModalOpen;
 		},
 	},
 };
