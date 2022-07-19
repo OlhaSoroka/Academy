@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import courses from './modules/courses';
-import user from './modules/user';
+import user from './modules/user.store';
 
 Vue.use(Vuex);
 
