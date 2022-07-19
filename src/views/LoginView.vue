@@ -3,11 +3,10 @@
     <h1 class="text-pink-400">This is LOGIN page</h1>    
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
-        <LoginForm @submitAuth="authSubmitted" />
+        <LoginForm  />
         <p 
           class="link" 
           @click="sendPasswordToEmail">Send Password to Email</p>
-
       </div>
     </div>
   </div>
@@ -24,7 +23,7 @@ export default {
   },
   data() {
     return {
-      authSubmitted: Object,
+      //authSubmitted: Object,
     };
   },
   computed: {
