@@ -28,7 +28,7 @@ export default {
 
 <style lang="postcss" scoped>
 .btn {
-  @apply p-2 px-4 text-white font-semibold rounded-md shadow-md focus: outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+  @apply p-2 px-4 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
 }
 
 .btn_green {
