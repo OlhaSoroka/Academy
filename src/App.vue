@@ -1,10 +1,10 @@
 <template>
-  <div
-    id="app"
+  <div 
+    id="app" 
     class="flex"
   >
-    <navigation-menu />
-    <router-view />
+    <navigation-menu class="fixed" />
+    <router-view class="w-full" />
   </div>
 </template>
 <script>

@@ -5,3 +5,4 @@ export const getAllCourses = async () => {
 	const response = await axios.get(`${COURSES_URL}/posts`)
 	return await response.data
 }
+

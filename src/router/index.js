@@ -12,7 +12,7 @@ const ProfileView = () =>
 const UsersView = () =>
   import(/* webpackChunkName:'users'*/ "../views/UsersView.vue");
 const ManagersView = () =>
-  import(/* webpackChunkName:'managers*/ "../views/ManagersView.vue");
+  import(/* webpackChunkName:'managers'*/ "../views/ManagersView.vue");
 const CoursesView = () =>
   import(/* webpackChunkName:'courses'*/ "../views/CoursesView.vue");
 const CourseDetailsView = () =>
