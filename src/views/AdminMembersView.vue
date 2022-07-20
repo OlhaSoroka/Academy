@@ -103,5 +103,6 @@ button {
   padding: 10px;
   border-radius: 10px;
   margin: 10px;
+  max-width: 300px;
 }
 </style>

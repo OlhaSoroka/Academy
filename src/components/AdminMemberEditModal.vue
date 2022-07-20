@@ -25,8 +25,7 @@
             />
             <div class="mt-5">
               <BaseButton
-                :loading="invalid"
-                :disabled="false"
+                :disabled="invalid"
                 @click="submitAdminMemberEditButton"
               >
                 Submit
