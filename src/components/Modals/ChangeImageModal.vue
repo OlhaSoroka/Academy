@@ -83,16 +83,21 @@ export default {
 		},
 		onImageSelected(e) {
 			this.file = e.target.files[0];
-			const fileReader = new FileReader();
-			fileReader.onloadend = () => {
-				this.profileImageSrc = fileReader.result;
-			};
-			fileReader.readAsDataURL(this.file);
+			if (this.file) {
+				this.file = e.target.files[0];
+				const fileReader = new FileReader();
+				fileReader.onloadend = () => {
+					this.profileImageSrc = fileReader.result;
+				};
+				fileReader.readAsDataURL(this.file);
+			}
 		},
 		submitImage() {
-			this.changeProfileImage(this.file);
-			this.profileImageSrc = '';
-			this.$refs.profileImageModal.closeModal();
+			if (this.file) {
+				this.changeProfileImage(this.file);
+				this.profileImageSrc = '';
+				this.$refs.profileImageModal.closeModal();
+			}
 		},
 	},
 };
