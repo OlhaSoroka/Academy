@@ -22,11 +22,11 @@
       </BaseButton>
     </div>
     <AdminMemberEditModal
-      :toggleOpenedAdminMemberEditModal="toggleOpenedAdminMemberEditModal"
+      :toggleOpenedAdminMemberEditModal="toggleOpenedEditModal"
       :targetUserValue="targetUser"
     />
     <AdminMemberCreateModal
-      :toggleOpenedAdminMemberCreateModal="toggleOpenedAdminMemberCreateModal"
+      :toggleOpenedAdminMemberCreateModal="toggleOpenedCreateModal"
     />
   </div>
 </template>
@@ -58,12 +58,10 @@ export default {
     },
     openAdminMemberEditModal(id) {
       this.targetUser = this.users.find((e) => e.id === id);
-      this.toggleOpenedAdminMemberEditModal =
-        !this.toggleOpenedAdminMemberEditModal;
+      this.toggleOpenedEditModal = !this.toggleOpenedEditModal;
     },
     openAdminMemberCreateModal() {
-      this.toggleOpenedAdminMemberCreateModal =
-        !this.toggleOpenedAdminMemberCreateModal;
+      this.toggleOpenedCreateModal = !this.toggleOpenedCreateModal;
     },
     async deteleteUserButton(id) {
       await this.deleteUser(id);
@@ -75,8 +73,8 @@ export default {
   },
   data() {
     return {
-      toggleOpenedAdminMemberCreateModal: false,
-      toggleOpenedAdminMemberEditModal: false,
+      toggleOpenedCreateModal: false,
+      toggleOpenedEditModal: false,
       targetUser: {
         id: null,
         fullName: "",
@@ -91,18 +89,9 @@ export default {
 </script>
 <style scoped>
 .AdminMemberView {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-content: center;
-  padding: 10px;
+  @apply flex flex-col flex-wrap content-center p-4;
 }
-
 button {
-  border: 3px solid;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 10px;
-  max-width: 300px;
+  @apply p-2 m-auto max-w-[15%] rounded-xl border-r-4 border-b-4 hover:border-t-4;
 }
 </style>

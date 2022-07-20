@@ -89,10 +89,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-button {
-  border: 3px solid;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 10px;
-}
+
 </style>
