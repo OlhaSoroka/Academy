@@ -7,7 +7,13 @@
       <div class="profile__image_block">
         <!-- disable image cache -->
         <img
+          v-if="user.avatarUrl"
           :src="user.avatarUrl + '?' + Date.now()"
+        >
+        <img
+          v-else
+          src="../assets/no_avatar.png"
+          alt="avatar"
         >
       </div>
     </div>
@@ -85,7 +91,7 @@ export default {
 	},
 	mounted() {
 		/* TODO:  temporary. remove after Authorization implementation */
-		this.fetchUser('91d00e54-b58b-4ab9-961f-b12e943fa0dc');
+		this.fetchUser('ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef');
 	},
 	methods: {
 		...mapActions('user', ['fetchUser']),
