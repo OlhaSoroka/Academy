@@ -104,7 +104,7 @@ export default {
       type: Boolean,
     },
     viewBtns: {
-      required: true,
+      required: false,
       type: Boolean,
     },
     logo: {
