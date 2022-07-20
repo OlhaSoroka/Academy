@@ -15,6 +15,13 @@
     >
       edit
     </td>
+    <td
+      v-if="viewed"
+      class="text-green-700 cursor-pointer hover:bg-blue-50"
+      @click="viewedRow"
+    >
+      Details
+    </td>
   </tr>
 </template>
 
@@ -35,6 +42,11 @@ export default {
             required: false,
             default: false,
         },
+        viewed: {
+            type: Boolean,
+            required: false,
+            default: false,
+    },
     },
     methods: {
         deleteRow() {
@@ -42,7 +54,10 @@ export default {
         },
         editRow() {
             this.$emit("edit", this.propsData)
-        }
+        },
+        viewedRow() {
+            this.$emit("view", this.propsData);
+    },
     }
 }
 </script>

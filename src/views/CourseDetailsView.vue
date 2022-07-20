@@ -1,9 +1,23 @@
 <template>
   <div 
     v-if="courseItem" 
-    class="flex justify-center flex-col"
-  >
+    class="flex justify-center flex-col">
     <h2>CoursesDetailsView</h2>
+    <div
+      class="flex justify-around"
+    >
+      <BaseButton 
+        variant="btn_black" 
+        @click="getBackCourseDetailsView"
+      >
+        Back
+      </BaseButton>
+      <BaseButton 
+        @click="nextPage"
+      > 
+        Next course 
+      </BaseButton>
+    </div>
     <h3>Main Info</h3>
     <BaseTable
       class="table"
@@ -59,44 +73,59 @@
       :is-data-loading="loadingStatus"
       :delete-btns="false"
     />
-    <form 
-      class="border" 
-      @submit.prevent="submit">
-      <textarea 
-        v-model="comments" 
+    <ValidationObserver v-slot="{ invalid }">
+      <form 
         class="border" 
-        cols="50" 
-        rows="5" 
-      />
-      <BaseButton
-        :disabled="comments === ''"
-        type="submit"
-        :class="{
-          disable: !comments,
-        }"
-        class="m-3 relative bottom-5"
+        @submit.prevent="submit"
       >
-        Send comment
-      </BaseButton>
-    </form>
-    <BaseButton @click="nextPage"> Next course </BaseButton>
+        <ValidationProvider 
+          rules="required"
+        >
+          <textarea 
+            v-model="comments" 
+            class="border" 
+            cols="50" 
+            rows="5" 
+          />
+        </ValidationProvider>
+        <BaseButton
+          :disabled="invalid"
+          type="submit"
+          :class="{
+            disable: invalid,
+          }"
+          class="m-3 relative bottom-5"
+        >
+          Send comment
+        </BaseButton>
+      </form>
+    </ValidationObserver>
   </div>
 </template>
+
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BaseButton from "../components/BaseButton.vue";
 import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
-import { COURSE_DETAILS } from "../constants/routes.constant";
+import { COURSE_DETAILS, COURSE_DASHBOARD} from "../constants/routes.constant";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { extend } from "vee-validate";
+import * as rules from "vee-validate/dist/rules";
+
+Object.keys(rules).forEach((rule) => {
+  extend(rule, rules[rule]);
+});
 
 export default {
   components: {
     BaseTable,
     BaseButton,
+    ValidationObserver,
+    ValidationProvider,
   },
   data() {
     return {
       comments: "",
-      COURSE_DETAILS,
       headerMainInfo: [
         { name: "Course Name" },
         { date: "Date" },
@@ -106,13 +135,8 @@ export default {
         { fullName: "Fullname" },
         { initialScore: "initialScore" },
       ],
-      headerHomework: [
-        { name: "Homework Name" }, 
-        { date: "Date" }
-      ],
-      headerResults: [
-        { "result in results": "Results" }
-      ],
+      headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
+      headerResults: [{ "result in results": "Results" }],
       headerComments: [
         { message: "Message" },
         { createdAt: "Date" },
@@ -146,6 +170,9 @@ export default {
       return this.nextCourseId(
         this.courseIndex(this.courseById(this.$route.params.id))
       );
+    },
+    getBackCourseDetailsView() {
+      this.$router.push({name: COURSE_DASHBOARD});
     },
     submit() {
       let newItem = this.courseById(this.$route.params.id);

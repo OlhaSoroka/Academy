@@ -9,14 +9,11 @@
       :edit-btns="false"
       :is-data-loading="loadingStatus"
       :delete-btns="false"
+      :view-btns="true"
+      @on-view="couseDetailsView"
     />
     <BaseButton
-      @click="
-        $router.push({
-          name: COURSE_DETAILS,
-          params: { id: sortedCourses[0].id },
-        })
-      "
+      @click="cousesDetailslView"
     >
       Details
     </BaseButton>
@@ -35,7 +32,6 @@ export default {
   },
   data() {
     return {
-      COURSE_DETAILS,
       headers: [
         { name: "Course Name" },
         { date: "Date" },
@@ -54,6 +50,12 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses"]),
+    cousesDetailslView() {
+      this.$router.push({ name: COURSE_DETAILS, params: { id: this.sortedCourses[0].id } });
+    },
+    couseDetailsView(id) {
+      this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
+    },
   },
 };
 </script>
