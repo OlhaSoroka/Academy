@@ -3,51 +3,55 @@
     <BaseModal ref="adminMemberEditModal" 
     :header="'Edit User'">
       <template #body>
-        <div class="flex flex-col items-center text-start mt-5">
-          <BaseInput
-            v-model="targetUser.fullName"
-            type="text"
-            label="Name"
-            :placeholder="targetUser.fullName"
-          />
-          <BaseInput
-            v-model="targetUser.email"
-            type="email"
-            label="Email"
-            :placeholder="targetUser.email"
-          />
-          <BaseInput
-            v-model="targetUser.course"
-            type="text"
-            label="Course"
-            :placeholder="targetUser.course"
-          />
-          <div class="mt-5">
-            <BaseButton
-              :loading="usersLoadingStatus"
-              :disabled="false"
-              @click="submitAdminMemberEditButton"
-            >
-              Submit
-            </BaseButton>
+        <ValidationObserver v-slot="{ invalid }">
+          <div class="flex flex-col items-center text-start mt-5">
+            <BaseInput
+              v-model="targetUser.fullName"
+              type="text"
+              label="Name"
+              :placeholder="targetUser.fullName"
+            />
+            <BaseInput
+              v-model="targetUser.email"
+              type="email"
+              label="Email"
+              :placeholder="targetUser.email"
+            />
+            <BaseInput
+              v-model="targetUser.course"
+              type="text"
+              label="Course"
+              :placeholder="targetUser.course"
+            />
+            <div class="mt-5">
+              <BaseButton
+                :loading="invalid"
+                :disabled="false"
+                @click="submitAdminMemberEditButton"
+              >
+                Submit
+              </BaseButton>
+            </div>
           </div>
-        </div>
+        </ValidationObserver>
       </template>
     </BaseModal>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import BaseModal from "./BaseModal";
 import BaseInput from "./BaseInput";
 import BaseButton from "./BaseButton";
+import { ValidationObserver } from "vee-validate";
 export default {
   name: "AdminMemberCreateModel",
   components: {
     BaseModal,
     BaseInput,
     BaseButton,
+    ValidationObserver,
   },
   props: {
     toggleOpenedAdminMemberEditModal: {
@@ -63,9 +67,6 @@ export default {
     targetUserValue() {
       this.targetUser = this.targetUserValue;
     },
-  },
-  computed: {
-    ...mapGetters(["usersLoadingStatus"]),
   },
   methods: {
     ...mapActions(["updateUser"]),

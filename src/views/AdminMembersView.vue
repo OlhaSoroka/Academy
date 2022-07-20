@@ -21,11 +21,11 @@
         Create new user
       </BaseButton>
     </div>
-    <AdminMemberEditModel
+    <AdminMemberEditModal
       :toggleOpenedAdminMemberEditModal="toggleOpenedAdminMemberEditModal"
       :targetUserValue="targetUser"
     />
-    <AdminMemberCreateModel
+    <AdminMemberCreateModal
       :toggleOpenedAdminMemberCreateModal="toggleOpenedAdminMemberCreateModal"
     />
   </div>
@@ -34,16 +34,16 @@
 import { mapGetters, mapActions } from "vuex";
 import BaseTable from "../components/UI/BaseTable/BaseTable";
 import BaseButton from "../components/BaseButton";
-import AdminMemberCreateModel from "../components/AdminMemberCreateModel";
-import AdminMemberEditModel from "../components/AdminMemberEditModel";
+import AdminMemberCreateModal from "../components/AdminMemberCreateModal";
+import AdminMemberEditModal from "../components/AdminMemberEditModal";
 
 export default {
   name: "AdminMembersView",
   components: {
     BaseTable,
     BaseButton,
-    AdminMemberCreateModel,
-    AdminMemberEditModel,
+    AdminMemberCreateModal,
+    AdminMemberEditModal,
   },
   computed: {
     ...mapGetters(["usersLoadingStatus", "users"]),
