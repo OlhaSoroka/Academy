@@ -17,6 +17,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
 
 export default {
@@ -44,7 +45,7 @@ export default {
   methods: {
     ...mapActions(["getCourses"]),
     couserDetaislView(id) {
-      this.$router.push({ name: "courses-details", params: { id: id } });
+      this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
   },
 };
