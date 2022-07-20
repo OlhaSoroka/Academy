@@ -49,8 +49,7 @@
     ],
     "parserOptions": {
       "parser": "@babel/eslint-parser",
-           "requireConfigFile": false
-
+      "requireConfigFile": false
     },
     "rules": {
       "vue/max-attributes-per-line": [
