@@ -81,7 +81,7 @@
       :header="'Confirm delete'"
     >
       <template #body>
-        <div>Do you really want to delete this user?</div>
+        <div>Do you really want to delete <span class="font-bold">{{managerToDelete.fullName}}</span>?</div>
         <div class="flex justify-center mt-7">
           <div class="mx-1">
             <BaseButton
@@ -130,6 +130,11 @@ export default {
 			// eslint-disable-next-line no-console
 			return this.newManagerFullname && this.newManagerEmail && this.newManagerPassword;
 		},
+		managerToDelete() {
+			return this.managers.find((manager) => {
+				return manager.id === this.idToDelete;
+			});
+		},
 	},
 	async mounted() {
 		await this.fetchManagers();
@@ -155,12 +160,11 @@ export default {
 		handleDeleteManager(id) {
 			this.deleteManager(id);
 			this.idToDelete = null;
-      this.$refs.deleteModal.closeModal();
+			this.$refs.deleteModal.closeModal();
 		},
 		deleteModal(id) {
 			this.idToDelete = id;
 			this.$refs.deleteModal.openModal();
-     
 		},
 		cancelModal() {
 			this.$refs.deleteModal.closeModal();
