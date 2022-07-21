@@ -1,14 +1,10 @@
 <template>
   <div>
     <transition name="fade">
-      <div
-        v-if="show"
-        class="modal"
-      >
-        <div
-          class="modal__backdrop"
-          @click="closeModal()"
-        />
+      <div v-if="show" 
+      class="modal">
+        <div class="modal__backdrop" 
+        @click="closeModal()" />
         <div class="modal__dialog">
           <div class="modal__header">
             {{ header }}
@@ -26,7 +22,7 @@
 </template>
 <script>
 export default {
-  name: 'BaseModal',
+  name: "BaseModal",
   props: {
     header: {
       type: String,
@@ -38,14 +34,15 @@ export default {
       show: false,
     };
   },
+
   methods: {
     closeModal() {
       this.show = false;
-      document.querySelector('body').classList.remove('overflow-hidden');
+      document.querySelector("body").classList.remove("overflow-hidden");
     },
     openModal() {
       this.show = true;
-      document.querySelector('body').classList.add('overflow-hidden');
+      document.querySelector("body").classList.add("overflow-hidden");
     },
   },
 };
@@ -70,7 +67,7 @@ export default {
   @apply overflow-x-hidden overflow-y-auto fixed top-0 right-0 bottom-0 left-0 z-20;
 }
 .modal__backdrop {
-  @apply bg-black opacity-30 fixed top-0 right-0 bottom-0 left-0 z-10 p-2
+  @apply bg-black opacity-30 fixed top-0 right-0 bottom-0 left-0 z-10 p-2;
 }
 .modal__dialog {
   @apply bg-white relative w-2/6 my-60 mx-auto flex flex-col rounded-md z-20 p-3;
@@ -79,7 +76,7 @@ export default {
   @apply bg-white relative w-2/5 my-60 mx-auto flex flex-col rounded-md z-20 p-3;
 }
 .modal__header {
-  @apply  px-5 pt-3.5 flex align-middle justify-center font-semibold text-2xl ;
+  @apply px-5 pt-3.5 flex align-middle justify-center font-semibold text-2xl;
 }
 .modal__body {
   @apply px-5 pt-2.5 flex flex-col items-stretch overflow-auto;
