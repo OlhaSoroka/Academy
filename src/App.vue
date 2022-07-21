@@ -4,7 +4,7 @@
     class="flex"
   >
     <navigation-menu class="fixed" />
-    <router-view class="w-full" />
+    <router-view class="w-full ml-48" />
   </div>
 </template>
 <script>

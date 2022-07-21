@@ -1,20 +1,17 @@
 <template>
   <div 
     v-if="courseItem" 
-    class="flex justify-center flex-col">
+    class="flex justify-center flex-col"
+  >
     <h2>CoursesDetailsView</h2>
-    <div
-      class="flex justify-around"
-    >
+    <div class="flex justify-around">
       <BaseButton 
         variant="btn_black" 
         @click="getBackCourseDetailsView"
       >
         Back
       </BaseButton>
-      <BaseButton 
-        @click="nextPage"
-      > 
+      <BaseButton @click="nextPage"> 
         Next course 
       </BaseButton>
     </div>
@@ -78,9 +75,7 @@
         class="border" 
         @submit.prevent="submit"
       >
-        <ValidationProvider 
-          rules="required"
-        >
+        <ValidationProvider rules="required">
           <textarea 
             v-model="comments" 
             class="border" 
@@ -107,7 +102,7 @@
 import { mapActions, mapGetters } from "vuex";
 import BaseButton from "../components/BaseButton.vue";
 import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
-import { COURSE_DETAILS, COURSE_DASHBOARD} from "../constants/routes.constant";
+import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
@@ -172,7 +167,7 @@ export default {
       );
     },
     getBackCourseDetailsView() {
-      this.$router.push({name: COURSE_DASHBOARD});
+      this.$router.push({ name: COURSE_DASHBOARD });
     },
     submit() {
       let newItem = this.courseById(this.$route.params.id);

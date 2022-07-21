@@ -12,10 +12,8 @@
       :view-btns="true"
       @on-view="couseDetailsView"
     />
-    <BaseButton
-      @click="cousesDetailslView"
-    >
-      Details
+    <BaseButton @click="cousesDetailslView"> 
+      Details 
     </BaseButton>
   </div>
 </template>
@@ -28,7 +26,8 @@ import { COURSE_DETAILS } from "../constants/routes.constant";
 
 export default {
   components: {
-    BaseTable, BaseButton
+    BaseTable,
+    BaseButton,
   },
   data() {
     return {
@@ -51,7 +50,10 @@ export default {
   methods: {
     ...mapActions(["getCourses"]),
     cousesDetailslView() {
-      this.$router.push({ name: COURSE_DETAILS, params: { id: this.sortedCourses[0].id } });
+      this.$router.push({
+        name: COURSE_DETAILS,
+        params: { id: this.sortedCourses[0].id },
+      });
     },
     couseDetailsView(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
