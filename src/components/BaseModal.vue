@@ -30,28 +30,29 @@
 
 <script>
 export default {
-  name: "BaseModal",
-  props: {
-    header: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      show: true,
-    };
-  },
-  methods: {
-    closeModal() {
-      this.show = false;
-      document.querySelector("body").classList.remove("overflow-hidden");
-    },
-    openModal() {
-      this.show = true;
-      document.querySelector("body").classList.add("overflow-hidden");
-    },
-  },
+	name: 'BaseModal',
+	props: {
+		header: {
+			type: String,
+			required: true,
+		},
+	},
+	data() {
+		return {
+			show: false,
+		};
+	},
+
+	methods: {
+		closeModal() {
+			this.show = false;
+			document.querySelector('body').classList.remove('overflow-hidden');
+		},
+		openModal() {
+			this.show = true;
+			document.querySelector('body').classList.add('overflow-hidden');
+		},
+	},
 };
 /* 
  use example: 
@@ -76,7 +77,10 @@ export default {
 }
 
 .modal__backdrop {
-  @apply bg-black opacity-30 fixed top-0 right-0 bottom-0 left-0 z-10 p-2;
+	@apply bg-black opacity-30 fixed top-0 right-0 bottom-0 left-0 z-10 p-2
+}
+.modal__dialog {
+	@apply bg-white relative w-2/6 my-60 mx-auto flex flex-col rounded-md z-20 p-3;
 }
 
 .modal__dialog {
@@ -84,7 +88,7 @@ export default {
 }
 
 .modal__header {
-  @apply px-5 pt-3.5 flex align-middle justify-center font-semibold;
+	@apply  px-5 pt-3.5 flex align-middle justify-center font-semibold text-2xl ;
 }
 
 .modal__body {
