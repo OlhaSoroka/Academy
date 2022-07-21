@@ -1,5 +1,6 @@
 
 export default {
+  namespased: true,
   state: {
     user: {},
   },
@@ -20,6 +21,5 @@ export default {
     setUser({ commit }, user) {      
       commit("SET_USER", user);
     },
-  },
-  modules: {},
+  },  
 };
