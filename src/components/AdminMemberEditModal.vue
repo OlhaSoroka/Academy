@@ -9,19 +9,20 @@
               v-model="targetUser.fullName"
               type="text"
               label="Name"
-              :placeholder="targetUser.fullName"
+              placeholder="Enter name"
             />
             <BaseInput
               v-model="targetUser.email"
               type="email"
               label="Email"
-              :placeholder="targetUser.email"
+              placeholder="Enter email"
+              vid="email"
             />
             <BaseInput
               v-model="targetUser.course"
               type="text"
               label="Course"
-              :placeholder="targetUser.course"
+              placeholder="Enter course"
             />
             <div class="mt-5">
               <BaseButton

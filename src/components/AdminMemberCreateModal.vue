@@ -16,12 +16,14 @@
               type=" password"
               label="Password"
               placeholder="Paste password"
+              vid="password"
             />
             <BaseInput
               v-model="createModel.email"
               type="email"
               label="Email"
               placeholder="Paste email"
+              vid="email"
             />
             <BaseInput
               v-model="createModel.course"
