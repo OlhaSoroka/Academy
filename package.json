@@ -63,7 +63,7 @@
           }
         }
       ],
-      "no-console": "error"
+      "no-console": "warn"
     }
   },
   "browserslist": [

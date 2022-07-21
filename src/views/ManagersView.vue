@@ -13,7 +13,7 @@
       <div>
         <BaseButton
           variant="btn_blue"
-          @click="addNewManager"
+          @click="toggleCreateUpdateModal(null, false)"
         >
           Add new manager
         </BaseButton>
@@ -28,111 +28,48 @@
         :edit-btns="true"
         :is-data-loading="isManagersLoading"
         :delete-btns="true"
-        @delete="deleteModal($event)"
-        @edit="handleEditManager($event)"
+        @delete="toggleDeleteManagerModal($event)"
+        @edit="toggleCreateUpdateModal($event, true)"
       />
     </div>
-    <BaseModal
-      ref="newManagerModal"
-      :header="'Add new manager'"
-    >
-      <template #body>
-        <div class="mt-1">
-          <BaseInput
-            v-model="newManagerFullname"
-            type="text"
-            label="Fullname"
-            placeholder="Olha Soroka"
-          />
-          <BaseInput
-            v-model="newManagerEmail"
-            type="email"
-            label="Email"
-            vid="email"
-            placeholder="aaa@gmail.com"
-          />
-          <BaseInput
-            v-model="newManagerPassword"
-            type="password"
-            label="Password"
-            vid="password"
-            placeholder="qwe123"
-          />
-          <div class="flex justify-center mt-5">
-            <div class="mx-1">
-              <BaseButton @click="submitAddNewManager">
-                Submit
-              </BaseButton>
-            </div>
-            <div class="mx-1">
-              <BaseButton
-                :variant="'btn_red'"
-                @click="cancelAddNewManager"
-              >
-                Cancel
-              </BaseButton>
-            </div>
-          </div>
-        </div>
-      </template>
-    </BaseModal>
-    <BaseModal
-      ref="deleteModal"
-      :header="'Confirm delete'"
-    >
-      <template #body>
-        <div>Do you really want to delete <span class="font-bold">{{managerToDelete.fullName}}</span>?</div>
-        <div class="flex justify-center mt-7">
-          <div class="mx-1">
-            <BaseButton
-              :variant="'btn_red'"
-              @click="handleDeleteManager(idToDelete)"
-            >
-              Delete
-            </BaseButton>
-          </div>
-          <div class="mx-1">
-            <BaseButton @click="cancelModal">
-              Cancel
-            </BaseButton>
-          </div>
-        </div>
-      </template>
-    </BaseModal>
+    <CreateUpdateManagerModal
+      :manager="selectedManager"
+      :update-mode="isUpdateMode"
+      :toggle-modal="isCreateUpdateModalOpen"
+    />
+    <DeleteManagerModal
+      :manager="selectedManager"
+      :toggle-modal="isDeleteModalOpen"
+    />
   </div>
 </template>
 <script>
 import BaseTable from '@/components/UI/BaseTable/BaseTable.vue';
 import BaseButton from '@/components/BaseButton.vue';
-import BaseModal from '@/components/BaseModal.vue';
-import BaseInput from '@/components/BaseInput.vue';
+import DeleteManagerModal from '@/components/Modals/DeleteManagerModal.vue';
+import CreateUpdateManagerModal from '@/components/Modals/CreateUpdateManagerModal.vue';
 import { mapActions, mapGetters } from 'vuex';
-import { MANAGER_ROLE } from '@/constants/roles.constant';
 
 export default {
 	components: {
 		BaseTable,
 		BaseButton,
-		BaseModal,
-		BaseInput,
+		CreateUpdateManagerModal,
+		DeleteManagerModal,
 	},
 	data() {
 		return {
-			newManagerFullname: '',
-			newManagerEmail: '',
-			newManagerPassword: '',
-			idToDelete: null,
+			selectedManagerId: null,
+			isCreateUpdateModalOpen: false,
+			isUpdateMode: false,
+			isDeleteModalOpen: false,
 		};
 	},
 	computed: {
 		...mapGetters('managers', ['managers', 'isManagersLoading']),
-		isAddNewManagerFormValid() {
-			// eslint-disable-next-line no-console
-			return this.newManagerFullname && this.newManagerEmail && this.newManagerPassword;
-		},
-		managerToDelete() {
+		selectedManager() {
 			return this.managers.find((manager) => {
-				return manager.id === this.idToDelete;
+				return manager.id === this.selectedManagerId;
 			});
 		},
 	},
@@ -140,34 +77,15 @@ export default {
 		await this.fetchManagers();
 	},
 	methods: {
-		...mapActions('managers', ['fetchManagers', 'createManager', 'deleteManager']),
-		addNewManager() {
-			this.$refs.newManagerModal.openModal();
+		...mapActions('managers', ['fetchManagers', 'deleteManager']),
+		toggleCreateUpdateModal(id, updateMode) {
+      this.selectedManagerId = id;
+			this.isUpdateMode = updateMode;
+			this.isCreateUpdateModalOpen = !this.isCreateUpdateModalOpen;
 		},
-		submitAddNewManager() {
-			const manager = {
-				email: this.newManagerEmail,
-				fullName: this.newManagerFullname,
-				password: this.newManagerPassword,
-				role: MANAGER_ROLE,
-			};
-			this.createManager(manager);
-			this.$refs.newManagerModal.closeModal();
-		},
-		cancelAddNewManager() {
-			this.$refs.newManagerModal.closeModal();
-		},
-		handleDeleteManager(id) {
-			this.deleteManager(id);
-			this.idToDelete = null;
-			this.$refs.deleteModal.closeModal();
-		},
-		deleteModal(id) {
-			this.idToDelete = id;
-			this.$refs.deleteModal.openModal();
-		},
-		cancelModal() {
-			this.$refs.deleteModal.closeModal();
+		toggleDeleteManagerModal(id) {
+      this.selectedManagerId = id;
+			this.isDeleteModalOpen = !this.isDeleteModalOpen;
 		},
 	},
 };
