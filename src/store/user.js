@@ -1,3 +1,4 @@
+import {getAuth, signOut} from 'firebase/auth'
 
 export default {
   namespased: true,
@@ -21,5 +22,14 @@ export default {
     setUser({ commit }, user) {      
       commit("SET_USER", user);
     },
+    logoutUser() {
+      const auth = getAuth();
+      signOut(auth).then(() => {        
+        localStorage.removeItem("user");        
+      }).catch((error) => {
+         console.log(error.message)
+    });
+    }
+    
   },  
 };

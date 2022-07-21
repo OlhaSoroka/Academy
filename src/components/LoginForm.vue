@@ -24,7 +24,7 @@
       </form>
       <p class="text-pink-400">
         {{ errorHandler.message }}
-      </p>
+      </p>      
     </ValidationObserver>
   </div>
 </template>
@@ -34,7 +34,7 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseButton";
 import BaseInput from "@/components/BaseInput";
 import { mapGetters, mapActions } from "vuex";
-import {getAuth,signInWithEmailAndPassword, signOut} from 'firebase/auth'
+import {getAuth,signInWithEmailAndPassword} from 'firebase/auth'
 
 export default {
   name: "LoginForm",
@@ -57,7 +57,7 @@ export default {
     ...mapGetters(["user"]),
   },
   methods: {
-    ...mapActions(["setUser"]),
+    ...mapActions(["setUser", "logoutUser"]),
     onSubmit() {
       const auth = getAuth()
       signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
@@ -66,23 +66,19 @@ export default {
         this.setUser(response.user)        
         this.errorHandler.isError = false
         this.errorHandler.message = ''
+        console.log('login')
         this.$router.push({ name: "courses-dashboard"} )
       })       
        .catch((error) => {          
           console.log(error.message)
           this.errorHandler.isError = true
           this.errorHandler.message = error.message
-          this.logout();
-          this.setUser({});
-          localStorage.removeItem("user");
+          this.logout();                    
         });
     },
-    logout() {
-      const auth = getAuth();
-      signOut(auth).then(() => {        
-      }).catch((error) => {
-         console.log(error.message)
-    });
+    logout() {      
+      this.logoutUser();
+      this.setUser({});      
     }
   },
 };
