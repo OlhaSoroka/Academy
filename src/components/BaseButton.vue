@@ -50,7 +50,7 @@ export default {
 	@apply bg-stone-500 hover:bg-stone-700;
 }
 .btn_disabled {
-	@apply opacity-50 pointer-events-auto;
+	@apply opacity-50 pointer-events-none;
 }
 .btn_loading {
 	@apply w-6 h-6 border-4 border-white border-double border-t-transparent rounded-full animate-spin;

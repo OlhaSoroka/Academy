@@ -4,64 +4,90 @@
     :header="updateMode ? 'Update manager' : 'Add new manager'"
   >
     <template #body>
-      <div class="mt-1">
-        <BaseInput
-          ref="fullName"
-          v-model="fullName"
-          type="text"
-          label="Fullname"
-          placeholder="Enter fullname"
-        />
-        <BaseInput
-          ref="email"
-          v-model="email"
-          type="email"
-          label="Email"
-          vid="email"
-          placeholder="Enter email"
-        />
-        <BaseInput
-          v-model="password"
-          type="password"
-          label="Password"
-          vid="password"
-          placeholder="Enter password"
-        />
-        <BaseInput
-          v-model="confirmPassword"
-          type="password"
-          label="Confirm "
-          vid="password"
-          placeholder="Confirm password"
-        />
-        <div class="flex justify-center mt-5">
-          <div class="mx-1">
-            <BaseButton @click="submitAddNewManager">
-              {{ updateMode ? 'Update' : 'Create' }}
-            </BaseButton>
+      <ValidationObserver v-slot="{ invalid }">
+        <div class="mt-1">
+          <div class="mt-4">
+            <BaseInput
+              ref="fullName"
+              v-model="fullName"
+              type="text"
+              label="Fullname"
+              placeholder="Enter fullname"
+            />
           </div>
-          <div class="mx-1">
-            <BaseButton
-              :variant="'btn_red'"
-              @click="cancelAddNewManager"
+          <div class="mt-3">
+            <BaseInput
+              ref="email"
+              v-model="email"
+              type="email"
+              label="Email"
+              vid="email"
+              placeholder="Enter email"
+            />
+          </div>
+          <div v-if="!updateMode || changePasswordMode">
+            <div class="mt-3">
+              <BaseInput
+                v-model="password"
+                type="password"
+                label="New password"
+                vid="password"
+                placeholder="Enter password"
+              />
+            </div>
+            <div class="mt-3">
+              <BaseInput
+                v-model="confirmPassword"
+                type="password"
+                label="Confirm new password"
+                vid="password"
+                placeholder="Confirm password"
+              />
+            </div>
+          </div>
+          <div class="mt-6">
+            <div
+              v-if="updateMode"
+              class="mx-1"
             >
-              Cancel
-            </BaseButton>
+              <BaseButton @click="toggleChangePassword">
+                {{ changePasswordMode ? 'Hide password' : 'Change password' }}
+              </BaseButton>
+            </div>
+          </div>
+          <div class="flex justify-center mt-5">
+            <div class="mx-1">
+              <BaseButton
+                :disabled="invalid"
+                @click="submitAddNewManager"
+              >
+                {{ updateMode ? 'Update' : 'Create' }}
+              </BaseButton>
+            </div>
+            <div class="mx-1">
+              <BaseButton
+                :variant="'btn_red'"
+                @click="cancelAddNewManager"
+              >
+                Cancel
+              </BaseButton>
+            </div>
           </div>
         </div>
-      </div>
+      </ValidationObserver>
     </template>
   </BaseModal>
 </template>
 
 <script>
+import { ValidationObserver } from 'vee-validate';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseModal from '@/components/BaseModal.vue';
 import { MANAGER_ROLE } from '@/constants/roles.constant';
 import { mapActions } from 'vuex';
 export default {
-	components: { BaseInput, BaseButton, BaseModal },
+	components: { BaseInput, BaseButton, BaseModal, ValidationObserver },
 	props: {
 		toggleModal: {
 			type: Boolean,
@@ -80,20 +106,46 @@ export default {
 	},
 
 	data() {
-		return { fullName: '', email: '', password: '', confirmPassword: '' };
+		return { fullName: '', email: '', password: '', confirmPassword: '', changePasswordMode: false };
 	},
 	watch: {
 		toggleModal() {
+			this.changePasswordMode = false;
 			this.$refs.createUpdateManagerModal.openModal();
 			if (this.updateMode) {
 				this.fullName = this.manager.fullName;
-        this.email = this.manager.email;
+				this.email = this.manager.email;
 			}
 		},
 	},
 	methods: {
-		...mapActions('managers', ['createManager']),
+		...mapActions('managers', ['createManager', 'updateManager']),
 		submitAddNewManager() {
+			if (this.updateMode) {
+				this.updateManagerHandler();
+			} else {
+				this.createManagerHandler();
+			}
+			this.$refs.createUpdateManagerModal.closeModal();
+		},
+		cancelAddNewManager() {
+			this.$refs.createUpdateManagerModal.closeModal();
+		},
+		toggleChangePassword() {
+			this.changePasswordMode = !this.changePasswordMode;
+		},
+		updateManagerHandler() {
+			const managerData = {
+				id: this.manager.id,
+				fullName: this.fullName,
+				email: this.email,
+			};
+			if (this.changePasswordMode) {
+				managerData.password = this.password;
+			}
+			this.updateManager(managerData);
+		},
+		createManagerHandler() {
 			const manager = {
 				email: this.email,
 				fullName: this.fullName,
@@ -101,10 +153,6 @@ export default {
 				role: MANAGER_ROLE,
 			};
 			this.createManager(manager);
-			this.$refs.createUpdateManagerModal.closeModal();
-		},
-		cancelAddNewManager() {
-			this.$refs.createUpdateManagerModal.closeModal();
 		},
 	},
 };

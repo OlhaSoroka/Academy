@@ -41,7 +41,7 @@
             Course
           </div>
           <div class="profile__info_title">
-            {{ user.course }}
+            {{ user.course || "--" }}
           </div>
         </div>
         <div class="profile__course_item">
@@ -49,7 +49,7 @@
             Score
           </div>
           <div class="profile__info_title">
-            {{ user.initialScore }}
+            {{ user.initialScore || "--" }}
           </div>
         </div>
       </div>

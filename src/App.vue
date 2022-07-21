@@ -4,7 +4,6 @@
     class="flex"
   >
     <navigation-menu
-      class="fixed"
       role="admin"
     />
     <router-view class="w-full" />

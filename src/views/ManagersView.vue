@@ -19,7 +19,7 @@
         </BaseButton>
       </div>
     </div>
-    <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5">
+    <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5">
       <BaseTable
         :table-data="{
           headingData: [{ fullName: 'Fullname' }, { email: 'Email' }],
