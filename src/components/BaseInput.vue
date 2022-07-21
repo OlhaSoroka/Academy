@@ -7,7 +7,7 @@
   >
     <label
       v-if="label"
-      class="min-w-[100px] inline-block text-start"
+      class="w-64 block ml-1"
     >{{ label }}</label>
     <input
       v-bind="$attrs"
@@ -15,7 +15,7 @@
       class="BaseInput"
       v-on="listeners"
     >
-    <p class="text-red-700 text-sm">
+    <p class="text-red-700 text-sm w-64 ml-1">
       {{ errors[0] }}
     </p>
   </ValidationProvider>
@@ -101,6 +101,6 @@ export default {
 
 <style lang="postcss" scoped>
 .BaseInput {
-	@apply p-1 m-1 w-64 border-2 border-sky-700 rounded-md text-base font-mono placeholder:italic placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
+	@apply p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:italic placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }
 </style>

@@ -18,12 +18,12 @@ export default {
 </script>
 
 <script>
-  import NavigationMenu from '@/components/TheNavigationMenu.vue'
-  export default {
-    components: {
-      NavigationMenu
-    }
-  }
+import NavigationMenu from '@/components/TheNavigationMenu.vue';
+export default {
+	components: {
+		NavigationMenu,
+	},
+};
 </script>
 
 <style lang="scss">
