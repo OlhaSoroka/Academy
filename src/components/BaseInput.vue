@@ -12,8 +12,9 @@
     <input
       v-bind="$attrs"
       v-model="value"
+      :type="type"      
       class="BaseInput"
-      v-on="listeners"
+      v-on="listeners"      
     >
     <p class="text-red-700 text-sm w-64 ml-1">
       {{ errors[0] }}

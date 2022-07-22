@@ -12,6 +12,6 @@ export default new Vuex.Store({
 	actions: {},
 	modules: {
 		courses,
-		user,
+		user,    
 	},
 });

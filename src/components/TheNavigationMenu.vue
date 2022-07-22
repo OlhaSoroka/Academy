@@ -32,7 +32,20 @@
         <use href="../icons/sprite-navigation.svg#icon-courses" />
       </svg>
       <span class="navigation-menu-text">Courses</span>
-    </router-link> 
+    </router-link>
+    <router-link
+    v-if="$store.state.user"
+    @click="logout"
+    :to="{ name: LOGIN}">
+      <svg 
+        class="navigation-menu-icon" 
+        width="16" 
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-exit" />
+      </svg>
+      <span class="navigation-menu-text">Log out</span>
+    </router-link>  
     <router-link 
       class="navigation-menu-profile" 
       :to="{ name: PROFILE}"
@@ -50,7 +63,8 @@
 </template> 
 
  <script>
- import {PROFILE, USERS, MANAGERS, COURSE_DASHBOARD} from '@/constants/routes.constant'
+ import { mapActions } from "vuex";
+ import {PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN} from '@/constants/routes.constant'
   export default{
     name: 'NavigationMenu',
     props: {
@@ -61,9 +75,12 @@
     },
     data(){
       return {
-        PROFILE, USERS, MANAGERS, COURSE_DASHBOARD
+        PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN
       }
-    }
+    },
+    methods: {
+      ...mapActions(["logout"]),
+    },
   }
 </script>
 
