@@ -65,8 +65,7 @@ export default {
         localStorage.setItem("user", JSON.stringify(response.user));
         this.setUser(response.user)        
         this.errorHandler.isError = false
-        this.errorHandler.message = ''
-        console.log('login')
+        this.errorHandler.message = ''        
         this.$router.push({ name: "courses-dashboard"} )
       })       
        .catch((error) => {          
