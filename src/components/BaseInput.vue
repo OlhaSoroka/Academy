@@ -5,10 +5,14 @@
     :vid="vid"
     :rules="allRules"
   >
-    <label v-if="label" 
-    class="w-64 block ml-1">{{ label }}</label>
-    <input v-bind="$attrs" 
+    <label 
+	v-if="label" 
+    class="w-64 block ml-1">
+	{{ label }}</label>
+    <input
+	v-bind="$attrs" 
     v-model="model" 
+	:type="type"  
     class="BaseInput" 
     v-on="listeners" />
     <p class="text-red-700 text-sm w-64 ml-1">
