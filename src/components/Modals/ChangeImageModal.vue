@@ -73,7 +73,7 @@ export default {
 	},
 	mounted() {},
 	methods: {
-		...mapActions('user', ['changeProfileImage']),
+		...mapActions('users', ['changeProfileImage']),
 		selectImage() {
 			this.$refs.fileInput.click();
 		},

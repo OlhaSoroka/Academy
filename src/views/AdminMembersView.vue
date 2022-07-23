@@ -46,12 +46,13 @@ export default {
     AdminMemberEditModal,
   },
   computed: {
-    ...mapGetters(["usersLoadingStatus", "users"]),
+    ...mapGetters('users', ["usersLoadingStatus", "users"]),
+    ...mapGetters(["accessToken"]),
   },
   methods: {
-    ...mapActions(["fetchUsers", "deleteUser"]),
+    ...mapActions('users', ["fetchUsers", "deleteUser"]),
     async adminMemberFetchUsers() {
-      await this.fetchUsers();
+      await this.fetchUsers(this.accessToken);
       if (this.users) {
         this.usersModel = this.users.filter((e) => e.role === "user");
       }

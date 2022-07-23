@@ -31,7 +31,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["sortedCourses", "loadingStatus"]),
+    ...mapGetters('courses', ["sortedCourses", "loadingStatus"]),
     courses() {
       return this.sortedCourses;
     },
@@ -40,7 +40,7 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions(["getCourses"]),
+    ...mapActions('courses', ["getCourses"]),
   },
 };
 </script>

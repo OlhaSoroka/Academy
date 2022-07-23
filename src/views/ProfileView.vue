@@ -87,14 +87,14 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('user', ['user', 'isImageLoading']),
+		...mapGetters('users', ['user', 'isImageLoading']),
 	},
 	mounted() {
 		/* TODO:  temporary. remove after Authorization implementation */
 		this.fetchUser('ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef');
 	},
 	methods: {
-		...mapActions('user', ['fetchUser']),
+		...mapActions('users', ['fetchUser']),
 		openProfileImageChangeModal() {
 			this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
 		},

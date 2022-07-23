@@ -74,7 +74,7 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions('user', ['changePassword']),
+		...mapActions('users', ['changePassword']),
 		openPasswordChangeModal() {
 			this.$refs.passwordModal.openModal();
 		},
