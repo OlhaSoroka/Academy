@@ -5,12 +5,7 @@
     </h1>        
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
-        <LoginForm />
-        <p 
-          class="link" 
-          @click="sendPasswordToEmail">
-          Send Password to Email
-        </p>
+        <LoginForm />        
       </div>
     </div>
   </div>
@@ -26,20 +21,18 @@ export default {
     LoginForm,
   },
   data() {
-    return {      
+    return {            
     }
   },
   computed: {
     ...mapGetters(["user", "accessToken"]),
   },
   methods: {
-    sendPasswordToEmail() {},    
+    
   },
 };
 </script>
 
 <style lang="postcss" scoped>
-.link {
-  @apply mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline;
-}
+
 </style>

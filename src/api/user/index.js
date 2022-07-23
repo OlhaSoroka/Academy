@@ -59,3 +59,8 @@ export const logIn = async (data) => {
 	const response = await axios.post(`${USER_URL}firebase/login`, data)	
 	return await response.data
 }
+
+export const resetPassword = async (data) => {
+	const response = await axios.post(`${USER_URL}firebase/reset-password`, data)	
+	return await response.data
+}
