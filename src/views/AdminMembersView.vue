@@ -53,7 +53,7 @@ export default {
     ...mapActions("users", ["fetchUsers", "deleteUser"]),
     async adminMemberFetchUsers() {
       try {
-        await this.fetchUsers(this.accessToken);
+        await this.fetchUsers();
         if (this.users) {
           this.usersModel = this.users.filter((e) => e.role === "user");
         }

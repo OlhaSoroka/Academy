@@ -3,7 +3,6 @@ import {
   updateUserByID,
   registerUser,
   deleteUserById,
-  gethUserByID,
 } from "../../api/user/index";
 /* TODO: temporary. remove after Authorization implementation */
 const token =
@@ -11,45 +10,17 @@ const token =
 
 export default {
   state: {
-    user: null,
     users: [],
-    isImageLoading: true,
     isUsersLoading: false,
   },
   getters: {
-    user: (state) => state.user,
     users: (state) => state.users,
-    isImageLoading: (state) => state.isImageLoading,
     usersLoadingStatus: (state) => state.isUsersLoading,
   },
   actions: {
-    async fetchUser(store, id) {
-      const user = await gethUserByID(id, token);
-      store.commit("SET_USER", user);
-      if (store.getters.isImageLoading) {
-        store.commit("TOGGLE_IMAGE_LOADING");
-      }
-    },
-    async changePassword(store, password) {
-      await updateUserByID(
-        store.state.user.id,
-        {
-          password,
-          email: store.state.user.email,
-        },
-        token
-      );
-    },
-    async changeProfileImage(store, image) {
-      store.commit("TOGGLE_IMAGE_LOADING");
-      const formData = new FormData();
-      formData.append("avatar", image);
-      await updateUserByID(store.state.user.id, formData, token);
-      store.dispatch("fetchUser", store.state.user.id);
-    },
-    async fetchUsers(store, token) {
+    async fetchUsers(store) {
       store.commit("TOGGLE_LOADIN_STATUS");
-      await getAllUsers(token)
+      await getAllUsers(store.state.user.stsTokenManager.accessToken)
         .then((data) => store.commit("SET_USERS", data))
         // eslint-disable-next-line
         .catch((error) => {
@@ -71,12 +42,6 @@ export default {
     },
   },
   mutations: {
-    SET_USER(state, user) {
-      state.user = user;
-    },
-    TOGGLE_IMAGE_LOADING(state) {
-      state.isImageLoading = !state.isImageLoading;
-    },
     SET_USERS(state, users) {
       state.users = users;
     },
