@@ -53,7 +53,7 @@ export default {
   methods: {
     ...mapActions(["getCourses"]),
     goToCourse(id){
-      this.router.push(`/${id}`)
+      this.$router.push(`/${id}`)
     }
   },
 };
