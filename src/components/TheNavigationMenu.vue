@@ -38,6 +38,7 @@
     </router-link>
     <label
       for="logout"
+      class="block"
       @click="logout"
     >
       <svg
