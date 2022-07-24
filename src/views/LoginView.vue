@@ -2,13 +2,14 @@
   <div class="loginview">
     <h1 class="text-pink-400">
       This is LOGIN page
-    </h1>        
+    </h1>
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
         <LoginForm />
-        <p 
-          class="link" 
-          @click="sendPasswordToEmail">
+        <p
+          class="link"
+          @click="sendPasswordToEmail"
+        >
           Send Password to Email
         </p>
       </div>
@@ -17,23 +18,47 @@
 </template>
 
 <script>
+import { getAllUsers } from "@/api/user";
 import LoginForm from "@/components/LoginForm";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import { COURSE_DASHBOARD } from '@/constants/routes.constant';
 
 export default {
   name: "LoginView",
   components: {
     LoginForm,
   },
+
   data() {
-    return {      
+    return {
     }
   },
   computed: {
     ...mapGetters(["user", "accessToken"]),
   },
+  async mounted() {
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+      const result = await this.isTokenAlive(token)
+      if (result) {
+        const thisEmail = localStorage.getItem('email')
+        const currentAcc = result.find(acc => acc.email === thisEmail)
+        this.setUser(currentAcc)
+        this.$router.push({ name: COURSE_DASHBOARD })
+      }
+    }
+  },
   methods: {
-    sendPasswordToEmail() {},    
+    ...mapActions('user', ['setUser']),
+    sendPasswordToEmail() { },
+    async isTokenAlive(token) {
+      try {
+        const data = await getAllUsers(token)
+        return data
+      } catch (err) {
+        return false
+      }
+    }
   },
 };
 </script>

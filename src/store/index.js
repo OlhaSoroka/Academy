@@ -4,7 +4,7 @@ import courses from "./modules/courses";
 import user from "./modules/user"
 import users from "./modules/users";
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {},
