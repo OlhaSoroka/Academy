@@ -34,8 +34,21 @@
       <span class="navigation-menu-text">Courses</span>
     </router-link>
     <router-link
-      class="navigation-menu-profile"
-      :to="{ name: PROFILE }"
+    v-if="$store.state.user"
+    @click="logout"
+    :to="{ name: LOGIN}">
+      <svg 
+        class="navigation-menu-icon" 
+        width="16" 
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-exit" />
+      </svg>
+      <span class="navigation-menu-text">Log out</span>
+    </router-link>  
+    <router-link 
+      class="navigation-menu-profile" 
+      :to="{ name: PROFILE}"
     >
       <svg
         class="navigation-menu-icon"
@@ -49,31 +62,26 @@
   </div>
 </template>
 
-<script>
-import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD } from '@/constants/routes.constant';
-import { ADMIN_ROLE } from '@/constants/roles.constant';
-export default {
-	name: 'NavigationMenu',
-	props: {
-		role: {
-			default: 'user',
-			type: String,
-		},
-	},
-	data() {
-		return {
-			PROFILE,
-			USERS,
-			MANAGERS,
-			COURSE_DASHBOARD,
-		};
-	},
-	computed: {
-		isAdmin() {
-			return this.role === ADMIN_ROLE;
-		},
-	},
-};
+ <script>
+ import { mapActions } from "vuex";
+ import {PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN} from '@/constants/routes.constant'
+  export default{
+    name: 'NavigationMenu',
+    props: {
+      role: {
+        default: 'user',
+        type: String
+      } 
+    },
+    data(){
+      return {
+        PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN
+      }
+    },
+    methods: {
+      ...mapActions(["logout"]),
+    },
+  }
 </script>
 
 <style lang="scss">
