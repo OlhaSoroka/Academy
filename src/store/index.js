@@ -1,9 +1,9 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import courses from './modules/courses';
-import user from './modules/user.store';
+import Vue from "vue"
+import Vuex from "vuex"
+import courses from "./modules/courses"
+import user from "./modules/user"
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {},
@@ -12,6 +12,6 @@ export default new Vuex.Store({
 	actions: {},
 	modules: {
 		courses,
-		user,    
+		user,
 	},
-});
+})
