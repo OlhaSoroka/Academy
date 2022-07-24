@@ -94,13 +94,11 @@ export default {
     const token = localStorage.getItem('accessToken')
     if (token) {
       try {
-        console.log(token);
         const users = await getAllUsers(token)
-        console.log(users);
       } catch (err) {
         localStorage.removeItem('accessToken')
       }
-    } 
+    }
   },
   methods: {
     ...mapActions('user', ['fetchUser']),

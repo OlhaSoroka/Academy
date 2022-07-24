@@ -42,8 +42,8 @@
     >
       <router-link
         v-if="$store.state.user"
-        class="flex items-center"
         id="logout"
+        class="flex items-center"
         :to="{ name: LOGIN }"
       >
         <svg
