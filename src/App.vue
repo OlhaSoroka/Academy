@@ -8,9 +8,18 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
+
 export default {
   mounted() {
-  }
+    console.log('appcreate');
+  },
+  methods: {
+    ...mapActions('user', ["setUser"]),
+  },
+
+
 }
 </script>
 

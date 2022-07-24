@@ -63,10 +63,13 @@ export default {
     async onSubmit() {
       const auth = getAuth()
       const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
-      const users = await getAllUsers(user.accessToken)
+      const { accessToken, email } = user
 
-      const currentUser = users.filter((userOfArray) => (userOfArray.email = user.email))[0]
-      localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
+      const users = await getAllUsers(accessToken)
+
+      const currentUser = users.filter((userOfArray) => (userOfArray.email = email))[0]
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem('email', email)
       this.setUser(currentUser)
 
       this.errorHandler.isError = false
@@ -84,10 +87,6 @@ export default {
       // });
 
     },
-    logout() {
-      this.logoutUser();
-      this.setUser({});
-    }
   },
 };
 </script>

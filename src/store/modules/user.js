@@ -51,12 +51,12 @@ export default {
 			store.dispatch("fetchUser", store.state.user.id)
 		},
 		async logoutUser(store) {
+			localStorage.removeItem("accessToken")
 			const auth = getAuth()
 			await signOut(auth).catch((error) => {
 				console.log(error.message)
 			})
 			store.dispatch("setUser", null)
-			localStorage.removeItem('accessToken')
 		},
 	},
 	mutations: {

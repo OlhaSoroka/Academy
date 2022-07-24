@@ -74,7 +74,6 @@
   </div>
 </template>
 <script>
-import { getAllUsers } from '@/api/user';
 import BaseButton from '@/components/BaseButton.vue';
 import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
@@ -89,16 +88,6 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['user', 'isImageLoading', 'accessToken']),
-  },
-  async mounted() {
-    const token = localStorage.getItem('accessToken')
-    if (token) {
-      try {
-        const users = await getAllUsers(token)
-      } catch (err) {
-        localStorage.removeItem('accessToken')
-      }
-    }
   },
   methods: {
     ...mapActions('user', ['fetchUser']),

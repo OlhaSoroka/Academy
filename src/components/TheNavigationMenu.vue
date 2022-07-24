@@ -38,23 +38,17 @@
     </router-link>
     <label
       for="logout"
-      @click="logoutUser"
+      @click="logout"
     >
-      <router-link
-        v-if="$store.state.user"
+      <svg
         id="logout"
-        class="flex items-center"
-        :to="{ name: LOGIN }"
+        class="navigation-menu-icon inline"
+        width="16"
+        height="16"
       >
-        <svg
-          class="navigation-menu-icon inline"
-          width="16"
-          height="16"
-        >
-          <use href="../icons/sprite-navigation.svg#icon-exit" />
-        </svg>
-        <span class="navigation-menu-text">Log out</span>
-      </router-link>
+        <use href="../icons/sprite-navigation.svg#icon-exit" />
+      </svg>
+      <span class="navigation-menu-text">Log out</span>
     </label>
 
     <router-link
@@ -75,6 +69,7 @@
 
  <script>
 import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant'
+import router from '@/router';
 import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'NavigationMenu',
@@ -92,13 +87,18 @@ export default {
   computed: {
     ...mapGetters('user', ['user'])
   },
+
   methods: {
-    ...mapActions('user', ['logoutUser'])
+    ...mapActions('user', ['logoutUser']),
+    async logout() {
+      await this.logoutUser()
+      router.push({ name: LOGIN })
+    }
   },
 }
 </script>
 
- <style lang="scss">
+ <style lang="postcss">
  .navigation-menu {
    @apply bg-stone-50 text-sky-700 w-48 h-screen;
    font-family: font-mono;
