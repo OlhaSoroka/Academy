@@ -17,7 +17,7 @@
       :loading="usersLoadingStatus"
       @click="showAddCourseForm = !showAddCourseForm"
     >
-      {{showAddCourseForm ? "x" :"Add new course"}}
+      {{ showAddCourseForm ? "x" :"Add new course" }}
     </BaseButton>
   </div>
 </template>
