@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     ...mapGetters("users", ["usersLoadingStatus", "users"]),
-    ...mapGetters(["accessToken"]),
+    ...mapGetters('user', ["accessToken"]),
   },
   methods: {
     ...mapActions("users", ["fetchUsers", "deleteUser"]),

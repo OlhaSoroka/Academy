@@ -57,9 +57,5 @@ export const registerUser = async (data) => {
 
 export const logIn = async (data) => {
   const response = await axios.post(`${USER_URL}firebase/login`, data);
-<<<<<<< HEAD
-
-=======
->>>>>>> 074b5b18a8ba9732bd837f3d7161fd234344300e
   return await response.data;
 };

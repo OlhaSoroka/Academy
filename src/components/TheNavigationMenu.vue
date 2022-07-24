@@ -102,7 +102,7 @@ export default {
   computed: {
     ...mapGetters('user', ['user']),
     isAdmin() {
-			return this.role === ADMIN_ROLE;
+			return this.user.role === ADMIN_ROLE;
 		},
   },
 

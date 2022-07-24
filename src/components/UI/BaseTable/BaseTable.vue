@@ -30,13 +30,8 @@
         :props-data="item.id"
         :editable="editBtns"
         :deletable="deleteBtns"
-<<<<<<< HEAD
-        @onDelete="onDelete"
-        @onEdit="onEdit" 
-=======
         @delete="onDelete"
         @edit="onEdit"
->>>>>>> 074b5b18a8ba9732bd837f3d7161fd234344300e
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
@@ -129,12 +124,7 @@ export default {
   emits: ['onEdit'],
   methods: {
     onEdit(id) {
-<<<<<<< HEAD
-      console.log(id)
-      this.$emit("edit", id)
-=======
       this.$emit("on-edit", id);
->>>>>>> 074b5b18a8ba9732bd837f3d7161fd234344300e
     },
     onDelete(id) {
       this.$emit("on-delete", id);

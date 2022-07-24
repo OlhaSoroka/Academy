@@ -25,18 +25,6 @@ export default {
       type: [String, Number],
       required: true,
     },
-<<<<<<< HEAD
-    methods: {
-        deleteRow() {
-            this.$emit("delete", this.propsData)
-        },
-        editRow() {
-          this.$emit("edit", this.propsData)
-          //console.log(this.propsData, 'data')
-        }
-    }
-}
-=======
     deletable: {
       type: Boolean,
       required: false,
@@ -57,7 +45,6 @@ export default {
     },
   },
 };
->>>>>>> 074b5b18a8ba9732bd837f3d7161fd234344300e
 </script>
 
 <style lang="scss" >

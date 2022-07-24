@@ -9,7 +9,8 @@ export default {
 	getters: {
 		user: (state) => state.user,
 		isImageLoading: (state) => state.isImageLoading,
-		accessToken(state) {
+    accessToken(state) {
+      console.log(state.user.stsTokenManager.accessToken, 'test');
 			return state.user.stsTokenManager.accessToken
 		},
 	},
