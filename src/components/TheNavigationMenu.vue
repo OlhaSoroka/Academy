@@ -34,9 +34,10 @@
       <span class="navigation-menu-text">Courses</span>
     </router-link>
     <router-link
-    v-if="$store.state.user"
-    @click="logout"
-    :to="{ name: LOGIN}">
+      v-if="$store.state.user"
+      :to="{ name: LOGIN}"
+      @click="logout"
+    >
       <svg 
         class="navigation-menu-icon" 
         width="16" 

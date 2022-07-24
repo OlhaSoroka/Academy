@@ -1,4 +1,5 @@
-import { getAllCourses } from "../../api/course/index"
+import { getAllCourses, COURSES_URL } from "../../api/course/index"
+import axios from 'axios'
 
 export default {
   state() {
@@ -22,6 +23,11 @@ export default {
     setCourses(state, courses) {
       state.courses = courses
     },
+    addCourse(state, course) {
+      axios.post(`${COURSES_URL}/posts`, course).then(
+       state.courses.push(course)
+      );
+    },
     changeLoadingStatus(state) { state.isLoading = !state.isLoading }
   },
   actions: {
@@ -32,6 +38,10 @@ export default {
         // eslint-disable-next-line
         .catch(error => { console.log(error) })
         .finally(() => commit('changeLoadingStatus'))
-    }
+    },
+    addCourseToState({commit}, course){
+      commit('addCourse', course)
+    },
+
   }
 }
