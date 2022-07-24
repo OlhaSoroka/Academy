@@ -20,22 +20,12 @@
 
 <script>
 export default {
-    props: {
-        propsData: {
-            type: [String, Number],
-            required: true,
-        },
-        deletable: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
-        editable: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
+  props: {
+    propsData: {
+      type: [String, Number],
+      required: true,
     },
+<<<<<<< HEAD
     methods: {
         deleteRow() {
             this.$emit("delete", this.propsData)
@@ -46,6 +36,28 @@ export default {
         }
     }
 }
+=======
+    deletable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  methods: {
+    deleteRow() {
+      this.$emit("delete", this.propsData);
+    },
+    editRow() {
+      this.$emit("edit", this.propsData);
+    },
+  },
+};
+>>>>>>> 074b5b18a8ba9732bd837f3d7161fd234344300e
 </script>
 
 <style lang="scss" >

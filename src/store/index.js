@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import admin from "./modules/admin";
+import courses from "./modules/courses";
+import user from "./modules/user"
+import users from "./modules/users";
 
 Vue.use(Vuex);
 
@@ -10,6 +12,8 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    admin,
+    courses,
+    user,
+    users,
   },
 });
