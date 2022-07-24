@@ -1,6 +1,6 @@
 !<template>
   <div>
-    <BaseModal ref="adminMemberCreateModal" 
+    <BaseModal ref="userCreateModal" 
     :header="'Create new User'">
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
@@ -60,7 +60,7 @@ import BaseInput from "./BaseInput";
 import BaseButton from "./BaseButton";
 import { ValidationObserver } from "vee-validate";
 export default {
-  name: "AdminMemberCreateModel",
+  name: "UserCreateModal",
   components: {
     BaseModal,
     BaseInput,
@@ -68,14 +68,14 @@ export default {
     ValidationObserver,
   },
   props: {
-    toggleOpenedAdminMemberCreateModal: {
+    isOpenedUserCreateModal: {
       type: Boolean,
       default: false,
     },
   },
   watch: {
-    toggleOpenedAdminMemberCreateModal() {
-      this.$refs.adminMemberCreateModal.openModal();
+    isOpenedUserCreateModal() {
+      this.$refs.userCreateModal.openModal();
     },
   },
   methods: {
@@ -83,7 +83,7 @@ export default {
     async submitAdminMemberCreateButton() {
       await this.createNewUser(this.createModel)
         .then(
-          () => this.$refs.adminMemberCreateModal.closeModal(),
+          () => this.$refs.userCreateModal.closeModal(),
           this.$router.go(0)
         )
         // eslint-disable-next-line

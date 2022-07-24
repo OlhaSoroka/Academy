@@ -1,6 +1,6 @@
 !<template>
   <div>
-    <BaseModal ref="adminMemberEditModal" 
+    <BaseModal ref="userEditModal" 
     :header="'Edit User'">
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
@@ -46,7 +46,7 @@ import BaseInput from "./BaseInput";
 import BaseButton from "./BaseButton";
 import { ValidationObserver } from "vee-validate";
 export default {
-  name: "AdminMemberCreateModel",
+  name: "UserEditModal",
   components: {
     BaseModal,
     BaseInput,
@@ -54,14 +54,14 @@ export default {
     ValidationObserver,
   },
   props: {
-    toggleOpenedAdminMemberEditModal: {
+    isOpenedUserEditModal: {
       type: Boolean,
       default: false,
     },
     targetUserValue: Object,
   },
   watch: {
-    toggleOpenedAdminMemberEditModal() {
+    isOpenedUserEditModal() {
       this.$refs.adminMemberEditModal.openModal();
     },
     targetUserValue() {
