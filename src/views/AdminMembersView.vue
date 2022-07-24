@@ -22,11 +22,11 @@
       </BaseButton>
     </div>
     <AdminMemberEditModal
-      :toggleOpenedAdminMemberEditModal="toggleOpenedEditModal"
+      :toggleOpenedAdminMemberEditModal="isEditModalOpen"
       :targetUserValue="targetUser"
     />
     <AdminMemberCreateModal
-      :toggleOpenedAdminMemberCreateModal="toggleOpenedCreateModal"
+      :toggleOpenedAdminMemberCreateModal="isCreateModalOpen"
     />
   </div>
 </template>
@@ -46,23 +46,27 @@ export default {
     AdminMemberEditModal,
   },
   computed: {
-    ...mapGetters('users', ["usersLoadingStatus", "users"]),
+    ...mapGetters("users", ["usersLoadingStatus", "users"]),
     ...mapGetters(["accessToken"]),
   },
   methods: {
-    ...mapActions('users', ["fetchUsers", "deleteUser"]),
+    ...mapActions("users", ["fetchUsers", "deleteUser"]),
     async adminMemberFetchUsers() {
-      await this.fetchUsers(this.accessToken);
-      if (this.users) {
-        this.usersModel = this.users.filter((e) => e.role === "user");
+      try {
+        await this.fetchUsers(this.accessToken);
+        if (this.users) {
+          this.usersModel = this.users.filter((e) => e.role === "user");
+        }
+      }catch (error) {
+        console.log(error.message);
       }
     },
     openAdminMemberEditModal(id) {
       this.targetUser = this.users.find((e) => e.id === id);
-      this.toggleOpenedEditModal = !this.toggleOpenedEditModal;
+      this.isEditModalOpen = !this.isEditModalOpen;
     },
     openAdminMemberCreateModal() {
-      this.toggleOpenedCreateModal = !this.toggleOpenedCreateModal;
+      this.isCreateModalOpen = !this.isCreateModalOpen;
     },
     async deteleteUserButton(id) {
       await this.deleteUser(id);
@@ -74,8 +78,8 @@ export default {
   },
   data() {
     return {
-      toggleOpenedCreateModal: false,
-      toggleOpenedEditModal: false,
+      isCreateModalOpen: false,
+      isEditModalOpen: false,
       targetUser: {
         id: null,
         fullName: "",

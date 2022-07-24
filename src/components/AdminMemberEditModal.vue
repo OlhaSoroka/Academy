@@ -69,11 +69,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["updateUser"]),
+    ...mapActions("users", ["updateUser"]),
     async submitAdminMemberEditButton() {
-      this.$refs.adminMemberEditModal.closeModal();
-      await this.updateUser(this.targetUser);
-      this.$router.go(0);
+      await this.updateUser(this.targetUser)
+        .then(() => this.$refs.adminMemberEditModal.closeModal())
+        // eslint-disable-next-line
+        .catch((error) => {
+          console.log(error.message);
+        });
     },
   },
   data() {
@@ -90,5 +93,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

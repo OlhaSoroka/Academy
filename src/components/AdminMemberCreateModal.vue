@@ -13,10 +13,11 @@
             />
             <BaseInput
               v-model="createModel.password"
-              type=" password"
+              type="password"
               label="Password"
               placeholder="Paste password"
               vid="password"
+              rules="confirmed:password"
             />
             <BaseInput
               v-model="createModel.email"
@@ -78,11 +79,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["createNewUser"]),
+    ...mapActions("users", ["createNewUser"]),
     async submitAdminMemberCreateButton() {
-      this.$refs.adminMemberCreateModal.closeModal();
-      await this.createNewUser(this.createModel);
-      this.$router.go(0);
+      await this.createNewUser(this.createModel)
+        .then(
+          () => this.$refs.adminMemberCreateModal.closeModal(),
+          this.$router.go(0)
+        )
+        // eslint-disable-next-line
+        .catch((error) => {
+          console.log(error.message);
+        });
     },
   },
   data() {
@@ -103,5 +110,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

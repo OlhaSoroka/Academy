@@ -7,14 +7,14 @@ import {
 } from "../../api/user/index";
 /* TODO: temporary. remove after Authorization implementation */
 const token =
-  "eyJhbGciOiJSUzI1NiIsImtpZCI6ImJmMWMyNzQzYTJhZmY3YmZmZDBmODRhODY0ZTljMjc4ZjMxYmM2NTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXVkIjoiaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXV0aF90aW1lIjoxNjU4NTkwNTYxLCJ1c2VyX2lkIjoiOTFLeE11NkxyRWdFUE5kWDFsS3hhTXZISFFNMiIsInN1YiI6IjkxS3hNdTZMckVnRVBOZFgxbEt4YU12SEhRTTIiLCJpYXQiOjE2NTg1OTA1NjEsImV4cCI6MTY1ODU5NDE2MSwiZW1haWwiOiJ3ZWJwb3J0YWxhZG1pbkBpbnZlbnRvcnNvZnQuY28iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsid2VicG9ydGFsYWRtaW5AaW52ZW50b3Jzb2Z0LmNvIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.TDUbeEbnF36ve4h2-to9zdcP7ctIc72Rod0eKrP438ad8O8t4ohuJkD7aIWM3QCS1xaLkmw0XBmF8NVsvTb1LchcRDxWtw-L2vnoZ6qYhjVVvI2AD-j6ULXj2anI5IXxrWIrRXgGk4vw3j8m0JrT1vMGiPv1MYi-SsFAn34i4Smh-nplfQk9lPA8a5LCYkvvUopm92IMSVKWARfXelv1QenOYH8I01RHxG8Bk0ZzuRh3rjIB9DnwpiQvSIAZFZenQBav7aAk-5hG8NqrM87omdVgE9GWi2JKMM2jsUicOTTwyycHFMOHxARDQd84SQ8ZdFJdmOze9N55EJRjf0chdA";
+  "eyJhbGciOiJSUzI1NiIsImtpZCI6ImJmMWMyNzQzYTJhZmY3YmZmZDBmODRhODY0ZTljMjc4ZjMxYmM2NTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXVkIjoiaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXV0aF90aW1lIjoxNjU4NjYzMDY3LCJ1c2VyX2lkIjoiOTFLeE11NkxyRWdFUE5kWDFsS3hhTXZISFFNMiIsInN1YiI6IjkxS3hNdTZMckVnRVBOZFgxbEt4YU12SEhRTTIiLCJpYXQiOjE2NTg2NjMwNjcsImV4cCI6MTY1ODY2NjY2NywiZW1haWwiOiJ3ZWJwb3J0YWxhZG1pbkBpbnZlbnRvcnNvZnQuY28iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsid2VicG9ydGFsYWRtaW5AaW52ZW50b3Jzb2Z0LmNvIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.L4hl7VNvnTjmmcHDqkWAGOFuztgRn1SDRI3iyfRZkR7eaRTZb5mbJMBIwhk7cNHP5UvUqCRygEUNgEkOOkiawpy9mvTgAiCST--C1ymsvrN_Zp7H39bXsT8kIfb5mAR1ZkztOWXcXTlLtcfX27PWOEMkLw4A9kTCiQSsStNt2jsjQ7LnLJxOrSrI2StM9vvOOfVbJsBQBdBB1cteFl7CfQ86_IQVLzYmXogEdZh1jI0Pj_q7JIqttgblGHiepG4XaF9iMjq0ANlZs72iI1WgAZNzOq5gFntkxVK-fAy5lSdb_0AxDWGLx-G9RRVUfGGhaCFgVbA1RkqqgTBrJ4J3eg";
 
 export default {
   state: {
     user: null,
-    users: null,
+    users: [],
     isImageLoading: true,
-    isUsersLoading: true,
+    isUsersLoading: false,
   },
   getters: {
     user: (state) => state.user,
@@ -48,9 +48,14 @@ export default {
       store.dispatch("fetchUser", store.state.user.id);
     },
     async fetchUsers(store, token) {
-      const users = await getAllUsers(token);
-      store.commit("SET_USERS", users);
-      store.commit("SET_LOADIN_STATUS");
+      store.commit("TOGGLE_LOADIN_STATUS");
+      await getAllUsers(token)
+        .then((data) => store.commit("SET_USERS", data))
+        // eslint-disable-next-line
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => store.commit("TOGGLE_LOADIN_STATUS"));
     },
     async updateUser(store, data) {
       await updateUserByID(data.id, data, token);
@@ -75,7 +80,7 @@ export default {
     SET_USERS(state, users) {
       state.users = users;
     },
-    SET_LOADIN_STATUS(state) {
+    TOGGLE_LOADIN_STATUS(state) {
       state.isUsersLoading = !state.isUsersLoading;
     },
   },
