@@ -39,16 +39,6 @@ import { authGuard, roleGuard } from "./utils";
 
 Vue.use(VueRouter);
 
-// FAKE USER
-const fakeUser = {
-  email: "webportaladmin@inventorsoft.co",
-  fullName: "InventorSoft Admin",
-  role: "admin",
-  id: "e5616235-be1c-4003-b5fe-33fa96195f72",
-  isAuth: true,
-};
-localStorage.setItem("user", JSON.stringify(fakeUser));
-
 const routes = [
   {
     path: "/",
@@ -81,7 +71,6 @@ const routes = [
     component: UsersView,
     meta: { requiresAuth: true },
   },
-
   {
     path: "/managers",
     name: MANAGERS,
@@ -97,7 +86,6 @@ const routes = [
     meta: { requiresAuth: true, requiredRoles: [ADMIN_ROLE] },
     beforeEnter: roleGuard,
   },
-
   {
     path: "/courses",
     component: CoursesView,
