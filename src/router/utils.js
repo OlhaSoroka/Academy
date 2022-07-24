@@ -2,7 +2,7 @@ import { LOGIN } from "@/constants/routes.constant"
 import store from "../store/index"
 export const roleGuard = (to, from, next) => {
 	const user = store.getters["user/user"]
-		? store.getters["user/user"].role
+		? store.getters["user/user"]
 		: null
 	if (
 		to.matched.some((route) => route.meta.requiredRoles.includes(user.role))
