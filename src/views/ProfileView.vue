@@ -87,7 +87,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('user', ['user', 'isImageLoading', 'accessToken']),
+    ...mapGetters('user', ['user', 'isImageLoading']),
   },
   methods: {
     ...mapActions('user', ['fetchUser']),

@@ -34,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user", "accessToken"]),
+    ...mapGetters(["user"]),
   },
   async mounted() {
     const token = localStorage.getItem('accessToken')
@@ -50,11 +50,10 @@ export default {
   },
   methods: {
     ...mapActions('user', ['setUser']),
-    sendPasswordToEmail() { },
     async isTokenAlive(token) {
       try {
-        const data = await getAllUsers(token)
-        return data
+         await getAllUsers(token)
+        return !!true 
       } catch (err) {
         return false
       }
