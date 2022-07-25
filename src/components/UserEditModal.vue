@@ -24,12 +24,17 @@
               label="Course"
               placeholder="Enter course"
             />
-            <div class="mt-5">
-              <BaseButton
-                :disabled="invalid"
-                @click="submitAdminMemberEditButton"
-              >
+            <div class="flex justify-center mt-5">
+              <BaseButton :disabled="invalid"
+              @click="submitUserEditButton">
                 Submit
+              </BaseButton>
+              <BaseButton
+                :disabled="false"
+                variant="btn_red"
+                @click="cancelUserEditButton"
+              >
+                Cancel
               </BaseButton>
             </div>
           </div>
@@ -64,10 +69,13 @@ export default {
       type: Object,
       default: null,
     },
+    fetchEditedUser: {
+      required: true,
+    },
   },
   watch: {
     isOpenedUserEditModal() {
-      this.$refs.adminMemberEditModal.openModal();
+      this.$refs.userEditModal.openModal();
     },
     targetUserValue() {
       this.targetUser = this.targetUserValue;
@@ -75,13 +83,21 @@ export default {
   },
   methods: {
     ...mapActions("users", ["updateUser"]),
-    async submitAdminMemberEditButton() {
+    async submitUserEditButton() {
       await this.updateUser(this.targetUser)
-        .then(() => this.$refs.adminMemberEditModal.closeModal())
+        .then(
+          () => this.$refs.userEditModal.closeModal(),
+          setTimeout(() => {
+            return this.fetchEditedUser();
+          }, 1000)
+        )
         // eslint-disable-next-line
         .catch((error) => {
-          console.log(error.message, '|| Inputs is not valid');
+          console.log(error.message, "|| Inputs is not valid");
         });
+    },
+    cancelUserEditButton() {
+      this.$refs.userEditModal.closeModal();
     },
   },
   data() {
@@ -98,4 +114,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+button {
+  @apply mx-1;
+}
 </style>

@@ -23,9 +23,11 @@
     <UserEditModal
       :isOpenedUserEditModal="isEditModalOpen"
       :targetUserValue="targetUser"
+      :fetchEditedUser="adminMemberFetchUsers"
     />
     <UserCreateModal
       :isOpenedUserCreateModal="isCreateModalOpen"
+      :fetchCreatedUser="adminMemberFetchUsers"
     />
   </div>
 </template>

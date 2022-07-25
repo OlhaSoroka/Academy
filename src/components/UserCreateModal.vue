@@ -41,14 +41,14 @@
             <div class="flex justify-center mt-5">
               <BaseButton
                 :disabled="invalid"
-                @click="submitAdminMemberCreateButton"
+                @click="submitUserCreateButton"
               >
                 Submit
               </BaseButton>
               <BaseButton
                 :disabled="false"
                 variant="btn_red"
-                @click="cancelAdminMemberCreateButton"
+                @click="canselUserCreateButton"
               >
                 Cancel
               </BaseButton>
@@ -80,6 +80,9 @@ export default {
       type: Boolean,
       default: false,
     },
+    fetchCreatedUser: {
+      required: true,
+    },
   },
   watch: {
     isOpenedUserCreateModal() {
@@ -88,13 +91,13 @@ export default {
   },
   methods: {
     ...mapActions("users", ["createNewUser"]),
-    async submitAdminMemberCreateButton() {
+    async submitUserCreateButton() {
       await this.createNewUser(this.createModel)
         .then(
           () => this.$refs.userCreateModal.closeModal(),
           setTimeout(() => {
-            return this.$parent.adminMemberFetchUsers();
-          }, 3000)
+            return this.fetchCreatedUser()
+          }, 1000)
         )
         // eslint-disable-next-line
         .catch((error) => {
@@ -104,7 +107,7 @@ export default {
           this.createModel = {};
         });
     },
-    cancelAdminMemberCreateButton() {
+    canselUserCreateButton() {
       this.$refs.userCreateModal.closeModal();
       this.createModel = {};
     },
