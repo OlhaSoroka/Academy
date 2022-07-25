@@ -10,7 +10,7 @@
       :is-data-loading="loadingStatus"
       :delete-btns="false"
       :view-btns="true"
-      @on-view="couserDetaislView"
+      @on-view="goToCourseDetailsView"
     />
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses"]),
-    couserDetaislView(id) {
+    goToCourseDetailsView(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
   },
