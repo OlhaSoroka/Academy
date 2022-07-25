@@ -47,12 +47,10 @@ export default {
   },
   computed: {
     ...mapGetters("users", ["usersLoadingStatus", "users"]),
-    ...mapGetters('user', ["accessToken"]),
   },
   methods: {
     ...mapActions("users", ["fetchUsers", "deleteUser"]),
     async adminMemberFetchUsers() {
-      console.log (this.accessToken, 'token')
       try {
         await this.fetchUsers();
         if (this.users) {

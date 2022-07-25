@@ -16,12 +16,8 @@
           vid="password"
           placeholder="qwe123"
         />
-        <BaseButton
-          variant="btn_green"
-          type="submit"
-        >
-          Submit
-        </BaseButton>
+        <BaseButton variant="btn_green" 
+        type="submit"> Submit </BaseButton>
       </form>
       <p class="text-pink-400">
         {{ errorHandler.message }}
@@ -35,7 +31,7 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseButton";
 import BaseInput from "@/components/BaseInput";
 import { mapGetters, mapActions } from "vuex";
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getAllUsers } from "@/api/user";
 
 export default {
@@ -52,40 +48,32 @@ export default {
     },
     errorHandler: {
       isError: false,
-      message: ''
-    }
+      message: "",
+    },
   }),
   computed: {
     ...mapGetters(["user"]),
   },
   methods: {
-    ...mapActions('user', ["setUser", "logoutUser"]),
+    ...mapActions("user", ["setUser", "logoutUser"]),
     async onSubmit() {
-      const auth = getAuth()
-      const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
-      const { accessToken, email } = user
-
-      const users = await getAllUsers(accessToken)
-
-      const currentUser = users.filter((userOfArray) => (userOfArray.email = email))[0]
+      const auth = getAuth();
+      const { user } = await signInWithEmailAndPassword(
+        auth,
+        this.formData.email,
+        this.formData.password
+      );
+      const { accessToken, email } = user;
+      const users = await getAllUsers(accessToken);
+      const currentUser = users.filter(
+        (userOfArray) => (userOfArray.email = email)
+      )[0];
       localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem('email', email)
-      this.setUser(currentUser)
-
-      this.errorHandler.isError = false
-      this.errorHandler.message = ''
-
-      this.$router.push({ name: "courses-dashboard" })
-
-      // .catch((error) => {
-      //   console.log(error.message)
-
-      //   this.errorHandler.isError = true
-      //   this.errorHandler.message = error.message
-
-      //   this.logoutUser();
-      // });
-
+      localStorage.setItem("email", email);
+      this.setUser(currentUser);
+      this.errorHandler.isError = false;
+      this.errorHandler.message = "";
+      this.$router.push({ name: "courses-dashboard" });
     },
   },
 };

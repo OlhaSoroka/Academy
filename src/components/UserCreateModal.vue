@@ -38,12 +38,19 @@
               label="Start points"
               placeholder="Paste start points"
             />
-            <div class="mt-5">
+            <div class="flex justify-center mt-5">
               <BaseButton
                 :disabled="invalid"
                 @click="submitAdminMemberCreateButton"
               >
                 Submit
+              </BaseButton>
+              <BaseButton
+                :disabled="false"
+                variant="btn_red"
+                @click="cancelAdminMemberCreateButton"
+              >
+                Cancel
               </BaseButton>
             </div>
           </div>
@@ -85,12 +92,19 @@ export default {
       await this.createNewUser(this.createModel)
         .then(
           () => this.$refs.userCreateModal.closeModal(),
-          this.$router.go(0)
+          //this.$router.go(0)
         )
         // eslint-disable-next-line
         .catch((error) => {
-          console.log(error.message);
-        });
+          console.log(error.message, '|| Inputs is not valid');
+        })
+        .finally(() => {
+          this.createModel = {}
+        })
+    },
+    cancelAdminMemberCreateButton() {
+      this.$refs.userCreateModal.closeModal();
+      this.createModel = {};
     },
   },
   data() {
@@ -111,4 +125,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+button {
+  @apply mx-1;
+}
 </style>
