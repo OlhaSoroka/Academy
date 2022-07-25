@@ -65,15 +65,21 @@ export default {
       );
       const { accessToken, email } = user;
       const users = await getAllUsers(accessToken);
-      const currentUser = users.filter(
+      const currentUser = users.find(
         (userOfArray) => (userOfArray.email = email)
-      )[0];
+      );
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("email", email);
       this.setUser(currentUser);
       this.errorHandler.isError = false;
       this.errorHandler.message = "";
-      this.$router.push({ name: "courses-dashboard" });
+      this.$router.push({ name: "courses-dashboard" })
+      .catch((error) => {
+        console.log(error.message);
+        this.errorHandler.isError = true;
+        this.errorHandler.message = error.message;
+        this.logoutUser();
+      });
     },
   },
 };

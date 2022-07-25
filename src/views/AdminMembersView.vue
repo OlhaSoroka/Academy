@@ -2,7 +2,6 @@
   <div>
     <div v-if="usersModel" 
     class="AdminMemberView">
-      <h1>Admin Member view</h1>
       <BaseTable
         :table-data="{
           headingData: headers,

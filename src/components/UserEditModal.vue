@@ -80,7 +80,7 @@ export default {
         .then(() => this.$refs.adminMemberEditModal.closeModal())
         // eslint-disable-next-line
         .catch((error) => {
-          console.log(error.message);
+          console.log(error.message, '|| Inputs is not valid');
         });
     },
   },
