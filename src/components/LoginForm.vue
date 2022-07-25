@@ -67,7 +67,7 @@ export default {
 
       const users = await getAllUsers(accessToken)
 
-      const currentUser = users.filter((userOfArray) => (userOfArray.email = email))[0]
+      const currentUser = users.find((userOfArray) => (userOfArray.email = email))
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem('email', email)
       this.setUser(currentUser)
@@ -77,14 +77,14 @@ export default {
 
       this.$router.push({ name: "courses-dashboard" })
 
-      // .catch((error) => {
-      //   console.log(error.message)
+      .catch((error) => {
+        console.log(error.message)
 
-      //   this.errorHandler.isError = true
-      //   this.errorHandler.message = error.message
+        this.errorHandler.isError = true
+        this.errorHandler.message = error.message
 
-      //   this.logoutUser();
-      // });
+        this.logoutUser();
+      });
 
     },
   },
