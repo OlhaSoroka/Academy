@@ -69,6 +69,7 @@ export default {
   },
   props: {
     isOpenedUserCreateModal: {
+      required: true,
       type: Boolean,
       default: false,
     },

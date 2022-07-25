@@ -55,10 +55,15 @@ export default {
   },
   props: {
     isOpenedUserEditModal: {
+      required: true,
       type: Boolean,
       default: false,
     },
-    targetUserValue: Object,
+    targetUserValue: {
+      required: true,
+      type: Object,
+      default: null,
+    },
   },
   watch: {
     isOpenedUserEditModal() {
