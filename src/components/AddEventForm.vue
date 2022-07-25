@@ -41,17 +41,18 @@ export default {
 	methods: {
 		addEvent(){
 			const newCourse = {...this.courseToAdd}
-			if(newCourse.name !== '' && newCourse.date !== '')
-			if(this.$store.getters.courses.length > 0)
-              {
-                newCourse.id = this.$store.getters.courses[this.$store.getters.courses.length - 1].id + 1
-              } else {
-                newCourse.id = 1;
-              }
-			console.log(this.$store.getters.courses);
-			this.courseToAdd.name = '';
-			this.courseToAdd.date = '';
-			this.$store.dispatch('addCourseToState', newCourse)
+			if(newCourse.name !== '' && newCourse.date !== ''){
+        if(this.$store.getters.courses.length > 0)
+                {
+                  newCourse.id = this.$store.getters.courses[this.$store.getters.courses.length - 1].id + 1
+                } else {
+                  newCourse.id = 1;
+                }
+        console.log(this.$store.getters.courses);
+        this.courseToAdd.name = '';
+        this.courseToAdd.date = '';
+        this.$store.dispatch('addCourseToState', newCourse)
+      }
 		}
 	}
 };

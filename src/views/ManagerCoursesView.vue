@@ -6,19 +6,30 @@
         headingData: headers,
         bodyData: courses,
       }"
-      :edit-btns="true"
+      :edit-btns="false"
       :is-data-loading="loadingStatus"
       :delete-btns="false"
-      @on-edit="goToCourse"
     />
     <AddEventForm v-show="showAddCourseForm" />
-    <BaseButton 
-      variant="btn_green" 
-      :loading="usersLoadingStatus"
-      @click="showAddCourseForm = !showAddCourseForm"
-    >
-      {{ showAddCourseForm ? "x" :"Add new course" }}
-    </BaseButton>
+    <div class=".manager-courses-buttons">
+      <BaseButton
+        @click="
+          $router.push({
+            name: COURSE_DETAILS,
+            params: { id: sortedCourses[0].id },
+          })
+        "
+      >
+        Details
+      </BaseButton>
+      <BaseButton 
+        variant="btn_green" 
+        :loading="loadingStatus"
+        @click="showAddCourseForm = !showAddCourseForm"
+      >
+        {{ showAddCourseForm ? "x" :"Add new course" }}
+      </BaseButton>
+    </div>
   </div>
 </template>
 
@@ -52,9 +63,6 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses"]),
-    goToCourse(id){
-      this.router.push(`/${id}`)
-    }
   },
 };
 </script>
