@@ -2,6 +2,7 @@
   <div class="flex justify-center flex-col">
     <h2>Courses Dashboard View</h2>
     <BaseTable
+      class="text-center"
       :table-data="{
         headingData: headers,
         bodyData: courses,
@@ -10,9 +11,9 @@
       :is-data-loading="loadingStatus"
       :delete-btns="false"
       :view-btns="true"
-      @on-view="couseDetailsView"
+      @on-view="goToCourseDetails"
     />
-    <BaseButton @click="cousesDetailslView"> 
+    <BaseButton @click="goToCoursesDetails"> 
       Details 
     </BaseButton>
   </div>
@@ -49,13 +50,13 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses"]),
-    cousesDetailslView() {
+    goToCoursesDetails() {
       this.$router.push({
         name: COURSE_DETAILS,
         params: { id: this.sortedCourses[0].id },
       });
     },
-    couseDetailsView(id) {
+    goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
   },

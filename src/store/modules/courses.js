@@ -5,7 +5,8 @@ export default {
   state() {
     return {
       courses: [],
-      isLoading: false
+      isLoading: false,
+      errorNewComment: ""
     }
   },
   getters: {
@@ -18,7 +19,7 @@ export default {
     loadingStatus(state) {
       return state.isLoading
     },
-    courseById(state) {
+    getCourseById(state) {
       return id => {
         return state.courses.find(course => course.id === +id)
       }
@@ -34,13 +35,19 @@ export default {
           return state.courses[0].id
         }
       }
+    },
+    getErrorNewComment(state) {
+      return state.errorNewComment
     }
   },
   mutations: {
     setCourses(state, courses) {
       state.courses = courses
     },
-    changeLoadingStatus(state) { state.isLoading = !state.isLoading }
+    changeLoadingStatus(state) { state.isLoading = !state.isLoading },
+    setError(state, errorNewComment) {
+      state.errorNewComment = errorNewComment
+    }
   },
   actions: {
     getCourses({ commit }) {
@@ -51,10 +58,9 @@ export default {
         .catch(error => { console.log(error) })
         .finally(() => commit('changeLoadingStatus'))
     },
-    newComment(context, payload) {
+    addNewComment(context, payload) {
       axios.put(`${COURSES_URL}/posts/${payload.id}`, payload.newCourseItem)
-        // eslint-disable-next-line
-        .catch(error => { console.log(error) })
+        .catch(error => {context.commit('setError', error) })
         .then((response) => {
           if (response.status === 201) { context.dispatch('getCourses') }
         })
