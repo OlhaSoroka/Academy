@@ -6,12 +6,13 @@
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
         <LoginForm />
-        <p
+        <!-- uncommed it when Yurii do reset pass reset feature-->
+        <!-- <p
+          @click=""
           class="link"
-          @click="sendPasswordToEmail"
         >
           Send Password to Email
-        </p>
+        </p> -->
       </div>
     </div>
   </div>
