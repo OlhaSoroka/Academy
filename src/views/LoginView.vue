@@ -42,7 +42,8 @@ export default {
       const result = await this.isTokenAlive(token)
       if (result) {
         const thisEmail = localStorage.getItem('email')
-        const currentAcc = result.find(acc => acc.email === thisEmail)
+        const users = await getAllUsers(token)
+        const currentAcc = users.find(acc => acc.email === thisEmail)
         this.setUser(currentAcc)
         this.$router.push({ name: COURSE_DASHBOARD })
       }
@@ -52,8 +53,8 @@ export default {
     ...mapActions('user', ['setUser']),
     async isTokenAlive(token) {
       try {
-         await getAllUsers(token)
-        return !!true 
+        await getAllUsers(token)
+        return true 
       } catch (err) {
         return false
       }
