@@ -1,7 +1,7 @@
 <template>
   <BaseModal
     ref="createUpdateManagerModal"
-    :header="updateMode ? 'Update manager' : 'Add new manager'"
+    :header="isUpdateMode ? 'Update manager' : 'Add new manager'"
   >
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
@@ -25,7 +25,7 @@
               placeholder="Enter email"
             />
           </div>
-          <div v-if="!updateMode || changePasswordMode">
+          <div v-if="!isUpdateMode || changePasswordMode">
             <div class="mt-3">
               <BaseInput
                 v-model="password"
@@ -47,7 +47,7 @@
           </div>
           <div class="mt-6">
             <div
-              v-if="updateMode"
+              v-if="isUpdateMode"
               class="mx-1"
             >
               <BaseButton @click="toggleChangePassword">
@@ -61,7 +61,7 @@
                 :disabled="invalid"
                 @click="submitAddNewManager"
               >
-                {{ updateMode ? 'Update' : 'Create' }}
+                {{ isUpdateMode ? 'Update' : 'Create' }}
               </BaseButton>
             </div>
             <div class="mx-1">
@@ -93,26 +93,26 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		updateMode: {
-			required: true,
-			type: Boolean,
-			default: false,
-		},
 		manager: {
 			required: false,
 			type: Object,
 			default: null,
 		},
 	},
-
 	data() {
 		return { fullName: '', email: '', password: '', confirmPassword: '', changePasswordMode: false };
 	},
+  computed: {
+    isUpdateMode() {
+      return !!this.manager;
+    }
+  },
 	watch: {
 		toggleModal() {
 			this.changePasswordMode = false;
 			this.$refs.createUpdateManagerModal.openModal();
-			if (this.updateMode) {
+			if (this.isUpdateMode) {
+				console.log('hre');
 				this.fullName = this.manager.fullName;
 				this.email = this.manager.email;
 			}
@@ -121,7 +121,7 @@ export default {
 	methods: {
 		...mapActions('managers', ['createManager', 'updateManager']),
 		submitAddNewManager() {
-			if (this.updateMode) {
+			if (this.isUpdateMode) {
 				this.updateManagerHandler();
 			} else {
 				this.createManagerHandler();
@@ -129,6 +129,10 @@ export default {
 			this.$refs.createUpdateManagerModal.closeModal();
 		},
 		cancelAddNewManager() {
+			this.fullName = '';
+			this.email = '';
+			this.password = '';
+			this.confirmPassword = '';
 			this.$refs.createUpdateManagerModal.closeModal();
 		},
 		toggleChangePassword() {

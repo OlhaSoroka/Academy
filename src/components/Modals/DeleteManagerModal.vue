@@ -42,11 +42,6 @@ export default {
 			default: null
 		},
 	},
-	data() {
-		return {
-			
-		};
-	},
 	watch: {
 		toggleModal() {
 			this.$refs.deleteManagerModal.openModal();

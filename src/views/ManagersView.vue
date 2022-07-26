@@ -3,7 +3,7 @@
   <div class="w-2/3 mt-10 mx-auto flex flex-col justify-start items-start">
     <div class="w-full flex justify-between items-center">
       <div>
-        <h2 class="font-semibold text-start text-sky-700">
+        <h2 class="font-semibold text-lg text-start text-sky-700">
           Managers Dashboard
         </h2>
         <h3 class="mt-2 font-normal text-stone-400">
@@ -18,6 +18,12 @@
           Add new manager
         </BaseButton>
       </div>
+    </div>
+    <div
+      v-if="error"
+      class="text-red-600 text"
+    >
+      Error! {{ error }}
     </div>
     <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5">
       <BaseTable
@@ -66,7 +72,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('managers', ['managers', 'isManagersLoading']),
+		...mapGetters('managers', ['managers', 'isManagersLoading', 'error']),
 		selectedManager() {
 			return this.managers.find((manager) => {
 				return manager.id === this.selectedManagerId;
