@@ -1,5 +1,8 @@
 <template>
-  <div class="loginview">
+  <div
+    v-if="!initialLoading"
+    class="loginview"
+  >
     <h1 class="text-pink-400">
       This is LOGIN page
     </h1>
@@ -16,11 +19,13 @@
       </div>
     </div>
   </div>
+  <BaseSpinner v-else />
 </template>
 
 <script>
 import { getAllUsers } from "@/api/user";
 import LoginForm from "@/components/LoginForm";
+import BaseSpinner from '@/components/UI/BaseSpinner/BaseSpinner.vue'
 import { mapActions, mapGetters } from "vuex";
 import { COURSE_DASHBOARD } from '@/constants/routes.constant';
 
@@ -28,10 +33,12 @@ export default {
   name: "LoginView",
   components: {
     LoginForm,
+    BaseSpinner
   },
 
   data() {
     return {
+      initialLoading: true,
     }
   },
   computed: {
@@ -49,19 +56,21 @@ export default {
         this.$router.push({ name: COURSE_DASHBOARD })
       }
     }
+    this.initialLoading = false;
+
   },
   methods: {
     ...mapActions('user', ['setUser']),
     async isTokenAlive(token) {
       try {
         await getAllUsers(token)
-        return true 
+        return true
       } catch (err) {
         return false
       }
-    }
-  },
-};
+    },
+  }
+}
 </script>
 
 <style lang="postcss" scoped>
