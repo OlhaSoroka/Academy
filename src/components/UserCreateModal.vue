@@ -4,45 +4,21 @@
     :header="'Create new User'">
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
-          <div class="flex flex-col items-center text-start mt-5">
-            <BaseInput
-              v-model="createModel.fullName"
-              type="text"
-              label="Name"
-              placeholder="Paste name"
-            />
-            <BaseInput
-              v-model="createModel.password"
-              type="password"
-              label="Password"
-              placeholder="Paste password"
-              vid="password"
-              rules="confirmed:password"
-            />
-            <BaseInput
-              v-model="createModel.email"
-              type="email"
-              label="Email"
-              placeholder="Paste email"
-              vid="email"
-            />
-            <BaseInput
-              v-model="createModel.course"
-              type="text"
-              label="Course name"
-              placeholder="Paste course name"
-            />
-            <BaseInput
-              v-model="createModel.initialScore"
-              type="number"
-              label="Start points"
-              placeholder="Paste start points"
-            />
-            <div class="flex justify-center mt-5">
-              <BaseButton
-                :disabled="invalid"
-                @click="submitUserCreateButton"
-              >
+          <div 
+          class="flex flex-col items-center text-start mt-5">
+            <div v-for="input in userInputsValue" 
+            :key="input.label">
+              <BaseInput
+                v-model="createModel[input.model]"
+                :type="input.type"
+                :label="input.label"
+                :placeholder="input.placeholder"
+              />
+            </div>
+            <div 
+            class="flex justify-center mt-5">
+              <BaseButton :disabled="invalid" 
+              @click="submitUserCreateButton">
                 Submit
               </BaseButton>
               <BaseButton
@@ -83,6 +59,11 @@ export default {
     fetchCreatedUser: {
       required: true,
     },
+    userInputsValue: {
+      required: true,
+      type: Array,
+      default: null,
+    },
   },
   watch: {
     isOpenedUserCreateModal() {
@@ -96,7 +77,7 @@ export default {
         .then(
           () => this.$refs.userCreateModal.closeModal(),
           setTimeout(() => {
-            return this.fetchCreatedUser()
+            return this.fetchCreatedUser();
           }, 1000)
         )
         // eslint-disable-next-line

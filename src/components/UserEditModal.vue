@@ -5,25 +5,15 @@
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
           <div class="flex flex-col items-center text-start mt-5">
-            <BaseInput
-              v-model="targetUser.fullName"
-              type="text"
-              label="Name"
-              placeholder="Enter name"
+            <div v-for="input in userInputsValue" 
+            :key="input.label">
+              <BaseInput
+              v-model="targetUser[input.model]"
+              :type="input.type"
+              :label="input.label"
+              :placeholder="input.placeholder"
             />
-            <BaseInput
-              v-model="targetUser.email"
-              type="email"
-              label="Email"
-              placeholder="Enter email"
-              vid="email"
-            />
-            <BaseInput
-              v-model="targetUser.course"
-              type="text"
-              label="Course"
-              placeholder="Enter course"
-            />
+            </div>
             <div class="flex justify-center mt-5">
               <BaseButton :disabled="invalid"
               @click="submitUserEditButton">
@@ -69,6 +59,11 @@ export default {
       type: Object,
       default: null,
     },
+    userInputsValue: {
+      required: true,
+      type: Array,
+      default: null,
+    },
     fetchEditedUser: {
       required: true,
     },
@@ -79,7 +74,7 @@ export default {
     },
     targetUserValue() {
       this.targetUser = this.targetUserValue;
-    },
+    }
   },
   methods: {
     ...mapActions("users", ["updateUser"]),
@@ -102,14 +97,9 @@ export default {
   },
   data() {
     return {
-      targetUser: {
-        id: null,
-        fullName: "",
-        email: "",
-        course: "",
-      },
+      targetUser: {},
     };
-  },
+  }
 };
 </script>
 
