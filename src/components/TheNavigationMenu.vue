@@ -24,7 +24,7 @@
       >
         <use href="../icons/sprite-navigation.svg#icon-managers" />
       </svg>
-      <span class="navigation-menu-text">Managers Members</span>
+      <span class="navigation-menu-text">Managers</span>
     </router-link>
     <router-link :to="{ name: COURSE_DASHBOARD }">
       <svg
