@@ -16,9 +16,16 @@
           vid="password"
           placeholder="qwe123"          
         />
+        <p
+          class="link"
+          @click="sendPasswordToEmail"
+        >
+          Send Password to Email
+        </p>
         <BaseButton 
-          variant="btn_green" 
-          type="submit"> 
+          variant="btn_blue" 
+          type="submit"
+        > 
           Submit 
         </BaseButton>
       </form>
@@ -84,5 +91,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-
+.link {
+	@apply mx-2 cursor-pointer text-end text-xs hover:opacity-75 transition-opacity underline mb-2;
+}
 </style>

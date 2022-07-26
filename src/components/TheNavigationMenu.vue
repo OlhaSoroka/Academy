@@ -1,5 +1,8 @@
 <template>
-  <div class="navigation-menu">
+  <div
+    v-if="false"
+    class="navigation-menu"
+  >
     <router-link :to="{ name: USERS }">
       <svg
         class="navigation-menu-icon"
