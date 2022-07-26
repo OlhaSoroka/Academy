@@ -14,7 +14,7 @@
       <span class="navigation-menu-text">Users</span>
     </router-link>
     <router-link
-      v-if="isManager || isAdmin"
+      v-if="isAdmin"
       :to="{ name: MANAGERS }"
     >
       <svg
@@ -25,19 +25,6 @@
         <use href="../icons/sprite-navigation.svg#icon-managers" />
       </svg>
       <span class="navigation-menu-text">Managers Members</span>
-    </router-link>
-    <router-link
-      v-if="isAdmin"
-      :to="{ name: ADMIN_MEMBERS }"
-    >
-      <svg
-        class="navigation-menu-icon"
-        width="16"
-        height="16"
-      >
-        <use href="../icons/sprite-navigation.svg#icon-managers" />
-      </svg>
-      <span class="navigation-menu-text">Admin Members</span>
     </router-link>
     <router-link :to="{ name: COURSE_DASHBOARD }">
       <svg
@@ -82,8 +69,8 @@
 </template> 
 
  <script>
-import { PROFILE, USERS, MANAGERS, ADMIN_MEMBERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant'
-import { ADMIN_ROLE, MANAGER_ROLE } from '@/constants/roles.constant';
+import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant'
+import { ADMIN_ROLE} from '@/constants/roles.constant';
 import router from '@/router';
 import { mapActions, mapGetters } from 'vuex';
 export default {
@@ -96,7 +83,7 @@ export default {
   },
   data() {
     return {
-      PROFILE, USERS, MANAGERS, ADMIN_MEMBERS, COURSE_DASHBOARD, LOGIN
+      PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN
     }
   },
   computed: {
@@ -104,9 +91,6 @@ export default {
     isAdmin() {
 			return this.user.role === ADMIN_ROLE;
     },
-    isManager() {
-			return this.user.role === MANAGER_ROLE;
-		},
   },
 
   methods: {
