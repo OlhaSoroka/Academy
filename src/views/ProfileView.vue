@@ -35,20 +35,31 @@
           {{ user.email }}
         </div>
       </div>
-      <div class="profile__course_info_wrapper">
+      <div
+        v-if="isUser"
+        class="profile__course_info_wrapper"
+      >
         <div class="profile__course_item">
-          <div class="profile__info_subtitle">
+          <div
+            class="profile__info_subtitle"
+          >
             Course
           </div>
-          <div class="profile__info_title">
+          <div
+            class="profile__info_title"
+          >
             {{ user.course || "--" }}
           </div>
         </div>
         <div class="profile__course_item">
-          <div class="profile__info_subtitle">
+          <div
+            class="profile__info_subtitle"
+          >
             Score
           </div>
-          <div class="profile__info_title">
+          <div
+            class="profile__info_title"
+          >
             {{ user.initialScore || "--" }}
           </div>
         </div>
@@ -82,6 +93,7 @@ import BaseButton from '@/components/BaseButton.vue';
 import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
 import { mapActions, mapGetters } from 'vuex';
+import { USER_ROLE } from '@/constants/roles.constant';
 export default {
 	components: { BaseButton, ChangeImageModal, ChangePasswordModal },
 	data() {
@@ -92,10 +104,13 @@ export default {
 	},
 	computed: {
 		...mapGetters('user', ['user', 'isImageLoading']),
+    isUser() {
+      return this.user.role === USER_ROLE;
+    }
 	},
 	mounted() {
 		/* TODO:  temporary. remove after Authorization implementation */
-		this.fetchUser('ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef');
+		this.fetchUser('136b7a6d-6026-4742-bc32-32596497927b');
 	},
 	methods: {
 		...mapActions('user', ['fetchUser']),
