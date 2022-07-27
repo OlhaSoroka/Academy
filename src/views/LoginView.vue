@@ -19,7 +19,7 @@
     <div class="flex flex-col my-auto mx-auto ">
       <div class="text-3xl text-stone-700 mb-5">
         Wellcome to InventorSoft Academy
-        <div class="text-lg text-stone-700 mb-5">
+        <div class="text-lg text-stone-700 mt-7">
           Login to continue
         </div>
       </div>

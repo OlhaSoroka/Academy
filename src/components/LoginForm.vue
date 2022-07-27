@@ -92,6 +92,6 @@ export default {
 
 <style lang="postcss" scoped>
 .link {
-	@apply mx-2 cursor-pointer text-end text-xs hover:opacity-75 transition-opacity underline mb-2;
+	@apply mx-2 cursor-pointer text-end text-xs hover:opacity-75 transition-opacity underline mb-2 ;
 }
 </style>
