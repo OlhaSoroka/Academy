@@ -27,13 +27,12 @@
       <BaseTableRow
         v-for="(item) in getTablePart(tableData, 'body')"
         :key="item.id"
-        :props-data="item.id"
         :editable="editBtns"
         :deletable="deleteBtns"
         :viewed="viewBtns"
-        @delete="onDelete"
-        @edit="onEdit"
-        @view="onView"
+        @delete="onDelete(item.id)"
+        @edit="onEdit(item.id)"
+        @view="onView(item.id)"
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
