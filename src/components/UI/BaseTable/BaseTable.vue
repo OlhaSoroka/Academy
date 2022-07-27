@@ -177,12 +177,8 @@ export default {
   },
 }
 </script>
-<!-- <style lang="scss">
-.app-table {
-    @apply rounded-2x shadow-lg w-11/12 m-auto;
-
-    &-header__th {
-        @apply select-none;
-    }
-}
-</style> -->
+<style lang="postcss">
+  .BaseTable {
+    @apply w-full;
+  }
+</style> 
