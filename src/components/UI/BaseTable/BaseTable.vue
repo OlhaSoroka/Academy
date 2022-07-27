@@ -31,8 +31,8 @@
         :editable="editBtns"
         :deletable="deleteBtns"
         :viewed="viewBtns"
-        @onDelete="onDelete"
-        @onEdit="onEdit"
+        @delete="onDelete"
+        @edit="onEdit"
         @view="onView"
       >
         <!-- fill the logo column if logo flag is true-->
@@ -106,6 +106,7 @@ export default {
     viewBtns: {
       required: false,
       type: Boolean,
+      default: false
     },
     logo: {
       required: false,
@@ -136,7 +137,7 @@ export default {
       this.$emit('delete', id)
     },
     onView(id) {
-      this.$emit('on-view', id)
+      this.$emit('view', id)
     },
     getEntriesFromArray(array) {
       const res = array.reduce((acc, el) => [...acc, Object.entries(el)[0]], [])
@@ -177,12 +178,8 @@ export default {
   },
 }
 </script>
-<!-- <style lang="scss">
-.app-table {
-    @apply rounded-2x shadow-lg w-11/12 m-auto;
-
-    &-header__th {
-        @apply select-none;
-    }
-}
-</style> -->
+<style lang="postcss">
+  .BaseTable {
+    @apply w-full;
+  }
+</style> 
