@@ -96,7 +96,9 @@
         </form>
       </ValidationObserver>
     </div>
-    <BaseSpinner v-else />
+    <div v-else>
+      <h3>There are no courses.</h3>
+    </div>
   </div>
 </template>
 
@@ -104,7 +106,6 @@
 import { mapActions, mapGetters } from "vuex";
 import BaseButton from "../components/BaseButton.vue";
 import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
-import BaseSpinner from "../components/UI/BaseSpinner/BaseSpinner.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
@@ -120,7 +121,6 @@ export default {
     BaseButton,
     ValidationObserver,
     ValidationProvider,
-    BaseSpinner,
   },
   data() {
     return {
@@ -163,29 +163,24 @@ export default {
     nextPage() {
       this.$router.push({
         name: COURSE_DETAILS,
-        params: { id: this.nextId() },
+        params: { id: this.nextCourseId(this.$route.params.id) },
       });
-    },
-    nextId() {
-      return this.nextCourseId(
-        this.courseIndex(this.getCourseById(this.$route.params.id))
-      );
     },
     getBackCourseDetailsView() {
       this.$router.push({ name: COURSE_DASHBOARD });
     },
     submit() {
-      let newItem = this.getCourseById(this.$route.params.id);
-      newItem.comments.push({
+      let currentItem = this.getCourseById(this.$route.params.id);
+      currentItem.comments.push({
         id: Date.now(),
         message: this.comments,
-        createdAt: Date(),
+        createdAt: new Date().toLocaleString(),
         author: "User User",
         author_id: "User ID",
         author_email: "User email",
       });
       let payload = {
-        newCourseItem: newItem,
+        currentItemUpdate: currentItem,
         id: this.$route.params.id,
       };
       this.addNewComment(payload);

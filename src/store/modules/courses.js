@@ -25,15 +25,15 @@ export default {
       }
     },
     courseIndex(state) {
-      return courseItem => { return state.courses.indexOf(courseItem) }
+      return courseItem => state.courses.indexOf(courseItem)
     },
-    nextCourseId(state) {
-      return courseIndex => {
-        if (courseIndex < state.courses.length - 1) {
-          return state.courses[courseIndex + 1].id
-        } else {
-          return state.courses[0].id
+    nextCourseId(state, getters) {
+      return id => {
+        let currentIndex = getters.courseIndex(getters.getCourseById(id))
+        if (currentIndex < state.courses.length - 1) {
+          return state.courses[currentIndex + 1].id
         }
+        else return state.courses[0].id
       }
     },
     getErrorNewComment(state) {
@@ -58,12 +58,12 @@ export default {
         .catch(error => { console.log(error) })
         .finally(() => commit('changeLoadingStatus'))
     },
-    addNewComment(context, payload) {
-      axios.put(`${COURSES_URL}/posts/${payload.id}`, payload.newCourseItem)
-        .catch(error => {context.commit('setError', error) })
+    addNewComment({ dispatch, commit }, payload) {
+      axios.put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate)
         .then((response) => {
-          if (response.status === 201) { context.dispatch('getCourses') }
+          if (response.status === 201) { dispatch('getCourses') }
         })
+        .catch(error => { commit('setError', error) })
     },
   }
 }

@@ -13,7 +13,7 @@
       :view-btns="true"
       @on-view="goToCourseDetails"
     />
-    <BaseButton @click="goToCoursesDetails"> 
+    <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
       Details 
     </BaseButton>
   </div>
@@ -50,12 +50,6 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses"]),
-    goToCoursesDetails() {
-      this.$router.push({
-        name: COURSE_DETAILS,
-        params: { id: this.sortedCourses[0].id },
-      });
-    },
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
