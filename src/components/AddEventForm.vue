@@ -25,7 +25,7 @@
 <script>
 import BaseButton from '@/components/BaseButton.vue';
 import BaseInput from "@/components/BaseInput";
-//import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex'
 export default {
 	name: 'AddEventForm',
 	components: { BaseInput, BaseButton},
@@ -38,20 +38,29 @@ export default {
               },
 		}
 	},
+  computed: {
+    ...mapGetters([
+      "courses"
+    ])
+  },
 	methods: {
+    ...mapActions([
+      'addCourseToState'
+    ]),
 		addEvent(){
 			const newCourse = {...this.courseToAdd}
-			if(newCourse.name !== '' && newCourse.date !== ''){
-        if(this.$store.getters.courses.length > 0)
+      const {name, date} = newCourse;
+			if(name !== '' && date !== ''){
+        if(this.courses.length > 0)
                 {
-                  newCourse.id = this.$store.getters.courses[this.$store.getters.courses.length - 1].id + 1
+                  newCourse.id = this.courses[this.courses.length - 1].id + 1
                 } else {
                   newCourse.id = 1;
                 }
-        console.log(this.$store.getters.courses);
+        console.log(this.courses);
         this.courseToAdd.name = '';
         this.courseToAdd.date = '';
-        this.$store.dispatch('addCourseToState', newCourse)
+        this.addCourseToState(newCourse)
       }
 		}
 	}
