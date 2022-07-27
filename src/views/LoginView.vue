@@ -11,9 +11,6 @@
             alt="logo"
           >
         </div>
-        <!-- <div class="text-slate-50 text-lg mt-3">
-          Wellcome to InventorSoft Academy
-        </div> -->
       </div>
     </div>
     <div class="flex flex-col my-auto mx-auto ">

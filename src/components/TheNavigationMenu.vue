@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="false"
+    v-if="true"
     class="navigation-menu"
   >
     <router-link :to="{ name: USERS }">

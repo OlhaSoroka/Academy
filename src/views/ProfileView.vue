@@ -57,13 +57,17 @@
         <div class="mr-5">
           <BaseButton
             :loading="isImageLoading"
+            variant="btn_blue"
             @click="openProfileImageChangeModal"
           >
             Change Profile Image
           </BaseButton>
         </div>
         <div class="mr-5">
-          <BaseButton @click="openPasswordChangeModal">
+          <BaseButton
+            variant="btn_blue"
+            @click="openPasswordChangeModal"
+          >
             Change password
           </BaseButton>
         </div>
@@ -110,7 +114,7 @@ export default {
 	@apply w-2/3 h-2/3 self-center mx-auto shadow-xl flex justify-center;
 }
 .profile__image_container {
-	@apply bg-emerald-500 flex justify-center items-center p-12;
+	@apply bg-sky-800   flex justify-center items-center p-12;
 }
 .profile__image_block img {
 	@apply rounded-full shadow-md max-w-xs w-full h-full block;
