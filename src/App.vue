@@ -3,13 +3,9 @@
     id="app" 
     class="flex"
   >
-<<<<<<< HEAD
-    <navigation-menu />
-=======
     <navigation-menu
       role="admin"
     />
->>>>>>> master
     <router-view class="w-full" />
   </div>
 </template>
