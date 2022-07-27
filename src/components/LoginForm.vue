@@ -1,56 +1,56 @@
 <template>
   <div class="loginform">
-    <ValidationObserver v-slot="{ handleSubmit }">      
+    <ValidationObserver v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
         <BaseInput
           v-model="formData.email"
           type="email"
           label="Email"
-          vid="email"          
-          placeholder="aaa@gmail.com"                    
+          vid="email"
+          placeholder="aaa@gmail.com"
         />
-        <BaseInput
-          v-if="isLogin"
-          v-model="formData.password"
-          type="password"
-          label="Password"
-          vid="password"
-          placeholder="qwe123"          
-        />
-        <BaseButton 
-          v-if="isLogin"
-          variant="btn_green" 
-          type="submit"> 
-          Submit 
-        </BaseButton>        
+        <div v-if="isLoginPage">
+          <BaseInput
+            v-model="formData.password"
+            type="password"
+            label="Password"
+            vid="password"
+            placeholder="qwe123"
+          />
+          <BaseButton
+            variant="btn_green"
+            type="submit"
+          >
+            Submit
+          </BaseButton>
+          <p
+            class="link"
+            @click="goToResetPage"
+          >
+            Reset password
+          </p>
+        </div>
       </form>
       <p class="text-pink-400">
         {{ errorHandler.message }}
-      </p>            
+      </p>
     </ValidationObserver>
-    <BaseButton 
-          v-if="!isLogin"
-          variant="btn_green" 
-          @click="resetPasswordOnEmail"
-          > 
-          Reset Password 
-        </BaseButton>
-    <p 
-          v-if="isLogin"
-          class="link" 
-          @click="goToReset"
-          >
-          Reset password
-    </p>
+    <div v-if="!isLoginPage">
+      <BaseButton
+        variant="btn_green"
+        @click="resetPasswordOnEmail"
+      >
+        Reset Password
+      </BaseButton>
+      <p
+        class="link"
+        @click="goToLoginPage">
+        Log in page
+      </p>
+    </div>
     <p class="text-pink-400">
-        {{ errorResetHandeler.message }}
-    </p>                
-    <p     
-          v-if="!isLogin"
-          class="link" 
-          @click="goToLogin">
-          Log in page
-    </p>
+      {{ errorResetHandeler.message }}
+    </p>                    
   </div>
 </template>
 
@@ -78,7 +78,7 @@ export default {
       isError: false,
       message: ''
     },
-    isLogin: true,
+    isLoginPage: true,
     errorResetHandeler: {
       isError: false,
       message: ''
@@ -112,12 +112,12 @@ export default {
       this.setUser({});      
     },
     resetPasswordOnEmail() {            
-      this.isLogin = false
+      this.isLoginPage = false
       this.errorResetHandeler.message = ''
       this.errorResetHandeler.isError = false
       resetPassword({'email': this.formData.email})         
       .then (response => {        
-        this.isLogin = true        
+        this.isLoginPage = true        
         return response
       })
       .catch((error) => {                              
@@ -126,12 +126,12 @@ export default {
           this.errorResetHandeler.isError = true
         });
     },  
-    goToLogin(){
-      this.isLogin = true
+    goToLoginPage(){
+      this.isLoginPage = true
       this.errorResetHandeler.message = ''
     },  
-    goToReset(){
-      this.isLogin = false
+    goToResetPage(){
+      this.isLoginPage = false
     }
   },
 };
