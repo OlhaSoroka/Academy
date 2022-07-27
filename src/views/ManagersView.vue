@@ -1,12 +1,12 @@
 /* eslint-disable no-console *
 <template>
-  <div class="w-2/3 mt-10 mx-auto flex flex-col justify-start items-start">
-    <div class="w-full flex justify-between items-center">
+  <div class="managers__container">
+    <div class="managers__topbar_container">
       <div>
-        <h2 class="font-semibold text-lg text-start text-sky-700">
+        <h2 class="managers__header">
           Managers Dashboard
         </h2>
-        <h3 class="mt-2 font-normal text-stone-400">
+        <h3 class="managers__subheader">
           Managers list of InventorSoft Academy
         </h3>
       </div>
@@ -25,7 +25,7 @@
     >
       Error! {{ error }}
     </div>
-    <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5">
+    <div class="managers__table_container">
       <BaseTable
         :table-data="{
           headingData: [{ fullName: 'Fullname' }, { email: 'Email' }],
@@ -97,4 +97,20 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="postcss" scoped>
+.managers__container{
+  @apply w-2/3 mt-10 mx-auto flex flex-col justify-start items-start;
+}
+.managers__topbar_container{
+  @apply w-full flex justify-between items-center;
+}
+.managers__header{
+  @apply font-semibold text-lg text-start text-sky-700;
+}
+.managers__subheader{
+  @apply mt-2 font-normal text-stone-400;
+}
+.managers__table_container{
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5
+}
+</style>
