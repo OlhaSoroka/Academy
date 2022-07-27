@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div v-if="course" 
-    class="flex justify-center flex-col">
+    <div v-if="course">
       <BaseTable
         :table-data="{
           headingData: headers,
@@ -10,8 +9,10 @@
         :edit-btns="false"
         :is-data-loading="loadingStatus"
         :delete-btns="false"
-        :view-btns="false"
       />
+    </div>
+    <div v-else>
+      <h3>No courses</h3>
     </div>
     <BaseButton variant="btn_black" 
     @click="getBackCourseDetailsView"
@@ -28,7 +29,10 @@ import BaseButton from "../components/BaseButton";
 export default {
   name: "CourseDetailsView",
   props: {
-    id: [String, Number],
+    id: {
+      type: [String, Number],
+      required: true,
+    }
   },
   components: {
     BaseTable,
@@ -61,5 +65,8 @@ export default {
 };
 </script>
 <style scoped>
+button {
+  @apply max-w-xs;
+}
 </style>
 

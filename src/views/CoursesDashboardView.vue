@@ -1,6 +1,5 @@
 <template>
   <div class="flex justify-center flex-col">
-    <h2>Courses Dashboard View</h2>
     <BaseTable
       :table-data="{
         headingData: headers,
@@ -10,7 +9,7 @@
       :is-data-loading="loadingStatus"
       :delete-btns="false"
       :view-btns="true"
-      @on-view="goToCourseDetailsView"
+      @view="goToCourseDetailsView"
     />
   </div>
 </template>

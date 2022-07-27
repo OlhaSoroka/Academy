@@ -18,7 +18,7 @@
     <td
       v-if="viewed"
       class="text-green-700 cursor-pointer hover:bg-blue-50"
-      @click="viewedRow"
+      @click="viewRow"
     >
       Details
     </td>
@@ -44,7 +44,6 @@ export default {
     },
     viewed: {
       type: Boolean,
-      required: false,
       default: false,
     },
   },
@@ -55,7 +54,7 @@ export default {
     editRow() {
       this.$emit("edit", this.propsData);
     },
-    viewedRow() {
+    viewRow() {
       this.$emit("view", this.propsData);
     },
   },
