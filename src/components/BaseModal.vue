@@ -92,7 +92,7 @@ export default {
 }
 
 .modal__body {
-  @apply px-5 pt-2.5 flex flex-col items-stretch overflow-auto;
+  @apply px-5 pt-2.5 flex flex-col items-center overflow-auto;
 }
 
 .modal__footer {
