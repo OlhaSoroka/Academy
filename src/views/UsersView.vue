@@ -1,9 +1,13 @@
 <template>
   <div>
-    <div v-if="isUser" 
-    class="UserMembersView">
-      <div v-if="users" 
-      class="UsersView">
+    <div
+      v-if="isUser" 
+      class="UserMembersView"
+    >
+      <div
+        v-if="users" 
+        class="UsersView"
+      >
         <BaseTable
           :table-data="{
             headingData: headersUser,
@@ -15,10 +19,14 @@
         />
       </div>
     </div>
-    <div v-else-if="isManager" 
-    class="ManagerMembersView">
-      <div v-if="users" 
-      class="UsersView">
+    <div
+      v-else-if="isManager" 
+      class="ManagerMembersView"
+    >
+      <div
+        v-if="users" 
+        class="UsersView"
+      >
         <BaseTable
           :table-data="{
             headingData: headersManager,
@@ -38,19 +46,23 @@
         </BaseButton>
       </div>
       <UserEditModal
-        :isOpenedUserEditModal="isEditModalOpen"
-        :targetUserValue="targetUser"
-        :userInputsValue="managerUserEditInputs"
+        :is-opened-user-edit-modal="isEditModalOpen"
+        :target-user-value="targetUser"
+        :user-inputs-value="managerUserEditInputs"
       />
       <UserCreateModal
-        :isOpenedUserCreateModal="isCreateModalOpen"
-        :userInputsValue="managerUserCreateInputs"
+        :is-opened-user-create-modal="isCreateModalOpen"
+        :user-inputs-value="managerUserCreateInputs"
       />
     </div>
-    <div v-else-if="isAdmin" 
-    class="AdminMembersView">
-      <div v-if="users" 
-      class="UsersView">
+    <div
+      v-else-if="isAdmin" 
+      class="AdminMembersView"
+    >
+      <div
+        v-if="users" 
+        class="UsersView"
+      >
         <BaseTable
           :table-data="{
             headingData: headersAdmin,
@@ -70,13 +82,13 @@
         </BaseButton>
       </div>
       <UserEditModal
-        :isOpenedUserEditModal="isEditModalOpen"
-        :targetUserValue="targetUser"
-        :userInputsValue="adminUserEditInputs"
+        :is-opened-user-edit-modal="isEditModalOpen"
+        :target-user-value="targetUser"
+        :user-inputs-value="adminUserEditInputs"
       />
       <UserCreateModal
-        :isOpenedUserCreateModal="isCreateModalOpen"
-        :userInputsValue="adminUserCreateInputs"
+        :is-opened-user-create-modal="isCreateModalOpen"
+        :user-inputs-value="adminUserCreateInputs"
       />
     </div>
     <div
@@ -102,35 +114,6 @@ export default {
     BaseButton,
     UserCreateModal,
     UserEditModal,
-  },
-  computed: {
-    ...mapGetters("users", ["usersLoadingStatus", "users", "error"]),
-    ...mapGetters("user", ["user"]),
-    isUser() {
-      return this.user.role === USER_ROLE;
-    },
-    isManager() {
-      return this.user.role === MANAGER_ROLE;
-    },
-    isAdmin() {
-      return this.user.role === ADMIN_ROLE;
-    },
-  },
-  methods: {
-    ...mapActions("users", ["fetchUsers", "deleteUser"]),
-    openUsersViewEditModal(id) {
-      this.targetUser = this.users.find((e) => e.id === id);
-      this.isEditModalOpen = !this.isEditModalOpen;
-    },
-    openUsersViewCreateModal() {
-      this.isCreateModalOpen = !this.isCreateModalOpen;
-    },
-    deteleteUserButton(id) {
-      this.deleteUser(id);
-    },
-  },
-  async mounted() {
-     await this.fetchUsers();
   },
   data() {
     return {
@@ -259,6 +242,35 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters("users", ["usersLoadingStatus", "users", "error"]),
+    ...mapGetters("user", ["user"]),
+    isUser() {
+      return this.user.role === USER_ROLE;
+    },
+    isManager() {
+      return this.user.role === MANAGER_ROLE;
+    },
+    isAdmin() {
+      return this.user.role === ADMIN_ROLE;
+    },
+  },
+  async mounted() {
+     await this.fetchUsers();
+  },
+  methods: {
+    ...mapActions("users", ["fetchUsers", "deleteUser"]),
+    openUsersViewEditModal(id) {
+      this.targetUser = this.users.find((e) => e.id === id);
+      this.isEditModalOpen = !this.isEditModalOpen;
+    },
+    openUsersViewCreateModal() {
+      this.isCreateModalOpen = !this.isCreateModalOpen;
+    },
+    deteleteUserButton(id) {
+      this.deleteUser(id);
+    },
+  }
 };
 </script>
 <style scoped>

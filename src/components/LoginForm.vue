@@ -16,8 +16,12 @@
           vid="password"
           placeholder="qwe123"
         />
-        <BaseButton variant="btn_green" 
-        type="submit"> Submit </BaseButton>
+        <BaseButton
+          variant="btn_green" 
+          type="submit"
+        >
+          Submit
+        </BaseButton>
       </form>
       <p class="text-pink-400">
         {{ errorHandler.message }}

@@ -1,6 +1,8 @@
 <template>
-  <table v-if="!isDataLoading" 
-  class="BaseTable">
+  <table
+    v-if="!isDataLoading" 
+    class="BaseTable"
+  >
     <thead class="table-head">
       <!-- if props logo is true we`ll add column with logos-->
       <BaseTableRow :props-data="1">
@@ -35,9 +37,11 @@
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
-          <img :src="logoUrl(item)" 
-          alt="image" 
-          width="40" />
+          <img
+            :src="logoUrl(item)" 
+            alt="image" 
+            width="40"
+          >
         </td>
         <!-- fill the row according to the header-->
         <td

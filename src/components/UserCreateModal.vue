@@ -1,13 +1,18 @@
 !<template>
   <div>
-    <BaseModal ref="userCreateModal" 
-    :header="'Create new User'">
+    <BaseModal
+      ref="userCreateModal" 
+      :header="'Create new User'"
+    >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
           <div 
-          class="flex flex-col items-center text-start mt-5">
-            <div v-for="input in userInputsValue" 
-            :key="input.label">
+            class="flex flex-col items-center text-start mt-5"
+          >
+            <div
+              v-for="input in userInputsValue" 
+              :key="input.label"
+            >
               <BaseInput
                 v-model="createModel[input.model]"
                 :type="input.type"
@@ -16,9 +21,12 @@
               />
             </div>
             <div 
-            class="flex justify-center mt-5">
-              <BaseButton :disabled="invalid" 
-              @click="submitUserCreateButton">
+              class="flex justify-center mt-5"
+            >
+              <BaseButton
+                :disabled="invalid" 
+                @click="submitUserCreateButton"
+              >
                 Submit
               </BaseButton>
               <BaseButton
@@ -60,6 +68,20 @@ export default {
       type: Array,
     },
   },
+  data() {
+    return {
+      createModel: {
+        fullName: "",
+        password: "",
+        email: "",
+        course: "",
+        initialScore: "",
+        role: "user",
+        avatarUrl:
+          "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
+      },
+    };
+  },
   watch: {
     isOpenedUserCreateModal() {
       this.$refs.userCreateModal.openModal();
@@ -76,21 +98,7 @@ export default {
       this.$refs.userCreateModal.closeModal();
       this.createModel = {};
     },
-  },
-  data() {
-    return {
-      createModel: {
-        fullName: "",
-        password: "",
-        email: "",
-        course: "",
-        initialScore: "",
-        role: "user",
-        avatarUrl:
-          "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
-      },
-    };
-  },
+  }
 };
 </script>
 

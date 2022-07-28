@@ -3,7 +3,7 @@
     id="app"
     class="flex"
   >
-    <navigation-menu/>
+    <navigation-menu />
     <router-view class="w-full" />
   </div>
 </template>

@@ -1,22 +1,28 @@
 !<template>
   <div>
-    <BaseModal ref="userEditModal" 
-    :header="'Edit User'">
+    <BaseModal
+      ref="userEditModal" 
+      :header="'Edit User'"
+    >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
           <div class="flex flex-col items-center text-start mt-5">
-            <div v-for="input in userInputsValue" 
-            :key="input.label">
+            <div
+              v-for="input in userInputsValue" 
+              :key="input.label"
+            >
               <BaseInput
-              v-model="targetUser[input.model]"
-              :type="input.type"
-              :label="input.label"
-              :placeholder="input.placeholder"
-            />
+                v-model="targetUser[input.model]"
+                :type="input.type"
+                :label="input.label"
+                :placeholder="input.placeholder"
+              />
             </div>
             <div class="flex justify-center mt-5">
-              <BaseButton :disabled="invalid"
-              @click="submitUserEditButton">
+              <BaseButton
+                :disabled="invalid"
+                @click="submitUserEditButton"
+              >
                 Submit
               </BaseButton>
               <BaseButton
@@ -62,6 +68,11 @@ export default {
       type: Array,
     },
   },
+  data() {
+    return {
+      targetUser: {},
+    };
+  },
   watch: {
     isOpenedUserEditModal() {
       this.$refs.userEditModal.openModal();
@@ -79,11 +90,6 @@ export default {
     cancelUserEditButton() {
       this.$refs.userEditModal.closeModal();
     },
-  },
-  data() {
-    return {
-      targetUser: {},
-    };
   }
 };
 </script>
