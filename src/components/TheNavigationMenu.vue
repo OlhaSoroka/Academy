@@ -64,82 +64,88 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant';
-import { ADMIN_ROLE } from '@/constants/roles.constant';
+import { mapActions } from "vuex";
+import {
+  PROFILE,
+  USERS,
+  MANAGERS,
+  COURSE_DASHBOARD,
+  LOGIN,
+} from "@/constants/routes.constant";
+import { ADMIN_ROLE } from "@/constants/roles.constant";
 export default {
-	name: 'NavigationMenu',
-	props: {
-		role: {
-			default: 'user',
-			type: String,
-		},
-	},
-	data() {
-		return {
-			PROFILE,
-			USERS,
-			MANAGERS,
-			COURSE_DASHBOARD,
-			LOGIN,
-		};
-	},
-	computed: {
-		isAdmin() {
-			return this.role === ADMIN_ROLE;
-		},
-	},
-	methods: {
-		...mapActions(['logout']),
-	},
+  name: "NavigationMenu",
+  props: {
+    role: {
+      default: "user",
+      type: String,
+    },
+  },
+  data() {
+    return {
+      PROFILE,
+      USERS,
+      MANAGERS,
+      COURSE_DASHBOARD,
+      LOGIN,
+    };
+  },
+  computed: {
+    isAdmin() {
+      return this.role === ADMIN_ROLE;
+    },
+  },
+  methods: {
+    ...mapActions(["logout"]),
+  },
 };
 </script>
 
 <style lang="scss">
 .navigation-menu {
-	@apply bg-stone-50 text-sky-700 w-48 h-screen;
-	font-family: font-mono;
+  @apply bg-stone-50 text-sky-700 w-48 h-screen;
+  font-family: font-mono;
 }
 .navigation-menu > * {
-	@apply text-left flex text-base px-2 py-3 
+  @apply text-left flex text-base px-2 py-3 
     hover:bg-sky-400 hover:text-stone-50 
     hover:fill-stone-50 hover:duration-500
     focus:bg-sky-400 focus:text-stone-50 focus:duration-500
     focus:fill-stone-50;
 }
 .navigation-menu-profile {
-	@apply absolute w-48 bottom-2;
+  @apply absolute w-48 bottom-2;
 }
 
 @media only screen and (max-width: 480px) {
-	.navigation-menu {
-		@apply w-10;
-	}
-	.navigation-menu-text {
-		@apply hidden;
-	}
-	.navigation-menu > * {
-		@apply p-2;
-	}
-	.navigation-menu-icon {
-		@apply fill-sky-700;
-	}
-	.navigation-menu-profile {
-		@apply w-10;
-	}
+  .navigation-menu {
+    @apply w-10;
+  }
+  .navigation-menu-text {
+    @apply hidden;
+  }
+  .navigation-menu > * {
+    @apply p-2;
+  }
+  .navigation-menu-icon {
+    @apply fill-sky-700;
+  }
+  .navigation-menu-profile {
+    @apply w-10;
+  }
 }
 
 .navigation-menu > *:hover,
 .navigation-menu > *:focus {
-	.navigation-menu-icon {
-		@apply m-1 fill-stone-50 duration-500;
-	}
+  .navigation-menu-icon {
+    @apply m-1 fill-stone-50 duration-500;
+  }
 }
 .navigation-menu-icon {
-	@apply m-1 fill-sky-700;
+  @apply m-1 fill-sky-700;
 }
 
 .navigation-menu-text {
-	@apply ml-2.5;
+  @apply ml-2.5;
 }
 </style>

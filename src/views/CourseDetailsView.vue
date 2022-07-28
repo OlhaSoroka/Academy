@@ -104,8 +104,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import BaseButton from "../components/BaseButton.vue";
-import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
+import BaseButton from "../components/BaseComponents/BaseButton.vue";
+import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
