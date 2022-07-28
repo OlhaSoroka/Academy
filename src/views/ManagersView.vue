@@ -19,12 +19,6 @@
         </BaseButton>
       </div>
     </div>
-    <div
-      v-if="error"
-      class="text-red-600 text"
-    >
-      Error! {{ error }}
-    </div>
     <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5">
       <BaseTable
         :table-data="{
@@ -72,7 +66,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('managers', ['managers', 'isManagersLoading', 'error']),
+		...mapGetters('managers', ['managers', 'isManagersLoading']),
 		selectedManager() {
 			return this.managers.find((manager) => {
 				return manager.id === this.selectedManagerId;

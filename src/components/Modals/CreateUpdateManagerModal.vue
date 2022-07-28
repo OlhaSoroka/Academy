@@ -102,17 +102,16 @@ export default {
 	data() {
 		return { fullName: '', email: '', password: '', confirmPassword: '', changePasswordMode: false };
 	},
-  computed: {
-    isUpdateMode() {
-      return !!this.manager;
-    }
-  },
+	computed: {
+		isUpdateMode() {
+			return !!this.manager;
+		},
+	},
 	watch: {
 		toggleModal() {
 			this.changePasswordMode = false;
 			this.$refs.createUpdateManagerModal.openModal();
 			if (this.isUpdateMode) {
-				console.log('hre');
 				this.fullName = this.manager.fullName;
 				this.email = this.manager.email;
 			}
@@ -120,6 +119,12 @@ export default {
 	},
 	methods: {
 		...mapActions('managers', ['createManager', 'updateManager']),
+		clearInputs() {
+			this.fullName = '';
+			this.email = '';
+			this.password = '';
+			this.confirmPassword = '';
+		},
 		submitAddNewManager() {
 			if (this.isUpdateMode) {
 				this.updateManagerHandler();
@@ -129,10 +134,7 @@ export default {
 			this.$refs.createUpdateManagerModal.closeModal();
 		},
 		cancelAddNewManager() {
-			this.fullName = '';
-			this.email = '';
-			this.password = '';
-			this.confirmPassword = '';
+			this.clearInputs();
 			this.$refs.createUpdateManagerModal.closeModal();
 		},
 		toggleChangePassword() {
@@ -148,6 +150,7 @@ export default {
 				managerData.password = this.password;
 			}
 			this.updateManager(managerData);
+			this.clearInputs();
 		},
 		createManagerHandler() {
 			const manager = {
@@ -157,6 +160,7 @@ export default {
 				role: MANAGER_ROLE,
 			};
 			this.createManager(manager);
+			this.clearInputs();
 		},
 	},
 };

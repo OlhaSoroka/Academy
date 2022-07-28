@@ -25,12 +25,15 @@ export default {
     changeLoadingStatus(state) { state.isLoading = !state.isLoading }
   },
   actions: {
-    getCourses({ commit }) {
+    getCourses({ commit,dispatch }) {
       commit('changeLoadingStatus')
       getAllCourses()
         .then((data) => commit('setCourses', data))
         // eslint-disable-next-line
-        .catch(error => { console.log(error) })
+        .catch(error => {  
+          const errorMessage = error.response?.data?.error || error.message;
+          dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
+        })
         .finally(() => commit('changeLoadingStatus'))
     }
   }

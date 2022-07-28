@@ -91,7 +91,7 @@ export default {
 	},
 	mounted() {
 		/* TODO:  temporary. remove after Authorization implementation */
-		this.fetchUser('ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef');
+		this.fetchUser('91d00e54-b58b-4ab9-961f-b12e943fa0dc');
 	},
 	methods: {
 		...mapActions('user', ['fetchUser']),

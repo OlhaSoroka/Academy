@@ -3,18 +3,16 @@ import { getAllUsers, registerUser, deleteUserById, updateUserByID } from '@/api
 import { MANAGER_ROLE } from '@/constants/roles.constant';
 
 const token =
-	'eyJhbGciOiJSUzI1NiIsImtpZCI6ImJmMWMyNzQzYTJhZmY3YmZmZDBmODRhODY0ZTljMjc4ZjMxYmM2NTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXVkIjoiaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXV0aF90aW1lIjoxNjU4ODM1NDI0LCJ1c2VyX2lkIjoiOTFLeE11NkxyRWdFUE5kWDFsS3hhTXZISFFNMiIsInN1YiI6IjkxS3hNdTZMckVnRVBOZFgxbEt4YU12SEhRTTIiLCJpYXQiOjE2NTg4MzU0MjQsImV4cCI6MTY1ODgzOTAyNCwiZW1haWwiOiJ3ZWJwb3J0YWxhZG1pbkBpbnZlbnRvcnNvZnQuY28iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsid2VicG9ydGFsYWRtaW5AaW52ZW50b3Jzb2Z0LmNvIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.ffMlHMqbYGCxNgUU4vbdGFBjXu_rqSoqLKCvA-FGnTO-eGzttqU23IcphHO5WN-3C0kjukmpSJnxlsoD6lqy7mpBq8mbhhcPKrq4ipBVGG5M9CnpI5Ugu6uFGkUr70I-P8TPvR9nQwAwflyfrQPpNS4CrdS2ALFRHHGa21m9Xj5Qo_Xsy8ieLoQdDKZFyoXlH3zafPFi8hpsHmKZXkgJpmWqYgoeGOpmFQ8BRSIzE28tqrq_djHrR6gOP1jQwsx46erUErRDrZvfr4HxXbAs-iUdddYxqWmq8lG7-w_hY3U0Q0u0zWzaMOt5I2gwKbX7BZ470ltQFn__PkuO7fIufw';
+	'eyJhbGciOiJSUzI1NiIsImtpZCI6IjFhZjYwYzE3ZTJkNmY4YWQ1MzRjNDAwYzVhMTZkNjc2ZmFkNzc3ZTYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXVkIjoiaW52ZW50b3Jzb2Z0LXZ1ZS0yMDIyLWQ1NjZjIiwiYXV0aF90aW1lIjoxNjU5MDQwMDU3LCJ1c2VyX2lkIjoiOTFLeE11NkxyRWdFUE5kWDFsS3hhTXZISFFNMiIsInN1YiI6IjkxS3hNdTZMckVnRVBOZFgxbEt4YU12SEhRTTIiLCJpYXQiOjE2NTkwNDAwNTcsImV4cCI6MTY1OTA0MzY1NywiZW1haWwiOiJ3ZWJwb3J0YWxhZG1pbkBpbnZlbnRvcnNvZnQuY28iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsid2VicG9ydGFsYWRtaW5AaW52ZW50b3Jzb2Z0LmNvIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.fKc-rp50ul7ou7iBK2OvoZ2CWwwSTB-cYlxng3p2ENn8WOTSm_WgpGbqWvFLXK9UKdm1KjQuRqxNScmjT8ilCw6g-0cqljartPrIe-5VxgV0VGhAUwY75no-jDa8B_utakiRRlajH65qzBVhygh6H-ZbSwIqI3VdpeagPUMLBTkkr3msg5hvzbOYc4GpVG-CKIiM0jVNATxy1QD-aO7tABcRHQo-xr9iIky1nf15yK5FfeTnxWD4qKekNkjm1KOLEKY0ggMpmefQsZ3ZDFMHKYZTyXrIa7q7hAWT47SZc8lKCn_OyRs5IUUzXY2SIqD4apYR9LdPBQhoFsAcWymcjg';
 
 export default {
 	state: {
 		managers: [],
 		isManagersLoading: false,
-		error: null,
 	},
 	getters: {
 		managers: (state) => state.managers,
 		isManagersLoading: (state) => state.isManagersLoading,
-		error: (state) => state.error,
 	},
 	actions: {
 		fetchManagers: async (store) => {
@@ -24,8 +22,8 @@ export default {
 				const managers = users.filter((user) => user.role === MANAGER_ROLE);
 				store.commit('SET_MANAGERS', managers);
 			} catch (error) {
-				const responseError = error.response?.data?.error || error.message;
-				store.commit('SET_ERROR', responseError);
+				const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			} finally {
 				store.commit('TOGGLE_MANAGERS_LOADING');
 			}
@@ -34,9 +32,10 @@ export default {
 			try {
 				store.commit('TOGGLE_MANAGERS_LOADING');
 				await registerUser(manager);
+				store.dispatch('toast/show', { message: 'User succesfully created', type: 'success' }, { root: true });
 			} catch (error) {
-				const responseError = error.response?.data?.error || error.message;
-				store.commit('SET_ERROR', responseError);
+				const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			} finally {
 				store.commit('TOGGLE_MANAGERS_LOADING');
 				store.dispatch('fetchManagers');
@@ -46,9 +45,10 @@ export default {
 			try {
 				store.commit('TOGGLE_MANAGERS_LOADING');
 				await deleteUserById(id, token);
+				store.dispatch('toast/show', { message: 'User succesfully deleted', type: 'success' }, { root: true });
 			} catch (error) {
-				const responseError = error.response?.data?.error || error.message;
-				store.commit('SET_ERROR', responseError);
+				const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			} finally {
 				store.commit('TOGGLE_MANAGERS_LOADING');
 				store.dispatch('fetchManagers');
@@ -58,9 +58,10 @@ export default {
 			try {
 				store.commit('TOGGLE_MANAGERS_LOADING');
 				await updateUserByID(managerData.id, managerData, token);
+				store.dispatch('toast/show', { message: 'User succesfully updated', type: 'success' }, { root: true });
 			} catch (error) {
-				const responseError = error.response?.data?.error || error.message;
-				store.commit('SET_ERROR', responseError);
+				const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			} finally {
 				store.commit('TOGGLE_MANAGERS_LOADING');
 				store.dispatch('fetchManagers');
@@ -73,9 +74,6 @@ export default {
 		},
 		TOGGLE_MANAGERS_LOADING: (state) => {
 			state.isManagersLoading = !state.isManagersLoading;
-		},
-		SET_ERROR: (state, error) => {
-			state.error = error;
 		},
 	},
 	namespaced: true,

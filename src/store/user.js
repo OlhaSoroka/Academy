@@ -22,12 +22,14 @@ export default {
     setUser({ commit }, user) {
       commit("SET_USER", user);
     },
-    logoutUser() {
+    logoutUser(store) {
       const auth = getAuth();
       signOut(auth).then(() => {
         localStorage.removeItem("user");
-      }).catch((error) => {
-        console.log(error.message)
+      })
+      .catch((error) => {
+        const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
       });
     }
 
