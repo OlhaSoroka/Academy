@@ -28,35 +28,31 @@
 </template>
 
 <script>
-import { ValidationObserver } from 'vee-validate';
-import BaseButton from '@/components/BaseButton.vue';
+import { ValidationObserver } from "vee-validate";
+import BaseButton from "@/components/BaseButton.vue";
 import BaseInput from "@/components/BaseInput";
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from "vuex"
 export default {
-	name: 'AddEventForm',
+	name: "AddEventForm",
 	components: { BaseInput, BaseButton, ValidationObserver},
 	data() {
 		return {
 			courseToAdd: {
         id: 0,
-        name: '',
-        date:'',
+        name: "",
+        date:"",
       },
 		}
 	},
   computed: {
-    ...mapGetters([
-      "courses"
-    ])
+    ...mapGetters(["courses"])
   },
 	methods: {
-    ...mapActions([
-      'addCourseToState'
-    ]),
+    ...mapActions(["addCourseToState"]),
 		addEvent(){
 			const newCourse = {...this.courseToAdd}
       const {name, date} = newCourse;
-			if(name !== '' && date !== ''){
+			if(name !== "" && date !== ""){
         if(this.courses.length > 0)
           {
             const ids = this.courses.map(course => {
@@ -66,9 +62,8 @@ export default {
           } else {
             newCourse.id = 1;
           }
-        console.log(this.courses);
-        this.courseToAdd.name = '';
-        this.courseToAdd.date = '';
+        this.courseToAdd.name = "";
+        this.courseToAdd.date = "";
         this.addCourseToState(newCourse)
       }
 		}
