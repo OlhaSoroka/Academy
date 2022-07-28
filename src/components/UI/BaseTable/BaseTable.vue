@@ -121,13 +121,12 @@ export default {
   updated() {
     this.items = this.tableData["bodyData"];
   },
-  emits: ['onEdit'],
   methods: {
     onEdit(id) {
-      this.$emit("on-edit", id);
+      this.$emit("edit", id);
     },
     onDelete(id) {
-      this.$emit("on-delete", id);
+      this.$emit("delete", id);
     },
     getEntriesFromArray(array) {
       const res = array.reduce(

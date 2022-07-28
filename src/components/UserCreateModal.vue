@@ -54,15 +54,10 @@ export default {
     isOpenedUserCreateModal: {
       required: true,
       type: Boolean,
-      default: false,
-    },
-    fetchCreatedUser: {
-      required: true,
     },
     userInputsValue: {
       required: true,
       type: Array,
-      default: null,
     },
   },
   watch: {
@@ -72,21 +67,10 @@ export default {
   },
   methods: {
     ...mapActions("users", ["createNewUser"]),
-    async submitUserCreateButton() {
-      await this.createNewUser(this.createModel)
-        .then(
-          () => this.$refs.userCreateModal.closeModal(),
-          setTimeout(() => {
-            return this.fetchCreatedUser();
-          }, 1000)
-        )
-        // eslint-disable-next-line
-        .catch((error) => {
-          console.log(error.message, "|| Inputs is not valid");
-        })
-        .finally(() => {
-          this.createModel = {};
-        });
+    submitUserCreateButton() {
+      this.$refs.userCreateModal.closeModal()
+      this.createNewUser(this.createModel)
+      this.createModel = {};
     },
     canselUserCreateButton() {
       this.$refs.userCreateModal.closeModal();

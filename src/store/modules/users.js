@@ -4,6 +4,7 @@ import {
   registerUser,
   deleteUserById,
 } from "../../api/user/index";
+import { USER_ROLE } from "@/constants/roles.constant";
 
 const token = localStorage.getItem("accessToken");
 
@@ -11,38 +12,70 @@ export default {
   state: {
     users: [],
     isUsersLoading: false,
+    error: null,
   },
   getters: {
     users: (state) => state.users,
     usersLoadingStatus: (state) => state.isUsersLoading,
+    error: (state) => state.error,
   },
   actions: {
-    async fetchUsers(store) {
-      store.commit("TOGGLE_LOADIN_STATUS");
-      await getAllUsers(token)
-        .then((data) => store.commit("SET_USERS", data))
-        // eslint-disable-next-line
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => store.commit("TOGGLE_LOADIN_STATUS"));
+    fetchUsers: async (store) => {
+      try {
+        store.commit("TOGGLE_LOADIN_STATUS");
+        const allUsers = await getAllUsers(token);
+        const users = allUsers.filter((user) => user.role === USER_ROLE);
+        store.commit("SET_USERS", users);
+      } catch (error) {
+        const responseError = error.response?.data?.error || error.message;
+        store.commit("SET_ERROR", responseError);
+      } finally {
+        store.commit("TOGGLE_LOADIN_STATUS");
+      }
     },
-    async updateUser(store, data) {
-      await updateUserByID(data.id, data, token);
-      store.dispatch("fetchUsers");
+    updateUser: async (store, data) => {
+      try {
+        store.commit("TOGGLE_LOADIN_STATUS");
+        await updateUserByID(data.id, data, token);
+      } catch (error) {
+        const responseError = error.response?.data?.error || error.message;
+        store.commit("SET_ERROR", responseError);
+      } finally {
+        store.commit("TOGGLE_LOADIN_STATUS");
+        store.dispatch("fetchUsers");
+      }
     },
-    async createNewUser(store, data) {
-      await registerUser(data);
-      store.dispatch("fetchUsers");
+    createNewUser: async (store, data) => {
+      try {
+        store.commit("TOGGLE_LOADIN_STATUS");
+        await registerUser(data);
+      } catch (error) {
+        const responseError = error.response?.data?.error || error.message;
+        store.commit("SET_ERROR", responseError);
+      } finally {
+        store.commit("TOGGLE_LOADIN_STATUS");
+        store.dispatch("fetchUsers");
+      }
     },
-    async deleteUser(store, id) {
-      await deleteUserById(id, token);
-      store.dispatch("fetchUsers");
+    deleteUser: async (store, id) => {
+      try {
+        store.commit("TOGGLE_LOADIN_STATUS");
+        await deleteUserById(id, token);
+      } catch (error) {
+        const responseError = error.response?.data?.error || error.message;
+        store.commit("SET_ERROR", responseError);
+      } finally {
+        store.commit("TOGGLE_LOADIN_STATUS");
+        store.dispatch("fetchUsers");
+      }
     },
   },
   mutations: {
     SET_USERS(state, users) {
       state.users = users;
+    },
+    SET_ERROR: (state, error) => {
+      state.error = error;
     },
     TOGGLE_LOADIN_STATUS(state) {
       state.isUsersLoading = !state.isUsersLoading;

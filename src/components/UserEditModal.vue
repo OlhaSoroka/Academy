@@ -52,20 +52,14 @@ export default {
     isOpenedUserEditModal: {
       required: true,
       type: Boolean,
-      default: false,
     },
     targetUserValue: {
       required: true,
       type: Object,
-      default: null,
     },
     userInputsValue: {
       required: true,
       type: Array,
-      default: null,
-    },
-    fetchEditedUser: {
-      required: true,
     },
   },
   watch: {
@@ -78,18 +72,9 @@ export default {
   },
   methods: {
     ...mapActions("users", ["updateUser"]),
-    async submitUserEditButton() {
-      await this.updateUser(this.targetUser)
-        .then(
-          () => this.$refs.userEditModal.closeModal(),
-          setTimeout(() => {
-            return this.fetchEditedUser();
-          }, 1000)
-        )
-        // eslint-disable-next-line
-        .catch((error) => {
-          console.log(error.message, "|| Inputs is not valid");
-        });
+    submitUserEditButton() {
+      this.$refs.userEditModal.closeModal()
+      this.updateUser(this.targetUser)
     },
     cancelUserEditButton() {
       this.$refs.userEditModal.closeModal();

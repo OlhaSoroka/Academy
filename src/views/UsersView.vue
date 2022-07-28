@@ -2,12 +2,12 @@
   <div>
     <div v-if="isUser" 
     class="UserMembersView">
-      <div v-if="usersModel" 
+      <div v-if="users" 
       class="UsersView">
         <BaseTable
           :table-data="{
             headingData: headersUser,
-            bodyData: usersModel,
+            bodyData: users,
           }"
           :edit-btns="false"
           :is-data-loading="usersLoadingStatus"
@@ -17,18 +17,18 @@
     </div>
     <div v-else-if="isManager" 
     class="ManagerMembersView">
-      <div v-if="usersModel" 
+      <div v-if="users" 
       class="UsersView">
         <BaseTable
           :table-data="{
             headingData: headersManager,
-            bodyData: usersModel,
+            bodyData: users,
           }"
           :edit-btns="true"
           :is-data-loading="usersLoadingStatus"
           :delete-btns="true"
-          @on-edit="openUsersViewEditModal"
-          @on-delete="deteleteUserButton"
+          @edit="openUsersViewEditModal"
+          @delete="deteleteUserButton"
         />
         <BaseButton
           :loading="usersLoadingStatus"
@@ -40,29 +40,27 @@
       <UserEditModal
         :isOpenedUserEditModal="isEditModalOpen"
         :targetUserValue="targetUser"
-        :fetchEditedUser="UsersViewFetchUsers"
         :userInputsValue="managerUserEditInputs"
       />
       <UserCreateModal
         :isOpenedUserCreateModal="isCreateModalOpen"
-        :fetchCreatedUser="UsersViewFetchUsers"
         :userInputsValue="managerUserCreateInputs"
       />
     </div>
     <div v-else-if="isAdmin" 
     class="AdminMembersView">
-      <div v-if="usersModel" 
+      <div v-if="users" 
       class="UsersView">
         <BaseTable
           :table-data="{
             headingData: headersAdmin,
-            bodyData: usersModel,
+            bodyData: users,
           }"
           :edit-btns="true"
           :is-data-loading="usersLoadingStatus"
           :delete-btns="true"
-          @on-edit="openUsersViewEditModal"
-          @on-delete="deteleteUserButton"
+          @edit="openUsersViewEditModal"
+          @delete="deteleteUserButton"
         />
         <BaseButton
           :loading="usersLoadingStatus"
@@ -74,14 +72,18 @@
       <UserEditModal
         :isOpenedUserEditModal="isEditModalOpen"
         :targetUserValue="targetUser"
-        :fetchEditedUser="UsersViewFetchUsers"
         :userInputsValue="adminUserEditInputs"
       />
       <UserCreateModal
         :isOpenedUserCreateModal="isCreateModalOpen"
-        :fetchCreatedUser="UsersViewFetchUsers"
         :userInputsValue="adminUserCreateInputs"
       />
+    </div>
+    <div
+      v-if="error"
+      class="text-red-600 text"
+    >
+      Error! {{ error }}
     </div>
   </div>
 </template>
@@ -102,7 +104,7 @@ export default {
     UserEditModal,
   },
   computed: {
-    ...mapGetters("users", ["usersLoadingStatus", "users"]),
+    ...mapGetters("users", ["usersLoadingStatus", "users", "error"]),
     ...mapGetters("user", ["user"]),
     isUser() {
       return this.user.role === USER_ROLE;
@@ -116,16 +118,6 @@ export default {
   },
   methods: {
     ...mapActions("users", ["fetchUsers", "deleteUser"]),
-    async UsersViewFetchUsers() {
-      try {
-        await this.fetchUsers();
-        if (this.users) {
-          this.usersModel = this.users.filter((e) => e.role === "user");
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
     openUsersViewEditModal(id) {
       this.targetUser = this.users.find((e) => e.id === id);
       this.isEditModalOpen = !this.isEditModalOpen;
@@ -133,13 +125,12 @@ export default {
     openUsersViewCreateModal() {
       this.isCreateModalOpen = !this.isCreateModalOpen;
     },
-    async deteleteUserButton(id) {
-      await this.deleteUser(id);
-      this.UsersViewFetchUsers();
+    deteleteUserButton(id) {
+      this.deleteUser(id);
     },
   },
-  mounted() {
-    this.UsersViewFetchUsers();
+  async mounted() {
+     await this.fetchUsers();
   },
   data() {
     return {
@@ -250,7 +241,6 @@ export default {
           placeholder: "Enter initial score",
         },
       ],
-      usersModel: [],
       headersUser: [
         { fullName: "Name" },
         { email: "Email" },
