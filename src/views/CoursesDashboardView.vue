@@ -21,8 +21,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
-import BaseButton from "../components/BaseButton.vue";
+import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
+import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import { COURSE_DETAILS } from "../constants/routes.constant";
 
 export default {
@@ -56,4 +56,3 @@ export default {
   },
 };
 </script>
-<style></style>

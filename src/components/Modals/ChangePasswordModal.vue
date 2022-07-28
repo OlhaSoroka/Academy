@@ -4,7 +4,7 @@
     :header="'Change password'"
   >
     <template #body>
-      <ValidationObserver v-slot="{invalid}">
+      <ValidationObserver v-slot="{ invalid }">
         <div class="flex flex-col items-center mt-5">
           <div class="mb-3">
             <BaseInput
@@ -49,42 +49,42 @@
 </template>
 
 <script>
-import BaseButton from '@/components/BaseButton.vue';
-import BaseModal from '@/components/BaseModal.vue';
-import BaseInput from '@/components/BaseInput.vue';
-import {ValidationObserver} from 'vee-validate'
-import { mapActions } from 'vuex';
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import BaseModal from "@/components/BaseComponents/BaseModal.vue";
+import BaseInput from "@/components/BaseComponents/BaseInput.vue";
+import { ValidationObserver } from "vee-validate";
+import { mapActions } from "vuex";
 export default {
-	components: { BaseButton, BaseModal, BaseInput, ValidationObserver },
-	props: {
-		toggleModal: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data() {
-		return {
-			newPassword: '',
-			confirmedPassword: '',
-		};
-	},
-	watch: {
-		toggleModal() {
-			this.$refs.passwordModal.openModal();
-		},
-	},
-	methods: {
-		...mapActions('user', ['changePassword']),
-		openPasswordChangeModal() {
-			this.$refs.passwordModal.openModal();
-		},
-		submitPasswordChange() {
-			this.changePassword(this.newPassword);
-			this.$refs.passwordModal.closeModal();
-		},
-		cancelPasswordChange() {
-			this.$refs.passwordModal.closeModal();
-		},
-	},
+  components: { BaseButton, BaseModal, BaseInput, ValidationObserver },
+  props: {
+    toggleModal: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      newPassword: "",
+      confirmedPassword: "",
+    };
+  },
+  watch: {
+    toggleModal() {
+      this.$refs.passwordModal.openModal();
+    },
+  },
+  methods: {
+    ...mapActions("user", ["changePassword"]),
+    openPasswordChangeModal() {
+      this.$refs.passwordModal.openModal();
+    },
+    submitPasswordChange() {
+      this.changePassword(this.newPassword);
+      this.$refs.passwordModal.closeModal();
+    },
+    cancelPasswordChange() {
+      this.$refs.passwordModal.closeModal();
+    },
+  },
 };
 </script>

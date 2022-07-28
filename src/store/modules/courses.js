@@ -1,69 +1,77 @@
-import axios from "axios"
-import { getAllCourses, COURSES_URL } from "../../api/course/index"
+import axios from "axios";
+import { getAllCourses, COURSES_URL } from "../../api/course/index";
 
 export default {
   state() {
     return {
       courses: [],
       isLoading: false,
-      errorNewComment: ""
-    }
+      errorNewComment: "",
+    };
   },
   getters: {
     courses(state) {
-      return state.courses
+      return state.courses;
     },
     sortedCourses(state) {
-      return state.courses.sort((a, b) => a.date > b.date ? 1 : -1)
+      return state.courses.sort((a, b) => (a.date > b.date ? 1 : -1));
     },
     loadingStatus(state) {
-      return state.isLoading
+      return state.isLoading;
     },
     getCourseById(state) {
-      return id => {
-        return state.courses.find(course => course.id === +id)
-      }
+      return (id) => {
+        return state.courses.find((course) => course.id === +id);
+      };
     },
     courseIndex(state) {
-      return courseItem => state.courses.indexOf(courseItem)
+      return (courseItem) => state.courses.indexOf(courseItem);
     },
     nextCourseId(state, getters) {
-      return id => {
-        let currentIndex = getters.courseIndex(getters.getCourseById(id))
+      return (id) => {
+        let currentIndex = getters.courseIndex(getters.getCourseById(id));
         if (currentIndex < state.courses.length - 1) {
-          return state.courses[currentIndex + 1].id
-        }
-        else return state.courses[0].id
-      }
+          return state.courses[currentIndex + 1].id;
+        } else return state.courses[0].id;
+      };
     },
     getErrorNewComment(state) {
-      return state.errorNewComment
-    }
+      return state.errorNewComment;
+    },
   },
   mutations: {
     setCourses(state, courses) {
-      state.courses = courses
+      state.courses = courses;
     },
-    changeLoadingStatus(state) { state.isLoading = !state.isLoading },
+    changeLoadingStatus(state) {
+      state.isLoading = !state.isLoading;
+    },
     setError(state, errorNewComment) {
-      state.errorNewComment = errorNewComment
-    }
+      state.errorNewComment = errorNewComment;
+    },
   },
   actions: {
     getCourses({ commit }) {
-      commit('changeLoadingStatus')
+      commit("changeLoadingStatus");
       getAllCourses()
-        .then((data) => commit('setCourses', data))
+        .then((data) => commit("setCourses", data))
         // eslint-disable-next-line
-        .catch(error => { console.log(error) })
-        .finally(() => commit('changeLoadingStatus'))
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => commit("changeLoadingStatus"));
     },
     addNewComment({ dispatch, commit }, payload) {
-      axios.put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate)
+      axios
+        .put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate)
         .then((response) => {
-          if (response.status === 201) { dispatch('getCourses') }
+          if (response.status === 201) {
+            dispatch("getCourses");
+          }
         })
-        .catch(error => { commit('setError', error) })
+        .catch((error) => {
+          commit("setError", error);
+        });
     },
-  }
-}
+  },
+};
