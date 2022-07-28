@@ -1,6 +1,7 @@
 <template>
   <button
     :class="[classes, { btn_disabled: disabled }]"
+    :disabled="disabled"
     v-on="$listeners"
   >
     <div v-if="loading">
