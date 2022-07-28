@@ -14,10 +14,12 @@
     <div v-else>
       <h3>No courses</h3>
     </div>
-    <BaseButton variant="btn_black" 
-    @click="getBackCourseDetailsView"
-      >Back</BaseButton
+    <BaseButton
+      variant="btn_black" 
+      @click="getBackCourseDetailsView"
     >
+      Back
+    </BaseButton>
   </div>
 </template>
 
@@ -28,15 +30,15 @@ import BaseButton from "../components/BaseButton";
 
 export default {
   name: "CourseDetailsView",
+  components: {
+    BaseTable,
+    BaseButton,
+  },
   props: {
     id: {
       type: [String, Number],
       required: true,
     }
-  },
-  components: {
-    BaseTable,
-    BaseButton,
   },
   data() {
     return {
@@ -47,12 +49,6 @@ export default {
       ],
     };
   },
-  methods: {
-    ...mapActions(["getCourses"]),
-    getBackCourseDetailsView() {
-      this.$router.back();
-    },
-  },
   computed: {
     ...mapGetters(["loadingStatus", "courseById"]),
     course() {
@@ -61,6 +57,12 @@ export default {
   },
   mounted() {
     this.getCourses();
+  },
+  methods: {
+    ...mapActions(["getCourses"]),
+    getBackCourseDetailsView() {
+      this.$router.back();
+    },
   },
 };
 </script>
