@@ -30,8 +30,10 @@
         :props-data="item.id"
         :editable="editBtns"
         :deletable="deleteBtns"
-        @delete="onDelete"
-        @edit="onEdit"
+        :viewed="viewBtns"
+        @onDelete="onDelete"
+        @onEdit="onEdit"
+        @view="onView"
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
@@ -71,6 +73,7 @@ export default {
   isDataLoading - flag of loading data
   editBtns - flag (does table needs a edit buttons)
   deleteBtns - flag (does table needs a delete buttons)
+  viewBtns - flag (does table needs a view buttons)
   logo - flag (does table has fields with logos)
   */
   props: {
@@ -100,6 +103,10 @@ export default {
       required: true,
       type: Boolean,
     },
+    viewBtns: {
+      required: false,
+      type: Boolean,
+    },
     logo: {
       required: false,
       type: Boolean,
@@ -127,6 +134,9 @@ export default {
     },
     onDelete(id) {
       this.$emit('delete', id)
+    },
+    onView(id) {
+      this.$emit('on-view', id)
     },
     getEntriesFromArray(array) {
       const res = array.reduce((acc, el) => [...acc, Object.entries(el)[0]], [])

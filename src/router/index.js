@@ -101,7 +101,7 @@ const routes = [
         path: ":id",
         name: COURSE_DETAILS,
         component: CourseDetailsView,
-      },
+      }
     ],
   },
 

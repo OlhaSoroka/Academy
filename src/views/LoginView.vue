@@ -8,7 +8,8 @@
         <LoginForm />
         <p 
           class="link" 
-          @click="sendPasswordToEmail">
+          @click="sendPasswordToEmail"
+        >
           Send Password to Email
         </p>
       </div>
