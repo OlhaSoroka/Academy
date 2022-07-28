@@ -5,16 +5,17 @@
     :vid="vid"
     :rules="allRules"
   >
-    <label 
-	v-if="label" 
-    class="w-64 block ml-1">
-	{{ label }}</label>
+    <label
+      v-if="label"
+      class="block ml-1 text-start"
+    >{{ label }}</label>
     <input
-	v-bind="$attrs" 
-    v-model="model" 
-	:type="type"  
-    class="BaseInput" 
-    v-on="listeners" />
+      v-bind="$attrs"
+      v-model="model"
+      :type="type" 
+      class="BaseInput"
+      v-on="listeners"      
+    >
     <p class="text-red-700 text-sm w-64 ml-1">
       {{ errors[0] }}
     </p>
@@ -38,69 +39,68 @@ export default {
   components: {
     ValidationProvider,
   },
-
-  inheritAttrs: false,
-  props: {
-    label: {
-      type: [String, Boolean],
-      default: false,
-    },
-    rules: {
-      type: String,
-      default: "",
-    },
-    vid: {
-      type: String,
-      default: "",
-    },
-    type: {
-      type: String,
-      default: "text",
-    },
-    value: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      emailRules: "required|email",
-      passwordRules: "required|min:6",
-    };
-  },
-  computed: {
-    model: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit("input", value);
-      },
-    },
-    listeners() {
-      return {
-        ...this.$listeners,
-        input: (event) => this.onInput(event.target.value),
-      };
-    },
-    allRules() {
-      if (this.type === "email") {
-        return `${this.emailRules}|${this.rules}`;
-      } else if (this.type === "password") {
-        return `${this.passwordRules}|${this.rules}`;
-      } else return `${this.rules}`;
-    },
-  },
-  methods: {
-    onInput(value) {
-      this.$emit("input", value);
-    },
-  },
+	inheritAttrs: false,
+	props: {
+		label: {
+			type: [String, Boolean],
+			default: false,
+		},
+		rules: {
+			type: String,
+			default: '',
+		},
+		vid: {
+			type: String,
+			default: '',
+		},
+		type: {
+			type: String,
+			default: 'text',
+		},
+		value: {
+			type: String,
+			required: true,
+		},
+	},
+	data() {
+		return {
+			emailRules: 'required|email',
+			passwordRules: 'required|min:6',
+		};
+	},
+	computed: {
+		model: {
+			get() {
+				return this.value;
+			},
+			set(value) {
+				this.$emit('input', value);
+			},
+		},
+		listeners() {
+			return {
+				...this.$listeners,
+				input: (event) => this.onInput(event.target.value),
+			};
+		},
+		allRules() {
+			if (this.type === 'email') {
+				return `${this.emailRules}|${this.rules}`;
+			} else if (this.type === 'password') {
+				return `${this.passwordRules}|${this.rules}`;
+			} else return `${this.rules}`;
+		},
+	},
+	methods: {
+		onInput(value) {
+			this.$emit('input', value);
+		},
+	},
 };
 </script>
 
 <style lang="postcss" scoped>
 .BaseInput {
-  @apply p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:italic placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
+	@apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:italic placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }
 </style>
