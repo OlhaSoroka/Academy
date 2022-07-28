@@ -89,7 +89,7 @@
   </div>
 </template>
 <script>
-import BaseButton from '@/components/BaseButton.vue';
+import BaseButton from '@/components/BaseComponents/BaseButton.vue';
 import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
 import { mapActions, mapGetters } from 'vuex';

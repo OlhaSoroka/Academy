@@ -8,6 +8,7 @@
     </h3>
     <div class="courses__table_container">
       <BaseTable
+        class="text-center"
         :table-data="{
           headingData: headers,
           bodyData: courses,
@@ -15,18 +16,26 @@
         :edit-btns="false"
         :is-data-loading="loadingStatus"
         :delete-btns="false"
+        :view-btns="true"
+        @on-view="goToCourseDetails"
       />
+      <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
+        Details 
+      </BaseButton>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
+import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
+import BaseButton from "../components/BaseComponents/BaseButton.vue";
+import { COURSE_DETAILS } from "../constants/routes.constant";
 
 export default {
   components: {
     BaseTable,
+    BaseButton,
   },
   data() {
     return {
@@ -48,6 +57,9 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses"]),
+    goToCourseDetails(id) {
+      this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
+    },
   },
 };
 </script>
