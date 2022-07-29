@@ -42,9 +42,9 @@
 
 <script>
 import { mapActions } from "vuex";
-import BaseModal from "./BaseModal";
-import BaseInput from "./BaseInput";
-import BaseButton from "./BaseButton";
+import BaseModal from "../BaseComponents/BaseModal";
+import BaseInput from "../BaseComponents/BaseInput";
+import BaseButton from "../BaseComponents/BaseButton";
 import { ValidationObserver } from "vee-validate";
 export default {
   name: "UserEditModal",
