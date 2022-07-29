@@ -1,6 +1,7 @@
 <template>
   <div class="flex justify-center flex-col">
     <BaseTable
+      class="text-center"
       :table-data="{
         headingData: headers,
         bodyData: courses,
@@ -9,19 +10,24 @@
       :is-data-loading="loadingStatus"
       :delete-btns="false"
       :view-btns="true"
-      @view="goToCourseDetailsView"
+      @view="goToCourseDetails"
     />
+    <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
+      Details 
+    </BaseButton>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
+import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import { COURSE_DETAILS } from "../constants/routes.constant";
-import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
 
 export default {
   components: {
     BaseTable,
+    BaseButton,
   },
   data() {
     return {
@@ -43,11 +49,9 @@ export default {
   },
   methods: {
     ...mapActions(["getCourses"]),
-    goToCourseDetailsView(id) {
+    goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
   },
 };
 </script>
-
-<style></style>
