@@ -26,12 +26,6 @@
         >
           <div class="rounded-lg shadow-lg p-4">
             <LoginForm />
-            <p
-              class="login__link"
-              @click="sendPasswordToEmail"
-            >
-              Send Password to Email
-            </p>
           </div>
         </div>
       </div>

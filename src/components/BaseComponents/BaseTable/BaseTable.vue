@@ -33,8 +33,8 @@
         :editable="editBtns"
         :deletable="deleteBtns"
         :viewed="viewBtns"
-        @onDelete="onDelete"
-        @onEdit="onEdit"
+        @delete="onDelete"
+        @edit="onEdit"
         @view="onView"
       >
         <!-- fill the logo column if logo flag is true-->
