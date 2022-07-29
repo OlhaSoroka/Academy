@@ -32,8 +32,10 @@
         :props-data="item.id"
         :editable="editBtns"
         :deletable="deleteBtns"
-        @delete="onDelete"
-        @edit="onEdit"
+        :viewed="viewBtns"
+        @onDelete="onDelete"
+        @onEdit="onEdit"
+        @view="onView"
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
@@ -58,10 +60,10 @@
   <!-- if data is loading -->
   <BaseSpinner v-else />
 </template>
- 
+
 <script>
-import BaseTableRow from "./BaseTableRow.vue";
-import BaseSpinner from "../BaseSpinner/BaseSpinner.vue";
+import BaseTableRow from "../../UI/BaseTable/BaseTableRow";
+import BaseSpinner from "../BaseSpinner/BaseSpinner";
 import BaseArrowDown from "../BaseIcons/BaseArrowDown.vue";
 import BaseArrowUp from "../BaseIcons/BaseArrowUp.vue";
 export default {
@@ -75,6 +77,7 @@ export default {
   isDataLoading - flag of loading data
   editBtns - flag (does table needs a edit buttons)
   deleteBtns - flag (does table needs a delete buttons)
+  viewBtns - flag (does table needs a view buttons)
   logo - flag (does table has fields with logos)
   */
   props: {
@@ -104,6 +107,10 @@ export default {
       required: true,
       type: Boolean,
     },
+    viewBtns: {
+      required: false,
+      type: Boolean,
+    },
     logo: {
       required: false,
       type: Boolean,
@@ -131,6 +138,9 @@ export default {
     },
     onDelete(id) {
       this.$emit("delete", id);
+    },
+    onView(id) {
+      this.$emit("on-view", id);
     },
     getEntriesFromArray(array) {
       const res = array.reduce(
@@ -175,7 +185,7 @@ export default {
 };
 </script>
 <style lang="postcss">
-  .BaseTable {
-    @apply w-full;
-  }
-</style> 
+.BaseTable {
+  @apply w-full;
+}
+</style>

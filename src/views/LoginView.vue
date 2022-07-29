@@ -28,13 +28,12 @@ export default {
   components: {
     LoginForm,
   },
-
   data() {
     return {
     }
   },
   computed: {
-    ...mapGetters(["user", "accessToken"]),
+    ...mapGetters('user', ["user", "accessToken"]),
   },
   async mounted() {
     const token = localStorage.getItem('accessToken')
@@ -62,7 +61,6 @@ export default {
   },
 };
 </script>
-
 <style lang="postcss" scoped>
 .link {
   @apply mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline;

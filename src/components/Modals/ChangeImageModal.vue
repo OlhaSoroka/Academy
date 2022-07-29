@@ -49,56 +49,56 @@
 </template>
 
 <script>
-import BaseButton from '@/components/BaseButton.vue';
-import BaseModal from '@/components/BaseModal.vue';
-import { mapActions } from 'vuex';
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import BaseModal from "@/components/BaseComponents/BaseModal.vue";
+import { mapActions } from "vuex";
 export default {
-	components: { BaseButton, BaseModal },
-	props: {
-		toggleModal: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data() {
-		return {
-			profileImageSrc: '',
-			file: null,
-		};
-	},
-	watch: {
-		toggleModal() {
-			this.$refs.profileImageModal.openModal();
-		},
-	},
-	mounted() {},
-	methods: {
-		...mapActions('users', ['changeProfileImage']),
-		selectImage() {
-			this.$refs.fileInput.click();
-		},
-		cancel() {
-			this.profileImageSrc = '';
-			this.$refs.profileImageModal.closeModal();
-		},
-		onImageSelected(e) {
-			this.file = e.target.files[0];
-			if (this.file) {
-				this.file = e.target.files[0];
-				const fileReader = new FileReader();
-				fileReader.onloadend = () => {
-					this.profileImageSrc = fileReader.result;
-				};
-				fileReader.readAsDataURL(this.file);
-			}
-		},
-		submitImage() {
-			if (this.file) {
-				this.changeProfileImage(this.file);
-				this.profileImageSrc = '';
-				this.$refs.profileImageModal.closeModal();
-			}
-		},
-	},
+  components: { BaseButton, BaseModal },
+  props: {
+    toggleModal: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      profileImageSrc: "",
+      file: null,
+    };
+  },
+  watch: {
+    toggleModal() {
+      this.$refs.profileImageModal.openModal();
+    },
+  },
+  mounted() {},
+  methods: {
+    ...mapActions("user", ["changeProfileImage"]),
+    selectImage() {
+      this.$refs.fileInput.click();
+    },
+    cancel() {
+      this.profileImageSrc = "";
+      this.$refs.profileImageModal.closeModal();
+    },
+    onImageSelected(e) {
+      this.file = e.target.files[0];
+      if (this.file) {
+        this.file = e.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.onloadend = () => {
+          this.profileImageSrc = fileReader.result;
+        };
+        fileReader.readAsDataURL(this.file);
+      }
+    },
+    submitImage() {
+      if (this.file) {
+        this.changeProfileImage(this.file);
+        this.profileImageSrc = "";
+        this.$refs.profileImageModal.closeModal();
+      }
+    },
+  },
 };
 </script>

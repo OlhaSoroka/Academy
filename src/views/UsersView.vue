@@ -102,10 +102,10 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from "@/constants/roles.constant";
-import BaseTable from "../components/UI/BaseTable/BaseTable";
-import BaseButton from "../components/BaseButton";
-import UserCreateModal from "../components/UserCreateModal";
-import UserEditModal from "../components/UserEditModal";
+import BaseTable from "../components/BaseComponents/BaseTable/BaseTable";
+import BaseButton from "../components/BaseComponents/BaseButton";
+import UserCreateModal from "../components/Modals/UserCreateModal";
+import UserEditModal from "../components/Modals/UserEditModal";
 
 export default {
   name: "UsersView",
