@@ -44,8 +44,8 @@
   </div>
 </template>
 <script>
-import BaseTable from '@/components/UI/BaseTable/BaseTable.vue';
-import BaseButton from '@/components/BaseButton.vue';
+import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
+import BaseButton from '@/components/BaseComponents/BaseButton.vue';
 import DeleteManagerModal from '@/components/Modals/DeleteManagerModal.vue';
 import CreateUpdateManagerModal from '@/components/Modals/CreateUpdateManagerModal.vue';
 import { mapActions, mapGetters } from 'vuex';

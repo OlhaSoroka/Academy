@@ -1,4 +1,4 @@
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth, signOut } from "firebase/auth";
 
 export default {
   namespased: true,

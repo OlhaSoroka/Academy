@@ -51,7 +51,7 @@
               class="mx-1"
             >
               <BaseButton @click="toggleChangePassword">
-                {{ changePasswordMode ? 'Hide password' : 'Change password' }}
+                {{ changePasswordMode ? "Hide password" : "Change password" }}
               </BaseButton>
             </div>
           </div>
@@ -61,7 +61,7 @@
                 :disabled="invalid"
                 @click="submitAddNewManager"
               >
-                {{ isUpdateMode ? 'Update' : 'Create' }}
+                {{ isUpdateMode ? "Update" : "Create" }}
               </BaseButton>
             </div>
             <div class="mx-1">
@@ -80,12 +80,12 @@
 </template>
 
 <script>
-import { ValidationObserver } from 'vee-validate';
-import BaseInput from '@/components/BaseInput.vue';
-import BaseButton from '@/components/BaseButton.vue';
-import BaseModal from '@/components/BaseModal.vue';
-import { MANAGER_ROLE } from '@/constants/roles.constant';
-import { mapActions } from 'vuex';
+import { ValidationObserver } from "vee-validate";
+import BaseInput from "@/components/BaseComponents/BaseInput.vue";
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import BaseModal from "@/components/BaseComponents/BaseModal.vue";
+import { MANAGER_ROLE } from "@/constants/roles.constant";
+import { mapActions } from "vuex";
 export default {
 	components: { BaseInput, BaseButton, BaseModal, ValidationObserver },
 	props: {
