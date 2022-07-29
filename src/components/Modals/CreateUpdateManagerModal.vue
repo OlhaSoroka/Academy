@@ -118,7 +118,6 @@ export default {
       this.changePasswordMode = false;
       this.$refs.createUpdateManagerModal.openModal();
       if (this.isUpdateMode) {
-        console.log("hre");
         this.fullName = this.manager.fullName;
         this.email = this.manager.email;
       }
