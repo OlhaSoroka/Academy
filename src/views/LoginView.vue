@@ -25,7 +25,7 @@
 <script>
 import { getAllUsers } from "@/api/user";
 import LoginForm from "@/components/LoginForm";
-import BaseSpinner from '@/components/UI/BaseSpinner/BaseSpinner.vue'
+import BaseSpinner from '../components/BaseComponents/BaseSpinner/BaseSpinner.vue'
 import { mapActions, mapGetters } from "vuex";
 import { COURSE_DASHBOARD } from '@/constants/routes.constant';
 
@@ -72,9 +72,3 @@ export default {
   }
 }
 </script>
-
-<style lang="postcss" scoped>
-.link {
-  @apply mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline;
-}
-</style>

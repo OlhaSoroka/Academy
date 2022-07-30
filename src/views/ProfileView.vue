@@ -41,7 +41,7 @@
             Course
           </div>
           <div class="profile__info_title">
-            {{ user.course }}
+            {{ user.course || "--" }}
           </div>
         </div>
         <div class="profile__course_item">
@@ -49,7 +49,7 @@
             Score
           </div>
           <div class="profile__info_title">
-            {{ user.initialScore }}
+            {{ user.initialScore || "--" }}
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
   </div>
 </template>
 <script>
-import BaseButton from '@/components/BaseButton.vue';
+import BaseButton from '@/components/BaseComponents/BaseButton.vue';
 import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
 import { mapActions, mapGetters } from 'vuex';

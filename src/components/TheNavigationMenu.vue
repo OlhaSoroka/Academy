@@ -14,7 +14,7 @@
       <span class="navigation-menu-text">Users</span>
     </router-link>
     <router-link
-      v-if="role === 'admin'"
+      v-if="isAdmin"
       :to="{ name: MANAGERS }"
     >
       <svg
@@ -86,7 +86,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('user', ['user'])
+    ...mapGetters('user', ['user']),
+    isAdmin() {
+      return this.role === 'admin'
+    }
   },
 
   methods: {
