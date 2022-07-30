@@ -6,11 +6,3 @@ export const getAllCourses = async () => {
   return await response.data;
 };
 
-export const addNewCourse = async(payload, data, token) => {
-  const response = await axios
-    .post(`${COURSES_URL}/posts/${payload.id}`, data, token)
-    .catch((error) => {
-      console.log(error)
-    })
-    return await response.data;
-}
