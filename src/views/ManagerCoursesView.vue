@@ -35,9 +35,9 @@
 
 <script>
 import AddEventForm from "@/components/AddEventForm.vue";
-import BaseButton from "../components/BaseButton";
+import BaseButton from "../components/BaseComponents/BaseButton";
 import { mapActions, mapGetters } from "vuex";
-import BaseTable from "../components/UI/BaseTable/BaseTable.vue";
+import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 
 export default {
   components: {

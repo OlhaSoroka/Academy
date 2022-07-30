@@ -29,8 +29,8 @@
 
 <script>
 import { ValidationObserver } from "vee-validate";
-import BaseButton from "@/components/BaseButton.vue";
-import BaseInput from "@/components/BaseInput";
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import BaseInput from "@/components/BaseComponents/BaseInput";
 import { mapGetters, mapActions } from "vuex"
 export default {
 	name: "AddEventForm",
