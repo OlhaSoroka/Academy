@@ -2,15 +2,13 @@
   <div
     id="app"
     class="flex"
-  >
-    <navigation-menu />
+  > 
+    <navigation-menu
+      role="admin"
+    />
     <router-view class="w-full" />
   </div>
 </template>
-<script>
-
-export default {}
-</script>
 
 <script>
 import NavigationMenu from '@/components/TheNavigationMenu.vue';

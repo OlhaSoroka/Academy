@@ -1,25 +1,31 @@
 <template>
-  <div class="loginview">
+  <div
+    v-if="!initialLoading"
+    class="loginview"
+  >
     <h1 class="text-pink-400">
       This is LOGIN page
     </h1>
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
         <LoginForm />
-        <p
+        <!-- uncommed it when Yurii do reset pass reset feature-->
+        <!-- <p
+          @click=""
           class="link"
-          @click="sendPasswordToEmail"
         >
           Send Password to Email
-        </p>
+        </p> -->
       </div>
     </div>
   </div>
+  <BaseSpinner v-else />
 </template>
 
 <script>
 import { getAllUsers } from "@/api/user";
 import LoginForm from "@/components/LoginForm";
+import BaseSpinner from '../components/BaseComponents/BaseSpinner/BaseSpinner.vue'
 import { mapActions, mapGetters } from "vuex";
 import { COURSE_DASHBOARD } from '@/constants/routes.constant';
 
@@ -27,13 +33,15 @@ export default {
   name: "LoginView",
   components: {
     LoginForm,
+    BaseSpinner
   },
   data() {
     return {
+      initialLoading: true,
     }
   },
   computed: {
-    ...mapGetters('user', ["user", "accessToken"]),
+    ...mapGetters('user', ["user"]),
   },
   async mounted() {
     const token = localStorage.getItem('accessToken')
@@ -41,25 +49,27 @@ export default {
       const result = await this.isTokenAlive(token)
       if (result) {
         const thisEmail = localStorage.getItem('email')
-        const currentAcc = result.find(acc => acc.email === thisEmail)
+        const users = await getAllUsers(token)
+        const currentAcc = users.find(acc => acc.email === thisEmail)
         this.setUser(currentAcc)
         this.$router.push({ name: COURSE_DASHBOARD })
       }
     }
+    this.initialLoading = false;
+
   },
   methods: {
     ...mapActions('user', ['setUser']),
-    sendPasswordToEmail() { },
     async isTokenAlive(token) {
       try {
-        const data = await getAllUsers(token)
-        return data
+        await getAllUsers(token)
+        return true
       } catch (err) {
         return false
       }
-    }
-  },
-};
+    },
+  }
+}
 </script>
 <style lang="postcss" scoped>
 .link {
