@@ -28,10 +28,6 @@
 <script>
 export default {
   props: {
-    propsData: {
-      type: [String, Number],
-      required: true,
-    },
     deletable: {
       type: Boolean,
       required: false,
@@ -49,16 +45,17 @@ export default {
   },
   methods: {
     deleteRow() {
-      this.$emit("delete", this.propsData);
+      this.$emit("delete");
     },
     editRow() {
-      this.$emit("edit", this.propsData);
+      this.$emit("edit");
     },
     viewRow() {
-      this.$emit("view", this.propsData);
+      this.$emit("view");
     },
   },
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" >
+</style>
