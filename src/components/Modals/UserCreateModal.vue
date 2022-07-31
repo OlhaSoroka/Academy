@@ -92,11 +92,29 @@ export default {
     submitUserCreateButton() {
       this.$refs.userCreateModal.closeModal()
       this.createNewUser(this.createModel)
-      this.createModel = {};
+      this.createModel = {
+        fullName: "",
+        password: "",
+        email: "",
+        course: "",
+        initialScore: "",
+        role: "user",
+        avatarUrl:
+          "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
+      }
     },
     canselUserCreateButton() {
       this.$refs.userCreateModal.closeModal();
-      this.createModel = {};
+      this.createModel = {
+        fullName: "",
+        password: "",
+        email: "",
+        course: "",
+        initialScore: "",
+        role: "user",
+        avatarUrl:
+          "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
+      }
     },
   }
 };

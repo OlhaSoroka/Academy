@@ -48,7 +48,7 @@ export default {
     createNewUser: async (store, data) => {
       try {
         store.commit("TOGGLE_LOADIN_STATUS");
-        await registerUser(data);
+        await registerUser(data, token);
       } catch (error) {
         const responseError = error.response?.data?.error || error.message;
         store.commit("SET_ERROR", responseError);

@@ -37,7 +37,7 @@ export default {
     createManager: async (store, manager) => {
       try {
         store.commit("TOGGLE_MANAGERS_LOADING");
-        await registerUser(manager);
+        await registerUser(manager, token);
       } catch (error) {
         const responseError = error.response?.data?.error || error.message;
         store.commit("SET_ERROR", responseError);
