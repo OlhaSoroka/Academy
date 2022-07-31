@@ -1,6 +1,5 @@
 <template>
   <div class="flex justify-center flex-col">
-    <h2>Courses Dashboard View</h2>
     <BaseTable
       class="text-center"
       :table-data="{
@@ -11,7 +10,7 @@
       :is-data-loading="loadingStatus"
       :delete-btns="false"
       :view-btns="true"
-      @on-view="goToCourseDetails"
+      @view="goToCourseDetails"
     />
     <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
       Details 
