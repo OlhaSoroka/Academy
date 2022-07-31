@@ -36,7 +36,7 @@
           :is-data-loading="usersLoadingStatus"
           :delete-btns="true"
           @edit="openUsersViewEditModal"
-          @delete="deteleteUserButton"
+          @delete="openUsersDeleteEditModal"
         />
         <BaseButton
           :loading="usersLoadingStatus"
@@ -53,6 +53,10 @@
       <UserCreateModal
         :is-opened-user-create-modal="isCreateModalOpen"
         :user-inputs-value="managerUserCreateInputs"
+      />
+      <UserDeleteModal
+        :is-opened-user-delete-modal="isDeleteModalOpen"
+        :target-user-value="targetUser"
       />
     </div>
     <div
@@ -72,7 +76,7 @@
           :is-data-loading="usersLoadingStatus"
           :delete-btns="true"
           @edit="openUsersViewEditModal"
-          @delete="deteleteUserButton"
+          @delete="openUsersDeleteEditModal"
         />
         <BaseButton
           :loading="usersLoadingStatus"
@@ -90,6 +94,10 @@
         :is-opened-user-create-modal="isCreateModalOpen"
         :user-inputs-value="adminUserCreateInputs"
       />
+      <UserDeleteModal
+        :is-opened-user-delete-modal="isDeleteModalOpen"
+        :target-user-value="targetUser"
+      />
     </div>
     <div
       v-if="error"
@@ -106,6 +114,7 @@ import BaseTable from "../components/BaseComponents/BaseTable/BaseTable";
 import BaseButton from "../components/BaseComponents/BaseButton";
 import UserCreateModal from "../components/Modals/UserCreateModal";
 import UserEditModal from "../components/Modals/UserEditModal";
+import UserDeleteModal from "../components/Modals/UserDeleteModal";
 
 export default {
   name: "UsersView",
@@ -114,11 +123,13 @@ export default {
     BaseButton,
     UserCreateModal,
     UserEditModal,
+    UserDeleteModal
   },
   data() {
     return {
       isCreateModalOpen: false,
       isEditModalOpen: false,
+      isDeleteModalOpen: false,
       targetUser: {
         id: null,
         fullName: "",
@@ -259,7 +270,7 @@ export default {
      await this.fetchUsers();
   },
   methods: {
-    ...mapActions("users", ["fetchUsers", "deleteUser"]),
+    ...mapActions("users", ["fetchUsers"]),
     openUsersViewEditModal(id) {
       this.targetUser = this.users.find((e) => e.id === id);
       this.isEditModalOpen = !this.isEditModalOpen;
@@ -267,9 +278,10 @@ export default {
     openUsersViewCreateModal() {
       this.isCreateModalOpen = !this.isCreateModalOpen;
     },
-    deteleteUserButton(id) {
-      this.deleteUser(id);
-    },
+    openUsersDeleteEditModal(id) {
+      this.targetUser = this.users.find((e) => e.id === id);
+      this.isDeleteModalOpen = !this.isDeleteModalOpen;
+    }
   }
 };
 </script>
