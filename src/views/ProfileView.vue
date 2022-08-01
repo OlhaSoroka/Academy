@@ -35,20 +35,31 @@
           {{ user.email }}
         </div>
       </div>
-      <div class="profile__course_info_wrapper">
+      <div
+        v-if="isUser"
+        class="profile__course_info_wrapper"
+      >
         <div class="profile__course_item">
-          <div class="profile__info_subtitle">
+          <div
+            class="profile__info_subtitle"
+          >
             Course
           </div>
-          <div class="profile__info_title">
+          <div
+            class="profile__info_title"
+          >
             {{ user.course || "--" }}
           </div>
         </div>
         <div class="profile__course_item">
-          <div class="profile__info_subtitle">
+          <div
+            class="profile__info_subtitle"
+          >
             Score
           </div>
-          <div class="profile__info_title">
+          <div
+            class="profile__info_title"
+          >
             {{ user.initialScore || "--" }}
           </div>
         </div>
@@ -57,13 +68,17 @@
         <div class="mr-5">
           <BaseButton
             :loading="isImageLoading"
+            variant="btn_blue"
             @click="openProfileImageChangeModal"
           >
             Change Profile Image
           </BaseButton>
         </div>
         <div class="mr-5">
-          <BaseButton @click="openPasswordChangeModal">
+          <BaseButton
+            variant="btn_blue"
+            @click="openPasswordChangeModal"
+          >
             Change password
           </BaseButton>
         </div>
@@ -108,7 +123,7 @@ export default {
 }
 
 .profile__image_container {
-  @apply bg-emerald-500 flex justify-center items-center p-12;
+	@apply bg-sky-800   flex justify-center items-center p-12;
 }
 
 .profile__image_block img {

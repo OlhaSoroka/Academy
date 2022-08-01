@@ -18,7 +18,7 @@
             placeholder="qwe123"
           />
           <BaseButton
-            variant="btn_green"
+            :variant="'btn_blue'"
             type="submit"
           >
             Submit
@@ -37,7 +37,7 @@
     </ValidationObserver>
     <div v-if="!isLoginPage">
       <BaseButton
-        variant="btn_green"
+        :variant="'btn_blue'"
         @click="resetPasswordOnEmail"
       >
         Reset Password
@@ -146,6 +146,6 @@ export default {
 
 <style lang="postcss" scoped>
 .link {
-  @apply mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline;
+  @apply mx-2 cursor-pointer text-end hover:opacity-75 transition-opacity underline text-xs;
 }
 </style>
