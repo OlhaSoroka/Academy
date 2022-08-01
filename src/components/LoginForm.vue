@@ -61,7 +61,7 @@ import BaseButton from "@/components/BaseComponents/BaseButton";
 import BaseInput from "@/components/BaseComponents/BaseInput";
 import { mapGetters, mapActions } from "vuex";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { resetPassword } from "@/api/user";
+import { resetPassword, getAllUsers } from "@/api/user";
 
 export default {
   name: "LoginForm",
@@ -89,26 +89,32 @@ export default {
     ...mapGetters(["user"]),
   },
   methods: {
-    ...mapActions(["setUser", "logoutUser"]),
-    onSubmit() {
-      const auth = getAuth();
-      signInWithEmailAndPassword(
-        auth,
-        this.formData.email,
-        this.formData.password
-      )
-        .then((response) => {
-          localStorage.setItem("user", JSON.stringify(response.user));
-          this.setUser(response.user);
-          this.errorHandler.isError = false;
-          this.errorHandler.message = "";
-          this.$router.push({ name: "courses-dashboard" });
-        })
+    ...mapActions('user', ["setUser", "logoutUser"]),
+    async onSubmit() {
+      const auth = getAuth()
+      const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
+      const { accessToken, email } = user
+
+      const users = await getAllUsers(accessToken)
+
+      const currentUser = users.find((userOfArray) => (userOfArray.email === email))
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem('email', email)
+      this.setUser(currentUser)
+
+      this.errorHandler.isError = false
+      this.errorHandler.message = ''
+
+      this.$router.push({ name: "courses-dashboard" })
         .catch((error) => {
-          this.errorHandler.isError = true;
-          this.errorHandler.message = error.message;
-          this.logout();
+          console.log(error.message)
+
+          this.errorHandler.isError = true
+          this.errorHandler.message = error.message
+
+          this.logoutUser();
         });
+
     },
     logout() {
       this.logoutUser();

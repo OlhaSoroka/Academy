@@ -79,62 +79,67 @@ import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
 import { mapActions, mapGetters } from 'vuex';
 export default {
-	components: { BaseButton, ChangeImageModal, ChangePasswordModal },
-	data() {
-		return {
-			isChangePasswordModalOpen: false,
-			isChangeImageModalOpen: false,
-		};
-	},
-	computed: {
-		...mapGetters('user', ['user', 'isImageLoading']),
-	},
-	mounted() {
-		/* TODO:  temporary. remove after Authorization implementation */
-		this.fetchUser('91d00e54-b58b-4ab9-961f-b12e943fa0dc');
-	},
-	methods: {
-		...mapActions('user', ['fetchUser']),
-		openProfileImageChangeModal() {
-			this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
-		},
-		openPasswordChangeModal() {
-			this.isChangePasswordModalOpen = !this.isChangePasswordModalOpen;
-		},
-	},
+  components: { BaseButton, ChangeImageModal, ChangePasswordModal },
+  data() {
+    return {
+      isChangePasswordModalOpen: false,
+      isChangeImageModalOpen: false,
+    };
+  },
+  computed: {
+    ...mapGetters('user', ['user', 'isImageLoading']),
+  },
+  methods: {
+    ...mapActions('user', ['fetchUser']),
+    openProfileImageChangeModal() {
+      this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
+    },
+    openPasswordChangeModal() {
+      this.isChangePasswordModalOpen = !this.isChangePasswordModalOpen;
+    },
+
+  },
 };
 </script>
 
 <style lang="postcss" scoped>
 .profile__container {
-	@apply w-2/3 h-2/3 self-center mx-auto shadow-xl flex justify-center;
+  @apply w-2/3 h-2/3 self-center mx-auto shadow-xl flex justify-center;
 }
+
 .profile__image_container {
-	@apply bg-emerald-500 flex justify-center items-center p-12;
+  @apply bg-emerald-500 flex justify-center items-center p-12;
 }
+
 .profile__image_block img {
-	@apply rounded-full shadow-md max-w-xs w-full h-full block;
+  @apply rounded-full shadow-md max-w-xs w-full h-full block;
 }
+
 .profile__info_container {
-	@apply p-12 text-start grow;
+  @apply p-12 text-start grow;
 }
+
 .profile__course_info_wrapper {
-	@apply flex  mb-5;
+  @apply flex mb-5;
 }
+
 .profile__user_info_wrapper {
-	@apply mb-5;
+  @apply mb-5;
 }
 
 .profile__course_item {
-	@apply mr-5;
+  @apply mr-5;
 }
+
 .profile__info_subtitle {
-	@apply text-stone-300 font-semibold text-lg;
+  @apply text-stone-300 font-semibold text-lg;
 }
+
 .profile__info_title {
-	@apply text-stone-700 font-bold text-4xl;
+  @apply text-stone-700 font-bold text-4xl;
 }
+
 .profile__buttons_wrapper {
-	@apply flex;
+  @apply flex;
 }
 </style>
