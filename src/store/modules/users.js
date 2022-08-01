@@ -12,12 +12,10 @@ export default {
   state: {
     users: [],
     isUsersLoading: false,
-    error: null,
   },
   getters: {
     users: (state) => state.users,
     usersLoadingStatus: (state) => state.isUsersLoading,
-    error: (state) => state.error,
   },
   actions: {
     fetchUsers: async (store) => {
@@ -27,8 +25,12 @@ export default {
         const users = allUsers.filter((user) => user.role === USER_ROLE);
         store.commit("SET_USERS", users);
       } catch (error) {
-        const responseError = error.response?.data?.error || error.message;
-        store.commit("SET_ERROR", responseError);
+        const errorMessage = error.response?.data?.error || error.message;
+        store.dispatch(
+          "toast/show",
+          { message: errorMessage, type: "error" },
+          { root: true }
+        );
       } finally {
         store.commit("TOGGLE_LOADIN_STATUS");
       }
@@ -38,8 +40,12 @@ export default {
         store.commit("TOGGLE_LOADIN_STATUS");
         await updateUserByID(data.id, data, token);
       } catch (error) {
-        const responseError = error.response?.data?.error || error.message;
-        store.commit("SET_ERROR", responseError);
+        const errorMessage = error.response?.data?.error || error.message;
+        store.dispatch(
+          "toast/show",
+          { message: errorMessage, type: "error" },
+          { root: true }
+        );
       } finally {
         store.commit("TOGGLE_LOADIN_STATUS");
         store.dispatch("fetchUsers");
@@ -50,8 +56,12 @@ export default {
         store.commit("TOGGLE_LOADIN_STATUS");
         await registerUser(data, token);
       } catch (error) {
-        const responseError = error.response?.data?.error || error.message;
-        store.commit("SET_ERROR", responseError);
+        const errorMessage = error.response?.data?.error || error.message;
+        store.dispatch(
+          "toast/show",
+          { message: errorMessage, type: "error" },
+          { root: true }
+        );
       } finally {
         store.commit("TOGGLE_LOADIN_STATUS");
         store.dispatch("fetchUsers");
@@ -62,8 +72,12 @@ export default {
         store.commit("TOGGLE_LOADIN_STATUS");
         await deleteUserById(id, token);
       } catch (error) {
-        const responseError = error.response?.data?.error || error.message;
-        store.commit("SET_ERROR", responseError);
+        const errorMessage = error.response?.data?.error || error.message;
+        store.dispatch(
+          "toast/show",
+          { message: errorMessage, type: "error" },
+          { root: true }
+        );
       } finally {
         store.commit("TOGGLE_LOADIN_STATUS");
         store.dispatch("fetchUsers");
@@ -73,9 +87,6 @@ export default {
   mutations: {
     SET_USERS(state, users) {
       state.users = users;
-    },
-    SET_ERROR: (state, error) => {
-      state.error = error;
     },
     TOGGLE_LOADIN_STATUS(state) {
       state.isUsersLoading = !state.isUsersLoading;

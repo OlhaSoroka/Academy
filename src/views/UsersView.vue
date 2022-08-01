@@ -99,12 +99,6 @@
         :target-user-value="targetUser"
       />
     </div>
-    <div
-      v-if="error"
-      class="text-red-600 text"
-    >
-      Error! {{ error }}
-    </div>
   </div>
 </template>
 <script>
@@ -254,7 +248,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("users", ["usersLoadingStatus", "users", "error"]),
+    ...mapGetters("users", ["usersLoadingStatus", "users"]),
     ...mapGetters("user", ["user"]),
     isUser() {
       return this.user.role === USER_ROLE;
