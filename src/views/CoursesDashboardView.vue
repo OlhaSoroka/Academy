@@ -17,11 +17,8 @@
         :is-data-loading="loadingStatus"
         :delete-btns="false"
         :view-btns="true"
-        @on-view="goToCourseDetails"
+        @view="goToCourseDetails"
       />
-      <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
-        Details 
-      </BaseButton>
     </div>
   </div>
 </template>

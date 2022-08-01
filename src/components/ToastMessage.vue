@@ -3,7 +3,7 @@
     <div
       v-if="show"
       class="toast"
-      :class="isError ? 'bg-red-500' : 'bg-green-300'"
+      :class="isError ? 'bg-red-300' : 'bg-green-300'"
     >
       <div>
         <div class="toast__dialog">
