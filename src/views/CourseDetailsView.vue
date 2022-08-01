@@ -86,9 +86,6 @@
                 rows="5" 
               />
             </ValidationProvider>
-            <p class="text-red-500">
-              {{ getErrorNewComment }}
-            </p>
             <BaseButton 
               class="mb-3" 
               :disabled="invalid" 
@@ -99,8 +96,8 @@
           </form>
         </ValidationObserver>
         <div class="flex justify-around my-2">
-          <BaseButton @click="nextPage"> 
-            Next course 
+          <BaseButton @click="nextPage">
+            Next course
           </BaseButton>
         </div>
       </div>
@@ -108,7 +105,7 @@
     <div v-else>
       <h3>No courses</h3>
     </div>
-    <BaseButton
+    <BaseButton 
       variant="btn_black" 
       @click="getBackCourseDetailsView"
     >
@@ -125,7 +122,11 @@ import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
-import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from "@/constants/roles.constant";
+import {
+  USER_ROLE,
+  MANAGER_ROLE,
+  ADMIN_ROLE,
+} from "@/constants/roles.constant";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -165,14 +166,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('courses', [
+    ...mapGetters("courses", [
       "loadingStatus",
       "getCourseById",
       "courseIndex",
       "nextCourseId",
-      "getErrorNewComment",
     ]),
-    ...mapGetters('user', ['user']),
+    ...mapGetters("user", ["user"]),
     isUser() {
       return this.user.role === USER_ROLE;
     },
@@ -187,12 +187,13 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions('courses', ["getCourses", "addNewComment"]),
+    ...mapActions("courses", ["getCourses", "addNewComment"]),
     nextPage() {
       this.$router.push({
         name: COURSE_DETAILS,
         params: { id: this.nextCourseId(this.$route.params.id) },
       });
+      this.comments = "";
     },
     getBackCourseDetailsView() {
       this.$router.push({ name: COURSE_DASHBOARD });
@@ -203,9 +204,9 @@ export default {
         id: Date.now(),
         message: this.comments,
         createdAt: new Date().toLocaleString(),
-        author: "User User",
-        author_id: "User ID",
-        author_email: "User email",
+        author: this.user.fullName,
+        author_id: this.user.id,
+        author_email: this.user.email,
       });
       let payload = {
         currentItemUpdate: currentItem,
@@ -213,7 +214,7 @@ export default {
       };
       this.addNewComment(payload);
       this.comments = "";
-    }
+    },
   },
 };
 </script>
