@@ -13,24 +13,12 @@
         />
       </div>
     </div>
-    <div v-else-if="isManager">
+    <div v-else-if="isManagerOrAdmin">
       <div 
         v-if="courseItem" 
-        class="text-center"
+        class="text-center my-3"
       >
-        <h2>CoursesDetailsView</h2>
-        <div class="flex justify-around">
-          <BaseButton 
-            variant="btn_black" 
-            @click="getBackCourseDetailsView"
-          >
-            Back
-          </BaseButton>
-          <BaseButton @click="nextPage"> 
-            Next course 
-          </BaseButton>
-        </div>
-        <h3>Main Info</h3>
+        <h2>Main Info</h2>
         <BaseTable
           class="table"
           :table-data="{
@@ -102,6 +90,7 @@
               {{ getErrorNewComment }}
             </p>
             <BaseButton 
+              class="mb-3" 
               :disabled="invalid" 
               type="submit"
             >
@@ -109,6 +98,11 @@
             </BaseButton>
           </form>
         </ValidationObserver>
+        <div class="flex justify-around my-2">
+          <BaseButton @click="nextPage"> 
+            Next course 
+          </BaseButton>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -131,7 +125,7 @@ import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
-import { MANAGER_ROLE, USER_ROLE } from "@/constants/roles.constant";
+import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from "@/constants/roles.constant";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -178,7 +172,13 @@ export default {
       "nextCourseId",
       "getErrorNewComment",
     ]),
-    ...mapGetters(['user']),
+    ...mapGetters('user', ['user']),
+    isUser() {
+      return this.user.role === USER_ROLE;
+    },
+    isManagerOrAdmin() {
+      return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+    },
     courseItem() {
       return this.getCourseById(this.$route.params.id);
     },
@@ -213,12 +213,6 @@ export default {
       };
       this.addNewComment(payload);
       this.comments = "";
-    },
-    isUser() {
-      return this.user.role === USER_ROLE;
-    },
-    isManager() {
-      return this.user.role === MANAGER_ROLE;
     }
   },
 };

@@ -89,9 +89,7 @@ export default {
   },
   methods: {
     ...mapActions("users", ["createNewUser"]),
-    submitUserCreateButton() {
-      this.$refs.userCreateModal.closeModal()
-      this.createNewUser(this.createModel)
+    clearInputs() {
       this.createModel = {
         fullName: "",
         password: "",
@@ -103,18 +101,14 @@ export default {
           "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
       }
     },
+    submitUserCreateButton() {
+      this.$refs.userCreateModal.closeModal()
+      this.createNewUser(this.createModel)
+      
+    },
     canselUserCreateButton() {
       this.$refs.userCreateModal.closeModal();
-      this.createModel = {
-        fullName: "",
-        password: "",
-        email: "",
-        course: "",
-        initialScore: "",
-        role: "user",
-        avatarUrl:
-          "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
-      }
+      this.clearInputs()
     },
   }
 };
