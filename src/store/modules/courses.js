@@ -50,36 +50,51 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
-    addCourse(state, newCourse){
+    addCourse(state, newCourse) {
       axios.post(`${COURSES_URL}/posts`, newCourse).then(
-      state.courses.push(newCourse)
-     );
+        state.courses.push(newCourse)
+      );
     }
   },
   actions: {
-    getCourses({ commit }) {
+    getCourses({ commit, dispatch }) {
       commit("changeLoadingStatus");
       getAllCourses()
         .then((data) => commit("setCourses", data))
-        // eslint-disable-next-line
         .catch((error) => {
-          console.log(error);
+          const errorMessage = error.response?.data?.error || error.message;
+          dispatch(
+            "toast/show",
+            { message: errorMessage, type: "error" },
+            { root: true }
+          )
         })
         .finally(() => commit("changeLoadingStatus"));
     },
-    addCourseToState({commit}, newCourse){
+    addCourseToState({ commit }, newCourse) {
       commit("addCourse", newCourse)
     },
-    addNewComment({ dispatch, commit }, payload) {
+    addNewComment({ dispatch }, payload) {
       axios
-        .put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate)
+        .put(`${COURSES_URL}/posts321/${payload.id}`, payload.currentItemUpdate)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status >= 200 && response.status <= 204) {
             dispatch("getCourses");
+            dispatch(
+              "toast/show",
+              { message: "Comment sent!", type: "success" },
+              { root: true }
+            );
           }
         })
         .catch((error) => {
-          commit("setError", error);
+          dispatch("getCourses");
+          const errorMessage = error.response?.data?.error || error.message;
+          dispatch(
+            "toast/show",
+            { message: errorMessage, type: "error" },
+            { root: true }
+          )
         });
     },
   },
