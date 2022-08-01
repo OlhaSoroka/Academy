@@ -6,7 +6,7 @@ const token = localStorage.getItem('accessToken');
 export default {
 	state: {
 		user: null,
-		isImageLoading: true,
+		isImageLoading: false,
 	},
 	getters: {
 		user: (state) => state.user,

@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="!initialLoading"
-      class="flex"
+      class="flex h-full"
     >
       <div
         class="login__sidebar_container"
