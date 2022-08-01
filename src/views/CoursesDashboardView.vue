@@ -12,22 +12,17 @@
       :view-btns="true"
       @view="goToCourseDetails"
     />
-    <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
-      Details 
-    </BaseButton>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
-import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import { COURSE_DETAILS } from "../constants/routes.constant";
 
 export default {
   components: {
-    BaseTable,
-    BaseButton,
+    BaseTable
   },
   data() {
     return {

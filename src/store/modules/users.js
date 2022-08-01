@@ -39,6 +39,11 @@ export default {
       try {
         store.commit("TOGGLE_LOADIN_STATUS");
         await updateUserByID(data.id, data, token);
+        store.dispatch(
+          "toast/show",
+          { message: "User succesfully updated", type: "success" },
+          { root: true }
+        );
       } catch (error) {
         const errorMessage = error.response?.data?.error || error.message;
         store.dispatch(
@@ -55,6 +60,11 @@ export default {
       try {
         store.commit("TOGGLE_LOADIN_STATUS");
         await registerUser(data, token);
+        store.dispatch(
+          "toast/show",
+          { message: "User succesfully created", type: "success" },
+          { root: true }
+        );
       } catch (error) {
         const errorMessage = error.response?.data?.error || error.message;
         store.dispatch(
@@ -71,6 +81,11 @@ export default {
       try {
         store.commit("TOGGLE_LOADIN_STATUS");
         await deleteUserById(id, token);
+        store.dispatch(
+          "toast/show",
+          { message: "User succesfully deleted", type: "success" },
+          { root: true }
+        );
       } catch (error) {
         const errorMessage = error.response?.data?.error || error.message;
         store.dispatch(
