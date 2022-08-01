@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["sortedCourses", "loadingStatus"]),
+    ...mapGetters('courses', ["sortedCourses", "loadingStatus"]),
     courses() {
       return this.sortedCourses;
     },
@@ -48,7 +48,7 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions(["getCourses"]),
+    ...mapActions('courses', ["getCourses"]),
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },

@@ -86,7 +86,7 @@ export default {
     },
   }),
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters('user', ["user"]),
   },
   methods: {
     ...mapActions('user', ["setUser", "logoutUser"]),
@@ -94,9 +94,7 @@ export default {
       const auth = getAuth()
       const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
       const { accessToken, email } = user
-
       const users = await getAllUsers(accessToken)
-
       const currentUser = users.find((userOfArray) => (userOfArray.email === email))
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem('email', email)

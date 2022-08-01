@@ -171,7 +171,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
+    ...mapGetters('courses', [
       "loadingStatus",
       "getCourseById",
       "courseIndex",
@@ -187,7 +187,7 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions(["getCourses", "addNewComment"]),
+    ...mapActions('courses', ["getCourses", "addNewComment"]),
     nextPage() {
       this.$router.push({
         name: COURSE_DETAILS,

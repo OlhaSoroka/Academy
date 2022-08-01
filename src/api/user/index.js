@@ -50,8 +50,12 @@ export const logout = async (token) => {
 };
 
 // functions where we dont need access token
-export const registerUser = async (data) => {
-  const response = await axios.post(`${USER_URL}firebase/register`, data);
+export const registerUser = async (data, token) => {
+  const response = await axios.post(
+    `${USER_URL}firebase/register`,
+    data,
+    useToken(token)
+  );
   return await response.data;
 };
 

@@ -77,7 +77,7 @@ export default {
 		await this.fetchManagers();
 	},
 	methods: {
-		...mapActions('managers', ['fetchManagers', 'deleteManager']),
+		...mapActions('managers', ['fetchManagers']),
 		toggleCreateUpdateModal(id, updateMode) {
       this.selectedManagerId = id;
 			this.isUpdateMode = updateMode;

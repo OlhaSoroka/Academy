@@ -9,6 +9,13 @@
     <div class="max-w-xl mx-auto px-4">
       <div class="rounded-lg shadow-lg p-4">
         <LoginForm />
+        <!-- uncommed it when Yurii do reset pass reset feature-->
+        <!-- <p
+          @click=""
+          class="link"
+        >
+          Send Password to Email
+        </p> -->
       </div>
     </div>
   </div>
@@ -28,14 +35,13 @@ export default {
     LoginForm,
     BaseSpinner
   },
-
   data() {
     return {
       initialLoading: true,
     }
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters('user', ["user"]),
   },
   async mounted() {
     const token = localStorage.getItem('accessToken')
@@ -65,3 +71,8 @@ export default {
   }
 }
 </script>
+<style lang="postcss" scoped>
+.link {
+  @apply mx-2 cursor-pointer text-center hover:opacity-75 transition-opacity underline;
+}
+</style>

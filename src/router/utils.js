@@ -5,7 +5,7 @@ export const roleGuard = (to, from, next) => {
 		? store.getters["user/user"].role
 		: null
 	if (
-		to.matched.some((route) => route.meta.requiredRoles.includes(user.role))
+		to.matched.some((route) => route.meta.requiredRoles.includes(user))
 	) {
 		next()
 	} else {

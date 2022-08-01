@@ -2,6 +2,7 @@ import axios from "axios";
 import { getAllCourses, COURSES_URL } from "../../api/course/index";
 
 export default {
+  namespaced: true,
   state() {
     return {
       courses: [],
