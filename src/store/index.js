@@ -4,6 +4,7 @@ import courses from "./modules/courses";
 import user from "./modules/user"
 import users from "./modules/users";
 import managers from './modules/managers.store';
+import toast from './modules/toast.store';
 
 Vue.use(Vuex)
 
@@ -17,5 +18,6 @@ export default new Vuex.Store({
     user,
     users,
     managers,
+    toast
   },
 });

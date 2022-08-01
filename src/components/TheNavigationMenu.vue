@@ -70,6 +70,7 @@
 
  <script>
 import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant'
+import { ADMIN_ROLE } from '@/constants/roles.constant';
 import router from '@/router';
 import { mapActions, mapGetters } from 'vuex';
 export default {
@@ -88,7 +89,7 @@ export default {
   computed: {
     ...mapGetters('user', ['user']),
     isAdmin() {
-      return this.user.role === 'admin'
+      return this.user.role === ADMIN_ROLE
     }
   },
 

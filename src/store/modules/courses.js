@@ -50,6 +50,11 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
+    addCourse(state, newCourse){
+      axios.post(`${COURSES_URL}/posts`, newCourse).then(
+      state.courses.push(newCourse)
+     );
+    }
   },
   actions: {
     getCourses({ commit }) {
@@ -61,6 +66,9 @@ export default {
           console.log(error);
         })
         .finally(() => commit("changeLoadingStatus"));
+    },
+    addCourseToState({commit}, newCourse){
+      commit("addCourse", newCourse)
     },
     addNewComment({ dispatch, commit }, payload) {
       axios

@@ -61,8 +61,8 @@
 </template>
 
 <script>
-import BaseTableRow from "../../UI/BaseTable/BaseTableRow";
-import BaseSpinner from "../BaseSpinner/BaseSpinner";
+import BaseTableRow from "../../UI/BaseTable/BaseTableRow.vue";
+import BaseSpinner from "../BaseSpinner/BaseSpinner.vue";
 import BaseArrowDown from "../BaseIcons/BaseArrowDown.vue";
 import BaseArrowUp from "../BaseIcons/BaseArrowUp.vue";
 export default {
@@ -139,7 +139,7 @@ export default {
       this.$emit("delete", id);
     },
     onView(id) {
-      this.$emit("view", id);
+      this.$emit('view', id)
     },
     getEntriesFromArray(array) {
       const res = array.reduce(

@@ -1,20 +1,22 @@
 <template>
-  <div
-    id="app"
-    class="flex"
-  > 
+  <div 
+    id="app" 
+    class="flex relative"
+  >
     <navigation-menu
       role="admin"
     />
     <router-view class="w-full" />
+    <ToastMessage />
   </div>
 </template>
-
 <script>
 import NavigationMenu from '@/components/TheNavigationMenu.vue';
+import ToastMessage from '@/components/ToastMessage.vue'
 export default {
 	components: {
 		NavigationMenu,
+    ToastMessage
 	},
 };
 </script>

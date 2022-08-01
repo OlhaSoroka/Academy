@@ -1,104 +1,125 @@
 <template>
   <div>
-    <div 
-      v-if="courseItem" 
-      class="text-center"
-    >
-      <h2>CoursesDetailsView</h2>
-      <div class="flex justify-around">
-        <BaseButton 
-          variant="btn_black" 
-          @click="getBackCourseDetailsView"
-        >
-          Back
-        </BaseButton>
-        <BaseButton @click="nextPage"> 
-          Next course 
-        </BaseButton>
+    <div v-if="isUser">
+      <div v-if="courseItem">
+        <BaseTable
+          :table-data="{
+            headingData: headersUser,
+            bodyData: [courseItem],
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+        />
       </div>
-      <h3>Main Info</h3>
-      <BaseTable
-        class="table"
-        :table-data="{
-          headingData: headerMainInfo,
-          bodyData: [courseItem],
-        }"
-        :edit-btns="false"
-        :is-data-loading="loadingStatus"
-        :delete-btns="false"
-      />
-      <h3>Applicants</h3>
-      <BaseTable
-        class="table"
-        :table-data="{
-          headingData: headerApplicants,
-          bodyData: courseItem.applicants,
-        }"
-        :edit-btns="false"
-        :is-data-loading="loadingStatus"
-        :delete-btns="false"
-      />
-      <h3>Homeworks</h3>
-      <BaseTable
-        class="table"
-        :table-data="{
-          headingData: headerHomework,
-          bodyData: courseItem.homework,
-        }"
-        :edit-btns="false"
-        :is-data-loading="loadingStatus"
-        :delete-btns="false"
-      />
-      <h3>Results</h3>
-      <BaseTable
-        class="table"
-        :table-data="{
-          headingData: headerResults,
-          bodyData: courseItem.results,
-        }"
-        :edit-btns="false"
-        :is-data-loading="loadingStatus"
-        :delete-btns="false"
-      />
-      <h3>Comments</h3>
-      <BaseTable
-        class="table"
-        :table-data="{
-          headingData: headerComments,
-          bodyData: courseItem.comments,
-        }"
-        :edit-btns="false"
-        :is-data-loading="loadingStatus"
-        :delete-btns="false"
-      />
-      <ValidationObserver v-slot="{ invalid }">
-        <form 
-          class="border" 
-          @submit.prevent="submit"
-        >
-          <ValidationProvider rules="required">
-            <textarea 
-              v-model="comments" 
-              class="border" 
-              cols="50" 
-              rows="5" 
-            />
-          </ValidationProvider>
-          <p class="text-red-500">
-            {{ getErrorNewComment }}
-          </p>
+    </div>
+    <div v-else-if="isManager">
+      <div 
+        v-if="courseItem" 
+        class="text-center"
+      >
+        <h2>CoursesDetailsView</h2>
+        <div class="flex justify-around">
           <BaseButton 
-            :disabled="invalid" 
-            type="submit"
+            variant="btn_black" 
+            @click="getBackCourseDetailsView"
           >
-            Send comment
+            Back
           </BaseButton>
-        </form>
-      </ValidationObserver>
+          <BaseButton @click="nextPage"> 
+            Next course 
+          </BaseButton>
+        </div>
+        <h3>Main Info</h3>
+        <BaseTable
+          class="table"
+          :table-data="{
+            headingData: headerMainInfo,
+            bodyData: [courseItem],
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+        />
+        <h3>Applicants</h3>
+        <BaseTable
+          class="table"
+          :table-data="{
+            headingData: headerApplicants,
+            bodyData: courseItem.applicants,
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+        />
+        <h3>Homeworks</h3>
+        <BaseTable
+          class="table"
+          :table-data="{
+            headingData: headerHomework,
+            bodyData: courseItem.homework,
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+        />
+        <h3>Results</h3>
+        <BaseTable
+          class="table"
+          :table-data="{
+            headingData: headerResults,
+            bodyData: courseItem.results,
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+        />
+        <h3>Comments</h3>
+        <BaseTable
+          class="table"
+          :table-data="{
+            headingData: headerComments,
+            bodyData: courseItem.comments,
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+        />
+        <ValidationObserver v-slot="{ invalid }">
+          <form 
+            class="border" 
+            @submit.prevent="submit"
+          >
+            <ValidationProvider rules="required">
+              <textarea 
+                v-model="comments" 
+                class="border" 
+                cols="50" 
+                rows="5" 
+              />
+            </ValidationProvider>
+            <p class="text-red-500">
+              {{ getErrorNewComment }}
+            </p>
+            <BaseButton 
+              :disabled="invalid" 
+              type="submit"
+            >
+              Send comment
+            </BaseButton>
+          </form>
+        </ValidationObserver>
+      </div>
     </div>
     <div v-else>
-      <h3>There are no courses.</h3>
+      <h3>No courses</h3>
     </div>
+    <BaseButton
+      variant="btn_black" 
+      @click="getBackCourseDetailsView"
+    >
+      Back
+    </BaseButton>
   </div>
 </template>
 
@@ -110,6 +131,7 @@ import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
+import { MANAGER_ROLE, USER_ROLE } from "@/constants/roles.constant";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -125,6 +147,11 @@ export default {
   data() {
     return {
       comments: "",
+      headersUser: [
+        { name: "Course Name" },
+        { date: "Date" },
+        { status: "Status" },
+      ],
       headerMainInfo: [
         { name: "Course Name" },
         { date: "Date" },
@@ -151,6 +178,7 @@ export default {
       "nextCourseId",
       "getErrorNewComment",
     ]),
+    ...mapGetters(['user']),
     courseItem() {
       return this.getCourseById(this.$route.params.id);
     },
@@ -186,6 +214,12 @@ export default {
       this.addNewComment(payload);
       this.comments = "";
     },
+    isUser() {
+      return this.user.role === USER_ROLE;
+    },
+    isManager() {
+      return this.user.role === MANAGER_ROLE;
+    }
   },
 };
 </script>
@@ -193,5 +227,8 @@ export default {
 <style lang="postcss" scoped>
 .table {
   @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+}
+button {
+  @apply max-w-xs;
 }
 </style>

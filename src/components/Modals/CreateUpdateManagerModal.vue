@@ -87,83 +87,81 @@ import BaseModal from "@/components/BaseComponents/BaseModal.vue";
 import { MANAGER_ROLE } from "@/constants/roles.constant";
 import { mapActions } from "vuex";
 export default {
-  components: { BaseInput, BaseButton, BaseModal, ValidationObserver },
-  props: {
-    toggleModal: {
-      type: Boolean,
-      default: false,
-    },
-    manager: {
-      required: false,
-      type: Object,
-      default: null,
-    },
-  },
-  data() {
-    return {
-      fullName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      changePasswordMode: false,
-    };
-  },
-  computed: {
-    isUpdateMode() {
-      return !!this.manager;
-    },
-  },
-  watch: {
-    toggleModal() {
-      this.changePasswordMode = false;
-      this.$refs.createUpdateManagerModal.openModal();
-      if (this.isUpdateMode) {
-        console.log("hre");
-        this.fullName = this.manager.fullName;
-        this.email = this.manager.email;
-      }
-    },
-  },
-  methods: {
-    ...mapActions("managers", ["createManager", "updateManager"]),
-    submitAddNewManager() {
-      if (this.isUpdateMode) {
-        this.updateManagerHandler();
-      } else {
-        this.createManagerHandler();
-      }
-      this.$refs.createUpdateManagerModal.closeModal();
-    },
-    cancelAddNewManager() {
-      this.fullName = "";
-      this.email = "";
-      this.password = "";
-      this.confirmPassword = "";
-      this.$refs.createUpdateManagerModal.closeModal();
-    },
-    toggleChangePassword() {
-      this.changePasswordMode = !this.changePasswordMode;
-    },
-    updateManagerHandler() {
-      const managerData = {
-        id: this.manager.id,
-        fullName: this.fullName,
-        email: this.email,
-      };
-      if (this.changePasswordMode) {
-        managerData.password = this.password;
-      }
-      this.updateManager(managerData);
-    },
-    createManagerHandler() {
-      const manager = {
-        email: this.email,
-        fullName: this.fullName,
-        password: this.password,
-        role: MANAGER_ROLE,
-      };
-      this.createManager(manager);
-    },
-  },
+	components: { BaseInput, BaseButton, BaseModal, ValidationObserver },
+	props: {
+		toggleModal: {
+			type: Boolean,
+			default: false,
+		},
+		manager: {
+			required: false,
+			type: Object,
+			default: null,
+		},
+	},
+	data() {
+		return { fullName: '', email: '', password: '', confirmPassword: '', changePasswordMode: false };
+	},
+	computed: {
+		isUpdateMode() {
+			return !!this.manager;
+		},
+	},
+	watch: {
+		toggleModal() {
+			this.changePasswordMode = false;
+			this.$refs.createUpdateManagerModal.openModal();
+			if (this.isUpdateMode) {
+				this.fullName = this.manager.fullName;
+				this.email = this.manager.email;
+			}
+		},
+	},
+	methods: {
+		...mapActions('managers', ['createManager', 'updateManager']),
+		clearInputs() {
+			this.fullName = '';
+			this.email = '';
+			this.password = '';
+			this.confirmPassword = '';
+		},
+		submitAddNewManager() {
+			if (this.isUpdateMode) {
+				this.updateManagerHandler();
+			} else {
+				this.createManagerHandler();
+			}
+			this.$refs.createUpdateManagerModal.closeModal();
+		},
+		cancelAddNewManager() {
+			this.clearInputs();
+			this.$refs.createUpdateManagerModal.closeModal();
+		},
+		toggleChangePassword() {
+			this.changePasswordMode = !this.changePasswordMode;
+		},
+		updateManagerHandler() {
+			const managerData = {
+				id: this.manager.id,
+				fullName: this.fullName,
+				email: this.email,
+			};
+			if (this.changePasswordMode) {
+				managerData.password = this.password;
+			}
+			this.updateManager(managerData);
+			this.clearInputs();
+		},
+		createManagerHandler() {
+			const manager = {
+				email: this.email,
+				fullName: this.fullName,
+				password: this.password,
+				role: MANAGER_ROLE,
+			};
+			this.createManager(manager);
+			this.clearInputs();
+		},
+	},
 };
 </script>
