@@ -76,7 +76,7 @@ export default {
     },
     addNewComment({ dispatch }, payload) {
       axios
-        .put(`${COURSES_URL}/posts321/${payload.id}`, payload.currentItemUpdate)
+        .put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate)
         .then((response) => {
           if (response.status >= 200 && response.status <= 204) {
             dispatch("getCourses");
