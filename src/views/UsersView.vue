@@ -261,8 +261,7 @@ export default {
     },
   },
   async mounted() {
-    await this.fetchUsers();
-    console.log (this.users, 'user')
+     await this.fetchUsers();
   },
   methods: {
     ...mapActions("users", ["fetchUsers"]),
