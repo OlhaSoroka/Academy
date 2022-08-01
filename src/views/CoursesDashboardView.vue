@@ -29,13 +29,11 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
-import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import { COURSE_DETAILS } from "../constants/routes.constant";
 
 export default {
   components: {
-    BaseTable,
-    BaseButton,
+    BaseTable
   },
   data() {
     return {
@@ -47,7 +45,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["sortedCourses", "loadingStatus"]),
+    ...mapGetters('courses', ["sortedCourses", "loadingStatus"]),
     courses() {
       return this.sortedCourses;
     },
@@ -56,7 +54,7 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions(["getCourses"]),
+    ...mapActions('courses', ["getCourses"]),
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },

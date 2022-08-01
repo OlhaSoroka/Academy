@@ -1,91 +1,81 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from "vue"
+import VueRouter from "vue-router"
 
 const LoginView = () =>
-  import(/* webpackChunkName:'login'*/ "../views/LoginView.vue");
+	import(/* webpackChunkName:'login'*/ "../views/LoginView.vue")
 const ResetView = () =>
-  import(/* webpackChunkName:'reset'*/ "../views/ResetView.vue");
+	import(/* webpackChunkName:'reset'*/ "../views/ResetView.vue")
 const NotFoundView = () =>
-  import(/* webpackChunkName:'not-found'*/ "../views/NotFoundView.vue");
+	import(/* webpackChunkName:'not-found'*/ "../views/NotFoundView.vue")
 const ProfileView = () =>
-  import(/* webpackChunkName:'profile'*/ "../views/ProfileView.vue");
+	import(/* webpackChunkName:'profile'*/ "../views/ProfileView.vue")
 const UsersView = () =>
-  import(/* webpackChunkName:'users'*/ "../views/UsersView.vue");
+	import(/* webpackChunkName:'users'*/ "../views/UsersView.vue")
 const ManagersView = () =>
-  import(/* webpackChunkName:'managers'*/ "../views/ManagersView.vue");
+	import(/* webpackChunkName:'managers'*/ "../views/ManagersView.vue")
 const CoursesView = () =>
-  import(/* webpackChunkName:'courses'*/ "../views/CoursesView.vue");
+	import(/* webpackChunkName:'courses'*/ "../views/CoursesView.vue")
 const CourseDetailsView = () =>
-  import(
-    /* webpackChunkName:'course-details'*/ "../views/CourseDetailsView.vue"
-  );
+	import(
+		/* webpackChunkName:'course-details'*/ "../views/CourseDetailsView.vue"
+	)
 const CoursesDashboardView = () =>
-  import(/* webpackChunkName:'courses'*/ "../views/CoursesDashboardView.vue");
+	import(/* webpackChunkName:'courses'*/ "../views/CoursesDashboardView.vue")
 
-import { ADMIN_ROLE } from "@/constants/roles.constant";
+import { ADMIN_ROLE } from "@/constants/roles.constant"
 import {
-  LOGIN,
-  RESET,
-  PROFILE,
-  MANAGERS,
-  USERS,
-  COURSE_DASHBOARD,
-  COURSE_DETAILS,
-} from "@/constants/routes.constant";
-import { authGuard, roleGuard } from "./utils";
+	LOGIN,
+	RESET,
+	PROFILE,
+	MANAGERS,
+	USERS,
+	COURSE_DASHBOARD,
+	COURSE_DETAILS,
+} from "@/constants/routes.constant"
+import { authGuard, roleGuard } from "./utils"
 
-Vue.use(VueRouter);
-
-// FAKE USER
-const fakeUser = {
-  email: "webportaladmin@inventorsoft.co",
-  fullName: "InventorSoft Admin",
-  role: "admin",
-  id: "e5616235-be1c-4003-b5fe-33fa96195f72",
-  isAuth: true,
-};
-localStorage.setItem("user", JSON.stringify(fakeUser));
+Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: "/",
-    meta: { requiresAuth: true },
-    redirect: { name: COURSE_DASHBOARD }, // DEFAULT PAGE
-  },
-  {
-    path: "/login",
-    name: LOGIN,
-    component: LoginView,
-    meta: { requiresAuth: false },
-  },
-  {
-    path: "/reset",
-    name: RESET,
-    component: ResetView,
-    meta: { requiresAuth: false },
-  },
+	{
+		path: "/",
+		meta: { requiresAuth: true },
+		redirect: { name: COURSE_DASHBOARD }, // DEFAULT PAGE
+	},
+	{
+		path: "/login",
+		name: LOGIN,
+		component: LoginView,
+		meta: { requiresAuth: false },
+	},
+	{
+		path: "/reset",
+		name: RESET,
+		component: ResetView,
+		meta: { requiresAuth: false },
+	},
 
-  {
-    path: "/profile",
-    name: PROFILE,
-    component: ProfileView,
-    meta: { requiresAuth: true },
-  },
+	{
+		path: "/profile",
+		name: PROFILE,
+		component: ProfileView,
+		meta: { requiresAuth: true },
+	},
 
-  {
-    path: "/users",
-    name: USERS,
-    component: UsersView,
-    meta: { requiresAuth: true },
-  },
+	{
+		path: "/users",
+		name: USERS,
+		component: UsersView,
+		meta: { requiresAuth: true },
+	},
 
-  {
-    path: "/managers",
-    name: MANAGERS,
-    component: ManagersView,
-    meta: { requiresAuth: true, requiredRoles: [ADMIN_ROLE] },
-    beforeEnter: roleGuard,
-  },
+	{
+		path: "/managers",
+		name: MANAGERS,
+		component: ManagersView,
+		meta: { requiresAuth: true, requiredRoles: [ADMIN_ROLE] },
+		beforeEnter: roleGuard,
+	},
 
   {
     path: "/courses",
@@ -101,22 +91,23 @@ const routes = [
         path: ":id",
         name: COURSE_DETAILS,
         component: CourseDetailsView,
+        props: true,
       },
     ],
   },
 
-  {
-    path: "*",
-    component: NotFoundView,
-  },
-];
+	{
+		path: "*",
+		component: NotFoundView,
+	},
+]
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
-});
+	mode: "history",
+	base: process.env.BASE_URL,
+	routes,
+})
 
-router.beforeEach(authGuard);
+router.beforeEach(authGuard)
 
-export default router;
+export default router

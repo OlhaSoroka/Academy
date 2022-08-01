@@ -1,10 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import courses from "./modules/courses";
-import user from "./modules/user.store";
-import managers from "./modules/managers.store";
+import user from "./modules/user"
+import users from "./modules/users";
+import managers from './modules/managers.store';
+import toast from './modules/toast.store';
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {},
@@ -14,6 +16,8 @@ export default new Vuex.Store({
   modules: {
     courses,
     user,
+    users,
     managers,
+    toast
   },
 });

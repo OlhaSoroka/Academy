@@ -1,6 +1,6 @@
 <template>
   <table
-    v-if="!isDataLoading"
+    v-if="!isDataLoading" 
     class="BaseTable"
   >
     <thead class="table-head">
@@ -29,19 +29,18 @@
       <BaseTableRow
         v-for="item in getTablePart(tableData, 'body')"
         :key="item.id"
-        :props-data="item.id"
         :editable="editBtns"
         :deletable="deleteBtns"
         :viewed="viewBtns"
-        @delete="onDelete"
-        @edit="onEdit"
-        @view="onView"
+        @delete="onDelete(item.id)"
+        @edit="onEdit(item.id)"
+        @view="onView(item.id)"
       >
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
           <img
-            :src="logoUrl(item)"
-            alt="image"
+            :src="logoUrl(item)" 
+            alt="image" 
             width="40"
           >
         </td>
@@ -62,7 +61,7 @@
 </template>
 
 <script>
-import BaseTableRow from "./BaseTableRow.vue";
+import BaseTableRow from "../../UI/BaseTable/BaseTableRow.vue";
 import BaseSpinner from "../BaseSpinner/BaseSpinner.vue";
 import BaseArrowDown from "../BaseIcons/BaseArrowDown.vue";
 import BaseArrowUp from "../BaseIcons/BaseArrowUp.vue";
@@ -140,7 +139,7 @@ export default {
       this.$emit("delete", id);
     },
     onView(id) {
-      this.$emit("on-view", id);
+      this.$emit('view', id)
     },
     getEntriesFromArray(array) {
       const res = array.reduce(

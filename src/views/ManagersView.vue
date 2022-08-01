@@ -19,13 +19,7 @@
         </BaseButton>
       </div>
     </div>
-    <div
-      v-if="error"
-      class="text-red-600 text"
-    >
-      Error! {{ error }}
-    </div>
-    <div class="managers__table_container">
+    <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5">
       <BaseTable
         :table-data="{
           headingData: [{ fullName: 'Fullname' }, { email: 'Email' }],
@@ -72,7 +66,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('managers', ['managers', 'isManagersLoading', 'error']),
+		...mapGetters('managers', ['managers', 'isManagersLoading']),
 		selectedManager() {
 			return this.managers.find((manager) => {
 				return manager.id === this.selectedManagerId;
@@ -83,7 +77,7 @@ export default {
 		await this.fetchManagers();
 	},
 	methods: {
-		...mapActions('managers', ['fetchManagers', 'deleteManager']),
+		...mapActions('managers', ['fetchManagers']),
 		toggleCreateUpdateModal(id, updateMode) {
       this.selectedManagerId = id;
 			this.isUpdateMode = updateMode;

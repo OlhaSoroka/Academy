@@ -1,59 +1,93 @@
 <template>
-  <div class="flex">
+  <div>
     <div
-      class="login__sidebar_container"
+      v-if="!initialLoading"
+      class="flex"
     >
-      <div>
-        <div class="login__img_container">
-          <img
-            class="login__img"
-            src="../assets/inventor_logo.jpg"
-            alt="logo"
+      <div
+        class="login__sidebar_container"
+      >
+        <div>
+          <div class="login__img_container">
+            <img
+              class="login__img"
+              src="../assets/inventor_logo.jpg"
+              alt="logo"
+            >
+          </div>
+        </div>
+      </div>
+      <div class="login__form_container">
+        <div class="login__header">
+          Wellcome to InventorSoft Academy
+          <div class="login__subheader">
+            Login to continue
+          </div>
+        </div>
+        <div class="login__form_wrapper">
+          <div
+            class="max-w-xl mx-auto px-4"
           >
-        </div>
-      </div>
-    </div>
-    <div class="login__form_container">
-      <div class="login__header">
-        Wellcome to InventorSoft Academy
-        <div class="login__subheader">
-          Login to continue
-        </div>
-      </div>
-      <div class="login__form_wrapper">
-        <div
-          class="max-w-xl mx-auto px-4"
-        >
-          <div class="rounded-lg shadow-lg p-4">
-            <LoginForm />
+            <div class="rounded-lg shadow-lg p-4">
+              <LoginForm />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <BaseSpinner v-else />
   </div>
 </template>
 
 <script>
-import LoginForm from '@/components/LoginForm';
-import { mapGetters } from 'vuex';
+import { getAllUsers } from "@/api/user";
+import LoginForm from "@/components/LoginForm";
+import BaseSpinner from '../components/BaseComponents/BaseSpinner/BaseSpinner.vue'
+import { mapActions, mapGetters } from "vuex";
+import { COURSE_DASHBOARD } from '@/constants/routes.constant';
 
 export default {
-	name: 'LoginView',
-	components: {
-		LoginForm,
-	},
-	data() {
-		return {};
-	},
-	computed: {
-		...mapGetters(['user', 'accessToken']),
-	},
-	methods: {
-		sendPasswordToEmail() {},
-	},
-};
-</script>
+  name: "LoginView",
+  components: {
+    LoginForm,
+    BaseSpinner
+  },
+  data() {
+    return {
+      initialLoading: true,
+    }
+  },
+  computed: {
+    ...mapGetters('user', ["user"]),
+  },
+  async mounted() {
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+      const result = await this.isTokenAlive(token)
+      if (result) {
+        const thisEmail = localStorage.getItem('email')
+        const users = await getAllUsers(token)
+        const currentAcc = users.find(acc => acc.email === thisEmail)
+        this.setUser(currentAcc)
+        this.$router.push({ name: COURSE_DASHBOARD })
+      }
+    }
+    this.initialLoading = false;
 
+  },
+  methods: {
+    ...mapActions('user', ['setUser']),
+    async isTokenAlive(token) {
+      try {
+        await getAllUsers(token)
+        return true
+      } catch (err) {
+        return false
+      }
+    },
+  }
+}
+</script>
 <style lang="postcss" scoped>
 .login__sidebar_container{
   @apply w-1/4 bg-sky-800 flex items-center justify-center;
