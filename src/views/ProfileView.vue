@@ -7,8 +7,8 @@
       <div class="profile__image_block">
         <!-- disable image cache -->
         <img
-          v-if="user.avatarUrl"
-          :src="user.avatarUrl + '?' + Date.now()"
+          v-if="user.avatarUrl.path"
+          :src="user.avatarUrl.path + '?' + Date.now()"
         >
         <img
           v-else
@@ -36,30 +36,22 @@
         </div>
       </div>
       <div
-        v-if="isUser"
+        v-if="user.role === 'user'"
         class="profile__course_info_wrapper"
       >
         <div class="profile__course_item">
-          <div
-            class="profile__info_subtitle"
-          >
+          <div class="profile__info_subtitle">
             Course
           </div>
-          <div
-            class="profile__info_title"
-          >
+          <div class="profile__info_title">
             {{ user.course || "--" }}
           </div>
         </div>
         <div class="profile__course_item">
-          <div
-            class="profile__info_subtitle"
-          >
+          <div class="profile__info_subtitle">
             Score
           </div>
-          <div
-            class="profile__info_title"
-          >
+          <div class="profile__info_title">
             {{ user.initialScore || "--" }}
           </div>
         </div>
@@ -93,6 +85,7 @@ import BaseButton from '@/components/BaseComponents/BaseButton.vue';
 import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
 import { mapActions, mapGetters } from 'vuex';
+import { USER_ROLE } from '@/constants/roles.constant';
 export default {
   components: { BaseButton, ChangeImageModal, ChangePasswordModal },
   data() {
@@ -103,6 +96,9 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['user', 'isImageLoading']),
+    isUser() {
+      return this.user.role === USER_ROLE;
+    }
   },
   methods: {
     ...mapActions('user', ['fetchUser']),
@@ -123,7 +119,7 @@ export default {
 }
 
 .profile__image_container {
-	@apply bg-sky-800   flex justify-center items-center p-12;
+  @apply bg-sky-800 flex justify-center items-center p-12;
 }
 
 .profile__image_block img {
