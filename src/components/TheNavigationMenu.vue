@@ -56,14 +56,21 @@
       class="navigation-menu-profile"
       :to="{ name: PROFILE }"
     >
-      <svg
-        class="navigation-menu-icon"
-        width="16"
-        height="16"
-      >
-        <use href="../icons/sprite-navigation.svg#icon-profile" />
-      </svg>
-      <span class="navigation-menu-text">Profile</span>
+      <div class="profile__image_container">
+        <div class="profile__image_block">
+          <!-- disable image cache -->
+          <img
+            v-if="user.avatarUrl.path"
+            :src="user.avatarUrl.path + '?' + Date.now()"
+          >
+          <img
+            v-else
+            src="../assets/no_avatar.png"
+            alt="avatar"
+          >
+        </div>
+      </div>
+      <span class="navigation-menu-text">{{user.fullName}}</span>
     </router-link>
   </div>
 </template> 
@@ -153,4 +160,8 @@ export default {
  .navigation-menu-text {
    @apply ml-2.5
  }
+
+ .profile__image_block img {
+  @apply rounded-full shadow-md max-w-xs w-full h-full block;
+}
  </style> 

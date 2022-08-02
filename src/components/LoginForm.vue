@@ -60,8 +60,8 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import BaseInput from "@/components/BaseComponents/BaseInput";
 import { mapGetters, mapActions } from "vuex";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { resetPassword, getAllUsers } from "@/api/user";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAllUsers } from "@/api/user";
 
 export default {
   name: "LoginForm",
@@ -121,8 +121,9 @@ export default {
     resetPasswordOnEmail() {
       this.isLoginPage = false;
       this.errorResetHandeler.message = "";
-      this.errorResetHandeler.isError = false;
-      resetPassword({ email: this.formData.email })
+      this.errorResetHandeler.isError = false;      
+      const auth = getAuth();
+      sendPasswordResetEmail( auth, this.formData.email)
         .then((response) => {
           this.isLoginPage = true;
           return response;

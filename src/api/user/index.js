@@ -40,31 +40,11 @@ export const updateUserByID = async (id, data, token) => {
   return await response.data;
 };
 
-export const logout = async (token) => {
-  const response = await axios.post(
-    `${USER_URL}firebase/logout`,
-    {},
-    useToken(token)
-  );
-  return await response.data;
-};
-
-// functions where we dont need access token
 export const registerUser = async (data, token) => {
   const response = await axios.post(
     `${USER_URL}firebase/register`,
     data,
     useToken(token)
   );
-  return await response.data;
-};
-
-export const logIn = async (data) => {
-  const response = await axios.post(`${USER_URL}firebase/login`, data);
-  return await response.data;
-};
-
-export const resetPassword = async (data) => {
-  const response = await axios.post(`${USER_URL}firebase/reset-password`, data);
   return await response.data;
 };
