@@ -70,7 +70,7 @@
           >
         </div>
       </div>
-      <span class="navigation-menu-text">{{user.fullName}}</span>
+      <span class="navigation-menu-text">{{ user.fullName }}</span>
     </router-link>
   </div>
 </template> 
@@ -121,8 +121,12 @@ export default {
  }
  
  .navigation-menu-profile {
-   @apply absolute w-48 bottom-2;
- }
+   @apply absolute w-40 bottom-2;
+ } 
+  .profile__image_block img {
+  @apply rounded-full shadow-md max-w-xs w-12 h-12 block;
+  
+}
  
  @media only screen and (max-width: 480px) {
    .navigation-menu {
@@ -161,7 +165,4 @@ export default {
    @apply ml-2.5
  }
 
- .profile__image_block img {
-  @apply rounded-full shadow-md max-w-xs w-full h-full block;
-}
  </style> 

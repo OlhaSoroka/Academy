@@ -92,6 +92,7 @@ export default {
     ...mapActions('user', ["setUser", "logoutUser"]),
     async onSubmit() {
       const auth = getAuth()
+      try{
       const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
       const { accessToken, email } = user
       const users = await getAllUsers(accessToken)
@@ -99,20 +100,16 @@ export default {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem('email', email)
       this.setUser(currentUser)
-
       this.errorHandler.isError = false
       this.errorHandler.message = ''
-
       this.$router.push({ name: "courses-dashboard" })
-        .catch((error) => {
+      }            
+      catch(error) {
           console.log(error.message)
-
           this.errorHandler.isError = true
           this.errorHandler.message = error.message
-
-          this.logoutUser();
-        });
-
+          this.logoutUser()
+      }
     },
     logout() {
       this.logoutUser();
@@ -121,7 +118,7 @@ export default {
     resetPasswordOnEmail() {
       this.isLoginPage = false;
       this.errorResetHandeler.message = "";
-      this.errorResetHandeler.isError = false;      
+      this.errorResetHandeler.isError = false;
       const auth = getAuth();
       sendPasswordResetEmail( auth, this.formData.email)
         .then((response) => {
