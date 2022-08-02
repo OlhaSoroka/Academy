@@ -75,7 +75,7 @@
         />
         <ValidationObserver v-slot="{ invalid }">
           <form 
-            class="border" 
+            class="border flex items-center flex-col" 
             @submit.prevent="submit"
           >
             <ValidationProvider rules="required">
