@@ -20,36 +20,56 @@ export default {
 			commit('SET_USER', user);
 		},
 		async fetchUser(store, id) {
-			const user = await gethUserByID(id, token);
-			store.commit('SET_USER', user);
-			if (store.getters.isImageLoading) {
-				store.commit('TOGGLE_IMAGE_LOADING');
+			try {
+				const user = await gethUserByID(id, token);
+				store.commit('SET_USER', user);
+			} catch (error) {
+				const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
+			} finally {
+				if (store.getters.isImageLoading) {
+					store.commit('TOGGLE_IMAGE_LOADING');
+				}
 			}
 		},
 		async changePassword(store, password) {
-			await updateUserByID(
-				store.state.user.id,
-				{
-					password,
-					email: store.state.user.email,
-				},
-				token
-			);
+			try {
+				await updateUserByID(
+					store.state.user.id,
+					{
+						password,
+						email: store.state.user.email,
+					},
+					token
+				);
+				store.dispatch('toast/show', { message: 'Password succesfully changed', type: 'success' }, { root: true });
+			} catch (error) {
+				const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
+			}
 		},
 		async changeProfileImage(store, image) {
-			store.commit('TOGGLE_IMAGE_LOADING');
-			const formData = new FormData();
-			formData.append('avatar', image);
-			await updateUserByID(store.state.user.id, formData, token);
-			store.dispatch('fetchUser', store.state.user.id);
+			try {
+				store.commit('TOGGLE_IMAGE_LOADING');
+				const formData = new FormData();
+				formData.append('avatar', image);
+				await updateUserByID(store.state.user.id, formData, token);
+				store.dispatch('fetchUser', store.state.user.id);
+				store.dispatch('toast/show', { message: 'Profile image succesfully changed', type: 'success' }, { root: true });
+			} catch (error) {
+				const errorMessage = error.response?.data?.error || error.message;
+				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
+			}
 		},
 		async logoutUser(store) {
-			localStorage.removeItem('accessToken');
-			const auth = getAuth();
-			await signOut(auth).catch((error) => {
-				console.log(error.message);
-			});
-			store.dispatch('setUser', null);
+			try {
+				localStorage.removeItem('accessToken');
+				const auth = getAuth();
+				await signOut(auth);
+				store.dispatch('setUser', null);
+			} catch (error) {
+				store.dispatch('toast/show', { message: error.message, type: 'error' }, { root: true });
+			}
 		},
 	},
 	mutations: {

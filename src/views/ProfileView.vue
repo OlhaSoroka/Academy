@@ -36,7 +36,7 @@
         </div>
       </div>
       <div
-        v-if="user.role === 'user'"
+        v-if="isUser"
         class="profile__course_info_wrapper"
       >
         <div class="profile__course_item">
@@ -84,7 +84,7 @@
 import BaseButton from '@/components/BaseComponents/BaseButton.vue';
 import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import { USER_ROLE } from '@/constants/roles.constant';
 export default {
   components: { BaseButton, ChangeImageModal, ChangePasswordModal },
@@ -101,7 +101,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions('user', ['fetchUser']),
     openProfileImageChangeModal() {
       this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
     },
