@@ -60,8 +60,8 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import BaseInput from "@/components/BaseComponents/BaseInput";
 import { mapGetters, mapActions } from "vuex";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { resetPassword, getAllUsers } from "@/api/user";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAllUsers } from "@/api/user";
 
 export default {
   name: "LoginForm",
@@ -92,6 +92,7 @@ export default {
     ...mapActions('user', ["setUser", "logoutUser"]),
     async onSubmit() {
       const auth = getAuth()
+      try{
       const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
       const { accessToken, email } = user
       const users = await getAllUsers(accessToken)
@@ -99,20 +100,16 @@ export default {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem('email', email)
       this.setUser(currentUser)
-
       this.errorHandler.isError = false
       this.errorHandler.message = ''
-
       this.$router.push({ name: "courses-dashboard" })
-        .catch((error) => {
+      }            
+      catch(error) {
           console.log(error.message)
-
           this.errorHandler.isError = true
           this.errorHandler.message = error.message
-
-          this.logoutUser();
-        });
-
+          this.logoutUser()
+      }
     },
     logout() {
       this.logoutUser();
@@ -122,7 +119,8 @@ export default {
       this.isLoginPage = false;
       this.errorResetHandeler.message = "";
       this.errorResetHandeler.isError = false;
-      resetPassword({ email: this.formData.email })
+      const auth = getAuth();
+      sendPasswordResetEmail( auth, this.formData.email)
         .then((response) => {
           this.isLoginPage = true;
           return response;

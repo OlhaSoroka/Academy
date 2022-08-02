@@ -45,10 +45,10 @@ export default {
 		}
 	},
   computed: {
-    ...mapGetters(["courses"])
+    ...mapGetters('courses', ["courses"])
   },
 	methods: {
-    ...mapActions(["addCourseToState"]),
+    ...mapActions('courses', ["addCourseToState"]),
 		addEvent(){
 			const newCourse = {...this.courseToAdd}
       const {name, date} = newCourse;
