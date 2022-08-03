@@ -97,6 +97,9 @@ export default {
     ...mapGetters('user', ['user']),
     isAdmin() {
       return this.user.role === ADMIN_ROLE
+    },
+    activeRouteName() {
+      return this.$route.name;
     }
   },
 
@@ -165,4 +168,7 @@ export default {
    @apply ml-2.5
  }
 
+.router-link-exact-active {
+  @apply bg-sky-400 text-white;
+}
  </style> 
