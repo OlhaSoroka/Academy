@@ -37,7 +37,7 @@
               </div>
             </form>
           </ValidationObserver>
-        </validationprovider>
+        </ValidationProvider>
       </div>
     </template>
   </BaseModal>
@@ -50,10 +50,6 @@ import BaseModal from '@/components/BaseComponents/BaseModal.vue';
 import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
 export default {
-	computed: {
-		...mapGetters('courses', ['getCourseById']),
-		...mapGetters('user', ['user']),
-	},
 	components: { BaseModal, BaseButton, ValidationObserver, ValidationProvider },
 	props: {
 		toggleModal: {
@@ -65,6 +61,10 @@ export default {
 		return {
 			comments: '',
 		};
+	},
+	computed: {
+		...mapGetters('courses', ['getCourseById']),
+		...mapGetters('user', ['user']),
 	},
 	watch: {
 		toggleModal() {
