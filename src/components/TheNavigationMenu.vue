@@ -59,116 +59,108 @@
       <div class="profile__image_container">
         <div class="profile__image_block">
           <!-- disable image cache -->
-          <img
-            v-if="user.avatarUrl.path"
-            :src="user.avatarUrl.path + '?' + Date.now()"
-          >
-          <img
-            v-else
-            src="../assets/no_avatar.png"
-            alt="avatar"
-          >
+          <img :src="user.avatarUrl.path + '?' + Date.now()">
         </div>
       </div>
       <span class="navigation-menu-text">{{ user.fullName }}</span>
     </router-link>
   </div>
-</template> 
+</template>
 
- <script>
-import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant'
+<script>
+import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant';
 import { ADMIN_ROLE } from '@/constants/roles.constant';
 import router from '@/router';
 import { mapActions, mapGetters } from 'vuex';
 export default {
-  name: 'NavigationMenu',
-  props: {
-    role: {
-      default: 'user',
-      type: String
-    }
-  },
-  data() {
-    return {
-      PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN
-    }
-  },
-  computed: {
-    ...mapGetters('user', ['user']),
-    isAdmin() {
-      return this.user.role === ADMIN_ROLE
-    },
-    activeRouteName() {
-      return this.$route.name;
-    }
-  },
+	name: 'NavigationMenu',
+	props: {
+		role: {
+			default: 'user',
+			type: String,
+		},
+	},
+	data() {
+		return {
+			PROFILE,
+			USERS,
+			MANAGERS,
+			COURSE_DASHBOARD,
+			LOGIN,
+		};
+	},
+	computed: {
+		...mapGetters('user', ['user']),
+		isAdmin() {
+			return this.user.role === ADMIN_ROLE;
+		},
+	},
 
-  methods: {
-    ...mapActions('user', ['logoutUser']),
-    async logout() {
-      await this.logoutUser()
-      router.push({ name: LOGIN })
-    }
-  },
-}
+	methods: {
+		...mapActions('user', ['logoutUser']),
+		async logout() {
+			await this.logoutUser();
+			router.push({ name: LOGIN });
+		},
+	},
+};
 </script>
 
- <style lang="postcss">
- .navigation-menu {
-   @apply bg-stone-50 text-sky-700 w-48 h-screen;
-   font-family: font-mono;
- }
- 
- .navigation-menu>* {
-   @apply text-left flex text-base px-2 py-3 hover:bg-sky-400 hover:text-stone-50 hover:fill-stone-50 hover:duration-500 focus:bg-sky-400 focus:text-stone-50 focus:duration-500 focus:fill-stone-50
- }
- 
- .navigation-menu-profile {
-   @apply absolute w-40 bottom-2;
- } 
-  .profile__image_block img {
-  @apply rounded-full shadow-md max-w-xs w-12 h-12 block;
-  
+<style lang="postcss">
+.navigation-menu {
+	@apply bg-stone-50 text-sky-700 w-48 h-screen;
+	font-family: font-mono;
 }
- 
- @media only screen and (max-width: 480px) {
-   .navigation-menu {
-     @apply w-10
-   }
- 
-   .navigation-menu-text {
-     @apply hidden
-   }
- 
-   .navigation-menu>* {
-     @apply p-2
-   }
- 
-   .navigation-menu-icon {
-     @apply fill-sky-700
-   }
- 
-   .navigation-menu-profile {
-     @apply w-10
-   }
- }
- 
- .navigation-menu>*:hover,
- .navigation-menu>*:focus {
-   .navigation-menu-icon {
-     @apply m-1 fill-stone-50 duration-500
-   }
- }
- 
- .navigation-menu-icon {
-   @apply m-1 fill-sky-700
- }
- 
- .navigation-menu-text {
-   @apply ml-2.5
- }
+
+.navigation-menu > * {
+	@apply text-left flex text-base px-2 py-3 hover:bg-sky-400 hover:text-stone-50 hover:fill-stone-50 hover:duration-500 focus:bg-sky-400 focus:text-stone-50 focus:duration-500 focus:fill-stone-50;
+}
+
+.navigation-menu-profile {
+	@apply absolute w-40 bottom-2;
+}
+.profile__image_block img {
+	@apply rounded-full shadow-md max-w-xs w-12 h-12 block;
+}
+
+@media only screen and (max-width: 480px) {
+	.navigation-menu {
+		@apply w-10;
+	}
+
+	.navigation-menu-text {
+		@apply hidden;
+	}
+
+	.navigation-menu > * {
+		@apply p-2;
+	}
+
+	.navigation-menu-icon {
+		@apply fill-sky-700;
+	}
+
+	.navigation-menu-profile {
+		@apply w-10;
+	}
+}
+
+.navigation-menu > *:hover,
+.navigation-menu > *:focus {
+	.navigation-menu-icon {
+		@apply m-1 fill-stone-50 duration-500;
+	}
+}
+
+.navigation-menu-icon {
+	@apply m-1 fill-sky-700;
+}
+
+.navigation-menu-text {
+	@apply ml-2.5;
+}
 
 .router-link-exact-active {
-  @apply bg-sky-400 text-white;
+	@apply bg-sky-400 text-white;
 }
- </style> 
+</style>

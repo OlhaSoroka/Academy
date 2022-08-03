@@ -89,6 +89,7 @@ export default {
 			};
 			this.addNewComment(payload);
 			this.comments = '';
+			this.$refs.addCommentModal.closeModal();
 		},
 		cancel() {
 			this.comments = '';

@@ -135,7 +135,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters('courses', ['loadingStatus', 'getCourseById', 'courseIndex', 'nextCourseId']),
+		...mapGetters('courses', ['loadingStatus', 'getCourseById', 'nextCourseId']),
 		...mapGetters('user', ['user']),
 		isUser() {
 			return this.user.role === USER_ROLE;
@@ -151,7 +151,7 @@ export default {
 		this.getCourses();
 	},
 	methods: {
-		...mapActions('courses', ['getCourses', 'addNewComment']),
+		...mapActions('courses', ['getCourses',]),
 		openAddCommentModal() {
 			this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
 		},
