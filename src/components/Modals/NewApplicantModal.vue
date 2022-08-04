@@ -43,69 +43,71 @@ import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseModal from "@/components/BaseComponents/BaseModal.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
-    components: { BaseButton, BaseModal },
-    props: {
-        toggleModal: {
-            type: Boolean,
-            default: false,
-        },
-        manager: {
-            type: Object,
-            default: null,
-        },
+  components: { BaseButton, BaseModal },
+  props: {
+    toggleModal: {
+      type: Boolean,
+      default: false,
     },
-    data() {
-        return {
-            newUser: ''
-        }
+    manager: {
+      type: Object,
+      default: null,
     },
-    computed: {
-        ...mapGetters('users', ['users']),
-        ...mapGetters('courses', ['getCourseById']),
-        currentRouteName() {
-            const fullPath = this.$router.history.current.path
-            const pathArray = fullPath.split('/')
-            const id = pathArray[pathArray.length - 1]
-            return id;
-        },
-        usersWithoutApplicants() {
-            return this.users.filter(user => {
-                const { applicants } = this.currentCourse
-                return !applicants.some(applicant => applicant.id === user.id)
-            })
-        },
-        currentCourse() {
-            return this.getCourseById(this.currentRouteName)
-        }
+  },
+  data() {
+    return {
+      newUser: ''
+    }
+  },
+  computed: {
+    ...mapGetters('users', ['users']),
+    ...mapGetters('courses', ['getCourseById']),
+    currentRouteName() {
+      const fullPath = this.$router.history.current.path
+      const pathArray = fullPath.split('/')
+      const id = pathArray[pathArray.length - 1]
+      return id;
     },
-    watch: {
-        toggleModal() {
-            this.$refs.newApplicantModal.openModal();
-        },
+    usersWithoutApplicants() {
+      return this.users.filter(user => {
+        const { applicants } = this.currentCourse
+        return !applicants.some(applicant => applicant.id === user.id)
+      })
     },
+    currentCourse() {
+      return this.getCourseById(this.currentRouteName)
+    }
+  },
+  watch: {
+    toggleModal() {
+      this.$refs.newApplicantModal.openModal();
+    },
+  },
 
-    async mounted() {
-        this.fetchUsers()
-    },
+  async mounted() {
+    this.fetchUsers()
+  },
 
-    methods: {
-        ...mapActions("courses", ["addNewApplicant", 'getCourses']),
-        ...mapActions('users', ['fetchUsers']),
-        cancelModal() {
-            this.$refs.newApplicantModal.closeModal();
-        },
-        confirmAdding({ id, course }) {
-            const currentUser = this.users.find(el => el.id === this.newUser)
-            const updatedCourse = JSON.parse(JSON.stringify(course))
-            updatedCourse.applicants.push(currentUser)
-            this.addNewApplicant({ id, course: updatedCourse })
-                .then(() => {
-                    this.getCourses()
-                })
-                .then(() => {
-                    this.$refs.newApplicantModal.closeModal();
-                })
-        }
+  methods: {
+    ...mapActions("courses", ["addNewApplicant", 'getCourses']),
+    ...mapActions('users', ['fetchUsers']),
+    cancelModal() {
+      this.$refs.newApplicantModal.closeModal();
     },
+    confirmAdding({ id, course }) {
+      const currentUser = this.users.find(el => el.id === this.newUser)
+      const updatedCourse = JSON.parse(JSON.stringify(course))
+      updatedCourse.applicants.push(currentUser)
+      this.addNewApplicant({ id, course: updatedCourse })
+        .then(() => {
+          this.getCourses()
+        })
+        .then(() => {
+          this.$refs.newApplicantModal.closeModal();
+        })
+        .finally(() => this.newUser = ''
+        )
+    }
+  },
 };
 </script>
