@@ -86,7 +86,8 @@
                 rows="5" 
               />
             </ValidationProvider>
-            <BaseButton 
+            <BaseButton
+              variant="btn_blue" 
               class="mb-3" 
               :disabled="invalid" 
               type="submit"
@@ -96,7 +97,10 @@
           </form>
         </ValidationObserver>
         <div class="flex justify-around my-2">
-          <BaseButton @click="nextPage">
+          <BaseButton 
+            variant="btn_black" 
+            @click="nextPage"
+          >
             Next course
           </BaseButton>
         </div>

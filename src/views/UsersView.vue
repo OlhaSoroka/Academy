@@ -1,22 +1,43 @@
 <template>
-  <div>
+  <div class="users__container">
+    <div  
+      class="users__topbar_container"
+    >
+      <div>
+        <h2 class="users__header">
+          Users Dashboard
+        </h2>
+        <h3 class="users__subheader">
+          Users list of InventorSoft Academy
+        </h3>
+      </div>
+      <div v-if="isManager || isAdmin">
+        <BaseButton
+          :loading="usersLoadingStatus"
+          variant="btn_blue"
+          @click.prevent="openUsersViewCreateModal"
+        >
+          Add new user
+        </BaseButton>
+      </div>
+    </div>
     <div
-      v-if="isUser" 
-      class="UserMembersView"
+      v-if="isUser"
     >
       <div
-        v-if="users" 
-        class="UsersView"
+        v-if="users"
       >
-        <BaseTable
-          :table-data="{
-            headingData: headersUser,
-            bodyData: users,
-          }"
-          :edit-btns="false"
-          :is-data-loading="usersLoadingStatus"
-          :delete-btns="false"
-        />
+        <div class="users_table_container">
+          <BaseTable
+            :table-data="{
+              headingData: headersUser,
+              bodyData: users,
+            }"
+            :edit-btns="false"
+            :is-data-loading="usersLoadingStatus"
+            :delete-btns="false"
+          />
+        </div>
       </div>
     </div>
     <div
@@ -24,26 +45,21 @@
       class="ManagerMembersView"
     >
       <div
-        v-if="users" 
-        class="UsersView"
+        v-if="users"
       >
-        <BaseTable
-          :table-data="{
-            headingData: headersManager,
-            bodyData: users,
-          }"
-          :edit-btns="true"
-          :is-data-loading="usersLoadingStatus"
-          :delete-btns="true"
-          @edit="openUsersViewEditModal"
-          @delete="openUsersDeleteEditModal"
-        />
-        <BaseButton
-          :loading="usersLoadingStatus"
-          @click.prevent="openUsersViewCreateModal"
-        >
-          Create new user
-        </BaseButton>
+        <div class="users_table_container">
+          <BaseTable
+            :table-data="{
+              headingData: headersManager,
+              bodyData: users,
+            }"
+            :edit-btns="true"
+            :is-data-loading="usersLoadingStatus"
+            :delete-btns="true"
+            @edit="openUsersViewEditModal"
+            @delete="openUsersDeleteEditModal"
+          />
+        </div>
       </div>
       <UserEditModal
         :is-opened-user-edit-modal="isEditModalOpen"
@@ -60,30 +76,24 @@
       />
     </div>
     <div
-      v-else-if="isAdmin" 
-      class="AdminMembersView"
+      v-else-if="isAdmin"
     >
       <div
-        v-if="users" 
-        class="UsersView"
+        v-if="users"
       >
-        <BaseTable
-          :table-data="{
-            headingData: headersAdmin,
-            bodyData: users,
-          }"
-          :edit-btns="true"
-          :is-data-loading="usersLoadingStatus"
-          :delete-btns="true"
-          @edit="openUsersViewEditModal"
-          @delete="openUsersDeleteEditModal"
-        />
-        <BaseButton
-          :loading="usersLoadingStatus"
-          @click.prevent="openUsersViewCreateModal"
-        >
-          Create new user
-        </BaseButton>
+        <div class="users_table_container">
+          <BaseTable
+            :table-data="{
+              headingData: headersAdmin,
+              bodyData: users,
+            }"
+            :edit-btns="true"
+            :is-data-loading="usersLoadingStatus"
+            :delete-btns="true"
+            @edit="openUsersViewEditModal"
+            @delete="openUsersDeleteEditModal"
+          />
+        </div>
       </div>
       <UserEditModal
         :is-opened-user-edit-modal="isEditModalOpen"
@@ -279,11 +289,20 @@ export default {
   }
 };
 </script>
-<style scoped>
-.UsersView {
-  @apply flex flex-col flex-wrap content-center p-4;
+<style lang="postcss" scoped>
+.users__container{
+  @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
 }
-button {
-  @apply p-2 m-auto max-w-[15%] rounded-xl border-r-4 border-b-4 hover:border-t-4;
+.users_table_container {
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5
+}
+.users__topbar_container{
+  @apply w-full flex justify-between items-center;
+}
+.users__header{
+  @apply font-semibold text-lg text-start text-sky-700;
+}
+.users__subheader{
+  @apply mt-2 font-normal text-stone-400;
 }
 </style>

@@ -19,7 +19,7 @@
             type="submit" 
             @click="addEvent"
           >
-            Add
+            Create
           </BaseButton>
         </div>
       </div>

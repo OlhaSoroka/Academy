@@ -23,7 +23,7 @@
                 :disabled="invalid"
                 @click="submitUserEditButton"
               >
-                Submit
+                Update
               </BaseButton>
               <BaseButton
                 :disabled="false"

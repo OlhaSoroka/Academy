@@ -2,7 +2,7 @@
   <div>
     <BaseModal
       ref="userCreateModal" 
-      :header="'Create new User'"
+      :header="'Add new user'"
     >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
@@ -27,7 +27,7 @@
                 :disabled="invalid" 
                 @click="submitUserCreateButton"
               >
-                Submit
+                Create
               </BaseButton>
               <BaseButton
                 :disabled="false"
