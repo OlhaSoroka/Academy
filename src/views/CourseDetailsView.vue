@@ -218,7 +218,7 @@ export default {
       this.$router.push({ name: COURSE_DASHBOARD });
     },
     submit() {
-      let currentItem = this.getCourseById(this.$route.params.id);
+      let currentItem = JSON.parse(JSON.stringify(this.getCourseById(this.$route.params.id)))
       currentItem.comments.push({
         id: Date.now(),
         message: this.comments,
