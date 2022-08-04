@@ -41,7 +41,8 @@
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
-          :delete-btns="false"
+          :delete-btns="true"
+          @delete="deleteApplicant"
         />
         <h3>Homeworks</h3>
         <BaseTable
@@ -132,7 +133,7 @@ import {
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import NewApplicantModal from "@/components/Modals/NewApplicantModal.vue";
-
+import { patchCourse } from '.././api/course/index'
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
 });
@@ -197,6 +198,14 @@ export default {
     ...mapActions("courses", ["getCourses", "addNewComment"]),
     openModal() {
       this.isModalOpened = !this.isModalOpened
+    },
+    deleteApplicant(id) {
+      const currentCourse = this.getCourseById(this.$route.params.id)
+      const { applicants } = currentCourse
+      const filteredApplicants = applicants.filter(applicant => applicant.id !== id)
+
+      patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
+        .then(() => this.getCourses())
     },
     nextPage() {
       this.$router.push({

@@ -6,7 +6,17 @@ export const getAllCourses = async () => {
 	return await response.data
 }
 export const updateCourseById = async (id, course) => {
-	console.log(id, course)
 	const response = axios.put(`${COURSES_URL}/posts/${id}`, course)
+	return await response.data
+}
+
+export const patchCourse = async (id, field, value) => {
+	const obj = {}
+	obj[field] = value
+	const response = axios.patch(`${COURSES_URL}/posts/${id}`, obj)
+	return await response.data
+}
+export const deleteCourse = async (id) => {
+	const response = axios.delete(`${COURSES_URL}/posts/${id}`)
 	return await response.data
 }

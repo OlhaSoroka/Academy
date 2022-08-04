@@ -103,9 +103,8 @@ export default {
 		},
 		async addNewApplicant({ dispatch }, payload) {
 			const { id, course } = payload
-			console.log(id, course)
 			dispatch("getCourses")
-			updateCourseById(id, course).then((data) => console.log(data))
+			updateCourseById(id, course)
 		},
 	},
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="courses__container">
     <h2 class="courses__header">
-      Courses Dashboard 
+      Courses Dashboard
     </h2>
     <h3 class="courses__subheader">
       Courses list of InventorSoft Academy
@@ -39,14 +39,14 @@
       </div>
       <AddEventForm v-show="showAddCourseForm" />
       <div class="flex justify-evenly items-center mt-3">
-        <BaseButton 
-          variant="btn_green" 
+        <BaseButton
+          variant="btn_green"
           :loading="loadingStatus"
           @click="showAddCourseForm = !showAddCourseForm"
         >
-          {{ showAddCourseForm ? "Close" :"Add new course" }}
+          {{ showAddCourseForm ? "Close" : "Add new course" }}
         </BaseButton>
-        <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
+        <BaseButton @click="goToCourseDetails(sortedCourses[0].id)">
           All courses
         </BaseButton>
       </div>
@@ -115,18 +115,22 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.courses__container{
- @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+.courses__container {
+  @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
 }
-.courses__header{
-@apply font-semibold text-lg text-start text-sky-700;
+
+.courses__header {
+  @apply font-semibold text-lg text-start text-sky-700;
 }
-.courses__subheader{
-@apply mt-2 font-normal text-stone-400 text-start;
+
+.courses__subheader {
+  @apply mt-2 font-normal text-stone-400 text-start;
 }
-.courses__table_container{
+
+.courses__table_container {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
+
 button {
   @apply max-w-xs;
 }
