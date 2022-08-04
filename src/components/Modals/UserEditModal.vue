@@ -16,6 +16,7 @@
                 :type="input.type"
                 :label="input.label"
                 :placeholder="input.placeholder"
+                :rules="requiredField(input.label)"
               />
             </div>
             <div class="flex justify-center mt-5">
@@ -90,6 +91,10 @@ export default {
     cancelUserEditButton() {
       this.$refs.userEditModal.closeModal();
     },
+    requiredField(label) {
+      if (label==="Name" || label==="Course"){
+        return "required"}
+    }
   }
 };
 </script>

@@ -1,22 +1,25 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit }">
+  <ValidationObserver v-slot="{ handleSubmit, invalid } ">
     <form @submit.prevent="handleSubmit(addEvent)">
       <div class="add-event-forn">
         <BaseInput
           v-model="courseToAdd.name"
           type="text"
           label="Course Name"         
-          placeholder="Course Name"                    
+          placeholder="Course Name"
+          rules="required"                    
         />
         <BaseInput
           v-model="courseToAdd.date"
           type="date"
-          label="Date"                     
+          label="Date"
+          rules="required"               
         />
         <div class="add-event-button">
           <BaseButton
             variant="btn_green"
             type="submit" 
+            :disabled="invalid"
             @click="addEvent"
           >
             Create
