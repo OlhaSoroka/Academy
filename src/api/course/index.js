@@ -6,6 +6,7 @@ export const getAllCourses = async () => {
 	return await response.data
 }
 export const updateCourseById = async (id, course) => {
+	console.log(id, course)
 	const response = axios.put(`${COURSES_URL}/posts/${id}`, course)
 	return await response.data
 }
