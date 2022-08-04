@@ -64,6 +64,7 @@ export default {
 		async logoutUser(store) {
 			try {
 				localStorage.removeItem('accessToken');
+				localStorage.removeItem('user');
 				const auth = getAuth();
 				await signOut(auth);
 				store.dispatch('setUser', null);
