@@ -1,32 +1,32 @@
 <template>
-    <BaseModal
-        ref="newApplicantModal"
-        :header="'Confirm delete'"
-    >
-        <template #body>
-            <div class="flex justify-center mt-7">
-                <div class="mx-1">
-                    <select v-model="newUser">
-                        <option
-                            v-for="(user) in usersWithoutApplicants"
-                            :key="user.id"
-                            :value="user.id"
-                        >
-                            {{ user.fullName }}
-                        </option>
-                    </select>
-                </div>
-                <div class="mx-1">
-                    <BaseButton @click="confirmAdding({ id: currentRouteName, course: currentCourse })">
-                        Add
-                    </BaseButton>
-                    <BaseButton @click="cancelModal">
-                        Cancel
-                    </BaseButton>
-                </div>
-            </div>
-        </template>
-    </BaseModal>
+  <BaseModal
+    ref="newApplicantModal"
+    :header="'Confirm delete'"
+  >
+    <template #body>
+      <div class="flex justify-center mt-7">
+        <div class="mx-1">
+          <select v-model="newUser">
+            <option
+              v-for="(user) in usersWithoutApplicants"
+              :key="user.id"
+              :value="user.id"
+            >
+              {{ user.fullName }}
+            </option>
+          </select>
+        </div>
+        <div class="mx-1">
+          <BaseButton @click="confirmAdding({ id: currentRouteName, course: currentCourse })">
+            Add
+          </BaseButton>
+          <BaseButton @click="cancelModal">
+            Cancel
+          </BaseButton>
+        </div>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script>
