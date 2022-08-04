@@ -1,5 +1,11 @@
 <template>
   <div>
+    <BaseButton 
+      variant="btn_black" 
+      @click="getBackCourseDetailsView"
+    >
+      Back
+    </BaseButton>
     <div v-if="isUser">
       <div v-if="courseItem">
         <BaseTable
@@ -18,6 +24,20 @@
         v-if="courseItem" 
         class="text-center my-3"
       >
+        <div class="flex justify-around my-2">
+          <BaseButton 
+            :disabled="isFirstCourse" 
+            @click="previousPage"
+          >
+            Previous course
+          </BaseButton>
+          <BaseButton 
+            :disabled="isLatsCourse" 
+            @click="nextPage"
+          >
+            Next course
+          </BaseButton>
+        </div>
         <h2>Main Info</h2>
         <BaseTable
           class="table"
@@ -74,8 +94,8 @@
           :delete-btns="false"
         />
         <ValidationObserver v-slot="{ invalid }">
-          <form 
-            class="border flex items-center flex-col" 
+          <form
+            class="border flex items-center flex-col"
             @submit.prevent="submit"
           >
             <ValidationProvider rules="required">
@@ -95,22 +115,11 @@
             </BaseButton>
           </form>
         </ValidationObserver>
-        <div class="flex justify-around my-2">
-          <BaseButton @click="nextPage">
-            Next course
-          </BaseButton>
-        </div>
       </div>
     </div>
     <div v-else>
       <h3>No courses</h3>
     </div>
-    <BaseButton 
-      variant="btn_black" 
-      @click="getBackCourseDetailsView"
-    >
-      Back
-    </BaseButton>
   </div>
 </template>
 
@@ -171,6 +180,9 @@ export default {
       "getCourseById",
       "courseIndex",
       "nextCourseId",
+      "previousCourseId",
+      "lastCourseId",
+      "firstCourseId",
     ]),
     ...mapGetters("user", ["user"]),
     isUser() {
@@ -182,12 +194,25 @@ export default {
     courseItem() {
       return this.getCourseById(this.$route.params.id);
     },
+    isLatsCourse() {
+      return this.$route.params.id === this.lastCourseId;
+    },
+    isFirstCourse() {
+      return this.$route.params.id === this.firstCourseId;
+    },
   },
   mounted() {
     this.getCourses();
   },
   methods: {
     ...mapActions("courses", ["getCourses", "addNewComment"]),
+    previousPage() {
+      this.$router.push({
+        name: COURSE_DETAILS,
+        params: { id: this.previousCourseId(this.$route.params.id) },
+      });
+      this.comments = "";
+    },
     nextPage() {
       this.$router.push({
         name: COURSE_DETAILS,
