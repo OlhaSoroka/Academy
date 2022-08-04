@@ -102,9 +102,9 @@ export default {
           this.errorHandler.isError = true
           switch (error.code) {
             case 'auth/user-not-found':
-              this.errorHandler.message = 'No user whit such email.'
+              this.errorHandler.message = 'No user with such email.'
               break
-            case 'auth/wrong-password':
+            case 'auth/wrong-password': 
               this.errorHandler.message = 'The password is invalid'
               break            
             default:
