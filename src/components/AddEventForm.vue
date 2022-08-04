@@ -82,7 +82,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="postcss">
 .add-event-forn {
   @apply m-2 flex justify-center;
 }
