@@ -13,8 +13,7 @@
         v-if="isManagerOrAdmin"
         class=""
       >
-        <BaseButton 
-          variant="btn_blue"
+        <BaseButton
           :loading="loadingStatus"
           @click="showAddCourseForm = !showAddCourseForm"
         >

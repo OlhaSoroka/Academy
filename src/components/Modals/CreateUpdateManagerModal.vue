@@ -59,6 +59,7 @@
             <div class="mx-1">
               <BaseButton
                 :disabled="invalid"
+                variant="btn_green"
                 @click="submitAddNewManager"
               >
                 {{ isUpdateMode ? "Update" : "Create" }}

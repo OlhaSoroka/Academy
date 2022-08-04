@@ -18,7 +18,6 @@
             placeholder="qwe123"
           />
           <BaseButton
-            :variant="'btn_blue'"
             type="submit"
           >
             Submit
@@ -37,7 +36,6 @@
     </ValidationObserver>
     <div v-if="!isLoginPage">
       <BaseButton
-        :variant="'btn_blue'"
         @click="resetPasswordOnEmail"
       >
         Reset Password

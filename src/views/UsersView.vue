@@ -14,7 +14,6 @@
       <div v-if="isManager || isAdmin">
         <BaseButton
           :loading="usersLoadingStatus"
-          variant="btn_blue"
           @click.prevent="openUsersViewCreateModal"
         >
           Add new user

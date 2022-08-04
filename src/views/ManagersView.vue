@@ -12,7 +12,6 @@
       </div>
       <div>
         <BaseButton
-          variant="btn_blue"
           @click="toggleCreateUpdateModal(null, false)"
         >
           Add new manager

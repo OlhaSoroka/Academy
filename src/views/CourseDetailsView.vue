@@ -87,7 +87,6 @@
               />
             </ValidationProvider>
             <BaseButton
-              variant="btn_blue" 
               class="mb-3" 
               :disabled="invalid" 
               type="submit"

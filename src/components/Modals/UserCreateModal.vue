@@ -26,6 +26,7 @@
             >
               <BaseButton
                 :disabled="invalid" 
+                variant="btn_green"
                 @click="submitUserCreateButton"
               >
                 Create
