@@ -290,7 +290,7 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .users__container{
-  @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
+  @apply w-full p-10 mx-auto;
 }
 .users-table-container {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5
