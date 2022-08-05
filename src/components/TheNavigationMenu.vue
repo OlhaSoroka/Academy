@@ -78,7 +78,6 @@
  <script>
 import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant'
 import { ADMIN_ROLE } from '@/constants/roles.constant';
-import router from '@/router';
 import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'NavigationMenu',
@@ -104,7 +103,6 @@ export default {
     ...mapActions('user', ['logoutUser']),
     async logout() {
       await this.logoutUser()
-      router.push({ name: LOGIN })
     }
   },
 }

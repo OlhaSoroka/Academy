@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../api/index";
 import { getAllCourses, COURSES_URL } from "../../api/course/index";
 
 export default {

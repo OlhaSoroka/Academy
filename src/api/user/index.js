@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../index";
 const USER_URL = "https://inventorsoft-vue-2022-users.herokuapp.com/";
 const useToken = (token) => ({
   headers: {

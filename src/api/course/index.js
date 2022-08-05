@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../index";
 export const COURSES_URL = `https://fake-server-vue-js-app.herokuapp.com`;
 
 export const getAllCourses = async () => {

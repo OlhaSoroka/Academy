@@ -114,8 +114,6 @@ export default {
     },
     logout() {
       this.logoutUser();
-      this.setUser({});
-      localStorage.removeItem('user')
     },
     resetPasswordOnEmail() {
       this.isLoginPage = false;
