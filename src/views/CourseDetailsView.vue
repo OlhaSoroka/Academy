@@ -26,8 +26,8 @@
       </div>
     </div>
     <div v-else-if="isManagerOrAdmin">
-      <div 
-        v-if="courseItem" 
+      <div
+        v-if="courseItem"
         class="text-center my-3"
       >
         <nav class="nav">
@@ -41,6 +41,7 @@
           <div class="nav__courses">    
             <BaseButton
               class="nav__btn"
+              @click="openAddCommentModal"
             >
               Add comment
             </BaseButton>
@@ -115,69 +116,44 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        <ValidationObserver v-slot="{ invalid }">
-          <form
-            class="border flex items-center flex-col"
-            @submit.prevent="submit"
-          >
-            <ValidationProvider rules="required">
-              <textarea 
-                v-model="comments" 
-                class="border" 
-                cols="50" 
-                rows="5" 
-              />
-            </ValidationProvider>
-            <BaseButton 
-              class="mb-3" 
-              :disabled="invalid" 
-              type="submit"
-            >
-              Send comment
-            </BaseButton>
-          </form>
-        </ValidationObserver>
       </div>
     </div>
     <div v-else>
       <h3>No courses</h3>
       <BaseButton 
-      variant="btn_black" 
-      @click="getBackCourseDetailsView"
-    >
-      Back
-    </BaseButton>
+        variant="btn_black" 
+        @click="getBackCourseDetailsView"
+      >
+        Back
+      </BaseButton>
     </div>
+    <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import BaseButton from "../components/BaseComponents/BaseButton.vue";
-import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
-import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
-import { extend } from "vee-validate";
-import * as rules from "vee-validate/dist/rules";
-import {
-  USER_ROLE,
-  MANAGER_ROLE,
-  ADMIN_ROLE,
-} from "@/constants/roles.constant";
+import { mapActions, mapGetters } from 'vuex';
+import BaseButton from '../components/BaseComponents/BaseButton.vue';
+import BaseTable from '../components/BaseComponents/BaseTable/BaseTable.vue';
+import AddCommentModal from '../components/Modals/AddCommentModal.vue';
+import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
+import { extend } from 'vee-validate';
+import * as rules from 'vee-validate/dist/rules';
+import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
 
 Object.keys(rules).forEach((rule) => {
-  extend(rule, rules[rule]);
+	extend(rule, rules[rule]);
 });
 
 export default {
   components: {
     BaseTable,
     BaseButton,
-    ValidationObserver,
-    ValidationProvider,
+    AddCommentModal
   },
   data() {
     return {
+      isAddCommentModalOpen: false,
       comments: "",
       headersUser: [
         { name: "Course Name" },
@@ -268,16 +244,19 @@ export default {
       this.addNewComment(payload);
       this.comments = "";
     },
+    openAddCommentModal() {
+			this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
+		},
   },
 };
 </script>
 
 <style lang="postcss" scoped>
 .table {
-  @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+	@apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
 button {
-  @apply max-w-xs;
+	@apply max-w-xs;
 }
 .courses__header{
 @apply font-semibold text-lg text-start text-sky-700;
