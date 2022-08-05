@@ -14,6 +14,12 @@ export default {
     courses(state) {
       return state.courses;
     },
+    lastCourseId(state){
+      return state.courses[state.courses.length - 1].id
+    },
+    firstCourseId(state){
+      return state.courses[0].id
+    },
     sortedCourses(state) {
       return state.courses.sort((a, b) => (a.date > b.date ? 1 : -1));
     },
@@ -34,6 +40,14 @@ export default {
         if (currentIndex < state.courses.length - 1) {
           return state.courses[currentIndex + 1].id;
         } else return state.courses[0].id;
+      };
+    },
+    previousCourseId(state, getters){
+      return (id) => {
+        let currentIndex = getters.courseIndex(getters.getCourseById(id));
+        if (currentIndex > 0 ) {
+          return state.courses[currentIndex - 1].id;
+        } else return state.courses[state.courses.length - 1].id;
       };
     },
     getErrorNewComment(state) {
