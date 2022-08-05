@@ -5,8 +5,8 @@
   >
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
-        <div class="flex flex-col items-center mt-5">
-          <div class="mb-3">
+        <div class="flex flex-col items-center">
+          <div>
             <BaseInput
               v-model="newPassword"
               type="password"
@@ -15,7 +15,7 @@
               placeholder="Enter new password"
             />
           </div>
-          <div class="mb-3">
+          <div>
             <BaseInput
               v-model="confirmedPassword"
               type="password"
@@ -81,9 +81,14 @@ export default {
     submitPasswordChange() {
       this.changePassword(this.newPassword);
       this.$refs.passwordModal.closeModal();
+      this.newPassword="";
+      this.confirmedPassword="";
     },
     cancelPasswordChange() {
       this.$refs.passwordModal.closeModal();
+      this.newPassword="";
+      this.confirmedPassword="";
+      
     },
   },
 };

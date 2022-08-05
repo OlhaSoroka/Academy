@@ -40,14 +40,10 @@
       <AddEventForm v-show="showAddCourseForm" />
       <div class="flex justify-evenly items-center mt-3">
         <BaseButton 
-          variant="btn_green" 
           :loading="loadingStatus"
           @click="showAddCourseForm = !showAddCourseForm"
         >
           {{ showAddCourseForm ? "Close" :"Add new course" }}
-        </BaseButton>
-        <BaseButton @click="goToCourseDetails(sortedCourses[0].id)"> 
-          All courses
         </BaseButton>
       </div>
     </div>

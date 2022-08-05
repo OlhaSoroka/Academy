@@ -18,6 +18,7 @@
             placeholder="qwe123"
           />
           <BaseButton
+            class="my-3"
             :variant="'btn_blue'"
             type="submit"
           >
