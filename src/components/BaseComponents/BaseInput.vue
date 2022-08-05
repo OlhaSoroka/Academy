@@ -5,7 +5,7 @@
     :vid="vid"
     :rules="allRules"
   >
-    <div class="mt-4">
+    <div class="my-8">
       <label
         v-if="label"
         class="block ml-1 text-start"
@@ -17,10 +17,12 @@
         class="BaseInput"
         v-on="listeners"
       >
+      <p
+        class="text-red-700 text-sm w-64 ml-1 absolute"
+      >
+        {{ errors[0] }}
+      </p>
     </div>
-    <p class="text-red-700 text-sm w-64 ml-1">
-      {{ errors[0] }}
-    </p>
   </ValidationProvider>
 </template>
 
