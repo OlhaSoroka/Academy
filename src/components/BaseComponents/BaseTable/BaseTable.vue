@@ -12,7 +12,7 @@
             getTablePart(tableData, 'head')
           )"
           :key="key"
-          class="app-table-header__th text-left pl-1"
+          class="app-table-header__th"
           @click="sortTable(key)"
         >
           <!-- make the header from props headerData-->
@@ -187,6 +187,4 @@ export default {
 .BaseTable {
   @apply w-full;
 }
-
-
 </style>

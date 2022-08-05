@@ -3,21 +3,21 @@
     <slot />
     <td
       v-if="deletable"
-      class="text-red-700 cursor-pointer hover:bg-red-50 duration-500 rounded-sm text-center pl-0"
+      class="text-red-700 cursor-pointer hover:bg-red-50"
       @click="deleteRow"
     >
       delete
     </td>
     <td
       v-if="editable"
-      class="text-blue-700 cursor-pointer hover:bg-blue-50 duration-500 rounded-sm text-center pl-0"
+      class="text-blue-700 cursor-pointer hover:bg-blue-50"
       @click="editRow"
     >
       edit
     </td>
     <td
       v-if="viewed"
-      class="text-green-700 cursor-pointer hover:bg-blue-50 duration-500 rounded-sm text-center pl-0"
+      class="text-green-700 cursor-pointer hover:bg-blue-50"
       @click="viewRow"
     >
       Details
@@ -58,7 +58,4 @@ export default {
 </script>
 
 <style lang="scss" >
-tr > td {
-  @apply text-left pl-1;
-}
 </style>
