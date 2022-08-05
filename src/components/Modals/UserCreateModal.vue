@@ -18,6 +18,7 @@
                 :type="input.type"
                 :label="input.label"
                 :placeholder="input.placeholder"
+                :rules="requiredField(input.label)"
               />
             </div>
             <div 
@@ -110,6 +111,10 @@ export default {
       this.$refs.userCreateModal.closeModal();
       this.clearInputs()
     },
+    requiredField(label) {
+      if (label==="Name" || label==="Course"){
+        return "required"}
+    }
   }
 };
 </script>

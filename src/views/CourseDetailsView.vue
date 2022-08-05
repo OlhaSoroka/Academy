@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <div class="mt-3 flex justify-end">
-      <div class="w-56">
-        <BaseButton
-          class="mb-3"
-          @click="openAddCommentModal"
-        >
-          Add comment
-        </BaseButton>
-      </div>
-    </div>
+  <div class="courses__container">
+    <h2 class="courses__header">
+      Course Details
+    </h2>
     <div v-if="isUser">
+      <nav class="nav">
+        <BaseButton 
+          class="nav__btn"
+          variant="btn_black" 
+          @click="getBackCourseDetailsView"
+        >
+          Back
+        </BaseButton>
+      </nav>
       <div v-if="courseItem">
         <BaseTable
           :table-data="{
@@ -28,6 +30,36 @@
         v-if="courseItem"
         class="text-center my-3"
       >
+        <nav class="nav">
+          <BaseButton 
+            class="nav__btn"
+            variant="btn_black" 
+            @click="getBackCourseDetailsView"
+          >
+            Back
+          </BaseButton>
+          <div class="nav__courses">    
+            <BaseButton
+              class="nav__btn"
+            >
+              Add comment
+            </BaseButton>
+            <BaseButton 
+              :disabled="isFirstCourse" 
+              class="nav__btn"
+              @click="previousPage"
+            >
+              Prev
+            </BaseButton>
+            <BaseButton 
+              :disabled="isLatsCourse" 
+              class="nav__btn"
+              @click="nextPage"
+            >
+              Next 
+            </BaseButton>
+          </div>
+        </nav>
         <h2>Main Info</h2>
         <BaseTable
           class="table"
@@ -83,18 +115,34 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        <div class="flex justify-around my-2">
-          <BaseButton @click="nextPage">
-            Next course
-          </BaseButton>
-        </div>
+        <ValidationObserver v-slot="{ invalid }">
+          <form
+            class="border flex items-center flex-col"
+            @submit.prevent="submit"
+          >
+            <ValidationProvider rules="required">
+              <textarea 
+                v-model="comments" 
+                class="border" 
+                cols="50" 
+                rows="5" 
+              />
+            </ValidationProvider>
+            <BaseButton 
+              class="mb-3" 
+              :disabled="invalid" 
+              type="submit"
+            >
+              Send comment
+            </BaseButton>
+          </form>
+        </ValidationObserver>
       </div>
     </div>
     <div v-else>
       <h3>No courses</h3>
-    </div>
-    <BaseButton
-      variant="btn_black"
+      <BaseButton 
+      variant="btn_black" 
       @click="getBackCourseDetailsView"
     >
       Back
@@ -109,7 +157,7 @@ import BaseButton from '../components/BaseComponents/BaseButton.vue';
 import BaseTable from '../components/BaseComponents/BaseTable/BaseTable.vue';
 import AddCommentModal from '../components/Modals/AddCommentModal.vue';
 import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
-import { extend } from 'vee-validate';
+import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
 
@@ -118,54 +166,106 @@ Object.keys(rules).forEach((rule) => {
 });
 
 export default {
-	components: {
-		BaseTable,
-		BaseButton,
-		AddCommentModal,
-	},
-	data() {
-		return {
-			isAddCommentModalOpen: false,
-			headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
-			headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
-			headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
-			headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
-			headerResults: [{ 'result in results': 'Results' }],
-      headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
-		};
-	},
-	computed: {
-		...mapGetters('courses', ['loadingStatus', 'getCourseById', 'nextCourseId']),
-		...mapGetters('user', ['user']),
-		isUser() {
-			return this.user.role === USER_ROLE;
-		},
-		isManagerOrAdmin() {
-			return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
-		},
-		courseItem() {
-			return this.getCourseById(this.$route.params.id);
-		},
-	},
-	mounted() {
-		this.getCourses();
-	},
-	methods: {
-		...mapActions('courses', ['getCourses',]),
-		openAddCommentModal() {
-			this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
-		},
-		nextPage() {
-			this.$router.push({
-				name: COURSE_DETAILS,
-				params: { id: this.nextCourseId(this.$route.params.id) },
-			});
-			this.comments = '';
-		},
-		getBackCourseDetailsView() {
-			this.$router.push({ name: COURSE_DASHBOARD });
-		},
-	},
+  components: {
+    BaseTable,
+    BaseButton,
+    ValidationObserver,
+    ValidationProvider,
+    AddCommentModal
+  },
+  data() {
+    return {
+      comments: "",
+      headersUser: [
+        { name: "Course Name" },
+        { date: "Date" },
+        { status: "Status" },
+      ],
+      headerMainInfo: [
+        { name: "Course Name" },
+        { date: "Date" },
+        { docs_link: "Docs Link" },
+      ],
+      headerApplicants: [
+        { fullName: "Fullname" },
+        { initialScore: "initialScore" },
+      ],
+      headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
+      headerResults: [{ "result in results": "Results" }],
+      headerComments: [
+        { message: "Message" },
+        { createdAt: "Date" },
+        { author: "Author" },
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters("courses", [
+      "loadingStatus",
+      "getCourseById",
+      "courseIndex",
+      "nextCourseId",
+      "previousCourseId",
+      "lastCourseId",
+      "firstCourseId",
+    ]),
+    ...mapGetters("user", ["user"]),
+    isUser() {
+      return this.user.role === USER_ROLE;
+    },
+    isManagerOrAdmin() {
+      return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+    },
+    courseItem() {
+      return this.getCourseById(this.$route.params.id);
+    },
+    isLatsCourse() {
+      return this.$route.params.id === this.lastCourseId;
+    },
+    isFirstCourse() {
+      return this.$route.params.id === this.firstCourseId;
+    },
+  },
+  mounted() {
+    this.getCourses();
+  },
+  methods: {
+    ...mapActions("courses", ["getCourses", "addNewComment"]),
+    previousPage() {
+      this.$router.push({
+        name: COURSE_DETAILS,
+        params: { id: this.previousCourseId(this.$route.params.id) },
+      });
+      this.comments = "";
+    },
+    nextPage() {
+      this.$router.push({
+        name: COURSE_DETAILS,
+        params: { id: this.nextCourseId(this.$route.params.id) },
+      });
+      this.comments = "";
+    },
+    getBackCourseDetailsView() {
+      this.$router.push({ name: COURSE_DASHBOARD });
+    },
+    submit() {
+      let currentItem = this.getCourseById(this.$route.params.id);
+      currentItem.comments.push({
+        id: Date.now(),
+        message: this.comments,
+        createdAt: new Date().toLocaleString(),
+        author: this.user.fullName,
+        author_id: this.user.id,
+        author_email: this.user.email,
+      });
+      let payload = {
+        currentItemUpdate: currentItem,
+        id: this.$route.params.id,
+      };
+      this.addNewComment(payload);
+      this.comments = "";
+    },
+  },
 };
 </script>
 
@@ -175,5 +275,17 @@ export default {
 }
 button {
 	@apply max-w-xs;
+}
+.courses__header{
+@apply font-semibold text-lg text-start text-sky-700;
+}
+.courses__container{
+ @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+}
+.nav{
+ @apply flex justify-between px-0
+}
+.nav__btn{
+  @apply w-fit mx-1
 }
 </style>

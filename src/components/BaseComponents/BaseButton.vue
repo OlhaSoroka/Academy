@@ -17,7 +17,7 @@ export default {
   props: {
     variant: {
       type: String,
-      default: "btn_green",
+      default: "btn_blue",
       validator: (value) =>
         ["btn_green", "btn_black", "btn_red", "btn_blue"].includes(value),
     },

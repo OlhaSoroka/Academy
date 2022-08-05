@@ -1,11 +1,11 @@
 <template>
   <div>
     <div
-      v-if="isUser" 
+      v-if="isUser"
       class="UserMembersView"
     >
       <div
-        v-if="users" 
+        v-if="users"
         class="UsersView"
       >
         <BaseTable
@@ -20,11 +20,11 @@
       </div>
     </div>
     <div
-      v-else-if="isManager" 
+      v-else-if="isManager"
       class="ManagerMembersView"
     >
       <div
-        v-if="users" 
+        v-if="users"
         class="UsersView"
       >
         <BaseTable
@@ -60,11 +60,11 @@
       />
     </div>
     <div
-      v-else-if="isAdmin" 
+      v-else-if="isAdmin"
       class="AdminMembersView"
     >
       <div
-        v-if="users" 
+        v-if="users"
         class="UsersView"
       >
         <BaseTable
@@ -261,12 +261,12 @@ export default {
     },
   },
   async mounted() {
-     await this.fetchUsers();
+    await this.fetchUsers();
   },
   methods: {
     ...mapActions("users", ["fetchUsers"]),
     openUsersViewEditModal(id) {
-      this.targetUser = this.users.find((e) => e.id === id);
+      this.targetUser = JSON.parse(JSON.stringify(this.users.find((e) => e.id === id)));
       this.isEditModalOpen = !this.isEditModalOpen;
     },
     openUsersViewCreateModal() {
@@ -283,6 +283,7 @@ export default {
 .UsersView {
   @apply flex flex-col flex-wrap content-center p-4;
 }
+
 button {
   @apply p-2 m-auto max-w-[15%] rounded-xl border-r-4 border-b-4 hover:border-t-4;
 }
