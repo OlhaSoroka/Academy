@@ -41,6 +41,7 @@
           <div class="nav__courses">    
             <BaseButton
               class="nav__btn"
+              @click="openAddCommentModal"
             >
               Add comment
             </BaseButton>
@@ -115,38 +116,17 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        <ValidationObserver v-slot="{ invalid }">
-          <form
-            class="border flex items-center flex-col"
-            @submit.prevent="submit"
-          >
-            <ValidationProvider rules="required">
-              <textarea 
-                v-model="comments" 
-                class="border" 
-                cols="50" 
-                rows="5" 
-              />
-            </ValidationProvider>
-            <BaseButton 
-              class="mb-3" 
-              :disabled="invalid" 
-              type="submit"
-            >
-              Send comment
-            </BaseButton>
-          </form>
-        </ValidationObserver>
       </div>
     </div>
     <div v-else>
       <h3>No courses</h3>
       <BaseButton 
-      variant="btn_black" 
-      @click="getBackCourseDetailsView"
-    >
-      Back
-    </BaseButton>
+        variant="btn_black" 
+        @click="getBackCourseDetailsView"
+      >
+        Back
+      </BaseButton>
+    </div>
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
@@ -157,7 +137,7 @@ import BaseButton from '../components/BaseComponents/BaseButton.vue';
 import BaseTable from '../components/BaseComponents/BaseTable/BaseTable.vue';
 import AddCommentModal from '../components/Modals/AddCommentModal.vue';
 import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
-import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
+import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
 
@@ -169,12 +149,11 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    ValidationObserver,
-    ValidationProvider,
     AddCommentModal
   },
   data() {
     return {
+      isAddCommentModalOpen: false,
       comments: "",
       headersUser: [
         { name: "Course Name" },
@@ -265,6 +244,9 @@ export default {
       this.addNewComment(payload);
       this.comments = "";
     },
+    openAddCommentModal() {
+			this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
+		},
   },
 };
 </script>
