@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       emailRules: "required|email",
-      passwordRules: "required|min:6",
+      passwordRules: "min:6|regex:[A-Za-z]+[0-9]+",
     };
   },
   computed: {
@@ -90,7 +90,7 @@ export default {
       } else if (this.type === "password") {
         return `${this.passwordRules}|${this.rules}`;
       } else return `${this.rules}`;
-    },
+    }
   },
   methods: {
     onInput(value) {
@@ -102,6 +102,6 @@ export default {
 
 <style lang="postcss" scoped>
 .BaseInput {
-  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:italic placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
+  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }
 </style>
