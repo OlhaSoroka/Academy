@@ -43,7 +43,7 @@ export default {
 					token
 				);
 				store.dispatch('toast/show', { message: 'Password succesfully changed', type: 'success' }, { root: true });
-			} catch (error) {
+			} catch (error) {				
 				const errorMessage = error.response?.data?.error || error.message;
 				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			}
