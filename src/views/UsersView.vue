@@ -26,7 +26,7 @@
       <div
         v-if="users"
       >
-        <div class="users_table_container">
+        <div class="users-table-container">
           <BaseTable
             :table-data="{
               headingData: headersUser,
@@ -46,7 +46,7 @@
       <div
         v-if="users"
       >
-        <div class="users_table_container">
+        <div class="users-table-container">
           <BaseTable
             :table-data="{
               headingData: headersManager,
@@ -80,7 +80,7 @@
       <div
         v-if="users"
       >
-        <div class="users_table_container">
+        <div class="users-table-container">
           <BaseTable
             :table-data="{
               headingData: headersAdmin,
@@ -292,7 +292,7 @@ export default {
 .users__container{
   @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
 }
-.users_table_container {
+.users-table-container {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5
 }
 .users__topbar_container{

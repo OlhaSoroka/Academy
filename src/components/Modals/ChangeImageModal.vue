@@ -30,8 +30,7 @@
             v-if="profileImageSrc"
             class="w-24 mx-2"
           >
-            <BaseButton 
-              variant="btn_green"
+            <BaseButton
               @click="submitImage"
             >
               Submit
