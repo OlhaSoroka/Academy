@@ -81,9 +81,14 @@ export default {
     submitPasswordChange() {
       this.changePassword(this.newPassword);
       this.$refs.passwordModal.closeModal();
+      this.newPassword="";
+      this.confirmedPassword="";
     },
     cancelPasswordChange() {
       this.$refs.passwordModal.closeModal();
+      this.newPassword="";
+      this.confirmedPassword="";
+      
     },
   },
 };
