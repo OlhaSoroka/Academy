@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       emailRules: "required|email",
-      passwordRules: "required|min:6",
+      passwordRules: "min:6|regex:[A-Za-z]+[0-9]+",
     };
   },
   computed: {
@@ -92,7 +92,7 @@ export default {
       } else if (this.type === "password") {
         return `${this.passwordRules}|${this.rules}`;
       } else return `${this.rules}`;
-    },
+    }
   },
   methods: {
     onInput(value) {
