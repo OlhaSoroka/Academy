@@ -13,7 +13,7 @@
 
           <select
             id="applicants"
-            v-model="newUser"
+            v-model="newApplicant"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      newUser: ''
+      newApplicant: ''
     }
   },
   computed: {
@@ -93,9 +93,10 @@ export default {
     ...mapActions('users', ['fetchUsers']),
     cancelModal() {
       this.$refs.newApplicantModal.closeModal();
+      this.newApplicant = ''
     },
     confirmAdding({ id, course }) {
-      const currentUser = this.users.find(el => el.id === this.newUser)
+      const currentUser = this.users.find(el => el.id === this.newApplicant)
       const updatedCourse = JSON.parse(JSON.stringify(course))
       updatedCourse.applicants.push(currentUser)
       this.addNewApplicant({ id, course: updatedCourse })
@@ -105,7 +106,7 @@ export default {
         .then(() => {
           this.$refs.newApplicantModal.closeModal();
         })
-        .finally(() => this.newUser = ''
+        .finally(() => this.newApplicant = ''
         )
     }
   },
