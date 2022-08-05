@@ -6,12 +6,12 @@ import "./index.css";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAr6P-jiu-eP6E0EmACNBhLbHLwQiTFwEU",
-  authDomain: "inventorsoft-vue-2022-d566c.firebaseapp.com",
-  projectId: "inventorsoft-vue-2022-d566c",
-  storageBucket: "inventorsoft-vue-2022-d566c.appspot.com",
-  messagingSenderId: "416668904151",
-  appId: "1:416668904151:web:c18c721b121ab58bf45e92"
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_MESSAGEING_SENDER_ID,
+  appId: process.env.VUE_APP_APP_ID,
 };
 
 // Initialize Firebase
