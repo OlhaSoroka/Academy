@@ -18,6 +18,7 @@
             placeholder="qwe123"
           />
           <BaseButton
+            class="my-3"
             type="submit"
           >
             Submit
