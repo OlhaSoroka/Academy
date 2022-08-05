@@ -51,60 +51,64 @@ import CreateUpdateManagerModal from '@/components/Modals/CreateUpdateManagerMod
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-	components: {
-		BaseTable,
-		BaseButton,
-		CreateUpdateManagerModal,
-		DeleteManagerModal,
-	},
-	data() {
-		return {
-			selectedManagerId: null,
-			isCreateUpdateModalOpen: false,
-			isUpdateMode: false,
-			isDeleteModalOpen: false,
-		};
-	},
-	computed: {
-		...mapGetters('managers', ['managers', 'isManagersLoading']),
-		selectedManager() {
-			return this.managers.find((manager) => {
-				return manager.id === this.selectedManagerId;
-			});
-		},
-	},
-	async mounted() {
-		await this.fetchManagers();
-	},
-	methods: {
-		...mapActions('managers', ['fetchManagers']),
-		toggleCreateUpdateModal(id, updateMode) {
+  components: {
+    BaseTable,
+    BaseButton,
+    CreateUpdateManagerModal,
+    DeleteManagerModal,
+  },
+  data() {
+    return {
+      selectedManagerId: null,
+      isCreateUpdateModalOpen: false,
+      isUpdateMode: false,
+      isDeleteModalOpen: false,
+    };
+  },
+  computed: {
+    ...mapGetters('managers', ['managers', 'isManagersLoading']),
+    selectedManager() {
+      return this.managers.find((manager) => {
+        return manager.id === this.selectedManagerId;
+      });
+    },
+  },
+  async mounted() {
+    await this.fetchManagers();
+  },
+  methods: {
+    ...mapActions('managers', ['fetchManagers']),
+    toggleCreateUpdateModal(id, updateMode) {
       this.selectedManagerId = id;
-			this.isUpdateMode = updateMode;
-			this.isCreateUpdateModalOpen = !this.isCreateUpdateModalOpen;
-		},
-		toggleDeleteManagerModal(id) {
+      this.isUpdateMode = updateMode;
+      this.isCreateUpdateModalOpen = !this.isCreateUpdateModalOpen;
+    },
+    toggleDeleteManagerModal(id) {
       this.selectedManagerId = id;
-			this.isDeleteModalOpen = !this.isDeleteModalOpen;
-		},
-	},
+      this.isDeleteModalOpen = !this.isDeleteModalOpen;
+    },
+  },
 };
 </script>
 
 <style lang="postcss" scoped>
-.managers__container{
-  @apply w-2/3 mt-10 mx-auto flex flex-col justify-start items-start;
+.managers__container {
+  @apply w-2/3 p-10 mx-auto flex flex-col justify-start items-start;
 }
-.managers__topbar_container{
+
+.managers__topbar_container {
   @apply w-full flex justify-between items-center;
 }
-.managers__header{
+
+.managers__header {
   @apply font-semibold text-lg text-start text-sky-700;
 }
-.managers__subheader{
+
+.managers__subheader {
   @apply mt-2 font-normal text-stone-400;
 }
-.managers__table_container{
+
+.managers__table_container {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5
 }
 </style>
