@@ -1,6 +1,18 @@
 <template>
-  <div>
+  <div class="courses__container">
+    <h2 class="courses__header">
+      Course Details
+    </h2>
     <div v-if="isUser">
+      <nav class="nav">
+        <BaseButton
+          class="nav__btn"
+          variant="btn_black"
+          @click="getBackCourseDetailsView"
+        >
+          Back
+        </BaseButton>
+      </nav>
       <div v-if="courseItem">
         <BaseTable
           :table-data="{
@@ -18,6 +30,34 @@
         v-if="courseItem"
         class="text-center my-3"
       >
+        <nav class="nav">
+          <BaseButton
+            class="nav__btn"
+            variant="btn_black"
+            @click="getBackCourseDetailsView"
+          >
+            Back
+          </BaseButton>
+          <div class="nav__courses">
+            <BaseButton class="nav__btn">
+              Add comment
+            </BaseButton>
+            <BaseButton
+              :disabled="isFirstCourse"
+              class="nav__btn"
+              @click="previousPage"
+            >
+              Prev
+            </BaseButton>
+            <BaseButton
+              :disabled="isLatsCourse"
+              class="nav__btn"
+              @click="nextPage"
+            >
+              Next
+            </BaseButton>
+          </div>
+        </nav>
         <h2>Main Info</h2>
         <BaseTable
           class="table"
@@ -99,23 +139,18 @@
             </BaseButton>
           </form>
         </ValidationObserver>
-        <div class="flex justify-around my-2">
-          <BaseButton @click="nextPage">
-            Next course
-          </BaseButton>
-        </div>
       </div>
     </div>
     <div v-else>
       <h3>No courses</h3>
+      <BaseButton
+        variant="btn_black"
+        @click="getBackCourseDetailsView"
+      >
+        Back
+      </BaseButton>
+      <NewApplicantModal :toggle-modal="isModalOpened" />
     </div>
-    <BaseButton
-      variant="btn_black"
-      @click="getBackCourseDetailsView"
-    >
-      Back
-    </BaseButton>
-    <NewApplicantModal :toggle-modal="isModalOpened" />
   </div>
 </template>
 
@@ -179,6 +214,9 @@ export default {
       "getCourseById",
       "courseIndex",
       "nextCourseId",
+      "previousCourseId",
+      "lastCourseId",
+      "firstCourseId",
     ]),
     ...mapGetters("user", ["user"]),
     isUser() {
@@ -189,6 +227,12 @@ export default {
     },
     courseItem() {
       return this.getCourseById(this.$route.params.id);
+    },
+    isLatsCourse() {
+      return this.$route.params.id === this.lastCourseId;
+    },
+    isFirstCourse() {
+      return this.$route.params.id === this.firstCourseId;
     },
   },
   mounted() {
@@ -206,6 +250,13 @@ export default {
 
       patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
         .then(() => this.getCourses())
+    },
+    previousPage() {
+      this.$router.push({
+        name: COURSE_DETAILS,
+        params: { id: this.previousCourseId(this.$route.params.id) },
+      });
+      this.comments = "";
     },
     nextPage() {
       this.$router.push({
@@ -245,5 +296,21 @@ export default {
 
 button {
   @apply max-w-xs;
+}
+
+.courses__header {
+  @apply font-semibold text-lg text-start text-sky-700;
+}
+
+.courses__container {
+  @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+}
+
+.nav {
+  @apply flex justify-between px-0
+}
+
+.nav__btn {
+  @apply w-fit mx-1
 }
 </style>
