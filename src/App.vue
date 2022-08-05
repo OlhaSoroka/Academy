@@ -1,12 +1,10 @@
 <template>
-  <div 
-    id="app" 
+  <div
+    id="app"
     class="flex relative"
   >
-    <navigation-menu
-      role="admin"
-    />
-    <router-view class="w-full" />
+    <navigation-menu role="admin" />
+    <router-view class="w-full  h-screen overflow-auto" />
     <ToastMessage />
   </div>
 </template>
@@ -14,10 +12,10 @@
 import NavigationMenu from '@/components/TheNavigationMenu.vue';
 import ToastMessage from '@/components/ToastMessage.vue'
 export default {
-	components: {
-		NavigationMenu,
+  components: {
+    NavigationMenu,
     ToastMessage
-	},
+  },
 };
 </script>
 
