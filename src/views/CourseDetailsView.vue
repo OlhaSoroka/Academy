@@ -94,8 +94,9 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        <h3>Results</h3>
-        <BaseTable
+        <div v-if="courseItem.results.length > 0">
+          <h3>Results</h3>
+        <BaseTable 
           class="table"
           :table-data="{
             headingData: headerResults,
@@ -105,6 +106,8 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
+        </div>
+        
         <h3>Comments</h3>
         <BaseTable
           class="table"
@@ -269,5 +272,8 @@ button {
 }
 .nav__btn{
   @apply w-fit mx-1
+}
+.nav__courses{
+  @apply flex
 }
 </style>

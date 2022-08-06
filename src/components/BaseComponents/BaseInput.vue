@@ -20,7 +20,7 @@
       <p
         class="text-red-700 text-sm w-64 ml-1 absolute"
       >
-        {{ errors[0] }}
+       <span v-if="errors.length > 0 && type==='password'">English letters, then number, min 6.</span> <span v-else>{{ errors[0] }}</span>
       </p>
     </div>
   </ValidationProvider>
