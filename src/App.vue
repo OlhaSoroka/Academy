@@ -4,7 +4,7 @@
     class="flex relative"
   >
     <navigation-menu role="admin" />
-    <router-view class="w-full h-screen overflow-auto" />
+    <router-view class="w-full  h-screen overflow-auto" />
     <ToastMessage />
   </div>
 </template>

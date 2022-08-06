@@ -7,7 +7,7 @@
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
           <div 
-            class="flex flex-col items-center text-start mt-5"
+            class="flex flex-col items-center text-start"
           >
             <div
               v-for="input in userInputsValue" 

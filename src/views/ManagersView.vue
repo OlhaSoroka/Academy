@@ -93,7 +93,7 @@ export default {
 
 <style lang="postcss" scoped>
 .managers__container {
-  @apply w-2/3 p-10 mx-auto flex flex-col justify-start items-start;
+  @apply w-full p-10 mx-auto flex flex-col justify-start items-start;
 }
 
 .managers__topbar_container {
