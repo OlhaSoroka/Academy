@@ -64,6 +64,13 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
+    deleteCourse(state, id){
+      axios.delete(`${COURSES_URL}/posts/${id}`)
+      const index = state.courses.map(function(course) {
+        return course.id;
+      }).indexOf(id);
+      state.courses.splice(index, 1);
+    },
     addCourse(state, newCourse) {
       axios.post(`${COURSES_URL}/posts`, newCourse).then(
         state.courses.push(newCourse)
@@ -84,6 +91,9 @@ export default {
           )
         })
         .finally(() => commit("changeLoadingStatus"));
+    },
+    deleteCourseFromState({commit}, id){
+      commit("deleteCourse", id)
     },
     addCourseToState({ commit }, newCourse) {
       commit("addCourse", newCourse)

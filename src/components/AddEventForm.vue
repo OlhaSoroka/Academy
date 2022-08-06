@@ -79,6 +79,6 @@ export default {
 		@apply m-2 flex justify-center; 
 	}
 	.add-event-button {
-		@apply  mt-6 ;
+		@apply  mt-14 ;
 	}
 </style>

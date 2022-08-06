@@ -32,8 +32,9 @@
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
-          :delete-btns="false"
+          :delete-btns="true"
           :view-btns="true"
+          @delete="deleteCourse"
           @view="goToCourseDetails"
         />
       </div>
@@ -102,10 +103,16 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions('courses', ["getCourses"]),
+    ...mapActions('courses', ["getCourses", "deleteCourseFromState"]),
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
+    deleteCourse(id){
+      this.deleteCourseFromState(id)
+    },
+    editCourse(){
+      this.showAddCourseForm = !this.showAddCourseForm
+    }
   },
 };
 </script>
