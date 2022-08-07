@@ -6,8 +6,8 @@
     :rules="allRules"
   >
     <div class="my-8">
-      <label
-        v-if="label"
+      <label 
+        v-if="label" 
         class="block ml-1 text-start"
       >{{ label }}</label>
       <input
@@ -17,9 +17,11 @@
         class="BaseInput"
         v-on="listeners"
       >
-      <p
-        class="text-red-700 text-sm w-72 -ml-2 absolute"
-      ><span v-if="errors.length > 0 && type==='password'">Must have: Latin letter, then number, min 6.</span> <span v-else>{{ errors[0] }}</span>
+      <p class="text-red-700 text-sm w-72 -ml-2 text-center absolute">
+        <span v-if="errors.length > 0 && type === 'password'">
+          Must have: Latin letter, then number, min 6.
+        </span>
+        <span v-else>{{ errors[0] }}</span>
       </p>
     </div>
   </ValidationProvider>
@@ -93,7 +95,7 @@ export default {
       } else if (this.type === "password") {
         return `${this.passwordRules}|${this.rules}`;
       } else return `${this.rules}`;
-    }
+    },
   },
   methods: {
     onInput(value) {
