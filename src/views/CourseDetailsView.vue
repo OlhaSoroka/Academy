@@ -94,8 +94,7 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        <div v-if="courseItem.results.length > 0">
-          <h3>Results</h3>
+        <h3>Results</h3>
         <BaseTable 
           class="table"
           :table-data="{
@@ -106,8 +105,6 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        </div>
-        
         <h3>Comments</h3>
         <BaseTable
           class="table"
