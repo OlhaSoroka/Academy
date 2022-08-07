@@ -1,62 +1,69 @@
 <template>
-  <div class="courses__container">
-    <h2 class="courses__header">
-      Courses Dashboard 
-    </h2>
-    <h3 class="courses__subheader">
-      Courses list of InventorSoft Academy
-    </h3>
-    <div v-if="isUser">
-      <div class="courses__table_container">
-        <BaseTable
-          class="text-center"
-          :table-data="{
-            headingData: headersUser,
-            bodyData: courses,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-          :view-btns="true"
-          @view="goToCourseDetails"
-        />
+  <div>
+    <div class="courses__container">
+      <h2 class="courses__header">
+        Courses Dashboard 
+      </h2>
+      <h3 class="courses__subheader">
+        Courses list of InventorSoft Academy
+      </h3>
+      <div v-if="isUser">
+        <div class="courses__table_container">
+          <BaseTable
+            class="text-center"
+            :table-data="{
+              headingData: headersUser,
+              bodyData: courses,
+            }"
+            :edit-btns="false"
+            :is-data-loading="loadingStatus"
+            :delete-btns="false"
+            :view-btns="true"
+            @view="goToCourseDetails"
+          />
+        </div>
+      </div>
+      <div v-else-if="isManagerOrAdmin">
+        <div class="courses__table_container">
+          <BaseTable
+            class="text-center"
+            :table-data="{
+              headingData: headersManager,
+              bodyData: courses,
+            }"
+            :edit-btns="false"
+            :is-data-loading="loadingStatus"
+            :delete-btns="true"
+            :view-btns="true"
+            @delete="openCoursesDeleteModal"
+            @view="goToCourseDetails"
+          />
+        </div>
+        <AddEventForm v-show="showAddCourseForm" />
+        <div class="flex justify-evenly items-center mt-3">
+          <BaseButton 
+            :loading="loadingStatus"
+            @click="showAddCourseForm = !showAddCourseForm"
+          >
+            {{ showAddCourseForm ? "Close" :"Add new course" }}
+          </BaseButton>
+        </div>
+      </div>
+      <div v-else>
+        <h3>No courses</h3>
       </div>
     </div>
-    <div v-else-if="isManagerOrAdmin">
-      <div class="courses__table_container">
-        <BaseTable
-          class="text-center"
-          :table-data="{
-            headingData: headersManager,
-            bodyData: courses,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="true"
-          :view-btns="true"
-          @delete="deleteCourse"
-          @view="goToCourseDetails"
-        />
-      </div>
-      <AddEventForm v-show="showAddCourseForm" />
-      <div class="flex justify-evenly items-center mt-3">
-        <BaseButton 
-          :loading="loadingStatus"
-          @click="showAddCourseForm = !showAddCourseForm"
-        >
-          {{ showAddCourseForm ? "Close" :"Add new course" }}
-        </BaseButton>
-      </div>
-    </div>
-    <div v-else>
-      <h3>No courses</h3>
-    </div>
+    <CourseDeleteModal 
+      :is-opened-course-delete-modal="isDeleteModalOpen"
+      :course-to-delete-id="targetCourseId"
+    />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
+import CourseDeleteModal from "../components/Modals/CourseDeleteModal.vue"
 import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import AddEventForm from "@/components/AddEventForm.vue";
@@ -70,10 +77,13 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    AddEventForm
+    AddEventForm,
+    CourseDeleteModal
   },
   data() {
     return {
+      isDeleteModalOpen: false,
+      targetCourseId: 0,
       showAddCourseForm: false,
       headersUser: [
         { name: "Course Name" },
@@ -112,8 +122,12 @@ export default {
     },
     editCourse(){
       this.showAddCourseForm = !this.showAddCourseForm
-    }
-  },
+    },
+    openCoursesDeleteModal(id){
+      this.targetCourseId = id;
+      this.isDeleteModalOpen = !this.isDeleteModalOpen;
+    } 
+  }
 };
 </script>
 
