@@ -132,8 +132,8 @@
       >
         Back
       </BaseButton>
-      <NewApplicantModal :toggle-modal="isModalOpened" />
     </div>
+    <NewApplicantModal :toggle-modal="isModalOpened" />
 
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
@@ -170,6 +170,7 @@ export default {
     return {
       isAddCommentModalOpen: false,
       comments: "",
+      isModalOpened: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -200,8 +201,8 @@ export default {
       "courseIndex",
       "nextCourseId",
       "previousCourseId",
-      "lastCourseId",
-      "firstCourseId",
+      // "lastCourseId",
+      // "firstCourseId",
     ]),
     ...mapGetters("user", ["user"]),
     isUser() {
@@ -226,6 +227,7 @@ export default {
   methods: {
     ...mapActions("courses", ["getCourses", "addNewComment"]),
     openModal() {
+      console.log('asd');
       this.isModalOpened = !this.isModalOpened
     },
     deleteApplicant(id) {
