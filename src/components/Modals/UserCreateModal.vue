@@ -1,8 +1,9 @@
 !<template>
   <div>
     <BaseModal
-      ref="userCreateModal" 
+      ref="userCreateModal"
       :header="'Add new user'"
+      @isClosed="clearInputs()"
     >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
