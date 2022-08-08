@@ -73,8 +73,8 @@
             </BaseButton>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10 bg-stone-50">
-          <div class="part col-span-2 col-start-1">
+        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 bg-stone-50">
+          <div class="part col-span-2 col-start-1 row-span-1">
             <div class="flex justify-between">
               <div class="text-left">
                 <label class="text-xs">Name
@@ -123,7 +123,7 @@
               @delete="deleteApplicant"
             />
           </div>
-          <div class="part col-span-2 col-start-1">
+          <div class="part col-span-2 col-start-1 row-span-2">
             <h2>Group</h2>
             <BaseTable
               class="table"
@@ -162,7 +162,7 @@
               :delete-btns="false"
             />
           </div>
-          <div class="part col-span-4">
+          <div class="part col-span-3">
             <h3>Comments</h3>
             <BaseTable
               class="table"
