@@ -92,6 +92,7 @@ export default {
       const currentUser = users.find((userOfArray) => (userOfArray.email === email))
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem('email', email)
+      localStorage.setItem('user', JSON.stringify(currentUser))
       this.setUser(currentUser)
       this.errorHandler.isError = false
       this.errorHandler.message = ''
@@ -115,7 +116,6 @@ export default {
     },
     logout() {
       this.logoutUser();
-      this.setUser({});
     },
     resetPasswordOnEmail() {
       this.isLoginPage = false;

@@ -1,5 +1,7 @@
 import { gethUserByID, updateUserByID } from '@/api/user';
+import { LOGIN } from '@/constants/routes.constant';
 import { getAuth, signOut } from 'firebase/auth';
+import router from '../../router';
 
 const token = localStorage.getItem('accessToken');
 
@@ -64,9 +66,12 @@ export default {
 		async logoutUser(store) {
 			try {
 				localStorage.removeItem('accessToken');
+				localStorage.removeItem('email');
+				localStorage.removeItem('user');
 				const auth = getAuth();
 				await signOut(auth);
 				store.dispatch('setUser', null);
+				router.push({ name: LOGIN });
 			} catch (error) {
 				store.dispatch('toast/show', { message: error.response.data.message, type: 'error' }, { root: true });
 			}

@@ -37,8 +37,8 @@
       </div>
     </div>
     <div v-else-if="isManagerOrAdmin">
-      <div
-        v-if="courseItem"
+      <div 
+        v-if="courseItem" 
         class="text-center my-3"
       >
         <nav class="nav">
@@ -53,7 +53,6 @@
           <div class="nav__courses">
             <BaseButton
               class="nav__btn"
-              @click="openAddCommentModal"
             >
               Add comment
             </BaseButton>
@@ -143,6 +142,28 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
+        <ValidationObserver v-slot="{ invalid }">
+          <form
+            class="border flex items-center flex-col"
+            @submit.prevent="submit"
+          >
+            <ValidationProvider rules="required">
+              <textarea 
+                v-model="comments" 
+                class="border" 
+                cols="50" 
+                rows="5" 
+              />
+            </ValidationProvider>
+            <BaseButton 
+              class="mb-3" 
+              :disabled="invalid" 
+              type="submit"
+            >
+              Send comment
+            </BaseButton>
+          </form>
+        </ValidationObserver>
       </div>
     </div>
     <div v-else>
@@ -174,7 +195,6 @@ import {
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import NewApplicantModal from "@/components/Modals/NewApplicantModal.vue";
-import AddCommentModal from "@/components/Modals/AddCommentModal.vue"
 import { patchCourse } from '.././api/course/index'
 
 Object.keys(rules).forEach((rule) => {
@@ -185,12 +205,10 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    AddCommentModal,
-    NewApplicantModal
+    NewApplicantModal,
   },
   data() {
     return {
-      isAddCommentModalOpen: false,
       comments: "",
       isModalOpened: false,
       headersUser: [
