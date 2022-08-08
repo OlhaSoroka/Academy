@@ -5,9 +5,9 @@
     </h2>
     <div v-if="isUser">
       <nav class="nav">
-        <BaseButton 
+        <BaseButton
           class="nav__btn"
-          variant="btn_black" 
+          variant="btn_black"
           @click="getBackCourseDetailsView"
         >
           Back
@@ -42,32 +42,33 @@
         class="text-center my-3"
       >
         <nav class="nav">
-          <BaseButton 
+          <BaseButton
             class="nav__btn"
-            variant="btn_black" 
+            variant="btn_black"
             @click="getBackCourseDetailsView"
           >
             Back
           </BaseButton>
-          <div class="nav__courses">    
+
+          <div class="nav__courses">
             <BaseButton
               class="nav__btn"
             >
               Add comment
             </BaseButton>
-            <BaseButton 
-              :disabled="isFirstCourse" 
+            <BaseButton
+              :disabled="isFirstCourse"
               class="nav__btn"
               @click="previousPage"
             >
               Prev
             </BaseButton>
-            <BaseButton 
-              :disabled="isLatsCourse" 
+            <BaseButton
+              :disabled="isLatsCourse"
               class="nav__btn"
               @click="nextPage"
             >
-              Next 
+              Next
             </BaseButton>
           </div>
         </nav>
@@ -83,6 +84,9 @@
           :delete-btns="false"
         />
         <h3>Applicants</h3>
+        <BaseButton @click="openModal">
+          Add new applicant
+        </BaseButton>
         <BaseTable
           class="table"
           :table-data="{
@@ -91,7 +95,8 @@
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
-          :delete-btns="false"
+          :delete-btns="true"
+          @delete="deleteApplicant"
         />
         <h2>Group</h2>
         <BaseTable
@@ -163,13 +168,17 @@
     </div>
     <div v-else>
       <h3>No courses</h3>
-      <BaseButton 
-      variant="btn_black" 
-      @click="getBackCourseDetailsView"
-    >
-      Back
-    </BaseButton>
+
+      <BaseButton
+        variant="btn_black"
+        @click="getBackCourseDetailsView"
+      >
+        Back
+      </BaseButton>
     </div>
+    <NewApplicantModal :toggle-modal="isModalOpened" />
+
+    <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
 
@@ -178,7 +187,6 @@ import { mapActions, mapGetters } from "vuex";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
 import {
@@ -186,6 +194,9 @@ import {
   MANAGER_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
+import NewApplicantModal from "@/components/Modals/NewApplicantModal.vue";
+import AddCommentModal from "@/components/Modals/AddCommentModal.vue"
+import { patchCourse } from '.././api/course/index'
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -196,11 +207,13 @@ export default {
     BaseTable,
     BaseButton,
     ValidationObserver,
-    ValidationProvider,
+    ValidationProvider,,
+    NewApplicantModal
   },
   data() {
     return {
       comments: "",
+      isModalOpened: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -235,8 +248,8 @@ export default {
       "courseIndex",
       "nextCourseId",
       "previousCourseId",
-      "lastCourseId",
-      "firstCourseId",
+      // "lastCourseId",
+      // "firstCourseId",
     ]),
     ...mapGetters("user", ["user"]),
     isUser() {
@@ -268,6 +281,17 @@ export default {
   },
   methods: {
     ...mapActions("courses", ["getCourses", "addNewComment"]),
+    openModal() {
+      this.isModalOpened = !this.isModalOpened
+    },
+    deleteApplicant(id) {
+      const currentCourse = this.getCourseById(this.$route.params.id)
+      const { applicants } = currentCourse
+      const filteredApplicants = applicants.filter(applicant => applicant.id !== id)
+
+      patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
+        .then(() => this.getCourses())
+    },
     previousPage() {
       this.$router.push({
         name: COURSE_DETAILS,
@@ -286,7 +310,7 @@ export default {
       this.$router.push({ name: COURSE_DASHBOARD });
     },
     submit() {
-      let currentItem = this.getCourseById(this.$route.params.id);
+      let currentItem = JSON.parse(JSON.stringify(this.getCourseById(this.$route.params.id)))
       currentItem.comments.push({
         id: Date.now(),
         message: this.comments,
@@ -302,6 +326,9 @@ export default {
       this.addNewComment(payload);
       this.comments = "";
     },
+    openAddCommentModal() {
+      this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
+    },
   },
 };
 </script>
@@ -310,19 +337,24 @@ export default {
 .table {
   @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
+
 button {
   @apply max-w-xs;
 }
-.courses__header{
-@apply font-semibold text-lg text-start text-sky-700;
+
+.courses__header {
+  @apply font-semibold text-lg text-start text-sky-700;
 }
-.courses__container{
- @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+
+.courses__container {
+  @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
 }
-.nav{
- @apply flex justify-between px-0
+
+.nav {
+  @apply flex justify-between px-0
 }
-.nav__btn{
+
+.nav__btn {
   @apply w-fit mx-1
 }
 </style>

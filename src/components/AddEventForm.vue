@@ -1,24 +1,24 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit, invalid } ">
+  <ValidationObserver v-slot="{ handleSubmit, invalid }">
     <form @submit.prevent="handleSubmit(addEvent)">
       <div class="add-event-forn">
         <BaseInput
           v-model="courseToAdd.name"
           type="text"
-          label="Course Name"         
+          label="Course Name"
           placeholder="Course Name"
-          rules="required"                    
+          rules="required"
         />
         <BaseInput
           v-model="courseToAdd.date"
           type="date"
           label="Date"
-          rules="required"               
+          rules="required"
         />
         <div class="add-event-button">
           <BaseButton
             variant="btn_green"
-            type="submit" 
+            type="submit"
             :disabled="invalid"
             @click="addEvent"
           >
@@ -36,49 +36,61 @@ import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseInput from "@/components/BaseComponents/BaseInput";
 import { mapGetters, mapActions } from "vuex"
 export default {
-	name: "AddEventForm",
-	components: { BaseInput, BaseButton, ValidationObserver},
-	data() {
-		return {
-			courseToAdd: {
+  name: "AddEventForm",
+  components: { BaseInput, BaseButton, ValidationObserver },
+  data() {
+    return {
+      courseToAdd: {
         id: 0,
         name: "",
-        date:"",
+        date: "",
       },
-		}
-	},
+    }
+  },
   computed: {
     ...mapGetters('courses', ["courses"])
   },
-	methods: {
+  methods: {
     ...mapActions('courses', ["addCourseToState"]),
-		addEvent(){
-			const newCourse = {...this.courseToAdd}
-      const {name, date} = newCourse;
-			if(name !== "" && date !== ""){
-        if(this.courses.length > 0)
-          {
-            const ids = this.courses.map(course => {
-              return course.id;
-            });
-            newCourse.id = Math.max(...ids) + 1;
-          } else {
-            newCourse.id = 1;
-          }
+    addEvent() {
+      let newCourse = { ...this.courseToAdd }
+      const { name, date } = newCourse;
+      if (name !== "" && date !== "") {
+        if (this.courses.length > 0) {
+          const ids = this.courses.map(course => {
+            return course.id;
+          });
+          newCourse.id = Math.max(...ids) + 1;
+        } else {
+          newCourse.id = 1;
+        }
         this.courseToAdd.name = "";
         this.courseToAdd.date = "";
+
+        newCourse = {
+          ...newCourse,
+          applicants: [],
+          comments: [],
+          docs_link: '',
+          group: [],
+          homework: [],
+          results: [],
+          status: "in future",
+        }
+        // console.log(newCourse);
         this.addCourseToState(newCourse)
       }
-		}
-	}
+    }
+  }
 };
 </script>
 
-<style>
-	.add-event-forn {
-		@apply m-2 flex justify-center; 
-	}
-	.add-event-button {
-		@apply  mt-6 ;
-	}
+<style lang="postcss">
+.add-event-forn {
+  @apply m-2 flex justify-center;
+}
+
+.add-event-button {
+  @apply mt-6;
+}
 </style>
