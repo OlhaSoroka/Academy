@@ -204,8 +204,8 @@ export default {
 			'courseIndex',
 			'nextCourseId',
 			'previousCourseId',
-			// "lastCourseId",
-			// "firstCourseId",
+			"lastCourseId",
+			"firstCourseId",
 		]),
 		...mapGetters('user', ['user']),
 		isUser() {
