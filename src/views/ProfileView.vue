@@ -6,15 +6,7 @@
     <div class="profile__image_container">
       <div class="profile__image_block">
         <!-- disable image cache -->
-        <img
-          v-if="user.avatarUrl.path"
-          :src="user.avatarUrl.path + '?' + Date.now()"
-        >
-        <img
-          v-else
-          src="../assets/no_avatar.png"
-          alt="avatar"
-        >
+        <img :src="user.avatarUrl.path + '?' + Date.now()">
       </div>
     </div>
 
@@ -114,7 +106,7 @@ export default {
 
 <style lang="postcss" scoped>
 .profile__container {
-  @apply w-2/3 h-2/3 self-center mx-auto shadow-xl flex justify-center;
+  @apply w-full h-2/3 self-center mx-auto shadow-xl flex justify-center;
 }
 
 .profile__image_container {

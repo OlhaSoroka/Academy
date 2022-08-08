@@ -5,20 +5,24 @@
     :vid="vid"
     :rules="allRules"
   >
-    <label
-      v-if="label"
-      class="block ml-1 text-start"
-    >{{ label }}</label>
-    <input
-      v-bind="$attrs"
-      v-model="model"
-      :type="type"
-      class="BaseInput"
-      v-on="listeners"
-    >
-    <p class="text-red-700 text-sm w-64 ml-1">
-      {{ errors[0] }}
-    </p>
+    <div class="my-8">
+      <label
+        v-if="label"
+        class="block ml-1 text-start"
+      >{{ label }}</label>
+      <input
+        v-bind="$attrs"
+        v-model="model"
+        :type="type"
+        class="BaseInput"
+        v-on="listeners"
+      >
+      <p
+        class="text-red-700 text-sm w-64 ml-1 absolute"
+      >
+        {{ errors[0] }}
+      </p>
+    </div>
   </ValidationProvider>
 </template>
 
@@ -66,7 +70,7 @@ export default {
   data() {
     return {
       emailRules: "required|email",
-      passwordRules: "required|min:6",
+      passwordRules: "min:6|regex:[A-Za-z]+[0-9]+",
     };
   },
   computed: {
@@ -90,7 +94,7 @@ export default {
       } else if (this.type === "password") {
         return `${this.passwordRules}|${this.rules}`;
       } else return `${this.rules}`;
-    },
+    }
   },
   methods: {
     onInput(value) {
