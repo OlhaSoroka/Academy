@@ -190,10 +190,18 @@ export default {
     ]),
     ...mapGetters("user", ["user"]),
     isUser() {
-      return this.user.role === USER_ROLE;
+      if (this.user) {
+        return this.user.role === USER_ROLE;
+      } else {
+        return false;
+      }
     },
     isManagerOrAdmin() {
-      return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+      if (this.user) {
+        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+      } else {
+        return false;
+      }
     },
     courseItem() {
       return this.getCourseById(this.$route.params.id);

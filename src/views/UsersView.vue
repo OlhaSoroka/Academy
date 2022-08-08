@@ -1,8 +1,6 @@
 <template>
   <div class="users__container">
-    <div  
-      class="users__topbar_container"
-    >
+    <div class="users__topbar_container">
       <div>
         <h2 class="users__header">
           Users Dashboard
@@ -20,12 +18,8 @@
         </BaseButton>
       </div>
     </div>
-    <div
-      v-if="isUser"
-    >
-      <div
-        v-if="users"
-      >
+    <div v-if="isUser">
+      <div v-if="users">
         <div class="users-table-container">
           <BaseTable
             :table-data="{
@@ -43,9 +37,7 @@
       v-else-if="isManager"
       class="ManagerMembersView"
     >
-      <div
-        v-if="users"
-      >
+      <div v-if="users">
         <div class="users-table-container">
           <BaseTable
             :table-data="{
@@ -74,12 +66,8 @@
         :target-user-value="targetUser"
       />
     </div>
-    <div
-      v-else-if="isAdmin"
-    >
-      <div
-        v-if="users"
-      >
+    <div v-else-if="isAdmin">
+      <div v-if="users">
         <div class="users-table-container">
           <BaseTable
             :table-data="{
@@ -112,7 +100,11 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from "@/constants/roles.constant";
+import {
+  USER_ROLE,
+  MANAGER_ROLE,
+  ADMIN_ROLE,
+} from "@/constants/roles.constant";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable";
 import BaseButton from "../components/BaseComponents/BaseButton";
 import UserCreateModal from "../components/Modals/UserCreateModal";
@@ -126,7 +118,7 @@ export default {
     BaseButton,
     UserCreateModal,
     UserEditModal,
-    UserDeleteModal
+    UserDeleteModal,
   },
   data() {
     return {
@@ -260,13 +252,25 @@ export default {
     ...mapGetters("users", ["usersLoadingStatus", "users"]),
     ...mapGetters("user", ["user"]),
     isUser() {
-      return this.user.role === USER_ROLE;
+      if (this.user) {
+        return this.user.role === USER_ROLE;
+      } else {
+        return false;
+      }
     },
     isManager() {
-      return this.user.role === MANAGER_ROLE;
+      if (this.user) {
+        return this.user.role === MANAGER_ROLE;
+      } else {
+        return false;
+      }
     },
     isAdmin() {
-      return this.user.role === ADMIN_ROLE;
+      if (this.user) {
+        return this.user.role === ADMIN_ROLE;
+      } else {
+        return false;
+      }
     },
   },
   async mounted() {
@@ -275,7 +279,9 @@ export default {
   methods: {
     ...mapActions("users", ["fetchUsers"]),
     openUsersViewEditModal(id) {
-      this.targetUser = JSON.parse(JSON.stringify(this.users.find((e) => e.id === id)));
+      this.targetUser = JSON.parse(
+        JSON.stringify(this.users.find((e) => e.id === id))
+      );
       this.isEditModalOpen = !this.isEditModalOpen;
     },
     openUsersViewCreateModal() {
@@ -284,24 +290,24 @@ export default {
     openUsersDeleteEditModal(id) {
       this.targetUser = this.users.find((e) => e.id === id);
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="postcss" scoped>
-.users__container{
+.users__container {
   @apply w-full p-10 mx-auto;
 }
 .users-table-container {
-  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
-.users__topbar_container{
+.users__topbar_container {
   @apply w-full flex justify-between items-center;
 }
-.users__header{
+.users__header {
   @apply font-semibold text-lg text-start text-sky-700;
 }
-.users__subheader{
+.users__subheader {
   @apply mt-2 font-normal text-stone-400;
 }
 </style>
