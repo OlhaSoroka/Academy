@@ -14,10 +14,21 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
+        <h2>Main Info</h2>
         <BaseTable
           :table-data="{
             headingData: headersUser,
             bodyData: [courseItem],
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+        />
+        <h2>Group</h2>
+        <BaseTable
+          :table-data="{
+            headingData: headersGroup,
+            bodyData: courseItem.group,
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
@@ -87,6 +98,17 @@
           :is-data-loading="loadingStatus"
           :delete-btns="true"
           @delete="deleteApplicant"
+        />
+        <h2>Group</h2>
+        <BaseTable
+          class="table"
+          :table-data="{
+            headingData: headersGroup,
+            bodyData: courseItem.group,
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
         />
         <h3>Homeworks</h3>
         <BaseTable
@@ -176,6 +198,10 @@ export default {
         { date: "Date" },
         { status: "Status" },
       ],
+      headersGroup: [
+        {fullName: "Fullname"},
+        {email: "Email"},
+      ],
       headerMainInfo: [
         { name: "Course Name" },
         { date: "Date" },
@@ -206,10 +232,18 @@ export default {
     ]),
     ...mapGetters("user", ["user"]),
     isUser() {
-      return this.user.role === USER_ROLE;
+      if (this.user) {
+        return this.user.role === USER_ROLE;
+      } else {
+        return false;
+      }
     },
     isManagerOrAdmin() {
-      return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+      if (this.user) {
+        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+      } else {
+        return false;
+      }
     },
     courseItem() {
       return this.getCourseById(this.$route.params.id);

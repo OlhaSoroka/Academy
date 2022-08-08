@@ -22,9 +22,10 @@
             <div class="flex justify-center mt-5">
               <BaseButton
                 :disabled="invalid"
+                variant="btn_green"
                 @click="submitUserEditButton"
               >
-                Submit
+                Update
               </BaseButton>
               <BaseButton
                 :disabled="false"

@@ -42,7 +42,7 @@ export default {
   methods: {
     closeModal() {
       this.show = false;
-
+      this.$emit("isClosed");
     },
     openModal() {
       this.show = true;

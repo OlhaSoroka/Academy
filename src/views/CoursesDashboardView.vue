@@ -1,11 +1,27 @@
 <template>
   <div class="courses__container">
-    <h2 class="courses__header">
-      Courses Dashboard
-    </h2>
-    <h3 class="courses__subheader">
-      Courses list of InventorSoft Academy
-    </h3>
+
+    <div class="courses__topbar_container">
+      <div>
+        <h2 class="courses__header">
+          Courses Dashboard 
+        </h2>
+        <h3 class="courses__subheader">
+          Courses list of InventorSoft Academy
+        </h3>
+      </div>
+      <div 
+        v-if="isManagerOrAdmin"
+        class=""
+      >
+        <BaseButton
+          :loading="loadingStatus"
+          @click="showAddCourseForm = !showAddCourseForm"
+        >
+          {{ showAddCourseForm ? "Close" :"Add new course" }}
+        </BaseButton>
+      </div>
+    </div>
     <div v-if="isUser">
       <div class="courses__table_container">
         <BaseTable
@@ -38,17 +54,7 @@
         />
       </div>
       <AddEventForm v-show="showAddCourseForm" />
-      <div class="flex justify-evenly items-center mt-3">
-        <BaseButton
-          :loading="loadingStatus"
-          @click="showAddCourseForm = !showAddCourseForm"
-        >
-          {{ showAddCourseForm ? "Close" : "Add new course" }}
-        </BaseButton>
-        <BaseButton @click="goToCourseDetails(sortedCourses[0].id)">
-          All courses
-        </BaseButton>
-      </div>
+
     </div>
     <div v-else>
       <h3>No courses</h3>
@@ -95,10 +101,18 @@ export default {
     },
     ...mapGetters("user", ["user"]),
     isUser() {
-      return this.user.role === USER_ROLE;
+      if (this.user) {
+        return this.user.role === USER_ROLE;
+      } else {
+        return false;
+      }
     },
     isManagerOrAdmin() {
-      return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+      if (this.user) {
+        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+      } else {
+        return false;
+      }
     },
   },
   mounted() {
@@ -114,8 +128,9 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.courses__container {
-  @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+
+.courses__container{
+ @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
 }
 
 .courses__header {
@@ -130,7 +145,7 @@ export default {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
 
-button {
-  @apply max-w-xs;
+.courses__topbar_container{
+  @apply w-full flex justify-between items-center;
 }
 </style>

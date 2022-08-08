@@ -24,7 +24,7 @@ export default {
 				const users = allUsers.filter((user) => user.role === USER_ROLE)
 				store.commit("SET_USERS", users)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },
@@ -45,7 +45,7 @@ export default {
 					{ root: true }
 				)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },
@@ -67,7 +67,7 @@ export default {
 					{ root: true }
 				)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },
@@ -90,7 +90,7 @@ export default {
 					{ root: true }
 				)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },

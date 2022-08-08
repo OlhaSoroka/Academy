@@ -1,8 +1,9 @@
 !<template>
   <div>
     <BaseModal
-      ref="userCreateModal" 
-      :header="'Create new User'"
+      ref="userCreateModal"
+      :header="'Add new user'"
+      @isClosed="clearInputs()"
     >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
@@ -26,9 +27,10 @@
             >
               <BaseButton
                 :disabled="invalid" 
+                variant="btn_green"
                 @click="submitUserCreateButton"
               >
-                Submit
+                Create
               </BaseButton>
               <BaseButton
                 :disabled="false"

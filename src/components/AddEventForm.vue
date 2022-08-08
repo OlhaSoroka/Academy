@@ -22,7 +22,7 @@
             :disabled="invalid"
             @click="addEvent"
           >
-            Add
+            Create
           </BaseButton>
         </div>
       </div>
