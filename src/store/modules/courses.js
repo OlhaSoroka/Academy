@@ -76,7 +76,7 @@ export default {
       getAllCourses()
         .then((data) => commit("setCourses", data))
         .catch((error) => {
-          const errorMessage = error.response?.data?.error || error.message;
+          const errorMessage = error.response?.data?.error || error.response.data.message;
           dispatch(
             "toast/show",
             { message: errorMessage, type: "error" },
@@ -103,7 +103,7 @@ export default {
         })
         .catch((error) => {
           dispatch("getCourses");
-          const errorMessage = error.response?.data?.error || error.message;
+          const errorMessage = error.response?.data?.error || error.response.data.message;
           dispatch(
             "toast/show",
             { message: errorMessage, type: "error" },
