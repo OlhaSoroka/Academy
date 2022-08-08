@@ -37,8 +37,8 @@
       </div>
     </div>
     <div v-else-if="isManagerOrAdmin">
-      <div 
-        v-if="courseItem" 
+      <div
+        v-if="courseItem"
         class="text-center my-3"
       >
         <nav class="nav">
@@ -51,11 +51,6 @@
           </BaseButton>
 
           <div class="nav__courses">
-            <BaseButton
-              class="nav__btn"
-            >
-              Add comment
-            </BaseButton>
             <BaseButton
               :disabled="isFirstCourse"
               class="nav__btn"
@@ -70,94 +65,139 @@
             >
               Next
             </BaseButton>
+            <BaseButton @click="openModal">
+              Add new applicant
+            </BaseButton>
           </div>
         </nav>
-        <h2>Main Info</h2>
-        <BaseTable
-          class="table"
-          :table-data="{
-            headingData: headerMainInfo,
-            bodyData: [courseItem],
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
-        <h3>Applicants</h3>
-        <BaseButton @click="openModal">
-          Add new applicant
-        </BaseButton>
-        <BaseTable
-          class="table"
-          :table-data="{
-            headingData: headerApplicants,
-            bodyData: courseItem.applicants,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="true"
-          @delete="deleteApplicant"
-        />
-        <h2>Group</h2>
-        <BaseTable
-          class="table"
-          :table-data="{
-            headingData: headersGroup,
-            bodyData: courseItem.group,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
-        <h3>Homeworks</h3>
-        <BaseTable
-          class="table"
-          :table-data="{
-            headingData: headerHomework,
-            bodyData: courseItem.homework,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
-        <h3>Results</h3>
-        <BaseTable
-          class="table"
-          :table-data="{
-            headingData: headerResults,
-            bodyData: courseItem.results,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
-        <h3>Comments</h3>
-        <BaseTable
-          class="table"
-          :table-data="{
-            headingData: headerComments,
-            bodyData: courseItem.comments,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
+        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10 bg-stone-50">
+          <div class="part col-span-2 col-start-1">
+            <div class="flex justify-between">
+              <div class="text-left">
+                <label class="text-xs">Name
+                  <p class="text-2xl">{{ courseItem.name }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="text-xs">Date
+                  <p class="text-2xl">{{ courseItem.date }}</p>
+                </label>
+              </div>
+              <div
+                v-if="courseItem.docs_link"
+                class="text-left"
+              >
+                <label class="text-xs">Docs
+                  <p class="text-2xl">{{ courseItem.docs_link }}</p>
+                </label>
+              </div>
+              <div
+                v-if="courseItem.status === 'not started'"
+                class='text-left p-1 rounded-md'
+                :class="{
+                  'bg-blue-300': courseItem.status === 'not started',
+                  'bg-green-500': courseItem.status === 'in progress',
+                  'bg-red-400': courseItem.status === 'finished',
+                }"
+              >
+                <label class="text-xs">Status
+                  <p class="text-2xl">{{ courseItem.status }}</p>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="part col-span-3 col-start-3">
+            <h2 class="text-left text-3xl">Applicants</h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerApplicants,
+                bodyData: courseItem.applicants,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="true"
+              @delete="deleteApplicant"
+            />
+          </div>
+          <div class="part col-span-2 col-start-1">
+            <h2>Group</h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headersGroup,
+                bodyData: courseItem.group,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+          <div class="part col-span-2 col-start-3">
+            <h3>Homeworks</h3>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerHomework,
+                bodyData: courseItem.homework,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+          <div class="part">
+            <h3>Results</h3>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerResults,
+                bodyData: courseItem.results,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+          <div class="part col-span-4">
+            <h3>Comments</h3>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerComments,
+                bodyData: courseItem.comments,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+          <BaseButton class="nav__btn ">
+            Add comment
+          </BaseButton>
+        </div>
+
+
+
+
+
+
         <ValidationObserver v-slot="{ invalid }">
           <form
             class="border flex items-center flex-col"
             @submit.prevent="submit"
           >
             <ValidationProvider rules="required">
-              <textarea 
-                v-model="comments" 
-                class="border" 
-                cols="50" 
-                rows="5" 
+              <textarea
+                v-model="comments"
+                class="border"
+                cols="50"
+                rows="5"
               />
             </ValidationProvider>
-            <BaseButton 
-              class="mb-3" 
-              :disabled="invalid" 
+            <BaseButton
+              class="mb-3"
+              :disabled="invalid"
               type="submit"
             >
               Send comment
@@ -217,8 +257,8 @@ export default {
         { status: "Status" },
       ],
       headersGroup: [
-        {fullName: "Fullname"},
-        {email: "Email"},
+        { fullName: "Fullname" },
+        { email: "Email" },
       ],
       headerMainInfo: [
         { name: "Course Name" },
@@ -335,6 +375,10 @@ export default {
   @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
 
+.part {
+  @apply shadow-lg
+}
+
 button {
   @apply max-w-xs;
 }
@@ -344,7 +388,7 @@ button {
 }
 
 .courses__container {
-  @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+  @apply flex justify-center flex-col mt-10;
 }
 
 .nav {
