@@ -17,10 +17,10 @@
     </td>
     <td
       v-if="viewed"
-      class="text-green-700 cursor-pointer hover:bg-blue-50"
+      class="text-blue-700 cursor-pointer hover:bg-blue-50"
       @click="viewRow"
     >
-      Details
+      details
     </td>
   </tr>
 </template>

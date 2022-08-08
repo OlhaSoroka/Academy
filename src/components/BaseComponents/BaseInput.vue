@@ -5,9 +5,9 @@
     :vid="vid"
     :rules="allRules"
   >
-    <div class="my-8">
-      <label 
-        v-if="label" 
+    <div class="mb-6">
+      <label
+        v-if="label"
         class="block ml-1 text-start"
       >{{ label }}</label>
       <input
@@ -64,7 +64,7 @@ export default {
       default: "text",
     },
     value: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
   },

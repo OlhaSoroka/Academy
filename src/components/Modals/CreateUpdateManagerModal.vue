@@ -2,6 +2,7 @@
   <BaseModal
     ref="createUpdateManagerModal"
     :header="isUpdateMode ? 'Update manager' : 'Add new manager'"
+    @isClosed="clearInputs()"
   >
     <template #body>
       <ValidationObserver v-slot="{ invalid }">

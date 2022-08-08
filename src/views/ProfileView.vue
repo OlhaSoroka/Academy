@@ -6,7 +6,15 @@
     <div class="profile__image_container">
       <div class="profile__image_block">
         <!-- disable image cache -->
-        <img :src="user.avatarUrl.path + '?' + Date.now()">
+        <img
+          v-if="user.avatarUrl.path"
+          :src="user.avatarUrl.path + '?' + Date.now()"
+        >
+        <img
+          v-else
+          src="../assets/no_avatar.png"
+          alt="avatar"
+        >
       </div>
     </div>
 
@@ -52,7 +60,6 @@
         <div class="mr-5">
           <BaseButton
             :loading="isImageLoading"
-            variant="btn_blue"
             @click="openProfileImageChangeModal"
           >
             Change Profile Image
@@ -60,7 +67,6 @@
         </div>
         <div class="mr-5">
           <BaseButton
-            variant="btn_blue"
             @click="openPasswordChangeModal"
           >
             Change password

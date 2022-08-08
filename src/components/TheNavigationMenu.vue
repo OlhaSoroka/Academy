@@ -70,7 +70,6 @@
 <script>
 import { PROFILE, USERS, MANAGERS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant';
 import { ADMIN_ROLE } from '@/constants/roles.constant';
-import router from '@/router';
 import { mapActions, mapGetters } from 'vuex';
 export default {
 	name: 'NavigationMenu',
@@ -96,14 +95,13 @@ export default {
 		},
 	},
 
-	methods: {
-		...mapActions('user', ['logoutUser']),
-		async logout() {
-			await this.logoutUser();
-			router.push({ name: LOGIN });
-		},
-	},
-};
+  methods: {
+    ...mapActions('user', ['logoutUser']),
+    async logout() {
+      await this.logoutUser()
+    }
+  },
+}
 </script>
 
 <style lang="postcss">
