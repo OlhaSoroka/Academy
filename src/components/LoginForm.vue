@@ -30,10 +30,7 @@
             Reset password
           </p>
         </div>
-      </form>
-      <p class="text-pink-400">
-        {{ errorHandler.message }}
-      </p>
+      </form>      
     </ValidationObserver>
     <div v-if="!isLoginPage">
       <BaseButton
@@ -47,10 +44,7 @@
       >
         Log in page
       </p>
-    </div>
-    <p class="text-pink-400">
-      {{ errorResetHandeler.message }}
-    </p>
+    </div>    
   </div>
 </template>
 
@@ -79,7 +73,7 @@ export default {
       message: "",
     },
     isLoginPage: true,
-    errorResetHandeler: {
+    errorResetHandler: {
       isError: false,
       message: "",
     },
@@ -103,10 +97,19 @@ export default {
       this.errorHandler.message = ''
       this.$router.push({ name: "courses-dashboard" })
       }            
-      catch(error) {
-          console.log(error.message)
+      catch(error) {      
           this.errorHandler.isError = true
-          this.errorHandler.message = error.message
+          switch (error.code) {
+            case 'auth/user-not-found':
+              this.errorHandler.message = 'No user with such email.'
+              break
+            case 'auth/wrong-password': 
+              this.errorHandler.message = 'The password is invalid'
+              break            
+            default:
+              this.errorHandler.message = error.code;
+          }          
+          this.$store.dispatch('toast/show', { message: this.errorHandler.message, type: 'error' }, { root: true });
           this.logoutUser()
       }
     },
@@ -116,26 +119,33 @@ export default {
     },
     resetPasswordOnEmail() {
       this.isLoginPage = false;
-      this.errorResetHandeler.message = "";
-      this.errorResetHandeler.isError = false;
+      this.errorResetHandler.message = "";
+      this.errorResetHandler.isError = false;
       const auth = getAuth();
       sendPasswordResetEmail( auth, this.formData.email)
         .then((response) => {
           this.isLoginPage = true;
+          this.$store.dispatch(
+					"toast/show",
+					{ message: "Check your email for letter", type: "success" },
+					{ root: true }
+				)        
           return response;
         })
-        .catch((error) => {
-          console.log(error.response.data);
-          this.errorResetHandeler.message = error.response.data;
-          this.errorResetHandeler.isError = true;
+        .catch((error) => {          
+          if (error.code == "auth/user-not-found") this.errorResetHandler.message = "No user whit such email."
+             else this.errorResetHandler.message = error.code
+          this.errorResetHandler.isError = true;          
+          this.$store.dispatch('toast/show', { message: this.errorResetHandler.message, type: 'error' }, { root: true });       
         });
     },
     goToLoginPage() {
       this.isLoginPage = true;
-      this.errorResetHandeler.message = "";
+      this.errorResetHandler.message = "";
     },
     goToResetPage() {
       this.isLoginPage = false;
+      this.errorHandler.message = "";
     },
   },
 };

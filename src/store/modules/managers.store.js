@@ -26,7 +26,7 @@ export default {
 				const managers = users.filter((user) => user.role === MANAGER_ROLE)
 				store.commit("SET_MANAGERS", managers)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },
@@ -48,7 +48,7 @@ export default {
 					{ root: true }
 				)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },
@@ -71,7 +71,7 @@ export default {
 					{ root: true }
 				)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },
@@ -94,7 +94,7 @@ export default {
 					{ root: true }
 				)
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message
+				const errorMessage = error.response?.data?.error || error.response.data.message
 				store.dispatch(
 					"toast/show",
 					{ message: errorMessage, type: "error" },
