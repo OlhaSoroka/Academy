@@ -42,7 +42,7 @@ export default {
   methods: {
     closeModal() {
       this.show = false;
-      document.querySelector("body").classList.remove("overflow-hidden");
+      this.$emit("isClosed");
     },
     openModal() {
       this.show = true;

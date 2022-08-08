@@ -60,7 +60,6 @@
         <div class="mr-5">
           <BaseButton
             :loading="isImageLoading"
-            variant="btn_blue"
             @click="openProfileImageChangeModal"
           >
             Change Profile Image
@@ -68,7 +67,6 @@
         </div>
         <div class="mr-5">
           <BaseButton
-            variant="btn_blue"
             @click="openPasswordChangeModal"
           >
             Change password
@@ -114,7 +112,7 @@ export default {
 
 <style lang="postcss" scoped>
 .profile__container {
-  @apply w-2/3 h-2/3 self-center mx-auto shadow-xl flex justify-center;
+  @apply w-full h-2/3 self-center mx-auto shadow-xl flex justify-center;
 }
 
 .profile__image_container {

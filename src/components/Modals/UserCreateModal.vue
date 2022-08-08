@@ -1,13 +1,14 @@
 !<template>
   <div>
     <BaseModal
-      ref="userCreateModal" 
-      :header="'Create new User'"
+      ref="userCreateModal"
+      :header="'Add new user'"
+      @isClosed="clearInputs()"
     >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
           <div 
-            class="flex flex-col items-center text-start mt-5"
+            class="flex flex-col items-center text-start"
           >
             <div
               v-for="input in userInputsValue" 
@@ -26,9 +27,10 @@
             >
               <BaseButton
                 :disabled="invalid" 
+                variant="btn_green"
                 @click="submitUserCreateButton"
               >
-                Submit
+                Create
               </BaseButton>
               <BaseButton
                 :disabled="false"
