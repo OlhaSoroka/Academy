@@ -1,5 +1,7 @@
 import { gethUserByID, updateUserByID } from '@/api/user';
+import { LOGIN } from '@/constants/routes.constant';
 import { getAuth, signOut } from 'firebase/auth';
+import router from '../../router';
 
 const token = localStorage.getItem('accessToken');
 
@@ -24,7 +26,7 @@ export default {
 				const user = await gethUserByID(id, token);
 				store.commit('SET_USER', user);
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message;
+				const errorMessage = error.response?.data?.error || error.response.data.message;
 				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			} finally {
 				if (store.getters.isImageLoading) {
@@ -43,8 +45,8 @@ export default {
 					token
 				);
 				store.dispatch('toast/show', { message: 'Password succesfully changed', type: 'success' }, { root: true });
-			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message;
+			} catch (error) {				
+				const errorMessage = error.response?.data?.error || error.response.data.message;
 				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			}
 		},
@@ -57,18 +59,21 @@ export default {
 				store.dispatch('fetchUser', store.state.user.id);
 				store.dispatch('toast/show', { message: 'Profile image succesfully changed', type: 'success' }, { root: true });
 			} catch (error) {
-				const errorMessage = error.response?.data?.error || error.message;
+				const errorMessage = error.response?.data?.error || error.response.data.message;
 				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			}
 		},
 		async logoutUser(store) {
 			try {
 				localStorage.removeItem('accessToken');
+				localStorage.removeItem('email');
+				localStorage.removeItem('user');
 				const auth = getAuth();
 				await signOut(auth);
 				store.dispatch('setUser', null);
+				router.push({ name: LOGIN });
 			} catch (error) {
-				store.dispatch('toast/show', { message: error.message, type: 'error' }, { root: true });
+				store.dispatch('toast/show', { message: error.response.data.message, type: 'error' }, { root: true });
 			}
 		},
 	},

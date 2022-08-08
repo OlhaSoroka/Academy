@@ -1,6 +1,6 @@
 <template>
   <table
-    v-if="!isDataLoading" 
+    v-if="!isDataLoading"
     class="BaseTable"
   >
     <thead class="table-head">
@@ -39,8 +39,8 @@
         <!-- fill the logo column if logo flag is true-->
         <td v-if="logo">
           <img
-            :src="logoUrl(item)" 
-            alt="image" 
+            :src="logoUrl(item)"
+            alt="image"
             width="40"
           >
         </td>

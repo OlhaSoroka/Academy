@@ -69,6 +69,7 @@ export default {
         const users = await getAllUsers(token)
         const currentAcc = users.find(acc => acc.email === thisEmail)
         this.setUser(currentAcc)
+        localStorage.setItem('user', JSON.stringify(currentAcc))
         this.$router.push({ name: COURSE_DASHBOARD })
       }
     }
