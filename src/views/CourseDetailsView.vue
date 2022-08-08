@@ -65,6 +65,9 @@
             >
               Next
             </BaseButton>
+            <BaseButton class="nav__btn ">
+              Add comment
+            </BaseButton>
             <BaseButton @click="openModal">
               Add new applicant
             </BaseButton>
@@ -172,9 +175,7 @@
               :delete-btns="false"
             />
           </div>
-          <BaseButton class="nav__btn ">
-            Add comment
-          </BaseButton>
+
         </div>
 
 
