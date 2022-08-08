@@ -1,6 +1,5 @@
 <template>
   <div class="courses__container">
-
     <div class="courses__topbar_container">
       <div>
         <h2 class="courses__header">
@@ -54,7 +53,6 @@
         />
       </div>
       <AddEventForm v-show="showAddCourseForm" />
-
     </div>
     <div v-else>
       <h3>No courses</h3>

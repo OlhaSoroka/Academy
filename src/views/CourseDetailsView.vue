@@ -51,7 +51,10 @@
           </BaseButton>
 
           <div class="nav__courses">
-            <BaseButton class="nav__btn">
+            <BaseButton
+              class="nav__btn"
+              @click="openAddCommentModal"
+            >
               Add comment
             </BaseButton>
             <BaseButton
@@ -182,7 +185,8 @@ export default {
 	},
 	data() {
 		return {
-			comments: '',
+			isAddCommentModalOpen: false,
+      comments: "",
 			isModalOpened: false,
 			headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
 			headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
