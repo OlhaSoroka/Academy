@@ -52,7 +52,6 @@
         <div class="mr-5">
           <BaseButton
             :loading="isImageLoading"
-            variant="btn_blue"
             @click="openProfileImageChangeModal"
           >
             Change Profile Image
@@ -60,7 +59,6 @@
         </div>
         <div class="mr-5">
           <BaseButton
-            variant="btn_blue"
             @click="openPasswordChangeModal"
           >
             Change password

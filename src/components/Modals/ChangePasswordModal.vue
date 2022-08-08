@@ -2,6 +2,7 @@
   <BaseModal
     ref="passwordModal"
     :header="'Change password'"
+    @isClosed="clearInputs()"
   >
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
@@ -75,20 +76,21 @@ export default {
   },
   methods: {
     ...mapActions("user", ["changePassword"]),
+    clearInputs() {
+			this.newPassword="";
+      this.confirmedPassword="";
+		},
     openPasswordChangeModal() {
       this.$refs.passwordModal.openModal();
     },
     submitPasswordChange() {
       this.changePassword(this.newPassword);
       this.$refs.passwordModal.closeModal();
-      this.newPassword="";
-      this.confirmedPassword="";
+      this.clearInputs();
     },
     cancelPasswordChange() {
       this.$refs.passwordModal.closeModal();
-      this.newPassword="";
-      this.confirmedPassword="";
-      
+      this.clearInputs();
     },
   },
 };

@@ -5,7 +5,7 @@
     :vid="vid"
     :rules="allRules"
   >
-    <div class="my-8">
+    <div class="mb-6">
       <label
         v-if="label"
         class="block ml-1 text-start"
@@ -18,7 +18,7 @@
         v-on="listeners"
       >
       <p
-        class="text-red-700 text-sm w-64 ml-1 absolute"
+        class="text-center text-red-700 text-sm w-64 ml-1 absolute"
       >
         {{ errors[0] }}
       </p>
