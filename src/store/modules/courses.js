@@ -1,5 +1,5 @@
 import axios from "../../api/index";
-import { getAllCourses, COURSES_URL } from "../../api/course/index";
+import { getAllCourses, COURSES_URL, updateCourseById } from "../../api/course/index";
 
 export default {
 	namespaced: true,

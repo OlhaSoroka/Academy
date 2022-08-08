@@ -195,7 +195,6 @@ import {
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import NewApplicantModal from "@/components/Modals/NewApplicantModal.vue";
-import AddCommentModal from "@/components/Modals/AddCommentModal.vue"
 import { patchCourse } from '.././api/course/index'
 
 Object.keys(rules).forEach((rule) => {
@@ -206,9 +205,7 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    ValidationObserver,
-    ValidationProvider,,
-    NewApplicantModal
+    NewApplicantModal,
   },
   data() {
     return {
