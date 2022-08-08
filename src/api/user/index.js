@@ -2,6 +2,7 @@ import axios from "axios";
 const USER_URL = "https://inventorsoft-vue-2022-users.herokuapp.com/";
 const useToken = (token) => ({
   headers: {
+    "Access-Control-Allow-Origin": "*",
     authorization: `Bearer ${token}`,
   },
 });
