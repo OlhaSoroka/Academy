@@ -227,7 +227,6 @@ export default {
   methods: {
     ...mapActions("courses", ["getCourses", "addNewComment"]),
     openModal() {
-      console.log('asd');
       this.isModalOpened = !this.isModalOpened
     },
     deleteApplicant(id) {
