@@ -66,7 +66,7 @@ import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import CourseDeleteModal from "../components/Modals/CourseDeleteModal.vue"
 import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
-import AddEventForm from "@/components/AddEventForm.vue";
+import AddEventForm from "../components/AddEventForm.vue";
 import {
   USER_ROLE,
   MANAGER_ROLE,

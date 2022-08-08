@@ -12,7 +12,7 @@
         <div class="mx-1">
           <BaseButton
             :variant="'btn_red'"
-            @click="submitCourseDeleteButton"
+            @click="submitCourseDeleteButton(courseToDeleteId)"
           >
             Delete
           </BaseButton>
@@ -57,6 +57,7 @@ export default {
   methods: {
     ...mapActions("courses", ["getCourses", "deleteCourseFromState"]),
     submitCourseDeleteButton(id) {
+      console.log(id);
       this.deleteCourseFromState(id);
       this.$refs.CourseDeleteModal.closeModal();
     },
@@ -64,10 +65,8 @@ export default {
       this.$refs.CourseDeleteModal.closeModal();
     },
     getCourseById(id){
-      const index = this.courses.map(function(course) {
-        return course.id;
-      }).indexOf(id);
-      return this.courses[index];
+      const foundCourse = this.courses.find(course => course.id === id);
+      return foundCourse;
     }
   },
 };
