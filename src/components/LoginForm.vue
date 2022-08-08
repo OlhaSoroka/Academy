@@ -16,13 +16,14 @@
             label="Password"
             vid="password"
             placeholder="qwe123"
-          />
+          />          
           <BaseButton
             class="my-3"
             type="submit"
           >
             Submit
           </BaseButton>
+          <BaseSpinner v-if="isDataLoading"/>
           <p
             class="link"
             @click="goToResetPage"
@@ -52,6 +53,7 @@
 import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import BaseInput from "@/components/BaseComponents/BaseInput";
+import BaseSpinner from "@/components/BaseComponents/BaseSpinner/BaseSpinner";
 import { mapGetters, mapActions } from "vuex";
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { getAllUsers } from "@/api/user";
@@ -62,6 +64,7 @@ export default {
     ValidationObserver,
     BaseButton,
     BaseInput,
+    BaseSpinner
   },
   data: () => ({
     formData: {
@@ -73,6 +76,7 @@ export default {
       message: "",
     },
     isLoginPage: true,
+    isDataLoading: false,
     errorResetHandler: {
       isError: false,
       message: "",
@@ -85,6 +89,7 @@ export default {
     ...mapActions('user', ["setUser", "logoutUser"]),
     async onSubmit() {
       const auth = getAuth()
+      this.isDataLoading = true;
       try{
       const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
       const { accessToken, email } = user
@@ -96,10 +101,12 @@ export default {
       this.setUser(currentUser)
       this.errorHandler.isError = false
       this.errorHandler.message = ''
-      this.$router.push({ name: "courses-dashboard" })
+      this.isDataLoading = false
+      this.$router.push({ name: "courses-dashboard" })      
       }            
       catch(error) {      
           this.errorHandler.isError = true
+          this.isDataLoading = false
           switch (error.code) {
             case 'auth/user-not-found':
               this.errorHandler.message = 'No user with such email.'
