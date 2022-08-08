@@ -1,5 +1,6 @@
 <template>
   <div class="courses__container">
+
     <div class="courses__topbar_container">
       <div>
         <h2 class="courses__header">
@@ -53,6 +54,7 @@
         />
       </div>
       <AddEventForm v-show="showAddCourseForm" />
+
     </div>
     <div v-else>
       <h3>No courses</h3>
@@ -126,18 +128,23 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+
 .courses__container{
  @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
 }
-.courses__header{
-@apply font-semibold text-lg text-start text-sky-700;
+
+.courses__header {
+  @apply font-semibold text-lg text-start text-sky-700;
 }
-.courses__subheader{
-@apply mt-2 font-normal text-stone-400 text-start;
+
+.courses__subheader {
+  @apply mt-2 font-normal text-stone-400 text-start;
 }
-.courses__table_container{
+
+.courses__table_container {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
+
 .courses__topbar_container{
   @apply w-full flex justify-between items-center;
 }
