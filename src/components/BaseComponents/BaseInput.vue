@@ -13,12 +13,12 @@
       <input
         v-bind="$attrs"
         v-model="model"
-        class="BaseInput"
         :type="type"
+        :class="['base-input', {'!border-red-700': errors.length > 0}]"
         v-on="listeners"
       >
       <p
-        class="text-center text-red-700 text-sm w-64 ml-1 absolute"
+        class="text-start text-red-700 text-sm w-64 ml-1 absolute"
       >
         {{ errors[0] }}
       </p>
@@ -94,7 +94,7 @@ export default {
       } else if (this.type === "password") {
         return `${this.passwordRules}|${this.rules}`;
       } else return `${this.rules}`;
-    }
+    },
   },
   methods: {
     onInput(value) {
@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.BaseInput {
+.base-input {
   @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }
 </style>
