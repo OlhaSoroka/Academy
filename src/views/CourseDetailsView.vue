@@ -246,7 +246,7 @@ export default {
     BaseButton,
     NewApplicantModal,
     AddCommentModal,
-    BaseTooltip
+    BaseTooltip,
   },
   data() {
     return {
