@@ -24,7 +24,7 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        <h2>Group</h2>
+        <h2 class="part__text">Group</h2>
         <BaseTable
           :table-data="{
             headingData: headersGroup,
@@ -78,6 +78,7 @@
         </nav>
         <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 ">
           <div class="part col-span-2 col-start-1 row-span-1">
+            <h2 class="part__text">Main info</h2>
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
                 <label class="text-xs">Name
@@ -116,7 +117,7 @@
             </div>
           </div>
           <div class="part col-span-3 col-start-3">
-            <h2 class="text-left text-3xl">
+            <h2 class="part__text ">
               Applicants
             </h2>
             <BaseTable
@@ -132,7 +133,7 @@
             />
           </div>
           <div class="part col-span-2 col-start-1 row-span-2">
-            <h2>Group</h2>
+            <h2 class="part__text">Group</h2>
             <BaseTable
               class="table"
               :table-data="{
@@ -145,7 +146,7 @@
             />
           </div>
           <div class="part col-span-2 col-start-3">
-            <h3>Homeworks</h3>
+            <h2 class="part__text">Homeworks</h2>
             <BaseTable
               class="table"
               :table-data="{
@@ -158,7 +159,7 @@
             />
           </div>
           <div class="part">
-            <h3>Results</h3>
+            <h2 class="part__text">Results</h2>
             <BaseTable
               class="table"
               :table-data="{
@@ -171,7 +172,7 @@
             />
           </div>
           <div class="part col-span-3">
-            <h3>Comments</h3>
+            <h2 class="part__text">Comments</h2>
             <BaseTable
               class="table"
               :table-data="{
@@ -346,6 +347,10 @@ button {
 
 .courses__header {
   @apply font-semibold text-lg text-start text-sky-700;
+}
+
+.part__text {
+  @apply text-left text-3xl
 }
 
 .courses__container {
