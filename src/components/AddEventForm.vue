@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, invalid }">
     <form @submit.prevent="handleSubmit(addEvent)">
-      <div class="add-event-forn">
+      <div class="add-event-form">
         <BaseInput
           v-model="courseToAdd.name"
           type="text"
@@ -38,6 +38,16 @@ import { mapGetters, mapActions } from "vuex"
 export default {
   name: "AddEventForm",
   components: { BaseInput, BaseButton, ValidationObserver },
+  props: {
+    edit: {
+      type: Boolean,
+      default: false,
+    },
+    targetId: {
+      type: Number,
+      default: 0,
+    }
+  },
   data() {
     return {
       courseToAdd: {
@@ -86,7 +96,7 @@ export default {
 </script>
 
 <style lang="postcss">
-.add-event-forn {
+.add-event-form {
   @apply m-2 flex justify-center;
 }
 

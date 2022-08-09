@@ -66,10 +66,9 @@ export default {
     },
     deleteCourse(state, id){
       axios.delete(`${COURSES_URL}/posts/${id}`)
-      const index = state.courses.map(function(course) {
-        return course.id;
-      }).indexOf(id);
-      state.courses.splice(index, 1);
+      const targetCourse = this.courses.find(course => course.id === id);
+      const targetCourseIndex = this.courses.findIndex(targetCourse);
+      state.courses.splice(targetCourseIndex, 1);
     },
     addCourse(state, newCourse) {
       axios.post(`${COURSES_URL}/posts`, newCourse).then(

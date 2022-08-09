@@ -44,9 +44,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('courses', ["sortedCourses", "loadingStatus"]),
+    ...mapGetters("courses"),
     courses() {
-      return this.sortedCourses;
+      return this.courses;
     },
   },
   watch: {
@@ -55,7 +55,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("courses", ["getCourses", "deleteCourseFromState"]),
+    ...mapActions("courses", ["deleteCourseFromState"]),
     submitCourseDeleteButton(id) {
       console.log(id);
       this.deleteCourseFromState(id);

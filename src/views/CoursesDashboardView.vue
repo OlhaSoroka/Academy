@@ -39,8 +39,14 @@
             @view="goToCourseDetails"
           />
         </div>
-        <AddEventForm v-show="showAddCourseForm" />
-        <div class="flex justify-evenly items-center mt-3">
+        <AddEventForm
+          v-if="isManagerOrAdmin" 
+          v-show="showAddCourseForm"
+        />
+        <div 
+          v-if="isManagerOrAdmin" 
+          class="flex justify-evenly items-center mt-3"
+        >
           <BaseButton 
             :loading="loadingStatus"
             @click="showAddCourseForm = !showAddCourseForm"
@@ -113,12 +119,9 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions('courses', ["getCourses", "deleteCourseFromState"]),
+    ...mapActions('courses', ["getCourses"]),
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
-    },
-    deleteCourse(id){
-      this.deleteCourseFromState(id)
     },
     editCourse(){
       this.showAddCourseForm = !this.showAddCourseForm
@@ -126,25 +129,30 @@ export default {
     openCoursesDeleteModal(id){
       this.targetCourseId = id;
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
-    } 
+    },
   }
 };
 </script>
 
 <style lang="postcss" scoped>
 .courses__container{
- @apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+ @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
 }
-.courses__header{
-@apply font-semibold text-lg text-start text-sky-700;
+
+.courses__header {
+  @apply font-semibold text-lg text-start text-sky-700;
 }
-.courses__subheader{
-@apply mt-2 font-normal text-stone-400 text-start;
+
+.courses__subheader {
+  @apply mt-2 font-normal text-stone-400 text-start;
 }
-.courses__table_container{
+
+.courses__table_container {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
-button {
-  @apply max-w-xs;
+
+.courses__topbar_container{
+  @apply w-full flex justify-between items-center;
 }
+
 </style>
