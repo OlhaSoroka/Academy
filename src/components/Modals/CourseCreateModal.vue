@@ -67,7 +67,7 @@ export default {
       courseToAdd: {
         id: 0,
         name: "",
-        date: "yyyy-MM-dd",
+        date: "",
       },
     }
   },
