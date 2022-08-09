@@ -76,7 +76,7 @@
             </BaseButton>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 p-5 ">
+        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 ">
           <div class="part col-span-2 col-start-1 row-span-1">
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
@@ -210,7 +210,7 @@ import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
 import NewApplicantModal from '@/components/Modals/NewApplicantModal.vue';
-import { patchCourse,  } from '.././api/course/index';
+import { patchCourse, } from '.././api/course/index';
 import AddCommentModal from '../components/Modals/AddCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 
@@ -276,7 +276,7 @@ export default {
     },
   },
   mounted() {
-    this.getCourses();  
+    this.getCourses();
   },
   methods: {
     ...mapActions('courses', ['getCourses', 'addNewComment']),
@@ -349,7 +349,7 @@ button {
 }
 
 .courses__container {
-  @apply flex justify-center flex-col mt-10;
+  @apply flex justify-center flex-col mt-10 p-5 pt-0 pb-0;
 }
 
 .nav {
