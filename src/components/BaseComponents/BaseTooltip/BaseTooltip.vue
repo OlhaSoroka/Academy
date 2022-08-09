@@ -1,8 +1,8 @@
 <template>
-    <div class="tooltip">
-        <slot></slot>
-        <span class="tooltiptext">{{ text }}</span>
-    </div>
+  <div class="tooltip">
+    <slot />
+    <span class="tooltiptext">{{ text }}</span>
+  </div>
 </template>
 <script>
 export default {
