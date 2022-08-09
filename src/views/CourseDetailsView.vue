@@ -73,7 +73,7 @@
             </BaseButton>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 bg-stone-50">
+        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 ">
           <div class="part col-span-2 col-start-1 row-span-1">
             <div class="flex justify-between">
               <div class="text-left">
@@ -175,14 +175,7 @@
               :delete-btns="false"
             />
           </div>
-
         </div>
-
-
-
-
-
-
         <ValidationObserver v-slot="{ invalid }">
           <form
             class="border flex items-center flex-col"
@@ -372,12 +365,13 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+
 .table {
   @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
 
 .part {
-  @apply shadow-lg
+  @apply shadow-lg bg-stone-50
 }
 
 button {
