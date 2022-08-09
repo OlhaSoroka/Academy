@@ -4,7 +4,7 @@
       <form @submit.prevent="handleSubmit(onSubmit)">
         <BaseInput
           v-model="formData.email"
-          type="email"
+          type="text"
           label="Email"
           vid="email"
           placeholder="aaa@gmail.com"
@@ -14,7 +14,7 @@
             v-model="formData.password"
             type="password"
             label="Password"
-            vid="password"
+            vid="text"
             placeholder="qwe123"
           />          
           <BaseButton
@@ -23,7 +23,7 @@
           >
             Submit
           </BaseButton>
-          <BaseSpinner v-if="isDataLoading"/>
+          <BaseSpinner v-if="isDataLoading" />
           <p
             class="link"
             @click="goToResetPage"
@@ -109,13 +109,16 @@ export default {
           this.isDataLoading = false
           switch (error.code) {
             case 'auth/user-not-found':
-              this.errorHandler.message = 'No user with such email.'
+              this.errorHandler.message = 'Invalid email or password'
               break
             case 'auth/wrong-password': 
-              this.errorHandler.message = 'The password is invalid'
+              this.errorHandler.message = 'Invalid email or password'
+              break            
+            case 'auth/invalide-email': 
+              this.errorHandler.message = 'Invalid email'
               break            
             default:
-              this.errorHandler.message = error.code;
+              this.errorHandler.message = error.code;              
           }          
           this.$store.dispatch('toast/show', { message: this.errorHandler.message, type: 'error' }, { root: true });
           this.logoutUser()
@@ -136,14 +139,27 @@ export default {
 					"toast/show",
 					{ message: "Check your email for letter", type: "success" },
 					{ root: true }
-				)        
+				)
           return response;
         })
         .catch((error) => {          
-          if (error.code == "auth/user-not-found") this.errorResetHandler.message = "No user whit such email."
-             else this.errorResetHandler.message = error.code
-          this.errorResetHandler.isError = true;          
-          this.$store.dispatch('toast/show', { message: this.errorResetHandler.message, type: 'error' }, { root: true });       
+          if (error.code == "auth/user-not-found") {
+            this.isLoginPage = true;
+            this.$store.dispatch(
+					"toast/show",
+					{ message: "Check your email for letter", type: "success" },
+					{ root: true }
+				)}
+          else {
+            if (error.code === "auth/invalid-email") this.errorResetHandler.message = "Invalide email"
+            else this.errorResetHandler.message = error.code
+            this.errorResetHandler.isError = true;          
+            this.$store.dispatch(
+              'toast/show', 
+              { message: this.errorResetHandler.message, type: 'error' }, 
+              { root: true }
+            );
+          }
         });
     },
     goToLoginPage() {
