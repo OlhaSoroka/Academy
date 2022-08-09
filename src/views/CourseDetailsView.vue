@@ -52,6 +52,13 @@
 
           <div class="nav__courses">
             <BaseButton
+
+              class="nav__btn"
+              @click="openAddCommentModal"
+            >
+              Add comment
+            </BaseButton>
+            <BaseButton
               :disabled="isFirstCourse"
               class="nav__btn"
               @click="previousPage"
@@ -211,163 +218,142 @@
       </BaseButton>
     </div>
     <NewApplicantModal :toggle-modal="isModalOpened" />
-
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import BaseButton from "../components/BaseComponents/BaseButton.vue";
-import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
-import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
-import { extend } from "vee-validate";
-import * as rules from "vee-validate/dist/rules";
-import {
-  USER_ROLE,
-  MANAGER_ROLE,
-  ADMIN_ROLE,
-} from "@/constants/roles.constant";
-import NewApplicantModal from "@/components/Modals/NewApplicantModal.vue";
-import { patchCourse } from '.././api/course/index'
+import { mapActions, mapGetters } from 'vuex';
+import BaseButton from '../components/BaseComponents/BaseButton.vue';
+import BaseTable from '../components/BaseComponents/BaseTable/BaseTable.vue';
+import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
+import { extend } from 'vee-validate';
+import * as rules from 'vee-validate/dist/rules';
+import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
+import NewApplicantModal from '@/components/Modals/NewApplicantModal.vue';
+import { patchCourse } from '.././api/course/index';
+import AddCommentModal from '../components/Modals/AddCommentModal.vue';
 
 Object.keys(rules).forEach((rule) => {
-  extend(rule, rules[rule]);
+	extend(rule, rules[rule]);
 });
 
 export default {
-  components: {
-    BaseTable,
-    BaseButton,
-    NewApplicantModal,
-  },
-  data() {
-    return {
+	components: {
+		BaseTable,
+		BaseButton,
+		NewApplicantModal,
+    AddCommentModal
+	},
+	data() {
+		return {
+			isAddCommentModalOpen: false,
       comments: "",
-      isModalOpened: false,
-      headersUser: [
-        { name: "Course Name" },
-        { date: "Date" },
-        { status: "Status" },
-      ],
-      headersGroup: [
-        { fullName: "Fullname" },
-        { email: "Email" },
-      ],
-      headerMainInfo: [
-        { name: "Course Name" },
-        { date: "Date" },
-        { docs_link: "Docs Link" },
-      ],
-      headerApplicants: [
-        { fullName: "Fullname" },
-        { initialScore: "initialScore" },
-      ],
-      headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
-      headerResults: [{ "result in results": "Results" }],
-      headerComments: [
-        { message: "Message" },
-        { createdAt: "Date" },
-        { author: "Author" },
-      ],
-    };
-  },
-  computed: {
-    ...mapGetters("courses", [
-      "loadingStatus",
-      "getCourseById",
-      "courseIndex",
-      "nextCourseId",
-      "previousCourseId",
-      // "lastCourseId",
-      // "firstCourseId",
-    ]),
-    ...mapGetters("user", ["user"]),
-    isUser() {
-      if (this.user) {
-        return this.user.role === USER_ROLE;
-      } else {
-        return false;
-      }
-    },
-    isManagerOrAdmin() {
-      if (this.user) {
-        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
-      } else {
-        return false;
-      }
-    },
-    courseItem() {
-      return this.getCourseById(this.$route.params.id);
-    },
-    isLatsCourse() {
-      return this.$route.params.id === this.lastCourseId;
-    },
-    isFirstCourse() {
-      return this.$route.params.id === this.firstCourseId;
-    },
-  },
-  mounted() {
-    this.getCourses();
-  },
-  methods: {
-    ...mapActions("courses", ["getCourses", "addNewComment"]),
-    openModal() {
-      this.isModalOpened = !this.isModalOpened
-    },
-    deleteApplicant(id) {
-      const currentCourse = this.getCourseById(this.$route.params.id)
-      const { applicants } = currentCourse
-      const filteredApplicants = applicants.filter(applicant => applicant.id !== id)
+			isModalOpened: false,
+			headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
+			headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
+			headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
+			headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
+			headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
+			headerResults: [{ 'result in results': 'Results' }],
+			headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
+		};
+	},
+	computed: {
+		...mapGetters('courses', [
+			'loadingStatus',
+			'getCourseById',
+			'courseIndex',
+			'nextCourseId',
+			'previousCourseId',
+			// "lastCourseId",
+			// "firstCourseId",
+		]),
+		...mapGetters('user', ['user']),
+		isUser() {
+			if (this.user) {
+				return this.user.role === USER_ROLE;
+			} else {
+				return false;
+			}
+		},
+		isManagerOrAdmin() {
+			if (this.user) {
+				return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+			} else {
+				return false;
+			}
+		},
+		courseItem() {
+			return this.getCourseById(this.$route.params.id);
+		},
+		isLatsCourse() {
+			return this.$route.params.id === this.lastCourseId;
+		},
+		isFirstCourse() {
+			return this.$route.params.id === this.firstCourseId;
+		},
+	},
+	mounted() {
+		this.getCourses();
+	},
+	methods: {
+		...mapActions('courses', ['getCourses', 'addNewComment']),
+		openModal() {
+			this.isModalOpened = !this.isModalOpened;
+		},
+		deleteApplicant(id) {
+			const currentCourse = this.getCourseById(this.$route.params.id);
+			const { applicants } = currentCourse;
+			const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
 
-      patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
-        .then(() => this.getCourses())
-    },
-    previousPage() {
-      this.$router.push({
-        name: COURSE_DETAILS,
-        params: { id: this.previousCourseId(this.$route.params.id) },
-      });
-      this.comments = "";
-    },
-    nextPage() {
-      this.$router.push({
-        name: COURSE_DETAILS,
-        params: { id: this.nextCourseId(this.$route.params.id) },
-      });
-      this.comments = "";
-    },
-    getBackCourseDetailsView() {
-      this.$router.push({ name: COURSE_DASHBOARD });
-    },
-    submit() {
-      let currentItem = JSON.parse(JSON.stringify(this.getCourseById(this.$route.params.id)))
-      currentItem.comments.push({
-        id: Date.now(),
-        message: this.comments,
-        createdAt: new Date().toLocaleString(),
-        author: this.user.fullName,
-        author_id: this.user.id,
-        author_email: this.user.email,
-      });
-      let payload = {
-        currentItemUpdate: currentItem,
-        id: this.$route.params.id,
-      };
-      this.addNewComment(payload);
-      this.comments = "";
-    },
-    openAddCommentModal() {
-      this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
-    },
-  },
+			patchCourse(this.$route.params.id, 'applicants', filteredApplicants).then(() => this.getCourses());
+		},
+		previousPage() {
+			this.$router.push({
+				name: COURSE_DETAILS,
+				params: { id: this.previousCourseId(this.$route.params.id) },
+			});
+			this.comments = '';
+		},
+		nextPage() {
+			this.$router.push({
+				name: COURSE_DETAILS,
+				params: { id: this.nextCourseId(this.$route.params.id) },
+			});
+			this.comments = '';
+		},
+		getBackCourseDetailsView() {
+			this.$router.push({ name: COURSE_DASHBOARD });
+		},
+		submit() {
+			let currentItem = JSON.parse(JSON.stringify(this.getCourseById(this.$route.params.id)));
+			currentItem.comments.push({
+				id: Date.now(),
+				message: this.comments,
+				createdAt: new Date().toLocaleString(),
+				author: this.user.fullName,
+				author_id: this.user.id,
+				author_email: this.user.email,
+			});
+			let payload = {
+				currentItemUpdate: currentItem,
+				id: this.$route.params.id,
+			};
+			this.addNewComment(payload);
+			this.comments = '';
+		},
+		openAddCommentModal() {
+			this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
+		},
+	},
 };
 </script>
 
 <style lang="postcss" scoped>
 
 .table {
-  @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+	@apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
 
 .part {
@@ -375,11 +361,11 @@ export default {
 }
 
 button {
-  @apply max-w-xs;
+	@apply max-w-xs;
 }
 
 .courses__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+	@apply font-semibold text-lg text-start text-sky-700;
 }
 
 .courses__container {
@@ -387,10 +373,10 @@ button {
 }
 
 .nav {
-  @apply flex justify-between px-0
+	@apply flex justify-between px-0;
 }
 
 .nav__btn {
-  @apply w-fit mx-1
+	@apply w-fit mx-1;
 }
 </style>
