@@ -40,11 +40,9 @@
           />
         </div>
         <AddEventForm
-          v-if="isManagerOrAdmin" 
           v-show="showAddCourseForm"
         />
         <div 
-          v-if="isManagerOrAdmin" 
           class="flex justify-evenly items-center mt-3"
         >
           <BaseButton 
