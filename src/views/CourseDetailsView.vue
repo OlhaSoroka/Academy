@@ -71,7 +71,10 @@
             >
               Next
             </BaseButton>
-            <BaseButton @click="openModal">
+            <BaseButton
+              class="nav__btn"
+              @click="openModal"
+            >
               Add new applicant
             </BaseButton>
           </div>
@@ -248,8 +251,8 @@ export default {
       'courseIndex',
       'nextCourseId',
       'previousCourseId',
-      // "lastCourseId",
-      // "firstCourseId",
+      "lastCourseId",
+      "firstCourseId",
     ]),
     ...mapGetters('user', ['user']),
     isUser() {
