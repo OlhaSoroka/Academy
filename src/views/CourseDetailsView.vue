@@ -76,7 +76,7 @@
             </BaseButton>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 ">
+        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 p-5 ">
           <div class="part col-span-2 col-start-1 row-span-1">
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
@@ -184,28 +184,6 @@
             />
           </div>
         </div>
-        <ValidationObserver v-slot="{ invalid }">
-          <form
-            class="border flex items-center flex-col"
-            @submit.prevent="submit"
-          >
-            <ValidationProvider rules="required">
-              <textarea
-                v-model="comments"
-                class="border"
-                cols="50"
-                rows="5"
-              />
-            </ValidationProvider>
-            <BaseButton
-              class="mb-3"
-              :disabled="invalid"
-              type="submit"
-            >
-              Send comment
-            </BaseButton>
-          </form>
-        </ValidationObserver>
       </div>
     </div>
     <div v-else>
