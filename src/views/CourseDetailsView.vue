@@ -52,7 +52,7 @@
 
           <div class="nav__courses flex">
             <BaseButton
-              class="nav__btn"
+              class="nav__btn whitespace-nowrap"
               @click="openAddCommentModal"
             >
               Add comment
