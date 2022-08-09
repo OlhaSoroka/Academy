@@ -60,6 +60,7 @@
       </div>
     </div>
     <CourseDeleteModal 
+      v-if="isManagerOrAdmin"
       :is-opened-course-delete-modal="isDeleteModalOpen"
       :course-to-delete-id="targetCourseId"
     />
