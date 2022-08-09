@@ -11,13 +11,12 @@
       </div>
       <div 
         v-if="isManagerOrAdmin"
-        class=""
       >
         <BaseButton
           :loading="loadingStatus"
-          @click="showAddCourseForm = !showAddCourseForm"
+          @click.prevent="openCourseViewCreateModal"
         >
-          {{ showAddCourseForm ? "Close" :"Add new course" }}
+          Add new course
         </BaseButton>
       </div>
     </div>
@@ -52,7 +51,9 @@
           @view="goToCourseDetails"
         />
       </div>
-      <AddEventForm v-show="showAddCourseForm" />
+      <CourseCreateModal
+        :is-opened-course-create-modal="isCreateModalOpen"
+      />
     </div>
     <div v-else>
       <h3>No courses</h3>
@@ -65,7 +66,7 @@ import { mapActions, mapGetters } from "vuex";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
-import AddEventForm from "@/components/AddEventForm.vue";
+import CourseCreateModal from "@/components/Modals/CourseCreateModal.vue";
 import {
   USER_ROLE,
   MANAGER_ROLE,
@@ -76,11 +77,11 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    AddEventForm
+    CourseCreateModal
   },
   data() {
     return {
-      showAddCourseForm: false,
+      isCreateModalOpen: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -121,6 +122,9 @@ export default {
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
+    openCourseViewCreateModal() {
+      this.isCreateModalOpen = !this.isCreateModalOpen;
+    }
   },
 };
 </script>

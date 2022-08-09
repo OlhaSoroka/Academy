@@ -13,8 +13,8 @@
       <input
         v-bind="$attrs"
         v-model="model"
-        :type="type"
         class="BaseInput"
+        :type="type"
         v-on="listeners"
       >
       <p
