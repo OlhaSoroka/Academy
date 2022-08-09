@@ -24,7 +24,9 @@
           :is-data-loading="loadingStatus"
           :delete-btns="false"
         />
-        <h2 class="part__text">Group</h2>
+        <h2 class="part__text">
+          Group
+        </h2>
         <BaseTable
           :table-data="{
             headingData: headersGroup,
@@ -52,6 +54,12 @@
 
           <div class="nav__courses flex">
             <BaseButton
+              class="nav__btn"
+              @click="openModal"
+            >
+              Add new applicant
+            </BaseButton>
+            <BaseButton
               class="nav__btn whitespace-nowrap"
               @click="openAddCommentModal"
             >
@@ -71,17 +79,14 @@
             >
               Next
             </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="openModal"
-            >
-              Add new applicant
-            </BaseButton>
+
           </div>
         </nav>
         <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 ">
           <div class="part col-span-2 col-start-1 row-span-1">
-            <h2 class="part__text">Main info</h2>
+            <h2 class="part__text">
+              Main info
+            </h2>
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
                 <label class="text-xs">Name
@@ -136,7 +141,9 @@
             />
           </div>
           <div class="part col-span-2 col-start-1 row-span-2">
-            <h2 class="part__text">Group</h2>
+            <h2 class="part__text">
+              Group
+            </h2>
             <BaseTable
               class="table"
               :table-data="{
@@ -149,7 +156,9 @@
             />
           </div>
           <div class="part col-span-2 col-start-3">
-            <h2 class="part__text">Homeworks</h2>
+            <h2 class="part__text">
+              Homeworks
+            </h2>
             <BaseTable
               class="table"
               :table-data="{
@@ -162,7 +171,9 @@
             />
           </div>
           <div class="part">
-            <h2 class="part__text">Results</h2>
+            <h2 class="part__text">
+              Results
+            </h2>
             <BaseTable
               class="table"
               :table-data="{
@@ -175,7 +186,9 @@
             />
           </div>
           <div class="part col-span-3">
-            <h2 class="part__text">Comments</h2>
+            <h2 class="part__text">
+              Comments
+            </h2>
             <BaseTable
               class="table"
               :table-data="{
