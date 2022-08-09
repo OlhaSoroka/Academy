@@ -230,7 +230,7 @@ export default {
 		},
 		isFirstCourse() {
 			return this.$route.params.id === this.firstCourseId;
-		},
+		}
 	},
 	mounted() {
 		this.getCourses();
@@ -290,7 +290,7 @@ export default {
 
 <style lang="postcss" scoped>
 .table {
-	@apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+	@apply border border-black mb-10 min-w-[50%] mx-auto;
 }
 
 button {
@@ -302,7 +302,7 @@ button {
 }
 
 .courses__container {
-	@apply flex justify-center flex-col w-2/3 mt-10 mx-auto;
+	@apply flex justify-center flex-col p-10 mx-auto;
 }
 
 .nav {
