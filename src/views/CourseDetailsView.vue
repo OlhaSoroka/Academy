@@ -50,7 +50,7 @@
             Back
           </BaseButton>
 
-          <div class="nav__courses">
+          <div class="nav__courses flex">
             <BaseButton
               class="nav__btn"
               @click="openAddCommentModal"
