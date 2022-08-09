@@ -210,7 +210,7 @@ import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
 import NewApplicantModal from '@/components/Modals/NewApplicantModal.vue';
-import { patchCourse } from '.././api/course/index';
+import { patchCourse,  } from '.././api/course/index';
 import AddCommentModal from '../components/Modals/AddCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 
@@ -276,7 +276,7 @@ export default {
     },
   },
   mounted() {
-    this.getCourses();
+    this.getCourses();  
   },
   methods: {
     ...mapActions('courses', ['getCourses', 'addNewComment']),
@@ -337,7 +337,7 @@ export default {
 }
 
 .part {
-  @apply shadow-lg bg-stone-50
+  @apply shadow-lg bg-stone-50 p-2
 }
 
 button {
