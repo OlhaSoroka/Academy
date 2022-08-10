@@ -106,8 +106,8 @@ export default {
       }
     },
     submitUserCreateButton() {
-      this.$refs.userCreateModal.closeModal()
       this.createNewUser(this.createModel)
+      this.$refs.userCreateModal.closeModal()
     },
     canselUserCreateButton() {
       this.$refs.userCreateModal.closeModal();
