@@ -7,3 +7,5 @@ export const MANAGERS = "managers";
 
 export const COURSE_DASHBOARD = "courses-dashboard";
 export const COURSE_DETAILS = "courses-details";
+
+export const NOT_FOUND = "not-found";

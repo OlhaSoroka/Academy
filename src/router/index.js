@@ -31,6 +31,7 @@ import {
 	USERS,
 	COURSE_DASHBOARD,
 	COURSE_DETAILS,
+	NOT_FOUND
 } from "@/constants/routes.constant"
 import { authGuard, roleGuard } from "./utils"
 
@@ -95,10 +96,11 @@ const routes = [
       },
     ],
   },
-
 	{
 		path: "*",
+		name: NOT_FOUND,
 		component: NotFoundView,
+		meta: { requiresAuth: true },
 	},
 ]
 
