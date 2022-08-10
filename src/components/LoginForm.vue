@@ -4,7 +4,7 @@
       <form @submit.prevent="handleSubmit(onSubmit)">
         <BaseInput
           v-model="formData.email"
-          type="email"
+          type="text"
           label="Email"
           vid="email"
           placeholder="aaa@gmail.com"
@@ -14,15 +14,17 @@
             v-model="formData.password"
             type="password"
             label="Password"
-            vid="password"
+            vid="text"
             placeholder="qwe123"
-          />
+          />          
           <BaseButton
+            :loading="isDataLoading"
             class="my-3"
             type="submit"
           >
             Submit
           </BaseButton>
+          <!-- <BaseSpinner v-if="isDataLoading" /> -->
           <p
             class="link"
             @click="goToResetPage"
@@ -61,7 +63,7 @@ export default {
   components: {
     ValidationObserver,
     BaseButton,
-    BaseInput,
+    BaseInput,    
   },
   data: () => ({
     formData: {
@@ -73,6 +75,7 @@ export default {
       message: "",
     },
     isLoginPage: true,
+    isDataLoading: false,
     errorResetHandler: {
       isError: false,
       message: "",
@@ -85,6 +88,7 @@ export default {
     ...mapActions('user', ["setUser", "logoutUser"]),
     async onSubmit() {
       const auth = getAuth()
+      this.isDataLoading = true;
       try{
       const { user } = await signInWithEmailAndPassword(auth, this.formData.email, this.formData.password)
       const { accessToken, email } = user
@@ -96,19 +100,24 @@ export default {
       this.setUser(currentUser)
       this.errorHandler.isError = false
       this.errorHandler.message = ''
-      this.$router.push({ name: "courses-dashboard" })
+      this.isDataLoading = false
+      this.$router.push({ name: "courses-dashboard" })      
       }            
       catch(error) {      
           this.errorHandler.isError = true
+          this.isDataLoading = false
           switch (error.code) {
             case 'auth/user-not-found':
-              this.errorHandler.message = 'No user with such email.'
+              this.errorHandler.message = 'Invalid email or password'
               break
             case 'auth/wrong-password': 
-              this.errorHandler.message = 'The password is invalid'
+              this.errorHandler.message = 'Invalid email or password'
+              break            
+            case 'auth/invalide-email': 
+              this.errorHandler.message = 'Invalid email'
               break            
             default:
-              this.errorHandler.message = error.code;
+              this.errorHandler.message = error.code;              
           }          
           this.$store.dispatch('toast/show', { message: this.errorHandler.message, type: 'error' }, { root: true });
           this.logoutUser()
@@ -129,14 +138,27 @@ export default {
 					"toast/show",
 					{ message: "Check your email for letter", type: "success" },
 					{ root: true }
-				)        
+				)
           return response;
         })
         .catch((error) => {          
-          if (error.code == "auth/user-not-found") this.errorResetHandler.message = "No user whit such email."
-             else this.errorResetHandler.message = error.code
-          this.errorResetHandler.isError = true;          
-          this.$store.dispatch('toast/show', { message: this.errorResetHandler.message, type: 'error' }, { root: true });       
+          if (error.code == "auth/user-not-found") {
+            this.isLoginPage = true;
+            this.$store.dispatch(
+					"toast/show",
+					{ message: "Check your email for letter", type: "success" },
+					{ root: true }
+				)}
+          else {
+            if (error.code === "auth/invalid-email") this.errorResetHandler.message = "Invalide email"
+            else this.errorResetHandler.message = error.code
+            this.errorResetHandler.isError = true;          
+            this.$store.dispatch(
+              'toast/show', 
+              { message: this.errorResetHandler.message, type: 'error' }, 
+              { root: true }
+            );
+          }
         });
     },
     goToLoginPage() {

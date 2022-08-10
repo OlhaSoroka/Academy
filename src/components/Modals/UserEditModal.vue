@@ -86,8 +86,8 @@ export default {
   methods: {
     ...mapActions("users", ["updateUser"]),
     submitUserEditButton() {
-      this.$refs.userEditModal.closeModal()
       this.updateUser(this.targetUser)
+      this.$refs.userEditModal.closeModal()
     },
     cancelUserEditButton() {
       this.$refs.userEditModal.closeModal();
