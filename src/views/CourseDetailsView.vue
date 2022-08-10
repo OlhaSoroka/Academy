@@ -82,7 +82,7 @@
 
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3  gap-x-20 gap-y-10 ">
+        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10 ">
           <div class="part col-span-2 col-start-1 row-span-1">
             <h2 class="part__text">
               Main info
@@ -377,7 +377,7 @@ button {
 }
 
 .courses__container {
-  @apply flex justify-center flex-col mt-10 p-5 pt-0 pb-0;
+  @apply flex justify-center flex-col mt-10 w-[85vw];
 
 }
 
