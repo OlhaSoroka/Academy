@@ -105,7 +105,10 @@
                 <BaseTooltip :text="courseItem.docs_link">
                   <label class="text-xs ">
                     Docs :
-                    <p class="text-2xl "><a :href="courseItem.docs_link">{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                    <p class="text-2xl "><a
+                        target=”_blank”
+                        :href="courseItem.docs_link"
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -250,63 +253,63 @@ export default {
     return {
       isAddCommentModalOpen: false,
       comments: "",
-			isModalOpened: false,
-			headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
-			headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
-			headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
-			headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
-			headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
-			headerResults: [{ 'result in results': 'Results' }],
-			headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
-		};
-	},
-	computed: {
-		...mapGetters('courses', [
-			'loadingStatus',
-			'getCourseById',
-			'courseIndex',
-			'nextCourseId',
-			'previousCourseId',
-			"lastCourseId",
-			"firstCourseId",
-		]),
-		...mapGetters('user', ['user']),
-		isUser() {
-			if (this.user) {
-				return this.user.role === USER_ROLE;
-			} else {
-				return false;
-			}
-		},
-		isManagerOrAdmin() {
-			if (this.user) {
-				return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
-			} else {
-				return false;
-			}
-		},
-		courseItem() {
-			return this.getCourseById(this.$route.params.id);
-		},
-		isLatsCourse() {
-			return this.$route.params.id === this.lastCourseId;
-		},
-		isFirstCourse() {
-			return this.$route.params.id === this.firstCourseId;
-		}
-	},
-	mounted() {
-		this.getCourses();
-	},
-	methods: {
-		...mapActions('courses', ['getCourses', 'addNewComment']),
-		openModal() {
-			this.isModalOpened = !this.isModalOpened;
-		},
-		deleteApplicant(id) {
-			const currentCourse = this.getCourseById(this.$route.params.id);
-			const { applicants } = currentCourse;
-			const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
+      isModalOpened: false,
+      headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
+      headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
+      headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
+      headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
+      headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
+      headerResults: [{ 'result in results': 'Results' }],
+      headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
+    };
+  },
+  computed: {
+    ...mapGetters('courses', [
+      'loadingStatus',
+      'getCourseById',
+      'courseIndex',
+      'nextCourseId',
+      'previousCourseId',
+      "lastCourseId",
+      "firstCourseId",
+    ]),
+    ...mapGetters('user', ['user']),
+    isUser() {
+      if (this.user) {
+        return this.user.role === USER_ROLE;
+      } else {
+        return false;
+      }
+    },
+    isManagerOrAdmin() {
+      if (this.user) {
+        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+      } else {
+        return false;
+      }
+    },
+    courseItem() {
+      return this.getCourseById(this.$route.params.id);
+    },
+    isLatsCourse() {
+      return this.$route.params.id === this.lastCourseId;
+    },
+    isFirstCourse() {
+      return this.$route.params.id === this.firstCourseId;
+    }
+  },
+  mounted() {
+    this.getCourses();
+  },
+  methods: {
+    ...mapActions('courses', ['getCourses', 'addNewComment']),
+    openModal() {
+      this.isModalOpened = !this.isModalOpened;
+    },
+    deleteApplicant(id) {
+      const currentCourse = this.getCourseById(this.$route.params.id);
+      const { applicants } = currentCourse;
+      const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
 
 
       patchCourse(this.$route.params.id, 'applicants', filteredApplicants).then(() => this.getCourses());
@@ -354,7 +357,7 @@ export default {
 
 <style lang="postcss" scoped>
 .table {
-   @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+  @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
 
 .part {
@@ -375,7 +378,7 @@ button {
 
 .courses__container {
   @apply flex justify-center flex-col mt-10 p-5 pt-0 pb-0;
-  
+
 }
 
 .nav {
