@@ -7,9 +7,7 @@
     >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
-          <div 
-            class="flex flex-col items-center text-start"
-          >
+          <div>
             <div
               v-for="input in userInputsValue" 
               :key="input.label"
@@ -23,22 +21,25 @@
               />
             </div>
             <div 
-              class="flex justify-center mt-5"
+              class="flex justify-evenly mt-5"
             >
-              <BaseButton
-                :disabled="invalid" 
-                variant="btn_green"
-                @click="submitUserCreateButton"
-              >
-                Create
-              </BaseButton>
-              <BaseButton
-                :disabled="false"
-                variant="btn_red"
-                @click="canselUserCreateButton"
-              >
-                Cancel
-              </BaseButton>
+              <div class="mx-2">
+                <BaseButton
+                  :disabled="invalid"
+                  @click="submitUserCreateButton"
+                >
+                  Create
+                </BaseButton>
+              </div>
+              <div class="mx-2">
+                <BaseButton
+                  :disabled="false"
+                  variant="btn_red"
+                  @click="canselUserCreateButton"
+                >
+                  Cancel
+                </BaseButton>
+              </div>
             </div>
           </div>
         </ValidationObserver>
@@ -107,7 +108,6 @@ export default {
     submitUserCreateButton() {
       this.$refs.userCreateModal.closeModal()
       this.createNewUser(this.createModel)
-      
     },
     canselUserCreateButton() {
       this.$refs.userCreateModal.closeModal();
@@ -120,9 +120,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-button {
-  @apply mx-1;
-}
-</style>

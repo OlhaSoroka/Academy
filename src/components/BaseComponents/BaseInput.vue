@@ -14,13 +14,14 @@
         v-bind="$attrs"
         v-model="model"
         :type="type"
-        class="BaseInput"
+        :class="['base-input', {'!border-red-700': errors.length > 0}]"
         v-on="listeners"
       >
-      <p
-        class="text-center text-red-700 text-sm w-64 ml-1 absolute"
-      >
-        {{ errors[0] }}
+      <p class="text-red-700 text-xs w-72 -ml-2 text-center absolute">
+        <span v-if="errors.length > 0 && type === 'password'">
+          6 chars min with at least 1 Latin letter and 1 number.
+        </span>
+        <span v-else>{{ errors[0] }}</span>
       </p>
     </div>
   </ValidationProvider>
@@ -63,7 +64,7 @@ export default {
       default: "text",
     },
     value: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
   },
@@ -94,7 +95,7 @@ export default {
       } else if (this.type === "password") {
         return `${this.passwordRules}|${this.rules}`;
       } else return `${this.rules}`;
-    }
+    },
   },
   methods: {
     onInput(value) {
@@ -105,7 +106,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.BaseInput {
+.base-input {
   @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }
 </style>
