@@ -3,8 +3,6 @@ import { LOGIN } from '@/constants/routes.constant';
 import { getAuth, signOut } from 'firebase/auth';
 import router from '../../router';
 
-const token = localStorage.getItem('accessToken');
-
 export default {
 	state: {
 		user: null,
@@ -14,7 +12,7 @@ export default {
 		user: (state) => state.user,
 		isImageLoading: (state) => state.isImageLoading,
 		accessToken() {
-			return token;
+			return localStorage.getItem('accessToken');
 		},
 	},
 	actions: {
@@ -23,7 +21,7 @@ export default {
 		},
 		async fetchUser(store, id) {
 			try {
-				const user = await gethUserByID(id, token);
+				const user = await gethUserByID(id, store.getters.accessToken);
 				store.commit('SET_USER', user);
 			} catch (error) {
 				const errorMessage = error.response?.data?.error || error.response.data.message;
@@ -40,12 +38,11 @@ export default {
 					store.state.user.id,
 					{
 						password,
-						email: store.state.user.email,
 					},
-					token
+					store.getters.accessToken
 				);
 				store.dispatch('toast/show', { message: 'Password succesfully changed', type: 'success' }, { root: true });
-			} catch (error) {				
+			} catch (error) {
 				const errorMessage = error.response?.data?.error || error.response.data.message;
 				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			}
@@ -55,7 +52,7 @@ export default {
 				store.commit('TOGGLE_IMAGE_LOADING');
 				const formData = new FormData();
 				formData.append('avatar', image);
-				await updateUserByID(store.state.user.id, formData, token);
+				await updateUserByID(store.state.user.id, formData, store.getters.accessToken);
 				store.dispatch('fetchUser', store.state.user.id);
 				store.dispatch('toast/show', { message: 'Profile image succesfully changed', type: 'success' }, { root: true });
 			} catch (error) {

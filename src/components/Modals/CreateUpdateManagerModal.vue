@@ -14,6 +14,7 @@
               type="text"
               label="Fullname"
               placeholder="Enter fullname"
+              rules="required"
             />
           </div>
           <div>
@@ -56,8 +57,8 @@
               </BaseButton>
             </div>
           </div>
-          <div class="flex justify-center mt-5">
-            <div class="mx-1">
+          <div class="flex justify-evenly mt-5">
+            <div class="mx-2">
               <BaseButton
                 :disabled="invalid"
                 @click="submitAddNewManager"
@@ -65,7 +66,7 @@
                 {{ isUpdateMode ? "Update" : "Create" }}
               </BaseButton>
             </div>
-            <div class="mx-1">
+            <div class="mx-2">
               <BaseButton
                 :variant="'btn_red'"
                 @click="cancelAddNewManager"
