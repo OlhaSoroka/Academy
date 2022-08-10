@@ -46,7 +46,7 @@
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
-          :delete-btns="false"
+          :delete-btns="true"
           :view-btns="true"
           @view="goToCourseDetails"
         />
