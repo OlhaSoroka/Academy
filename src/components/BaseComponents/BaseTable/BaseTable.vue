@@ -60,7 +60,7 @@
     </tbody>
     <tr v-else>
       <td colspan="145">
-        <h2 class="text-red-500 text-xl">No data there...</h2>
+        <h2 class="text-xl opacity-80">No data...</h2>
       </td>
     </tr>
 
