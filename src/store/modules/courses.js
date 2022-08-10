@@ -1,6 +1,5 @@
 import axios from "axios";
-import { getAllCourses, COURSES_URL } from "../../api/course/index";
-
+import { getAllCourses, COURSES_URL, updateCourseById } from "../../api/course/index";
 export default {
   namespaced: true,
   state() {
@@ -11,49 +10,49 @@ export default {
     };
   },
   getters: {
-    courses(state) {
-      return state.courses;
-    },
-    lastCourseId(state){
-      return state.courses[state.courses.length - 1].id
-    },
-    firstCourseId(state){
-      return state.courses[0].id
-    },
-    sortedCourses(state) {
-      return state.courses.sort((a, b) => (a.date > b.date ? 1 : -1));
-    },
-    loadingStatus(state) {
-      return state.isLoading;
-    },
-    getCourseById(state) {
-      return (id) => {
-        return state.courses.find((course) => course.id === +id);
-      };
-    },
-    courseIndex(state) {
-      return (courseItem) => state.courses.indexOf(courseItem);
-    },
-    nextCourseId(state, getters) {
-      return (id) => {
-        let currentIndex = getters.courseIndex(getters.getCourseById(id));
-        if (currentIndex < state.courses.length - 1) {
-          return state.courses[currentIndex + 1].id;
-        } else return state.courses[0].id;
-      };
-    },
-    previousCourseId(state, getters){
-      return (id) => {
-        let currentIndex = getters.courseIndex(getters.getCourseById(id));
-        if (currentIndex > 0 ) {
-          return state.courses[currentIndex - 1].id;
-        } else return state.courses[state.courses.length - 1].id;
-      };
-    },
-    getErrorNewComment(state) {
-      return state.errorNewComment;
-    },
-  },
+		courses(state) {
+			return state.courses
+		},
+		sortedCourses(state) {
+			return state.courses.sort((a, b) => (a.date > b.date ? 1 : -1))
+		},
+		lastCourseId(state) {
+			return state.courses[state.courses.length - 1].id
+		},
+		firstCourseId(state) {
+			return state.courses[0].id
+		},
+		loadingStatus(state) {
+			return state.isLoading
+		},
+		getCourseById(state) {
+			return (id) => {
+				return state.courses.find((course) => course.id === +id)
+			}
+		},
+		courseIndex(state) {
+			return (courseItem) => state.courses.indexOf(courseItem)
+		},
+		nextCourseId(state, getters) {
+			return (id) => {
+				let currentIndex = getters.courseIndex(getters.getCourseById(id))
+				if (currentIndex < state.courses.length - 1) {
+					return state.courses[currentIndex + 1].id
+				} else return state.courses[0].id
+			}
+		},
+		getErrorNewComment(state) {
+			return state.errorNewComment
+		},
+		previousCourseId(state, getters) {
+			return (id) => {
+				let currentIndex = getters.courseIndex(getters.getCourseById(id))
+				if (currentIndex > 0) {
+					return state.courses[currentIndex - 1].id
+				} else return state.courses[state.courses.length - 1].id
+			}
+		},
+	},
   mutations: {
     setCourses(state, courses) {
       state.courses = courses;
@@ -120,5 +119,10 @@ export default {
           )
         });
     },
+    async addNewApplicant({ dispatch }, payload) {
+			const { id, course } = payload
+			dispatch("getCourses")
+			updateCourseById(id, course)
+		},
   },
 };
