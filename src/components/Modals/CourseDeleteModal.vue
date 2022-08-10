@@ -30,7 +30,7 @@
 <script>
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseModal from "@/components/BaseComponents/BaseModal.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   components: { BaseButton, BaseModal },
   props: {
@@ -41,12 +41,6 @@ export default {
     courseToDelete: {
       type: Object,
       default: null,
-    },
-  },
-  computed: {
-    ...mapGetters(("courses", ["courses"])),
-    courses() {
-      return this.courses;
     },
   },
   watch: {

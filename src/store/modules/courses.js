@@ -63,11 +63,8 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
-    deleteCourse(state, id){
+    deleteCourse(id){
       axios.delete(`${COURSES_URL}/posts/${id}`)
-      const targetCourse = this.courses.find(course => course.id === id);
-      const targetCourseIndex = this.courses.findIndex(targetCourse);
-      state.courses.splice(targetCourseIndex, 1);
     },
     addCourse(state, newCourse) {
       axios.post(`${COURSES_URL}/posts`, newCourse).then(
@@ -90,8 +87,26 @@ export default {
         })
         .finally(() => commit("changeLoadingStatus"));
     },
-    deleteCourseFromState({commit}, id){
-      commit("deleteCourse", id)
+    deleteCourseFromState({commit, dispatch}, id){
+      try {
+        commit("changeLoadingStatus");
+        commit("deleteCourse", id);
+        dispatch(
+					"toast/show",
+					{ message: "Course succesfully deleted", type: "success" },
+					{ root: true }
+				)
+      } catch (error) {
+				const errorMessage = error.response?.data?.error || error.response.data.message
+				dispatch(
+					"toast/show",
+					{ message: errorMessage, type: "error" },
+					{ root: true }
+				)
+			} finally {
+				commit("changeLoadingStatus")
+				dispatch("getCourses")
+			}
     },
     addCourseToState({ commit }, newCourse) {
       commit("addCourse", newCourse)
