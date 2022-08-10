@@ -6,13 +6,13 @@
     <template #body>
       <div>
         Do you really want to delete
-        <span class="font-bold">{{ getCourseById(courseToDeleteId).name }}</span>?
+        <span class="font-bold">{{ courseToDelete.name }}</span>?
       </div>
       <div class="flex justify-center mt-7">
         <div class="mx-1">
           <BaseButton
             :variant="'btn_red'"
-            @click="submitCourseDeleteButton(courseToDeleteId)"
+            @click="submitCourseDeleteButton(courseToDelete.id)"
           >
             Delete
           </BaseButton>
@@ -38,10 +38,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    courseToDeleteId: {
-      type: Number,
-      default: 0,
-    }
+    courseToDelete: {
+      type: Object,
+      default: null,
+    },
   },
   computed: {
     ...mapGetters(("courses", ["courses"])),
@@ -63,10 +63,6 @@ export default {
     cancelCourseDeleteButton() {
       this.$refs.CourseDeleteModal.closeModal();
     },
-    getCourseById(id){
-      const foundCourse = this.courses.find(course => course.id === id);
-      return foundCourse;
-    }
   },
 };
 </script>

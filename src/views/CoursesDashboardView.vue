@@ -64,7 +64,7 @@
     <div v-if="isManagerOrAdmin">
       <CourseDeleteModal
         :is-opened-course-delete-modal="isDeleteModalOpen"
-        :course-to-delete-id="targetCourseId"
+        :course-to-delete="targetCourse"
       />
     </div>
   </div>
@@ -94,7 +94,18 @@ export default {
     return {
       isCreateModalOpen: false,
       isDeleteModalOpen: false,
-      targetCourseId: 0,
+      targetCourse: {
+        id:	null,
+        name:	"",
+        date:	"",
+        status:	"",
+        docs_link:	"",
+        applicants:	[],
+        group:	[],
+        homework:	[],
+        results:	[],
+        comments:	[]
+      },
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -136,7 +147,7 @@ export default {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
     openCoursesDeleteModal(id){
-      this.targetCourseId = id;
+      this.targetCourse = this.courses.find((e) => e.id === id);
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
     },
     openCourseViewCreateModal() {
