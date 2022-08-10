@@ -26,7 +26,10 @@
           </select>
         </div>
         <div class="mx-1 flex gap-10">
-          <BaseButton @click="confirmAdding({ id: currentRouteName, course: currentCourse })">
+          <BaseButton
+            :disabled="!newApplicant.length"
+            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
+          >
             Add
           </BaseButton>
           <BaseButton @click="cancelModal">

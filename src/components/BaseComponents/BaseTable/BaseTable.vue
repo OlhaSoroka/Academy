@@ -25,7 +25,10 @@
         </th>
       </BaseTableRow>
     </thead>
-    <tbody class="table-tbody">
+    <tbody
+      v-if="!!tableData.bodyData.length"
+      class="table-tbody"
+    >
       <BaseTableRow
         v-for="item in getTablePart(tableData, 'body')"
         :key="item.id"
@@ -55,7 +58,14 @@
         </td>
       </BaseTableRow>
     </tbody>
+    <tr v-else>
+      <td colspan="145">
+        <h2 class="text-red-500 text-xl">No data there...</h2>
+      </td>
+    </tr>
+
   </table>
+
   <!-- if data is loading -->
   <BaseSpinner v-else />
 </template>
