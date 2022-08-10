@@ -64,6 +64,10 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
+    async deleteCourse(id){
+      const response = await axios.delete(`${COURSES_URL}/posts/${id}`);
+      return await response.data;
+    },
   },
   actions: {
     getCourses({ commit, dispatch }) {
@@ -130,6 +134,27 @@ export default {
       const { id, course } = payload;
       dispatch("getCourses");
       updateCourseById(id, course);
+    },
+    deleteCourseFromState({commit, dispatch}, id){
+      try {
+        commit("changeLoadingStatus");
+        commit("deleteCourse", id);
+        dispatch(
+					"toast/show",
+					{ message: "Course succesfully deleted", type: "success" },
+					{ root: true }
+				)
+      } catch (error) {
+				const errorMessage = error.response?.data?.error || error.response.data.message
+				dispatch(
+					"toast/show",
+					{ message: errorMessage, type: "error" },
+					{ root: true }
+				)
+			} finally {
+				commit("changeLoadingStatus")
+				dispatch("getCourses")
+			}
     },
   },
 };
