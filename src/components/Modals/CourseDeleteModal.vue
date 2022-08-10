@@ -57,7 +57,6 @@ export default {
   methods: {
     ...mapActions("courses", ["deleteCourseFromState"]),
     submitCourseDeleteButton(id) {
-      console.log(id);
       this.deleteCourseFromState(id);
       this.$refs.CourseDeleteModal.closeModal();
     },

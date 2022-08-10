@@ -52,16 +52,20 @@
           @view="goToCourseDetails"
         />
       </div>
-      <CourseCreateModal
-        :is-opened-course-create-modal="isCreateModalOpen"
-      />
-      <CourseDeleteModal 
-        :is-opened-course-delete-modal="isDeleteModalOpen"
-        :course-to-delete-id="targetCourseId"
-      />
     </div>
     <div v-else>
       <h3>No courses</h3>
+    </div>
+    <div v-if="isManagerOrAdmin">
+      <CourseCreateModal
+        :is-opened-course-create-modal="isCreateModalOpen"
+      />
+    </div>
+    <div v-if="isManagerOrAdmin">
+      <CourseDeleteModal
+        :is-opened-course-delete-modal="isDeleteModalOpen"
+        :course-to-delete-id="targetCourseId"
+      />
     </div>
   </div>
 </template>
