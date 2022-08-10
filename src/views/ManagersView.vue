@@ -12,6 +12,7 @@
       </div>
       <div>
         <BaseButton
+          :loading="isManagersLoading"
           @click="toggleCreateUpdateModal(null, false)"
         >
           Add new manager
