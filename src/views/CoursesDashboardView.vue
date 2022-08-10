@@ -102,7 +102,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('courses', ["sortedCourses", "loadingStatus"]),
+    ...mapGetters("courses", ["sortedCourses", "loadingStatus"]),
     courses() {
       return this.sortedCourses;
     },

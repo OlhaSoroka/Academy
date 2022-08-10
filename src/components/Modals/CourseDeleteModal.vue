@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["courses"]),
+    ...mapGetters(("courses", ["courses"])),
     courses() {
       return this.courses;
     },
