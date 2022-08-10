@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios from "../../api/index";
 import { getAllCourses, COURSES_URL, updateCourseById } from "../../api/course/index";
+
 export default {
   namespaced: true,
   state() {
@@ -10,49 +11,49 @@ export default {
     };
   },
   getters: {
-		courses(state) {
-			return state.courses
-		},
-		sortedCourses(state) {
-			return state.courses.sort((a, b) => (a.date > b.date ? 1 : -1))
-		},
-		lastCourseId(state) {
-			return state.courses[state.courses.length - 1].id
-		},
-		firstCourseId(state) {
-			return state.courses[0].id
-		},
-		loadingStatus(state) {
-			return state.isLoading
-		},
-		getCourseById(state) {
-			return (id) => {
-				return state.courses.find((course) => course.id === +id)
-			}
-		},
-		courseIndex(state) {
-			return (courseItem) => state.courses.indexOf(courseItem)
-		},
-		nextCourseId(state, getters) {
-			return (id) => {
-				let currentIndex = getters.courseIndex(getters.getCourseById(id))
-				if (currentIndex < state.courses.length - 1) {
-					return state.courses[currentIndex + 1].id
-				} else return state.courses[0].id
-			}
-		},
-		getErrorNewComment(state) {
-			return state.errorNewComment
-		},
-		previousCourseId(state, getters) {
-			return (id) => {
-				let currentIndex = getters.courseIndex(getters.getCourseById(id))
-				if (currentIndex > 0) {
-					return state.courses[currentIndex - 1].id
-				} else return state.courses[state.courses.length - 1].id
-			}
-		},
-	},
+    courses(state) {
+      return state.courses;
+    },
+    sortedCourses(state) {
+      return state.courses.sort((a, b) => (a.date > b.date ? 1 : -1));
+    },
+    lastCourseId(state) {
+      return state.courses[state.courses.length - 1].id;
+    },
+    firstCourseId(state) {
+      return state.courses[0].id;
+    },
+    loadingStatus(state) {
+      return state.isLoading;
+    },
+    getCourseById(state) {
+      return (id) => {
+        return state.courses.find((course) => course.id === +id);
+      };
+    },
+    courseIndex(state) {
+      return (courseItem) => state.courses.indexOf(courseItem);
+    },
+    nextCourseId(state, getters) {
+      return (id) => {
+        let currentIndex = getters.courseIndex(getters.getCourseById(id));
+        if (currentIndex < state.courses.length - 1) {
+          return state.courses[currentIndex + 1].id;
+        } else return state.courses[0].id;
+      };
+    },
+    getErrorNewComment(state) {
+      return state.errorNewComment;
+    },
+    previousCourseId(state, getters) {
+      return (id) => {
+        let currentIndex = getters.courseIndex(getters.getCourseById(id));
+        if (currentIndex > 0) {
+          return state.courses[currentIndex - 1].id;
+        } else return state.courses[state.courses.length - 1].id;
+      };
+    },
+  },
   mutations: {
     setCourses(state, courses) {
       state.courses = courses;
@@ -63,15 +64,6 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
-    async deleteCourse(id){
-      const response = await axios.delete(`${COURSES_URL}/posts/${id}`);
-      return await response.data;
-    },
-    addCourse(state, newCourse) {
-      axios.post(`${COURSES_URL}/posts`, newCourse).then(
-        state.courses.push(newCourse)
-      );
-    }
   },
   actions: {
     getCourses({ commit, dispatch }) {
@@ -84,33 +76,32 @@ export default {
             "toast/show",
             { message: errorMessage, type: "error" },
             { root: true }
-          )
+          );
         })
         .finally(() => commit("changeLoadingStatus"));
     },
-    deleteCourseFromState({commit, dispatch}, id){
-      try {
-        commit("changeLoadingStatus");
-        commit("deleteCourse", id);
-        dispatch(
-					"toast/show",
-					{ message: "Course succesfully deleted", type: "success" },
-					{ root: true }
-				)
-      } catch (error) {
-				const errorMessage = error.response?.data?.error || error.response.data.message
-				dispatch(
-					"toast/show",
-					{ message: errorMessage, type: "error" },
-					{ root: true }
-				)
-			} finally {
-				commit("changeLoadingStatus")
-				dispatch("getCourses")
-			}
-    },
-    addCourseToState({ commit }, newCourse) {
-      commit("addCourse", newCourse)
+    createNewCourse({ dispatch }, data) {
+      axios
+        .post(`${COURSES_URL}/posts`, data)
+        .then((response) => {
+          if (response.status >= 200 && response.status <= 204) {
+            dispatch("getCourses");
+            dispatch(
+              "toast/show",
+              { message: "Course succesfully created", type: "success" },
+              { root: true }
+            );
+          }
+        })
+        .catch((error) => {
+          dispatch("getCourses");
+          const errorMessage = error.response?.data?.error || error.message;
+          dispatch(
+            "toast/show",
+            { message: errorMessage, type: "error" },
+            { root: true }
+          );
+        });
     },
     addNewComment({ dispatch }, payload) {
       axios
@@ -132,13 +123,13 @@ export default {
             "toast/show",
             { message: errorMessage, type: "error" },
             { root: true }
-          )
+          );
         });
     },
     async addNewApplicant({ dispatch }, payload) {
-			const { id, course } = payload
-			dispatch("getCourses")
-			updateCourseById(id, course)
-		},
+      const { id, course } = payload;
+      dispatch("getCourses");
+      updateCourseById(id, course);
+    },
   },
 };

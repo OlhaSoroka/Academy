@@ -92,7 +92,7 @@ export default {
     allRules() {
       if (this.type === "email") {
         return `${this.emailRules}|${this.rules}`;
-      } else if (this.type === "password") {
+      } else if (this.type === "password" && this.vid != "text") {
         return `${this.passwordRules}|${this.rules}`;
       } else return `${this.rules}`;
     },

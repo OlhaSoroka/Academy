@@ -80,7 +80,7 @@ export default {
   @apply px-5 pt-3.5 flex align-middle justify-center font-semibold text-2xl;
 }
 .modal__body {
-  @apply px-5 pt-2.5 flex flex-col items-center overflow-auto;
+  @apply px-5 pt-2.5 flex flex-col items-center overflow-auto p-1;
 }
 .modal__footer {
   @apply px-5 pt-2.5;

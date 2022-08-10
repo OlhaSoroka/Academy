@@ -20,7 +20,7 @@
           type="file"
           @change="onImageSelected"
         >
-        <div class="mt-5 flex p-1">
+        <div class="mt-5 flex">
           <div class="w-24 mx-2">
             <BaseButton @click="selectImage">
               Select

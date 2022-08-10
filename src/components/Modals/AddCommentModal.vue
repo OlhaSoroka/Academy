@@ -2,6 +2,7 @@
   <BaseModal
     ref="addCommentModal"
     :header="'Add comment'"
+    @isClosed="clearInputs()"
   >
     <template #body>
       <div>
@@ -73,6 +74,9 @@ export default {
 	},
 	methods: {
 		...mapActions('courses', ['addNewComment']),
+		clearInputs() {
+			this.comments = '';
+		},
 		submit() {
 			let currentItem = this.getCourseById(this.$route.params.id);
 			currentItem.comments.push({
@@ -88,11 +92,11 @@ export default {
 				id: this.$route.params.id,
 			};
 			this.addNewComment(payload);
-			this.comments = '';
+			this.clearInputs();
 			this.$refs.addCommentModal.closeModal();
 		},
 		cancel() {
-			this.comments = '';
+			this.clearInputs();
 			this.$refs.addCommentModal.closeModal();
 		},
 	},
