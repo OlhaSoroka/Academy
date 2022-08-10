@@ -305,6 +305,10 @@ button {
 	@apply flex justify-center flex-col p-10 mx-auto;
 }
 
+.courses__container > * {
+  @apply p-0.5;
+}
+
 .nav {
 	@apply flex justify-between px-0;
 }
