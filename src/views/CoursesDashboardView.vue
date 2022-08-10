@@ -130,9 +130,6 @@ export default {
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
-    editCourse(){
-      this.showAddCourseForm = !this.showAddCourseForm
-    },
     openCoursesDeleteModal(id){
       this.targetCourseId = id;
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
