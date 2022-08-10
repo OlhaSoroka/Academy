@@ -55,7 +55,7 @@ export default {
   @apply opacity-50 pointer-events-none;
 }
 .btn_loading {
-  @apply w-6 h-6 border-4 border-white border-double border-t-transparent rounded-full animate-spin;
+  @apply w-6 h-6 border-4 border-white border-double border-t-transparent rounded-full animate-spin mx-auto;
 }
 .btn_blue {
   @apply bg-sky-700 hover:bg-sky-900;
