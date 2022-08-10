@@ -105,7 +105,7 @@
                 <BaseTooltip :text="courseItem.docs_link">
                   <label class="text-xs ">
                     Docs :
-                    <p class="text-2xl ">{{ courseItem.docs_link.slice(0, 20) }}</p>
+                    <p class="text-2xl "><a :href="courseItem.docs_link">{{ courseItem.docs_link.slice(0, 20) }}</a></p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -185,7 +185,10 @@
               :delete-btns="false"
             />
           </div>
-          <div class="part col-span-3">
+          <div
+            class="part col-span-3"
+            v-if="courseItem.comments.length"
+          >
             <h2 class="part__text">
               Comments
             </h2>
