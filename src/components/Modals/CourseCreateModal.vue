@@ -80,7 +80,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('courses', ["addCourseToState"]),
+    ...mapActions('courses', ["createNewCourse"]),
     clearInputs() {
       this.courseToAdd = {
         name: "",
@@ -109,7 +109,7 @@ export default {
           results: [],
           status: "in future",
         }
-        this.addCourseToState(newCourse)
+        this.createNewCourse(newCourse)
         this.$refs.courseCreateModal.closeModal()
       }
     },
