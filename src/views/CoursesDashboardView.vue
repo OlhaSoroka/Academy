@@ -132,7 +132,7 @@ export default {
 <style lang="postcss" scoped>
 
 .courses__container{
- @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
+ @apply p-10 m-auto flex flex-col justify-center;
 }
 
 .courses__header {

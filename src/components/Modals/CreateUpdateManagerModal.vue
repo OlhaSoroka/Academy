@@ -14,6 +14,7 @@
               type="text"
               label="Fullname"
               placeholder="Enter fullname"
+              rules="required"
             />
           </div>
           <div>
