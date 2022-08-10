@@ -63,8 +63,9 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
-    deleteCourse(id){
-      axios.delete(`${COURSES_URL}/posts/${id}`)
+    async deleteCourse(id){
+      const response = await axios.delete(`${COURSES_URL}/posts/${id}`);
+      return await response.data;
     },
     addCourse(state, newCourse) {
       axios.post(`${COURSES_URL}/posts`, newCourse).then(

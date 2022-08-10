@@ -306,7 +306,7 @@ button {
 }
 
 .courses__container > * {
-  @apply p-0.5;
+  @apply pb-0.5;
 }
 
 .nav {
