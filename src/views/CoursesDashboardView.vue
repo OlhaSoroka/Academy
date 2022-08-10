@@ -1,67 +1,67 @@
 <template>
-  <div>
-    <div class="courses__container">
-      <h2 class="courses__header">
-        Courses Dashboard 
-      </h2>
-      <h3 class="courses__subheader">
-        Courses list of InventorSoft Academy
-      </h3>
-      <div v-if="isUser">
-        <div class="courses__table_container">
-          <BaseTable
-            class="text-center"
-            :table-data="{
-              headingData: headersUser,
-              bodyData: courses,
-            }"
-            :edit-btns="false"
-            :is-data-loading="loadingStatus"
-            :delete-btns="false"
-            :view-btns="true"
-            @view="goToCourseDetails"
-          />
-        </div>
+  <div class="courses__container">
+    <div class="courses__topbar_container">
+      <div>
+        <h2 class="courses__header">
+          Courses Dashboard 
+        </h2>
+        <h3 class="courses__subheader">
+          Courses list of InventorSoft Academy
+        </h3>
       </div>
-      <div v-else-if="isManagerOrAdmin">
-        <div class="courses__table_container">
-          <BaseTable
-            class="text-center"
-            :table-data="{
-              headingData: headersManager,
-              bodyData: courses,
-            }"
-            :edit-btns="false"
-            :is-data-loading="loadingStatus"
-            :delete-btns="true"
-            :view-btns="true"
-            @delete="openCoursesDeleteModal"
-            @view="goToCourseDetails"
-          />
-        </div>
-        <AddEventForm
-          v-show="showAddCourseForm"
-        />
-        <div 
-          class="flex justify-evenly items-center mt-3"
+      <div 
+        v-if="isManagerOrAdmin"
+      >
+        <BaseButton
+          :loading="loadingStatus"
+          @click.prevent="openCourseViewCreateModal"
         >
-          <BaseButton 
-            :loading="loadingStatus"
-            @click="showAddCourseForm = !showAddCourseForm"
-          >
-            {{ showAddCourseForm ? "Close" :"Add new course" }}
-          </BaseButton>
-        </div>
-      </div>
-      <div v-else>
-        <h3>No courses</h3>
+          Add new course
+        </BaseButton>
       </div>
     </div>
-    <CourseDeleteModal 
-      v-if="isManagerOrAdmin"
-      :is-opened-course-delete-modal="isDeleteModalOpen"
-      :course-to-delete-id="targetCourseId"
-    />
+    <div v-if="isUser">
+      <div class="courses__table_container">
+        <BaseTable
+          class="text-center"
+          :table-data="{
+            headingData: headersUser,
+            bodyData: courses,
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+          :view-btns="true"
+          @view="goToCourseDetails"
+        />
+      </div>
+    </div>
+    <div v-else-if="isManagerOrAdmin">
+      <div class="courses__table_container">
+        <BaseTable
+          class="text-center"
+          :table-data="{
+            headingData: headersManager,
+            bodyData: courses,
+          }"
+          :edit-btns="false"
+          :is-data-loading="loadingStatus"
+          :delete-btns="false"
+          :view-btns="true"
+          @view="goToCourseDetails"
+        />
+      </div>
+      <CourseCreateModal
+        :is-opened-course-create-modal="isCreateModalOpen"
+      />
+      <CourseDeleteModal 
+        :is-opened-course-delete-modal="isDeleteModalOpen"
+        :course-to-delete-id="targetCourseId"
+      />
+    </div>
+    <div v-else>
+      <h3>No courses</h3>
+    </div>
   </div>
 </template>
 
@@ -71,7 +71,7 @@ import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import CourseDeleteModal from "../components/Modals/CourseDeleteModal.vue"
 import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
-import AddEventForm from "../components/AddEventForm.vue";
+import CourseCreateModal from "@/components/Modals/CourseCreateModal.vue";
 import {
   USER_ROLE,
   MANAGER_ROLE,
@@ -82,14 +82,14 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    AddEventForm,
-    CourseDeleteModal
+    CourseDeleteModal,
+    CourseCreateModal
   },
   data() {
     return {
+      isCreateModalOpen: false,
       isDeleteModalOpen: false,
       targetCourseId: 0,
-      showAddCourseForm: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -137,13 +137,16 @@ export default {
       this.targetCourseId = id;
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
     },
+    openCourseViewCreateModal() {
+      this.isCreateModalOpen = !this.isCreateModalOpen;
+    }
   }
 };
 </script>
 
 <style lang="postcss" scoped>
 .courses__container{
- @apply w-2/3 mt-10 m-auto flex flex-col justify-center;
+ @apply p-10 m-auto flex flex-col justify-center;
 }
 
 .courses__header {
