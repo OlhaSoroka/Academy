@@ -64,11 +64,6 @@ export default {
     setError(state, errorNewComment) {
       state.errorNewComment = errorNewComment;
     },
-    async deleteCourse(id){
-      console.log(id);
-     /* const response = await */
-     // return await response.data;
-    },
   },
   actions: {
     getCourses({ commit, dispatch }) {
