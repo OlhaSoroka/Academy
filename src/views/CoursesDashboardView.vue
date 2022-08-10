@@ -48,6 +48,7 @@
           :is-data-loading="loadingStatus"
           :delete-btns="true"
           :view-btns="true"
+          @delete="openCoursesDeleteModal"
           @view="goToCourseDetails"
         />
       </div>
