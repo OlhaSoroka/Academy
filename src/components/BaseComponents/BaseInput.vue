@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       emailRules: "required|email",
-      passwordRules: "min:6|regex:[A-Za-z]+[0-9]+",
+      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+",
     };
   },
   computed: {

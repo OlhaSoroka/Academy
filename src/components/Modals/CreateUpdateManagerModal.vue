@@ -41,9 +41,9 @@
               <BaseInput
                 v-model="confirmPassword"
                 type="password"
-                label="Confirm new password"
-                vid="password"
+                label="Confirm new password"                
                 placeholder="Confirm password"
+                rules="confirmed:password"
               />
             </div>
           </div>
