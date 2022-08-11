@@ -130,9 +130,9 @@
                   <label class="text-xs ">
                     Docs
                     <p class="text-2xl "><a
-                      target="”_blank”"
-                      :href="courseItem.docs_link"
-                    >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                        target="”_blank”"
+                        :href="courseItem.docs_link"
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -178,7 +178,8 @@
               }"
               :edit-btns="false"
               :is-data-loading="loadingStatus"
-              :delete-btns="false"
+              :delete-btns="true"
+              @delete="deleteGroupMember"
             />
           </div>
           <div class="part col-span-2 col-start-3">
@@ -342,8 +343,15 @@ export default {
       const { applicants } = currentCourse;
       const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
 
-
       patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
+        .then(() => this.getCourses())
+    },
+    deleteGroupMember(id) {
+      const currentCourse = this.getCourseById(this.$route.params.id);
+      const { group } = currentCourse;
+      const filteredGroup = group.filter((groupMember) => groupMember.id !== id);
+
+      patchCourse(this.$route.params.id, 'group', filteredGroup)
         .then(() => this.getCourses())
     },
     previousPage() {

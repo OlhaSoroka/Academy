@@ -130,10 +130,10 @@ export default {
 					)
 				})
 		},
-		async updateCourse({ dispatch }, payload) {
+		async updateCourse(action, payload) {
 			const { id, course } = payload
-			updateCourseById(id, course)
-			dispatch("getCourses")
+			await updateCourseById(id, course)
+			// await dispatch("getCourses")
 		},
 	},
 }
