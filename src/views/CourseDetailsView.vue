@@ -21,13 +21,13 @@
             </h2>
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
-                <label class="text-xs">Name
-                  <p class="text-2xl">{{ courseItem.name }}</p>
+                <label class="font-semibold text-sky-800">Name
+                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="text-xs">Date
-                  <p class="text-2xl">{{ courseItem.date }}</p>
+                <label class="font-semibold text-sky-800">Date
+                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.date }}</p>
                 </label>
               </div>
               <div
@@ -142,13 +142,13 @@
             </h2>
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
-                <label class="text-xs">Name
-                  <p class="text-2xl">{{ courseItem.name }}</p>
+                <label class="font-semibold text-sky-800">Name
+                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="text-xs">Date
-                  <p class="text-2xl">{{ courseItem.date }}</p>
+                <label class="font-semibold text-sky-800">Date
+                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.date }}</p>
                 </label>
               </div>
               <div
@@ -156,9 +156,9 @@
                 class="text-left"
               >
                 <BaseTooltip :text="courseItem.docs_link">
-                  <label class="text-xs">
+                  <label class="font-semibold text-sky-800">
                     Docs :
-                    <p class="text-2xl">
+                    <p class="text-2xl font-thin text-slate-700">
                       <a
                         target="”_blank”"
                         :href="courseItem.docs_link"
