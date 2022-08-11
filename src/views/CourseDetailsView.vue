@@ -410,11 +410,11 @@ export default {
 
 <style lang="postcss" scoped>
 .table {
-  @apply border rounded-md border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+  @apply border-t rounded-md border-black mb-10 mt-2 min-w-[50%] max-w-screen-lg mx-auto;
 }
 
 .part {
-  @apply w-full border-2 border-stone-200 shadow-md rounded-md p-4 
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md p-4;
 }
 
 button {
