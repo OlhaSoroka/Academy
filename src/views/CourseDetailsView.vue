@@ -37,10 +37,12 @@
                 <BaseTooltip :text="courseItem.docs_link">
                   <label class="main__header_label">
                     Docs :
-                    <p class="text-2xl "><a
-                      target="”_blank”"
-                      :href="courseItem.docs_link"
-                    >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                    <p class="main__header_text">
+                      <a
+                        target="”_blank”"
+                        :href="courseItem.docs_link"
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                    </p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -92,7 +94,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="isManagerOrAdmin">
+    <div v-else-if="isManager || isAdmin">
       <div
         v-if="courseItem"
         class="text-center my-3"
@@ -336,13 +338,20 @@ export default {
 				return false;
 			}
 		},
-		isManagerOrAdmin() {
-			if (this.user) {
-				return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
-			} else {
-				return false;
-			}
-		},
+		isManager() {
+      if (this.user) {
+        return this.user.role === MANAGER_ROLE;
+      } else {
+        return false;
+      }
+    },
+    isAdmin() {
+      if (this.user) {
+        return this.user.role === ADMIN_ROLE;
+      } else {
+        return false;
+      }
+    },
 		courseItem() {
 			return this.getCourseById(this.$route.params.id);
 		},
