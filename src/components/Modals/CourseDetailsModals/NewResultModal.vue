@@ -79,8 +79,12 @@ export default {
       return id;
     },
     getGroup() {
+      let res = this.currentCourse.group.filter(groupMember => {
+        return !this.currentCourse.results.some(resulter => resulter.id === groupMember.id)
+      })
 
-      return this.currentCourse.group
+      return res
+
 
     },
     currentCourse() {

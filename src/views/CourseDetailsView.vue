@@ -61,7 +61,7 @@
             </BaseButton>
             <BaseButton
               class="nav__btn"
-              @click="openModal"
+              @click="toggleNewHomeworkModal"
             >
               New homework
             </BaseButton>
@@ -194,7 +194,8 @@
               }"
               :edit-btns="false"
               :is-data-loading="loadingStatus"
-              :delete-btns="false"
+              :delete-btns="true"
+              @delete="deleteHomework"
             />
           </div>
           <div class="part">
@@ -228,7 +229,8 @@
               }"
               :edit-btns="false"
               :is-data-loading="loadingStatus"
-              :delete-btns="false"
+              :delete-btns="true"
+              @delete="deleteComment"
             />
           </div>
         </div>
@@ -248,6 +250,7 @@
     <NewApplicantModal :toggle-modal="isModalOpened" />
     <NewGroupMember :toggle-modal="isNewGroupMemberModal" />
     <NewResultModal :toggleModal="isNewResultModal" />
+    <NewHomeWorkModal :toggleModal="isNewHomeworkModal" />
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
@@ -267,10 +270,12 @@ import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vu
 import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
 import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMember.vue';
 import NewResultModal from '../components/Modals/CourseDetailsModals/NewResultModal.vue';
+import NewHomeWorkModal from '../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue';
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
 });
+
 
 export default {
   components: {
@@ -281,7 +286,8 @@ export default {
     BaseTooltip,
     CourseDetailsUpdateModal,
     NewGroupMember,
-    NewResultModal
+    NewResultModal,
+    NewHomeWorkModal
   },
   data() {
     return {
@@ -291,6 +297,7 @@ export default {
       isUpdateModalOpened: false,
       isNewGroupMemberModal: false,
       isNewResultModal: false,
+      isNewHomeworkModal: false,
       headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
       headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
       headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
@@ -349,6 +356,22 @@ export default {
       const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
 
       patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
+        .then(() => this.getCourses())
+    },
+    deleteHomework(id) {
+      const currentCourse = this.getCourseById(this.$route.params.id);
+      const { homework } = currentCourse;
+      const filteredHomework = homework.filter((task) => task.id !== id);
+
+      patchCourse(this.$route.params.id, 'homework', filteredHomework)
+        .then(() => this.getCourses())
+    },
+    deleteComment(id) {
+      const currentCourse = this.getCourseById(this.$route.params.id);
+      const { comments } = currentCourse;
+      const filteredComments = comments.filter((comment) => comment.id !== id);
+
+      patchCourse(this.$route.params.id, 'comments', filteredComments)
         .then(() => this.getCourses())
     },
     deleteGroupMember(id) {
@@ -412,6 +435,9 @@ export default {
     },
     toggleNewResultModal() {
       this.isNewResultModal = !this.isNewResultModal
+    },
+    toggleNewHomeworkModal() {
+      this.isNewHomeworkModal = !this.isNewHomeworkModal
     }
   },
 };
