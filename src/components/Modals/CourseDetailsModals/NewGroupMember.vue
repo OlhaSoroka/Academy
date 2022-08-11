@@ -14,7 +14,7 @@
 
           <select
             id="applicants"
-            v-model="newApplicant"
+            v-model="newGroupMember"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option
@@ -28,7 +28,7 @@
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!newApplicant.length"
+            :disabled="!newGroupMember.length"
             @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
           >
             Add
@@ -60,7 +60,7 @@ export default {
     },
     data() {
         return {
-            newApplicant: ''
+            newGroupMember: ''
         }
     },
     computed: {
@@ -97,14 +97,14 @@ export default {
         ...mapActions("courses", ["updateCourse", 'getCourses']),
         ...mapActions('users', ['fetchUsers']),
         clearInputs() {
-            this.newApplicant = ''
+          this.newGroupMember = ''
         },
         cancelModal() {
             this.$refs.newGroupMemberModal.closeModal();
             this.clearInputs()
         },
         confirmAdding({ id, course }) {
-            const currentUser = this.users.find(el => el.id === this.newApplicant)
+          const currentUser = this.users.find(el => el.id === this.newGroupMember)
             const updatedCourse = JSON.parse(JSON.stringify(course))
             updatedCourse.group.push(currentUser)
             this.updateCourse({ id, course: updatedCourse })
