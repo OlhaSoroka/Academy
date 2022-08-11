@@ -25,7 +25,7 @@
             id="status"
             v-model="courseToAdd.status"
             rules="required"
-            class="border-2 border-sky-700 text-gray-900 text-sm rounded-lg 0 block w-full p-2.5 active:border-sky-700"
+            class="border-2 m-1 w-64 border-sky-700 focus-visible:border-sky-700 focus-visible:outline-0 text-gray-900 text-sm rounded-lg 0 block w-full py-2  checked:border-sky-700"
           >
             <option
               v-for="(status) in statuses"
