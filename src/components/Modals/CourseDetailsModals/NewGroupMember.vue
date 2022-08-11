@@ -47,76 +47,76 @@ import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseModal from "@/components/BaseComponents/BaseModal.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
-    components: { BaseButton, BaseModal },
-    props: {
-        toggleModal: {
-            type: Boolean,
-            default: false,
-        },
-        manager: {
-            type: Object,
-            default: null,
-        },
+  components: { BaseButton, BaseModal },
+  props: {
+    toggleModal: {
+      type: Boolean,
+      default: false,
     },
-    data() {
-        return {
-            newGroupMember: ''
+    manager: {
+      type: Object,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      newGroupMember: ''
+    }
+  },
+  computed: {
+    ...mapGetters('users', ['users']),
+    ...mapGetters('courses', ['getCourseById']),
+    currentRouteName() {
+      const fullPath = this.$router.history.current.path
+      const pathArray = fullPath.split('/')
+      const id = pathArray[pathArray.length - 1]
+      return id;
+    },
+    getApplicants() {
+      return this.currentCourse.applicants.filter(
+        (applicant) => {
+          return !this.currentCourse.group.some((groupMember) => groupMember.id === applicant.id)
         }
+      )
     },
-    computed: {
-        ...mapGetters('users', ['users']),
-        ...mapGetters('courses', ['getCourseById']),
-        currentRouteName() {
-            const fullPath = this.$router.history.current.path
-            const pathArray = fullPath.split('/')
-            const id = pathArray[pathArray.length - 1]
-            return id;
-        },
-        getApplicants() {
-            return this.currentCourse.applicants.filter(
-                (applicant) => {
-                    return !this.currentCourse.group.some((groupMember) => groupMember.id === applicant.id)
-                }
-            )
-        },
-        currentCourse() {
-            return this.getCourseById(this.currentRouteName)
-        }
+    currentCourse() {
+      return this.getCourseById(this.currentRouteName)
+    }
+  },
+  watch: {
+    toggleModal() {
+      this.$refs.newGroupMemberModal.openModal();
     },
-    watch: {
-        toggleModal() {
-            this.$refs.newGroupMemberModal.openModal();
-        },
-    },
+  },
 
-    async mounted() {
-        this.fetchUsers()
-    },
+  async mounted() {
+    this.fetchUsers()
+  },
 
-    methods: {
-        ...mapActions("courses", ["updateCourse", 'getCourses']),
-        ...mapActions('users', ['fetchUsers']),
-        clearInputs() {
-          this.newGroupMember = ''
-        },
-        cancelModal() {
-            this.$refs.newGroupMemberModal.closeModal();
-            this.clearInputs()
-        },
-        confirmAdding({ id, course }) {
-          const currentUser = this.users.find(el => el.id === this.newGroupMember)
-            const updatedCourse = JSON.parse(JSON.stringify(course))
-            updatedCourse.group.push(currentUser)
-            this.updateCourse({ id, course: updatedCourse })
-                .then(() => {
-                    this.getCourses();
-                })
-                .then(() => {
-                    this.$refs.newGroupMemberModal.closeModal();
-                })
-                .finally(() => this.clearInputs()
-                )
-        }
+  methods: {
+    ...mapActions("courses", ["updateCourse", 'getCourses']),
+    ...mapActions('users', ['fetchUsers']),
+    clearInputs() {
+      this.newGroupMember = ''
     },
+    cancelModal() {
+      this.$refs.newGroupMemberModal.closeModal();
+      this.clearInputs()
+    },
+    confirmAdding({ id, course }) {
+      const currentUser = this.users.find(el => el.id === this.newGroupMember)
+      const updatedCourse = JSON.parse(JSON.stringify(course))
+      updatedCourse.group.push(currentUser)
+      this.updateCourse({ id, course: updatedCourse })
+        .then(() => {
+          this.getCourses();
+        })
+        .then(() => {
+          this.$refs.newGroupMemberModal.closeModal();
+        })
+        .finally(() => this.clearInputs()
+        )
+    }
+  },
 };
 </script>

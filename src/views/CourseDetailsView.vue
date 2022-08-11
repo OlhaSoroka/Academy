@@ -67,7 +67,7 @@
             </BaseButton>
             <BaseButton
               class="nav__btn"
-              @click="openModal"
+              @click="toggleNewResultModal"
             >
               New result
             </BaseButton>
@@ -209,7 +209,8 @@
               }"
               :edit-btns="false"
               :is-data-loading="loadingStatus"
-              :delete-btns="false"
+              :delete-btns="true"
+              @delete='deleteResultRow'
             />
           </div>
           <div
@@ -246,6 +247,7 @@
     <CourseDetailsUpdateModal :toggle-modal="isUpdateModalOpened" />
     <NewApplicantModal :toggle-modal="isModalOpened" />
     <NewGroupMember :toggle-modal="isNewGroupMemberModal" />
+    <NewResultModal :toggleModal="isNewResultModal" />
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
@@ -264,6 +266,7 @@ import AddCommentModal from '../components/Modals/CourseDetailsModals/AddComment
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
 import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMember.vue';
+import NewResultModal from '../components/Modals/CourseDetailsModals/NewResultModal.vue';
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -277,7 +280,8 @@ export default {
     AddCommentModal,
     BaseTooltip,
     CourseDetailsUpdateModal,
-    NewGroupMember
+    NewGroupMember,
+    NewResultModal
   },
   data() {
     return {
@@ -286,12 +290,13 @@ export default {
       isModalOpened: false,
       isUpdateModalOpened: false,
       isNewGroupMemberModal: false,
+      isNewResultModal: false,
       headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
       headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
       headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
       headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
       headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
-      headerResults: [{ 'result in results': 'Results' }],
+      headerResults: [{ fullName: "Name" }, { score: "Results" }],
       headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
     };
   },
@@ -354,6 +359,14 @@ export default {
       patchCourse(this.$route.params.id, 'group', filteredGroup)
         .then(() => this.getCourses())
     },
+    deleteResultRow(id) {
+      const currentCourse = this.getCourseById(this.$route.params.id);
+      const { results } = currentCourse;
+      const filteredResults = results.filter((resultRow) => resultRow.id !== id);
+
+      patchCourse(this.$route.params.id, 'results', filteredResults)
+        .then(() => this.getCourses())
+    },
     previousPage() {
       this.$router.push({
         name: COURSE_DETAILS,
@@ -396,7 +409,9 @@ export default {
     },
     toggleNewGroupMemberModal() {
       this.isNewGroupMemberModal = !this.isNewGroupMemberModal
-
+    },
+    toggleNewResultModal() {
+      this.isNewResultModal = !this.isNewResultModal
     }
   },
 };
