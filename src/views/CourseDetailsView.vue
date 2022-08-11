@@ -21,13 +21,13 @@
             </h2>
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
-                <label class="font-semibold text-sky-800">Name
-                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.name }}</p>
+                <label class="main__header_label">Name
+                  <p class="main__header_text">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="font-semibold text-sky-800">Date
-                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.date }}</p>
+                <label class="main__header_label">Date
+                  <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
               <div
@@ -35,7 +35,7 @@
                 class="text-left"
               >
                 <BaseTooltip :text="courseItem.docs_link">
-                  <label class="text-xs ">
+                  <label class="main__header_label">
                     Docs :
                     <p class="text-2xl "><a
                       target="”_blank”"
@@ -53,8 +53,8 @@
                   'bg-red-400': courseItem.status === 'finished',
                 }"
               >
-                <label class="text-xs">Status
-                  <p class="text-2xl">{{ courseItem.status }}</p>
+                <label class="main__header_label">Status
+                  <p class="main__header_text">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
@@ -142,13 +142,13 @@
             </h2>
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
-                <label class="font-semibold text-sky-800">Name
-                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.name }}</p>
+                <label class="main__header_label">Name
+                  <p class="main__header_text">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="font-semibold text-sky-800">Date
-                  <p class="text-2xl font-thin text-slate-700">{{ courseItem.date }}</p>
+                <label class="main__header_label">Date
+                  <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
               <div
@@ -156,9 +156,9 @@
                 class="text-left"
               >
                 <BaseTooltip :text="courseItem.docs_link">
-                  <label class="font-semibold text-sky-800">
+                  <label class="main__header_label">
                     Docs :
-                    <p class="text-2xl font-thin text-slate-700">
+                    <p class="main__header_text">
                       <a
                         target="”_blank”"
                         :href="courseItem.docs_link"
@@ -447,5 +447,13 @@ button {
 
 .nav__courses {
 	@apply flex;
+}
+
+.main__header_label {
+  @apply font-semibold text-sky-800;
+}
+
+.main__header_text {
+  @apply text-2xl font-thin text-slate-700;
 }
 </style>
