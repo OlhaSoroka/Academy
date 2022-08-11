@@ -14,28 +14,82 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-        <h2>Main Info</h2>
-        <BaseTable
-          :table-data="{
-            headingData: headersUser,
-            bodyData: [courseItem],
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
-        <h2 class="part__text">
-          Group
-        </h2>
-        <BaseTable
-          :table-data="{
-            headingData: headersGroup,
-            bodyData: courseItem.group,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
+        <div class="grid grid-cols-2 grid-rows-2 gap-x-10 gap-y-10 ">
+          <div class="part col-span-1 col-start-1"> 
+            <h2 class="part__text">
+              Main info
+            </h2>
+            <div class="flex justify-between flex-wrap">
+              <div class="text-left">
+                <label class="text-xs">Name
+                  <p class="text-2xl">{{ courseItem.name }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="text-xs">Date
+                  <p class="text-2xl">{{ courseItem.date }}</p>
+                </label>
+              </div>
+              <div
+                v-if="courseItem.docs_link"
+                class="text-left"
+              >
+                <BaseTooltip :text="courseItem.docs_link">
+                  <label class="text-xs ">
+                    Docs :
+                    <p class="text-2xl "><a
+                      target="”_blank”"
+                      :href="courseItem.docs_link"
+                    >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                  </label>
+                </BaseTooltip>
+              </div>
+              <div
+                v-if="courseItem.status === 'not started'"
+                class="text-left p-1 rounded-md"
+                :class="{
+                  'bg-blue-300': courseItem.status === 'not started',
+                  'bg-green-500': courseItem.status === 'in progress',
+                  'bg-red-400': courseItem.status === 'finished',
+                }"
+              >
+                <label class="text-xs">Status
+                  <p class="text-2xl">{{ courseItem.status }}</p>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="part col-span-1 col-start-2 row-span-2">
+            <h2 class="part__text">
+              Homeworks
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerHomework,
+                bodyData: courseItem.homework,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+          <div class="part col-span-1 col-start-1">
+            <h2 class="part__text">
+              Group
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headersGroup,
+                bodyData: courseItem.group,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <div v-else-if="isManagerOrAdmin">
@@ -79,7 +133,6 @@
             >
               Next
             </BaseButton>
-
           </div>
         </nav>
         <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10 ">
@@ -106,9 +159,9 @@
                   <label class="text-xs ">
                     Docs :
                     <p class="text-2xl "><a
-                        target=”_blank”
-                        :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                      target="”_blank”"
+                      :href="courseItem.docs_link"
+                    >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -189,8 +242,8 @@
             />
           </div>
           <div
-            class="part col-span-3"
             v-if="courseItem.comments.length"
+            class="part col-span-3 col-start-3"
           >
             <h2 class="part__text">
               Comments
@@ -207,6 +260,8 @@
             />
           </div>
         </div>
+        <NewApplicantModal :toggle-modal="isModalOpened" />
+        <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
       </div>
     </div>
     <div v-else>
@@ -219,8 +274,6 @@
         Back
       </BaseButton>
     </div>
-    <NewApplicantModal :toggle-modal="isModalOpened" />
-    <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
 
@@ -255,11 +308,11 @@ export default {
       comments: "",
       isModalOpened: false,
       headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
-      headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
+      headersGroup: [{ fullName: 'Full Name' }, { email: 'Email' }],
       headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
-      headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
+      headerApplicants: [{ fullName: 'Full Name' }, { initialScore: 'Initial Score' }],
       headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
-      headerResults: [{ 'result in results': 'Results' }],
+      headerResults: [{ 'esult in results': 'Results' }],
       headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
     };
   },
@@ -357,11 +410,11 @@ export default {
 
 <style lang="postcss" scoped>
 .table {
-  @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+  @apply border rounded-md border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
 
 .part {
-  @apply shadow-lg bg-stone-50 p-2
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md p-4 
 }
 
 button {
@@ -377,7 +430,7 @@ button {
 }
 
 .courses__container {
-  @apply flex justify-center flex-col mt-10 w-[85vw];
+  @apply flex justify-center flex-col mt-10 w-[89vw];
 
 }
 
