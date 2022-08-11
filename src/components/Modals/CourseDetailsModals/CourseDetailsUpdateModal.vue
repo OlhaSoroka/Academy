@@ -1,48 +1,48 @@
 <template>
-  <BaseModal
-    ref="cdUpdateModal"
-    :header="'Update course details'"
-    @isClosed="clearInputs()"
-  >
-    <template #body>
-      <div class="flex justify-center flex-col mt-7  gap-10">
-        <div class="text-left">
-          <label
-            class=""
-            for="name"
-          >Name of course</label>
-          <BaseInput
-            id="name"
-            v-model="newName"
-          />
-          <label for="docs">Docs link</label>
-          <BaseInput
-            id="docs"
-            v-model="newDocs_link"
-          />
-          <BaseInput
-            v-model="newDate"
-            type="date"
-            label="Date"
-            rules="required"
-            onkeydown="return false"
-          />
-          <BaseSelect
-            v-model="newStatus"
-            :options="['in progress', 'finished', 'not started']"
-          />
-        </div>
-        <div class="mx-1 flex gap-10">
-          <BaseButton @click="submit">
-            Update
-          </BaseButton>
-          <BaseButton @click="cancel">
-            Cancel
-          </BaseButton>
-        </div>
-      </div>
-    </template>
-  </BaseModal>
+    <BaseModal
+        ref="cdUpdateModal"
+        :header="'Update course details'"
+        @isClosed="clearInputs()"
+    >
+        <template #body>
+            <div class="flex justify-center flex-col mt-7  gap-10">
+                <div class="text-left">
+                    <label
+                        class=""
+                        for="name"
+                    >Name of course</label>
+                    <BaseInput
+                        id="name"
+                        v-model="newName"
+                    />
+                    <label for="docs">Docs link</label>
+                    <BaseInput
+                        id="docs"
+                        v-model="newDocs_link"
+                    />
+                    <BaseInput
+                        v-model="newDate"
+                        type="date"
+                        label="Date"
+                        rules="required"
+                        onkeydown="return false"
+                    />
+                    <BaseSelect
+                        v-model="newStatus"
+                        :options="['in progress', 'finished', 'not started']"
+                    />
+                </div>
+                <div class="mx-1 flex gap-10">
+                    <BaseButton @click="submit">
+                        Update
+                    </BaseButton>
+                    <BaseButton @click="cancel">
+                        Cancel
+                    </BaseButton>
+                </div>
+            </div>
+        </template>
+    </BaseModal>
 </template>
 
 <script>
@@ -104,7 +104,9 @@ export default {
         makeDate(propsDate) {
             // case dd/mm/yyyy -> yyyy-mm--dd
             const date = propsDate.split('/')
-            if (date.length) return `${date[2]}-${date[1]}-${date[0]}`
+
+            if (date.length > 1) return `${date[2]}-${date[1]}-${date[0]}`
+
 
             return propsDate
         },

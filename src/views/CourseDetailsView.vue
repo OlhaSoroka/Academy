@@ -112,7 +112,7 @@
             <h2 class="part__text">
               Main info
             </h2>
-            <div class="flex justify-between flex-wrap">
+            <div class="flex flex-col gap-5">
               <div class="text-left">
                 <label class="text-xs">Name
                   <p class="text-2xl">{{ courseItem.name }}</p>
@@ -138,7 +138,7 @@
                 </BaseTooltip>
               </div>
               <div
-                class="text-left p-1 rounded-md"
+                class="text-left p-1 rounded-md w-fit"
                 :class="{
                   'bg-blue-300': courseItem.status === 'not started',
                   'bg-green-500': courseItem.status === 'in progress',
