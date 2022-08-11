@@ -216,6 +216,14 @@ export default {
           model: "password",
           type: "password",
           placeholder: "Enter password",
+          vid: "password"
+        },
+        {
+          label: "Confirm new password",
+          model: "confirmpassword",
+          type: "password",
+          vid: "confirmpassword",
+          placeholder: "Confirm password",          
         },
         {
           label: "Course",

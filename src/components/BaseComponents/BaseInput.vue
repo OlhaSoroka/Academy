@@ -23,8 +23,7 @@
         </span>
         <span v-if="errors.length > 0 && vid === 'confirmpassword'">
           Passwords do not match
-        </span>
-        <!-- <span v-else>{{ errors[0] }}</span> -->
+        </span>        
       </p>
     </div>
   </ValidationProvider>
