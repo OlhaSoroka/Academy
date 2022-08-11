@@ -10,7 +10,7 @@
         </h3>
       </div>
       <div 
-        v-if="isManagerOrAdmin"
+        v-if="isManager || isAdmin"
       >
         <BaseButton
           :loading="loadingStatus"
@@ -36,7 +36,7 @@
         />
       </div>
     </div>
-    <div v-else-if="isManagerOrAdmin">
+    <div v-else-if="isManager || isAdmin">
       <div class="courses__table_container">
         <BaseTable
           class="text-center"
@@ -126,13 +126,20 @@ export default {
         return false;
       }
     },
-    isManagerOrAdmin() {
+    isManager() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+        return this.user.role === MANAGER_ROLE;
       } else {
         return false;
       }
     },
+    isAdmin() {
+      if (this.user) {
+        return this.user.role === ADMIN_ROLE;
+      } else {
+        return false;
+      }
+    }
   },
   mounted() {
     this.getCourses();
