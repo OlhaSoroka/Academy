@@ -75,7 +75,7 @@
               class="nav__btn"
               @click="toggleUpdateModal"
             >
-              update main info
+              Update main info
             </BaseButton>
             <BaseButton
               class="nav__btn"

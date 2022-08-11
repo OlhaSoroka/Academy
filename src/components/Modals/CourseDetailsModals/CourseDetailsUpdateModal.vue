@@ -54,79 +54,82 @@ import BaseSelect from '@/components/BaseComponents/BaseSelect/BaseSelect.vue';
 // import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
 export default {
-    components: {
-        BaseModal,
-        BaseButton,
-        BaseInput,
-        BaseSelect
+  components: {
+    BaseModal,
+    BaseButton,
+    BaseInput,
+    BaseSelect
+  },
+  props: {
+    toggleModal: {
+      type: Boolean,
+      default: false,
     },
-    props: {
-        toggleModal: {
-            type: Boolean,
-            default: false,
-        },
+  },
+  data() {
+    return {
+      newStatus: "",
+      newName: "",
+      newDate: "",
+      newDocs_link: "",
+    };
+  },
+  computed: {
+    ...mapGetters('courses', ['getCourseById']),
+  },
+  watch: {
+    toggleModal() {
+      this.$refs.cdUpdateModal.openModal();
     },
-    data() {
-        return {
-            newStatus: "",
-            newName: "",
-            newDate: "",
-            newDocs_link: "",
-        };
+  },
+  async mounted() {
+    await this.getCourses()
+
+    let currentItem = await this.getCourseById(this.$route.params.id);
+
+    const { status, name, docs_link, date } = currentItem
+    this.newStatus = status
+    this.newName = name
+    this.newDate = this.makeDate(date)
+    this.newDocs_link = docs_link
+
+  },
+  methods: {
+    ...mapActions('courses', ['addNewComment', 'getCourses', 'updateCourse']),
+    clearInputs() {
+      this.newStatus = ""
+      this.newName = ""
+      this.newDate = ""
+      this.newDocs_link = ""
     },
-    computed: {
-        ...mapGetters('courses', ['getCourseById']),
+    makeDate(propsDate) {
+      // case dd/mm/yyyy -> yyyy-mm--dd
+      const date = propsDate.split('/')
+
+      if (date.length > 1) return `${date[2]}-${date[1]}-${date[0]}`
+
+      return propsDate
     },
-    watch: {
-        toggleModal() {
-            this.$refs.cdUpdateModal.openModal();
-        },
+    async submit() {
+      let currentItem = this.getCourseById(this.$route.params.id);
+      let itemCopy = JSON.parse(JSON.stringify(currentItem))
+
+      itemCopy = {
+        ...itemCopy,
+        name: this.newName,
+        status: this.newStatus,
+        date: this.newDate,
+        docs_link: this.newDocs_link
+      }
+
+      await this.updateCourse({ id: itemCopy.id, course: itemCopy })
+      await this.getCourses()
+      this.$refs.cdUpdateModal.closeModal();
     },
-    async mounted() {
-        await this.getCourses()
-
-        let currentItem = await this.getCourseById(this.$route.params.id);
-
-        const { status, name, docs_link, date } = currentItem
-        this.newStatus = status
-        this.newName = name
-        this.newDate = this.makeDate(date)
-        this.newDocs_link = docs_link
-
+    cancel() {
+      this.$refs.cdUpdateModal.closeModal();
     },
-    methods: {
-        ...mapActions('courses', ['addNewComment', 'getCourses', 'updateCourse']),
-        clearInputs() {
-
-        },
-        makeDate(propsDate) {
-            // case dd/mm/yyyy -> yyyy-mm--dd
-            const date = propsDate.split('/')
-
-            if (date.length > 1) return `${date[2]}-${date[1]}-${date[0]}`
-
-            return propsDate
-        },
-        async submit() {
-            let currentItem = this.getCourseById(this.$route.params.id);
-            let itemCopy = JSON.parse(JSON.stringify(currentItem))
-
-            itemCopy = {
-                ...itemCopy,
-                name: this.newName,
-                status: this.newStatus,
-                date: this.newDate,
-                docs_link: this.newDocs_link
-            }
-
-            await this.updateCourse({ id: itemCopy.id, course: itemCopy })
-            await this.getCourses()
-            this.$refs.cdUpdateModal.closeModal();
-        },
-        cancel() {
-            this.$refs.cdUpdateModal.closeModal();
-        },
-    },
+  },
 
 };
 </script>

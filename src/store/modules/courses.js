@@ -130,10 +130,18 @@ export default {
 					)
 				})
 		},
-		async updateCourse(action, payload) {
-			const { id, course } = payload
-			await updateCourseById(id, course)
-			// await dispatch("getCourses")
+		async updateCourse({ dispatch }, payload) {
+			try {
+				const { id, course } = payload
+				await updateCourseById(id, course)
+			} catch (error) {
+				const errorMessage = error.response?.data?.error || error.message
+				dispatch(
+					"toast/show",
+					{ message: errorMessage, type: "error" },
+					{ root: true }
+				)
+			}
 		},
 	},
 }
