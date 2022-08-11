@@ -130,9 +130,9 @@
                   <label class="text-xs ">
                     Docs
                     <p class="text-2xl "><a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                      target="”_blank”"
+                      :href="courseItem.docs_link"
+                    >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -211,7 +211,7 @@
               :edit-btns="false"
               :is-data-loading="loadingStatus"
               :delete-btns="true"
-              @delete='deleteResultRow'
+              @delete="deleteResultRow"
             />
           </div>
           <div
@@ -249,8 +249,8 @@
     <CourseDetailsUpdateModal :toggle-modal="isUpdateModalOpened" />
     <NewApplicantModal :toggle-modal="isModalOpened" />
     <NewGroupMember :toggle-modal="isNewGroupMemberModal" />
-    <NewResultModal :toggleModal="isNewResultModal" />
-    <NewHomeWorkModal :toggleModal="isNewHomeworkModal" />
+    <NewResultModal :toggle-modal="isNewResultModal" />
+    <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
