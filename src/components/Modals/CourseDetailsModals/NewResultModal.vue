@@ -27,7 +27,6 @@
           </select>
           <BaseInput
             v-model="score"
-            :type="number"
             placeholder="Type score here..."
           />
         </div>
