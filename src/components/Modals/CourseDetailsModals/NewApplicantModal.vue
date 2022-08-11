@@ -93,7 +93,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("courses", ["addNewApplicant", 'getCourses']),
+    ...mapActions("courses", ["updateCourse", 'getCourses']),
     ...mapActions('users', ['fetchUsers']),
     clearInputs() {
       this.newApplicant = ''
@@ -106,7 +106,7 @@ export default {
       const currentUser = this.users.find(el => el.id === this.newApplicant)
       const updatedCourse = JSON.parse(JSON.stringify(course))
       updatedCourse.applicants.push(currentUser)
-      this.addNewApplicant({ id, course: updatedCourse })
+      this.updateCourse({ id, course: updatedCourse })
         .then(() => {
           this.getCourses();
         })

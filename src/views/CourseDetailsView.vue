@@ -57,8 +57,33 @@
               class="nav__btn"
               @click="openModal"
             >
+              new group member
+            </BaseButton>
+            <BaseButton
+              class="nav__btn"
+              @click="openModal"
+            >
+              new homework
+            </BaseButton>
+            <BaseButton
+              class="nav__btn"
+              @click="openModal"
+            >
+              new result
+            </BaseButton>
+            <BaseButton
+              class="nav__btn"
+              @click="toggleUpdateModal"
+            >
+              update main info
+            </BaseButton>
+            <BaseButton
+              class="nav__btn"
+              @click="openModal"
+            >
               Add new applicant
             </BaseButton>
+
             <BaseButton
               class="nav__btn whitespace-nowrap"
               @click="openAddCommentModal"
@@ -104,7 +129,7 @@
               >
                 <BaseTooltip :text="courseItem.docs_link">
                   <label class="text-xs ">
-                    Docs :
+                    Docs
                     <p class="text-2xl "><a
                         target=”_blank”
                         :href="courseItem.docs_link"
@@ -113,7 +138,6 @@
                 </BaseTooltip>
               </div>
               <div
-                v-if="courseItem.status === 'not started'"
                 class="text-left p-1 rounded-md"
                 :class="{
                   'bg-blue-300': courseItem.status === 'not started',
@@ -219,6 +243,7 @@
         Back
       </BaseButton>
     </div>
+    <CourseDetailsUpdateModal :toggleModal="isUpdateModalOpened" />
     <NewApplicantModal :toggle-modal="isModalOpened" />
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
@@ -232,10 +257,11 @@ import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
 import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
-import NewApplicantModal from '@/components/Modals/NewApplicantModal.vue';
+import NewApplicantModal from '@/components/Modals/CourseDetailsModals/NewApplicantModal.vue';
 import { patchCourse, } from '.././api/course/index';
-import AddCommentModal from '../components/Modals/AddCommentModal.vue';
+import AddCommentModal from '../components/Modals/CourseDetailsModals/AddCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
+import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -248,12 +274,14 @@ export default {
     NewApplicantModal,
     AddCommentModal,
     BaseTooltip,
+    CourseDetailsUpdateModal
   },
   data() {
     return {
       isAddCommentModalOpen: false,
       comments: "",
       isModalOpened: false,
+      isUpdateModalOpened: false,
       headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
       headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
       headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
@@ -312,7 +340,8 @@ export default {
       const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
 
 
-      patchCourse(this.$route.params.id, 'applicants', filteredApplicants).then(() => this.getCourses());
+      patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
+        .then(() => this.getCourses())
     },
     previousPage() {
       this.$router.push({
@@ -351,6 +380,9 @@ export default {
     openAddCommentModal() {
       this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
     },
+    toggleUpdateModal() {
+      this.isUpdateModalOpened = !this.isUpdateModalOpened
+    }
   },
 };
 </script>
