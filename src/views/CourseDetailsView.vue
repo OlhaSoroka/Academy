@@ -113,7 +113,6 @@
                 </BaseTooltip>
               </div>
               <div
-                v-if="courseItem.status === 'not started'"
                 class="text-left p-1 rounded-md"
                 :class="{
                   'bg-blue-300': courseItem.status === 'not started',
