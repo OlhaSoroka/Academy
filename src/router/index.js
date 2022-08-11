@@ -34,9 +34,18 @@ import {
 	NOT_FOUND
 } from "@/constants/routes.constant"
 import { authGuard, roleGuard } from "./utils"
-import store from "../store/index"
+import { getAllCourses } from "../api/course/index";
 
 Vue.use(VueRouter)
+
+async function isValidId (route) {
+	getAllCourses();
+	const courses = await getAllCourses();
+	const ids = courses.map(({id}) => id);
+    if (!ids.includes(+route.params.id)) router.push({
+        name: NOT_FOUND,   params: { pathMatch: "notFound" },
+      })
+  }
 
 const routes = [
 	{
@@ -89,28 +98,12 @@ const routes = [
         name: COURSE_DASHBOARD,
         component: CoursesDashboardView,
       },
-      /* {
+      {
         path: ":id",
         name: COURSE_DETAILS,
         component: CourseDetailsView,
-        props: true,
-      }, */
-      {
-      path: ":id",
-      name: COURSE_DETAILS,
-      component: CourseDetailsView,
-      beforeEnter: ((to, from, next) => {
-		const courses = store.getters["courses/courses"];
-		const ids = courses.map(course => {
-            return course.id;
-          });
-       if (ids.includes(to.params.id)){
-		next()
-        } else {
-		next({name: NOT_FOUND, params: { pathMatch: "notFound" }})
-        }
-      })
-	}
+        props: isValidId,
+      }
     ],
   },
 	{
