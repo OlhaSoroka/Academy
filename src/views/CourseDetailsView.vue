@@ -55,21 +55,21 @@
           <div class="nav__courses flex">
             <BaseButton
               class="nav__btn"
-              @click="openModal"
+              @click="toggleNewGroupMemberModal"
             >
-              new group member
+              New group member
             </BaseButton>
             <BaseButton
               class="nav__btn"
               @click="openModal"
             >
-              new homework
+              New homework
             </BaseButton>
             <BaseButton
               class="nav__btn"
               @click="openModal"
             >
-              new result
+              New result
             </BaseButton>
             <BaseButton
               class="nav__btn"
@@ -81,7 +81,7 @@
               class="nav__btn"
               @click="openModal"
             >
-              Add new applicant
+              New applicant
             </BaseButton>
 
             <BaseButton
@@ -104,7 +104,6 @@
             >
               Next
             </BaseButton>
-
           </div>
         </nav>
         <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10 ">
@@ -131,9 +130,9 @@
                   <label class="text-xs ">
                     Docs
                     <p class="text-2xl "><a
-                        target=”_blank”
-                        :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                      target="”_blank”"
+                      :href="courseItem.docs_link"
+                    >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -213,8 +212,8 @@
             />
           </div>
           <div
-            class="part col-span-3"
             v-if="courseItem.comments.length"
+            class="part col-span-3"
           >
             <h2 class="part__text">
               Comments
@@ -243,8 +242,9 @@
         Back
       </BaseButton>
     </div>
-    <CourseDetailsUpdateModal :toggleModal="isUpdateModalOpened" />
+    <CourseDetailsUpdateModal :toggle-modal="isUpdateModalOpened" />
     <NewApplicantModal :toggle-modal="isModalOpened" />
+    <NewGroupMember :toggle-modal="isNewGroupMemberModal" />
     <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
@@ -262,6 +262,7 @@ import { patchCourse, } from '.././api/course/index';
 import AddCommentModal from '../components/Modals/CourseDetailsModals/AddCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
+import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMember.vue';
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -274,7 +275,8 @@ export default {
     NewApplicantModal,
     AddCommentModal,
     BaseTooltip,
-    CourseDetailsUpdateModal
+    CourseDetailsUpdateModal,
+    NewGroupMember
   },
   data() {
     return {
@@ -282,6 +284,7 @@ export default {
       comments: "",
       isModalOpened: false,
       isUpdateModalOpened: false,
+      isNewGroupMemberModal: false,
       headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
       headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
       headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
@@ -382,6 +385,10 @@ export default {
     },
     toggleUpdateModal() {
       this.isUpdateModalOpened = !this.isUpdateModalOpened
+    },
+    toggleNewGroupMemberModal() {
+      this.isNewGroupMemberModal = !this.isNewGroupMemberModal
+
     }
   },
 };
