@@ -23,7 +23,10 @@
           >
             Add
           </BaseButton>
-          <BaseButton @click="cancelModal">
+          <BaseButton
+            :variant="btn_red"
+            @click="cancelModal"
+          >
             Cancel
           </BaseButton>
         </div>
@@ -38,76 +41,76 @@ import BaseModal from "@/components/BaseComponents/BaseModal.vue";
 import { mapActions, mapGetters } from "vuex";
 import BaseInput from "@/components/BaseComponents/BaseInput.vue";
 export default {
-    components: { BaseButton, BaseModal, BaseInput },
-    props: {
-        toggleModal: {
-            type: Boolean,
-            default: false,
-        },
-        manager: {
-            type: Object,
-            default: null,
-        },
+  components: { BaseButton, BaseModal, BaseInput },
+  props: {
+    toggleModal: {
+      type: Boolean,
+      default: false,
     },
-    data() {
-        return {
-            name: '',
-            date: ""
-        }
+    manager: {
+      type: Object,
+      default: null,
     },
-    computed: {
-        ...mapGetters('users', ['users']),
-        ...mapGetters('user', ['user']),
-        ...mapGetters('courses', ['getCourseById']),
-        currentRouteName() {
-            const fullPath = this.$router.history.current.path
-            const pathArray = fullPath.split('/')
-            const id = pathArray[pathArray.length - 1]
-            return id;
-        },
-
-        currentCourse() {
-            return this.getCourseById(this.currentRouteName)
-        }
-    },
-    watch: {
-        toggleModal() {
-            this.$refs.newHomework.openModal();
-        },
+  },
+  data() {
+    return {
+      name: '',
+      date: ""
+    }
+  },
+  computed: {
+    ...mapGetters('users', ['users']),
+    ...mapGetters('user', ['user']),
+    ...mapGetters('courses', ['getCourseById']),
+    currentRouteName() {
+      const fullPath = this.$router.history.current.path
+      const pathArray = fullPath.split('/')
+      const id = pathArray[pathArray.length - 1]
+      return id;
     },
 
-    async mounted() {
-        this.fetchUsers()
+    currentCourse() {
+      return this.getCourseById(this.currentRouteName)
+    }
+  },
+  watch: {
+    toggleModal() {
+      this.$refs.newHomework.openModal();
     },
+  },
 
-    methods: {
-        ...mapActions("courses", ["updateCourse", 'getCourses']),
-        ...mapActions('users', ['fetchUsers']),
-        clearInputs() {
-            this.name = ''
-        },
-        cancelModal() {
-            this.$refs.newHomework.closeModal();
-            this.clearInputs()
-        },
-        confirmAdding({ id, course }) {
-            const updatedCourse = JSON.parse(JSON.stringify(course))
+  async mounted() {
+    this.fetchUsers()
+  },
 
-            updatedCourse.homework.push({
-                id: `${this.name} (${this.user.fullName})`,
-                name: `${this.name} (${this.user.fullName})`,
-                date: this.date
-            })
-            this.updateCourse({ id, course: updatedCourse })
-                .then(() => {
-                    this.getCourses();
-                })
-                .then(() => {
-                    this.$refs.newHomework.closeModal();
-                })
-                .finally(() => this.clearInputs()
-                )
-        }
+  methods: {
+    ...mapActions("courses", ["updateCourse", 'getCourses']),
+    ...mapActions('users', ['fetchUsers']),
+    clearInputs() {
+      this.name = ''
     },
+    cancelModal() {
+      this.$refs.newHomework.closeModal();
+      this.clearInputs()
+    },
+    confirmAdding({ id, course }) {
+      const updatedCourse = JSON.parse(JSON.stringify(course))
+
+      updatedCourse.homework.push({
+        id: `${this.name}  (${this.user.fullName})`,
+        name: `${this.name} (${this.user.fullName})`,
+        date: this.date
+      })
+      this.updateCourse({ id, course: updatedCourse })
+        .then(() => {
+          this.getCourses();
+        })
+        .then(() => {
+          this.$refs.newHomework.closeModal();
+        })
+        .finally(() => this.clearInputs()
+        )
+    }
+  },
 };
 </script>

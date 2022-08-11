@@ -33,7 +33,10 @@
           >
             Add
           </BaseButton>
-          <BaseButton @click="cancelModal">
+          <BaseButton
+            :variant="btn_red"
+            @click="cancelModal"
+          >
             Cancel
           </BaseButton>
         </div>

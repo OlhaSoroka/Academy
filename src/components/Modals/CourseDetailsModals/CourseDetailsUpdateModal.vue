@@ -36,7 +36,10 @@
           <BaseButton @click="submit">
             Update
           </BaseButton>
-          <BaseButton @click="cancel">
+          <BaseButton
+            :variant="btn_red"
+            @click="cancel"
+          >
             Cancel
           </BaseButton>
         </div>
