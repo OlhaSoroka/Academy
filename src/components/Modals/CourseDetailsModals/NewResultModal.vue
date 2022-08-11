@@ -10,7 +10,7 @@
           <label
             for="applicants"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >Select an option</label>
+          >Select a member of group, whose result you want to add </label>
 
           <select
             id="applicants"

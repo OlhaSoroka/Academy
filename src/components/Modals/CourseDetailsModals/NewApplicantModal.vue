@@ -10,7 +10,7 @@
           <label
             for="applicants"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >Select an option</label>
+          >Select the user, to become an applicant</label>
 
           <select
             id="applicants"
