@@ -2,6 +2,7 @@
   <BaseModal
     ref="newApplicantModal"
     :header="'Add new applicant'"
+    @isClosed="clearInputs()"
   >
     <template #body>
       <div class="flex justify-center flex-col mt-7  gap-10">
@@ -32,7 +33,10 @@
           >
             Add
           </BaseButton>
-          <BaseButton @click="cancelModal">
+          <BaseButton 
+            :variant="'btn_red'"
+            @click="cancelModal"
+          >
             Cancel
           </BaseButton>
         </div>
@@ -94,9 +98,12 @@ export default {
   methods: {
     ...mapActions("courses", ["addNewApplicant", 'getCourses']),
     ...mapActions('users', ['fetchUsers']),
+    clearInputs() {
+      this.newApplicant = ''
+    },
     cancelModal() {
       this.$refs.newApplicantModal.closeModal();
-      this.newApplicant = ''
+      this.clearInputs()
     },
     confirmAdding({ id, course }) {
       const currentUser = this.users.find(el => el.id === this.newApplicant)
@@ -104,12 +111,12 @@ export default {
       updatedCourse.applicants.push(currentUser)
       this.addNewApplicant({ id, course: updatedCourse })
         .then(() => {
-          this.getCourses()
+          this.getCourses();
         })
         .then(() => {
           this.$refs.newApplicantModal.closeModal();
         })
-        .finally(() => this.newApplicant = ''
+        .finally(() => this.clearInputs()
         )
     }
   },

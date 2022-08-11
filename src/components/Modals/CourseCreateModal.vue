@@ -21,6 +21,20 @@
             rules="required"
             onkeydown="return false"
           />
+          <select
+            id="status"
+            v-model="courseToAdd.status"
+            rules="required"
+            class="border-2 m-1 w-64 border-sky-700 focus-visible:border-sky-700 focus-visible:outline-0 text-gray-900 text-sm rounded-lg 0 block w-full py-2  checked:border-sky-700"
+          >
+            <option
+              v-for="(status) in statuses"
+              :key="status"
+              :value="status"
+            >
+              {{ status }}
+            </option>
+          </select>
           <div class="flex justify-evenly mt-5">
             <div class="mx-2">
               <BaseButton
@@ -68,7 +82,9 @@ export default {
         id: 0,
         name: "",
         date: "",
+        status: "not started"
       },
+      statuses: ["not started", "in progress", "finished"]
     }
   },
   computed: {
@@ -80,17 +96,18 @@ export default {
     },
   },
   methods: {
-    ...mapActions('courses', ["addCourseToState"]),
+    ...mapActions('courses', ["createNewCourse"]),
     clearInputs() {
       this.courseToAdd = {
         name: "",
         date: "",
+        status: "not started",
       }
     },
     submitCourseCreateButton() {
       let newCourse = { ...this.courseToAdd }
-      const { name, date } = newCourse;
-      if (name !== "" && date !== "") {
+      const { name, date, status } = newCourse;
+      if (name !== "" && date !== "" && status !=="") {
         if (this.courses.length > 0) {
           const ids = this.courses.map(course => {
             return course.id;
@@ -107,9 +124,8 @@ export default {
           group: [],
           homework: [],
           results: [],
-          status: "in future",
         }
-        this.addCourseToState(newCourse)
+        this.createNewCourse(newCourse)
         this.$refs.courseCreateModal.closeModal()
       }
     },

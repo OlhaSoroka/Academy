@@ -12,7 +12,7 @@
         You can back to
         <button 
           class="text-sky-700 underline" 
-          @click="goTOCourses"
+          @click="goToCourses"
         >
           Courses
         </button>
@@ -26,7 +26,7 @@ import { COURSE_DASHBOARD } from "../constants/routes.constant";
 
 export default {
   methods: {
-    goTOCourses() {
+    goToCourses() {
       this.$router.push({ name: COURSE_DASHBOARD });
     },
   },

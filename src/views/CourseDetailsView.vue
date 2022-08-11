@@ -14,31 +14,87 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-        <h2>Main Info</h2>
-        <BaseTable
-          :table-data="{
-            headingData: headersUser,
-            bodyData: [courseItem],
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
-        <h2 class="part__text">
-          Group
-        </h2>
-        <BaseTable
-          :table-data="{
-            headingData: headersGroup,
-            bodyData: courseItem.group,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
+        <div class="grid grid-cols-2 grid-rows-2 gap-x-10 gap-y-10 ">
+          <div class="part col-span-1 col-start-1"> 
+            <h2 class="part__text">
+              Main info
+            </h2>
+            <div class="flex justify-between flex-wrap">
+              <div class="text-left">
+                <label class="main__header_label">Name
+                  <p class="main__header_text">{{ courseItem.name }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date
+                  <p class="main__header_text">{{ courseItem.date }}</p>
+                </label>
+              </div>
+              <div
+                v-if="courseItem.docs_link"
+                class="text-left"
+              >
+                <BaseTooltip :text="courseItem.docs_link">
+                  <label class="main__header_label">
+                    Docs :
+                    <p class="main__header_text">
+                      <a
+                        target="”_blank”"
+                        :href="courseItem.docs_link"
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                    </p>
+                  </label>
+                </BaseTooltip>
+              </div>
+              <div
+                v-if="courseItem.status === 'not started'"
+                class="text-left p-1 rounded-md"
+                :class="{
+                  'bg-blue-300': courseItem.status === 'not started',
+                  'bg-green-500': courseItem.status === 'in progress',
+                  'bg-red-400': courseItem.status === 'finished',
+                }"
+              >
+                <label class="main__header_label">Status
+                  <p class="main__header_text">{{ courseItem.status }}</p>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="part col-span-1 col-start-2 row-span-2">
+            <h2 class="part__text">
+              Homeworks
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerHomework,
+                bodyData: courseItem.homework,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+          <div class="part col-span-1 col-start-1">
+            <h2 class="part__text">
+              Group
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headersGroup,
+                bodyData: courseItem.group,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+        </div>
       </div>
     </div>
-    <div v-else-if="isManagerOrAdmin">
+    <div v-else-if="isManager || isAdmin">
       <div
         v-if="courseItem"
         class="text-center my-3"
@@ -79,23 +135,22 @@
             >
               Next
             </BaseButton>
-
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10 ">
+        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10">
           <div class="part col-span-2 col-start-1 row-span-1">
             <h2 class="part__text">
               Main info
             </h2>
             <div class="flex justify-between flex-wrap">
               <div class="text-left">
-                <label class="text-xs">Name
-                  <p class="text-2xl">{{ courseItem.name }}</p>
+                <label class="main__header_label">Name
+                  <p class="main__header_text">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="text-xs">Date
-                  <p class="text-2xl">{{ courseItem.date }}</p>
+                <label class="main__header_label">Date
+                  <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
               <div
@@ -103,17 +158,18 @@
                 class="text-left"
               >
                 <BaseTooltip :text="courseItem.docs_link">
-                  <label class="text-xs ">
+                  <label class="main__header_label">
                     Docs :
-                    <p class="text-2xl "><a
-                        target=”_blank”
+                    <p class="main__header_text">
+                      <a
+                        target="”_blank”"
                         :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                    </p>
                   </label>
                 </BaseTooltip>
               </div>
               <div
-                v-if="courseItem.status === 'not started'"
                 class="text-left p-1 rounded-md"
                 :class="{
                   'bg-blue-300': courseItem.status === 'not started',
@@ -128,7 +184,7 @@
             </div>
           </div>
           <div class="part col-span-3 col-start-3">
-            <h2 class="part__text ">
+            <h2 class="part__text">
               Applicants
             </h2>
             <BaseTable
@@ -190,7 +246,7 @@
           </div>
           <div
             v-if="courseItem.comments.length"
-            class="part col-span-3"
+            class="part col-span-3 col-start-3"
           >
             <h2 class="part__text">
               Comments
@@ -207,6 +263,8 @@
             />
           </div>
         </div>
+        <NewApplicantModal :toggle-modal="isModalOpened" />
+        <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
       </div>
     </div>
     <div v-else>
@@ -219,8 +277,6 @@
         Back
       </BaseButton>
     </div>
-    <NewApplicantModal :toggle-modal="isModalOpened" />
-    <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
 
@@ -233,162 +289,180 @@ import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
 import NewApplicantModal from '@/components/Modals/NewApplicantModal.vue';
-import { patchCourse, } from '.././api/course/index';
+import { patchCourse } from '.././api/course/index';
 import AddCommentModal from '../components/Modals/AddCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 
 Object.keys(rules).forEach((rule) => {
-  extend(rule, rules[rule]);
+	extend(rule, rules[rule]);
 });
 
 export default {
-  components: {
-    BaseTable,
-    BaseButton,
-    NewApplicantModal,
-    AddCommentModal,
-    BaseTooltip,
-  },
-  data() {
-    return {
-      isAddCommentModalOpen: false,
-      comments: "",
-      isModalOpened: false,
-      headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
-      headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
-      headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
-      headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
-      headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
-      headerResults: [{ 'result in results': 'Results' }],
-      headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
-    };
-  },
-  computed: {
-    ...mapGetters('courses', [
-      'loadingStatus',
-      'getCourseById',
-      'courseIndex',
-      'nextCourseId',
-      'previousCourseId',
-      "lastCourseId",
-      "firstCourseId",
-    ]),
-    ...mapGetters('user', ['user']),
-    isUser() {
+	components: {
+		BaseTable,
+		BaseButton,
+		NewApplicantModal,
+		AddCommentModal,
+		BaseTooltip,
+	},
+	data() {
+		return {
+			isAddCommentModalOpen: false,
+			comments: '',
+			isModalOpened: false,
+			headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
+			headersGroup: [{ fullName: 'Full Name' }, { email: 'Email' }],
+			headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
+			headerApplicants: [{ fullName: 'Full Name' }, { initialScore: 'Initial Score' }],
+			headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
+			headerResults: [{ user: 'User' }, { resultScore: 'Result' }],
+			headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
+		};
+	},
+	computed: {
+		...mapGetters('courses', [
+			'loadingStatus',
+			'getCourseById',
+			'courseIndex',
+			'nextCourseId',
+			'previousCourseId',
+			'lastCourseId',
+			'firstCourseId',
+		]),
+		...mapGetters('user', ['user']),
+		isUser() {
+			if (this.user) {
+				return this.user.role === USER_ROLE;
+			} else {
+				return false;
+			}
+		},
+		isManager() {
       if (this.user) {
-        return this.user.role === USER_ROLE;
+        return this.user.role === MANAGER_ROLE;
       } else {
         return false;
       }
     },
-    isManagerOrAdmin() {
+    isAdmin() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+        return this.user.role === ADMIN_ROLE;
       } else {
         return false;
       }
     },
-    courseItem() {
-        return this.getCourseById(this.$route.params.id)
-    },
-    isLatsCourse() {
-      return this.$route.params.id === this.lastCourseId;
-    },
-    isFirstCourse() {
-      return this.$route.params.id === this.firstCourseId;
-    }
-  },
-  mounted() {
-    this.getCourses();
-    },
-  methods: {
-    ...mapActions('courses', ['getCourses', 'addNewComment']),
-    openModal() {
-      this.isModalOpened = !this.isModalOpened;
-    },
-    deleteApplicant(id) {
-      const currentCourse = this.getCourseById(this.$route.params.id);
-      const { applicants } = currentCourse;
-      const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
-      patchCourse(this.$route.params.id, 'applicants', filteredApplicants).then(() => this.getCourses());
-    },
-    previousPage() {
-      this.$router.push({
-        name: COURSE_DETAILS,
-        params: { id: this.previousCourseId(this.$route.params.id) },
-      });
-      this.comments = '';
-    },
-    nextPage() {
-      this.$router.push({
-        name: COURSE_DETAILS,
-        params: { id: this.nextCourseId(this.$route.params.id) },
-      });
-      this.comments = '';
-    },
-    getBackCourseDetailsView() {
-      this.$router.push({ name: COURSE_DASHBOARD });
-    },
-    submit() {
-      let currentItem = JSON.parse(JSON.stringify(this.getCourseById(this.$route.params.id)));
-      currentItem.comments.push({
-        id: Date.now(),
-        message: this.comments,
-        createdAt: new Date().toLocaleString(),
-        author: this.user.fullName,
-        author_id: this.user.id,
-        author_email: this.user.email,
-      });
-      let payload = {
-        currentItemUpdate: currentItem,
-        id: this.$route.params.id,
-      };
-      this.addNewComment(payload);
-      this.comments = '';
-    },
-    openAddCommentModal() {
-      this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
-    }
-  },
+		courseItem() {
+			return this.getCourseById(this.$route.params.id);
+		},
+		isLatsCourse() {
+			return this.$route.params.id === this.lastCourseId;
+		},
+		isFirstCourse() {
+			return this.$route.params.id === this.firstCourseId;
+		},
+	},
+	mounted() {
+		this.getCourses();
+	},
+	methods: {
+		...mapActions('courses', ['getCourses', 'addNewComment']),
+		openModal() {
+			this.isModalOpened = !this.isModalOpened;
+		},
+		deleteApplicant(id) {
+			const currentCourse = this.getCourseById(this.$route.params.id);
+			const { applicants } = currentCourse;
+			const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
+			patchCourse(this.$route.params.id, 'applicants', filteredApplicants).then(() => this.getCourses());
+		},
+		previousPage() {
+			this.$router.push({
+				name: COURSE_DETAILS,
+				params: { id: this.previousCourseId(this.$route.params.id) },
+			});
+			this.comments = '';
+		},
+		nextPage() {
+			this.$router.push({
+				name: COURSE_DETAILS,
+				params: { id: this.nextCourseId(this.$route.params.id) },
+			});
+			this.comments = '';
+		},
+		getBackCourseDetailsView() {
+			this.$router.push({ name: COURSE_DASHBOARD });
+		},
+		submit() {
+			let currentItem = JSON.parse(JSON.stringify(this.getCourseById(this.$route.params.id)));
+			currentItem.comments.push({
+				id: Date.now(),
+				message: this.comments,
+				createdAt: new Date().toLocaleString(),
+				author: this.user.fullName,
+				author_id: this.user.id,
+				author_email: this.user.email,
+			});
+			let payload = {
+				currentItemUpdate: currentItem,
+				id: this.$route.params.id,
+			};
+			this.addNewComment(payload);
+			this.comments = '';
+		},
+		openAddCommentModal() {
+			this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
+		},
+	},
 };
 
 </script>
 
 <style lang="postcss" scoped>
 .table {
-  @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+	@apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
 }
 
 .part {
-  @apply shadow-lg bg-stone-50 p-2
+	@apply shadow-lg bg-stone-50 p-6  border-sky-100 border-2 rounded-md;
 }
 
 button {
-  @apply max-w-xs;
+	@apply max-w-xs;
 }
 
 .courses__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+	@apply font-semibold text-lg text-start text-sky-700;
 }
 
 .part__text {
-  @apply text-left text-3xl
+	@apply text-left text-xl text-gray-700 mb-2;
 }
 
 .courses__container {
-  @apply flex justify-center flex-col mt-10 w-[85vw];
+  @apply flex justify-center flex-col mt-10;
+}
 
+.courses__container > * {
+  @apply pb-0.5;
 }
 
 .nav {
-  @apply flex justify-between px-0;
+	@apply flex justify-between px-0;
 }
 
 .nav__btn {
-  @apply w-fit mx-1;
+	@apply w-fit mx-1;
 }
 
 .nav__courses {
-  @apply flex
+	@apply flex;
+}
+
+.main__header_label {
+  @apply font-semibold text-sky-800;
+}
+
+.main__header_text {
+  @apply text-2xl font-thin text-slate-700;
 }
 </style>
