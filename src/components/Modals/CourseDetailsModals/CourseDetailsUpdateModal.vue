@@ -68,15 +68,14 @@ export default {
     },
     data() {
         return {
-            newStatus: '',
-            newName: '',
+            newStatus: "",
+            newName: "",
             newDate: "",
-            newDocs_link: '',
+            newDocs_link: "",
         };
     },
     computed: {
         ...mapGetters('courses', ['getCourseById']),
-        ...mapGetters('user', ['user']),
     },
     watch: {
         toggleModal() {
@@ -87,7 +86,6 @@ export default {
         await this.getCourses()
 
         let currentItem = await this.getCourseById(this.$route.params.id);
-
 
         const { status, name, docs_link, date } = currentItem
         this.newStatus = status
@@ -106,7 +104,6 @@ export default {
             const date = propsDate.split('/')
 
             if (date.length > 1) return `${date[2]}-${date[1]}-${date[0]}`
-
 
             return propsDate
         },
