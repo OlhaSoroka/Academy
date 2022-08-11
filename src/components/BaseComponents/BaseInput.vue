@@ -18,10 +18,13 @@
         v-on="listeners"
       >
       <p class="text-red-700 text-xs w-72 -ml-2 text-center absolute">
-        <span v-if="errors.length > 0 && type === 'password'">
+        <span v-if="errors.length > 0 && vid === 'password'">
           6 chars min with at least 1 Latin letter and 1 number.
         </span>
-        <span v-else>{{ errors[0] }}</span>
+        <span v-if="errors.length > 0 && vid === 'confirmpassword'">
+          Passwords do not match
+        </span>
+        <!-- <span v-else>{{ errors[0] }}</span> -->
       </p>
     </div>
   </ValidationProvider>

@@ -43,6 +43,7 @@
                 type="password"
                 label="Confirm new password"                
                 placeholder="Confirm password"
+                vid="confirmpassword"
                 rules="confirmed:password"
               />
             </div>
