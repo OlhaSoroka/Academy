@@ -381,6 +381,10 @@ button {
 
 }
 
+.courses__container > * {
+  @apply pb-0.5;
+}
+
 .nav {
   @apply flex justify-between px-0;
 }

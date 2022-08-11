@@ -131,5 +131,28 @@ export default {
       dispatch("getCourses");
       updateCourseById(id, course);
     },
+    deleteCourseFromState({commit, dispatch}, id){
+      commit("changeLoadingStatus");
+      axios.delete(`${COURSES_URL}/posts/${id}`)
+      .then(() => {
+        dispatch(
+					"toast/show",
+					{ message: "Course succesfully deleted", type: "success" },
+					{ root: true }
+				)
+      })
+      .catch((error) => {
+        const errorMessage = error.response?.data?.error || error.response.data.message
+				dispatch(
+					"toast/show",
+					{ message: errorMessage, type: "error" },
+					{ root: true }
+				)
+      })
+      .finally(() => {
+        commit("changeLoadingStatus")
+				dispatch("getCourses")
+      });
+    }, 
   },
 };
