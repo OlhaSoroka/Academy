@@ -14,7 +14,9 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-        <h2>Main Info</h2>
+        <h2 class="part__text">
+          Main Info
+        </h2>
         <BaseTable
           :table-data="{
             headingData: headersUser,
@@ -106,7 +108,7 @@
             </BaseButton>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10 ">
+        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10">
           <div class="part col-span-2 col-start-1 row-span-1">
             <h2 class="part__text">
               Main info
@@ -130,9 +132,10 @@
                   <label class="text-xs ">
                     Docs
                     <p class="text-2xl "><a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a></p>
+                      target="”_blank”"
+                      :href="courseItem.docs_link"
+                    >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                    </p>
                   </label>
                 </BaseTooltip>
               </div>
@@ -151,7 +154,7 @@
             </div>
           </div>
           <div class="part col-span-3 col-start-3">
-            <h2 class="part__text ">
+            <h2 class="part__text">
               Applicants
             </h2>
             <BaseTable
@@ -263,9 +266,9 @@ import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
 import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
-import NewApplicantModal from '@/components/Modals/CourseDetailsModals/NewApplicantModal.vue';
-import { patchCourse, } from '.././api/course/index';
-import AddCommentModal from '../components/Modals/CourseDetailsModals/NewCommentModal.vue';
+import NewApplicantModal from '@/components/Modals/NewApplicantModal.vue';
+import { patchCourse } from '.././api/course/index';
+import AddCommentModal from '../components/Modals/AddCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
 import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue';
@@ -440,6 +443,7 @@ export default {
       this.isNewHomeworkModal = !this.isNewHomeworkModal
     }
   },
+
 };
 </script>
 
@@ -449,7 +453,7 @@ export default {
 }
 
 .part {
-  @apply shadow-lg bg-stone-50 p-2
+  @apply shadow-lg bg-stone-50 p-6 border-sky-100 border-2 rounded-md;
 }
 
 button {
@@ -461,12 +465,15 @@ button {
 }
 
 .part__text {
-  @apply text-left text-3xl
+  @apply text-left text-xl text-gray-700 mb-2;
 }
 
 .courses__container {
   @apply flex justify-center flex-col mt-10 w-[85vw];
+}
 
+.courses__container>* {
+  @apply pb-0.5;
 }
 
 .nav {
@@ -478,6 +485,6 @@ button {
 }
 
 .nav__courses {
-  @apply flex
+  @apply flex;
 }
 </style>

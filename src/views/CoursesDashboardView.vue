@@ -46,13 +46,18 @@
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
-          :delete-btns="false"
+          :delete-btns="true"
           :view-btns="true"
+          @delete="openCoursesDeleteModal"
           @view="goToCourseDetails"
         />
       </div>
       <CourseCreateModal
         :is-opened-course-create-modal="isCreateModalOpen"
+      />
+      <CourseDeleteModal
+        :is-opened-course-delete-modal="isDeleteModalOpen"
+        :course-to-delete="targetCourse"
       />
     </div>
     <div v-else>
@@ -64,6 +69,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
+import CourseDeleteModal from "../components/Modals/CourseDeleteModal.vue"
 import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import CourseCreateModal from "@/components/Modals/CourseCreateModal.vue";
@@ -77,11 +83,25 @@ export default {
   components: {
     BaseTable,
     BaseButton,
+    CourseDeleteModal,
     CourseCreateModal
   },
   data() {
     return {
       isCreateModalOpen: false,
+      isDeleteModalOpen: false,
+      targetCourse: {
+        id:	null,
+        name:	"",
+        date:	"",
+        status:	"",
+        docs_link:	"",
+        applicants:	[],
+        group:	[],
+        homework:	[],
+        results:	[],
+        comments:	[]
+      },
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -94,13 +114,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('courses', ["sortedCourses", "loadingStatus"]),
+    ...mapGetters("courses", ["sortedCourses", "loadingStatus"]),
     courses() {
       return this.sortedCourses;
     },
     ...mapGetters("user", ["user"]),
     isUser() {
-      if (this.user) {
+       if (this.user) {
         return this.user.role === USER_ROLE;
       } else {
         return false;
@@ -122,15 +142,18 @@ export default {
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
+    openCoursesDeleteModal(id){
+      this.targetCourse = this.courses.find((e) => e.id === id);
+      this.isDeleteModalOpen = !this.isDeleteModalOpen;
+    },
     openCourseViewCreateModal() {
       this.isCreateModalOpen = !this.isCreateModalOpen;
     }
-  },
+  }
 };
 </script>
 
 <style lang="postcss" scoped>
-
 .courses__container{
  @apply p-10 m-auto flex flex-col justify-center;
 }
@@ -150,4 +173,5 @@ export default {
 .courses__topbar_container{
   @apply w-full flex justify-between items-center;
 }
+
 </style>
