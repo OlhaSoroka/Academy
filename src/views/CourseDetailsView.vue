@@ -265,10 +265,10 @@ import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
 import NewApplicantModal from '@/components/Modals/CourseDetailsModals/NewApplicantModal.vue';
 import { patchCourse, } from '.././api/course/index';
-import AddCommentModal from '../components/Modals/CourseDetailsModals/AddCommentModal.vue';
+import AddCommentModal from '../components/Modals/CourseDetailsModals/NewCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
-import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMember.vue';
+import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue';
 import NewResultModal from '../components/Modals/CourseDetailsModals/NewResultModal.vue';
 import NewHomeWorkModal from '../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue';
 
