@@ -189,8 +189,8 @@
             />
           </div>
           <div
-            class="part col-span-3"
             v-if="courseItem.comments.length"
+            class="part col-span-3"
           >
             <h2 class="part__text">
               Comments
@@ -228,7 +228,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import BaseButton from '../components/BaseComponents/BaseButton.vue';
 import BaseTable from '../components/BaseComponents/BaseTable/BaseTable.vue';
-import { COURSE_DETAILS, COURSE_DASHBOARD, NOT_FOUND } from '../constants/routes.constant';
+import { COURSE_DETAILS, COURSE_DASHBOARD, /* NOT_FOUND */ } from '../constants/routes.constant';
 import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
@@ -289,7 +289,7 @@ export default {
       }
     },
     courseItem() {
-      return this.getCourseById(this.$route.params.id);
+        return this.getCourseById(this.$route.params.id)
     },
     isLatsCourse() {
       return this.$route.params.id === this.lastCourseId;
@@ -300,10 +300,11 @@ export default {
   },
   mounted() {
     this.getCourses();
-    if (this.courseItem === undefined) {this.$router.push({
+   /*  if (this.getCourseById(this.$route.params.id) === undefined) {this.$router.push({
         name: NOT_FOUND,   params: { pathMatch: "notFound" },
-      });}
-  },
+      })
+    } */
+    },
   methods: {
     ...mapActions('courses', ['getCourses', 'addNewComment']),
     openModal() {
@@ -353,9 +354,10 @@ export default {
     },
     openAddCommentModal() {
       this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
-    },
+    }
   },
 };
+
 </script>
 
 <style lang="postcss" scoped>

@@ -34,6 +34,7 @@ import {
 	NOT_FOUND
 } from "@/constants/routes.constant"
 import { authGuard, roleGuard } from "./utils"
+import store from "../store/index"
 
 Vue.use(VueRouter)
 
@@ -88,12 +89,28 @@ const routes = [
         name: COURSE_DASHBOARD,
         component: CoursesDashboardView,
       },
-      {
+      /* {
         path: ":id",
         name: COURSE_DETAILS,
         component: CourseDetailsView,
         props: true,
-      },
+      }, */
+      {
+      path: ":id",
+      name: COURSE_DETAILS,
+      component: CourseDetailsView,
+      beforeEnter: ((to, from, next) => {
+		const courses = store.getters["courses/courses"];
+		const ids = courses.map(course => {
+            return course.id;
+          });
+       if (ids.includes(to.params.id)){
+		next()
+        } else {
+		next({name: NOT_FOUND, params: { pathMatch: "notFound" }})
+        }
+      })
+	}
     ],
   },
 	{

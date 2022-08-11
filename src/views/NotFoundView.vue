@@ -1,7 +1,7 @@
 <template>
-  <div class="h-full w-full">
+  <div class="h-full w-full overflow-hidden">
     <div
-      class="w-full absolute mt-[50vh] -translate-y-1/2 ml-[40vw] -translate-x-1/2"
+      class="w-fit absolute mt-[50vh] -translate-y-1/2 ml-[40vw] -translate-x-1/2"
     >
       <h1>ERROR 404: Page Not Found</h1>
       <h2>

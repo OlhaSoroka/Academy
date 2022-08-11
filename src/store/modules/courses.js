@@ -52,8 +52,8 @@ export default {
 					return state.courses[currentIndex - 1].id
 				} else return state.courses[state.courses.length - 1].id
 			}
-		},
-	},
+		}
+  },
 	mutations: {
 		setCourses(state, courses) {
 			state.courses = courses
