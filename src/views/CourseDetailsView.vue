@@ -14,8 +14,8 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-        <div class="grid grid-cols-2 grid-rows-2 gap-x-10 gap-y-10 ">
-          <div class="part col-span-1 col-start-1">
+        <div class="grid grid-cols-2 grid-rows-2 gap-x-5 gap-y-5 xl:gap-x-10 xl:gap-y-10">
+          <div class="part col-span-1 col-start-1"> 
             <h2 class="part__text">
               Main info
             </h2>
@@ -99,7 +99,7 @@
         v-if="courseItem"
         class="text-center my-3"
       >
-        <nav class="nav">
+        <nav class="nav flex-wrap">
           <BaseButton
             class="nav__btn"
             variant="btn_black"
@@ -108,7 +108,7 @@
             Back
           </BaseButton>
 
-          <div class="nav__courses flex">
+          <div class="nav__courses">
             <BaseButton
               class="nav__btn"
               @click="toggleNewGroupMemberModal"
@@ -146,23 +146,25 @@
             >
               Add comment
             </BaseButton>
-            <BaseButton
-              :disabled="isFirstCourse"
-              class="nav__btn"
-              @click="previousPage"
-            >
-              Prev
-            </BaseButton>
-            <BaseButton
-              :disabled="isLatsCourse"
-              class="nav__btn"
-              @click="nextPage"
-            >
-              Next
-            </BaseButton>
+            <div>
+              <BaseButton
+                :disabled="isFirstCourse"
+                class="nav__btn"
+                @click="previousPage"
+              >
+                Prev
+              </BaseButton>
+              <BaseButton
+                :disabled="isLatsCourse"
+                class="nav__btn"
+                @click="nextPage"
+              >
+                Next
+              </BaseButton>
+            </div>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10">
+        <div class="grid grid-cols-5 grid-rows-3 gap-x-5 gap-y-5 xl:gap-x-15 xl:gap-y-10">
           <div class="part col-span-2 col-start-1 row-span-1">
             <h2 class="part__text">
               Main info
@@ -223,7 +225,7 @@
               @delete="deleteApplicant"
             />
           </div>
-          <div class="part col-span-2 col-start-1 row-span-2">
+          <div class="part col-span-2 col-start-1 row-span-1 xl:row-span-2">
             <h2 class="part__text">
               Group
             </h2>
@@ -239,7 +241,7 @@
               @delete="deleteGroupMember"
             />
           </div>
-          <div class="part col-span-2 col-start-3">
+          <div class="part col-start-3 col-span-3 xl:col-span-2">
             <h2 class="part__text">
               Homeworks
             </h2>
@@ -255,7 +257,7 @@
               @delete="deleteHomework"
             />
           </div>
-          <div class="part">
+          <div class="part col-start-1 col-span-2 xl:col-span-1">
             <h2 class="part__text">
               Results
             </h2>
@@ -535,7 +537,7 @@ button {
 }
 
 .courses__container {
-  @apply flex justify-center flex-col mt-10 w-[85vw];
+  @apply flex justify-center flex-col mt-10 mx-3;
 }
 
 .courses__container>* {
@@ -547,11 +549,11 @@ button {
 }
 
 .nav__btn {
-  @apply w-fit mx-1;
+  @apply w-fit mx-1 my-2;
 }
 
 .nav__courses {
-  @apply flex;
+  @apply flex flex-wrap justify-between;
 }
 
 .main__header_label {

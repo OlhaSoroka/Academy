@@ -26,8 +26,8 @@
             </option>
           </select>
           <BaseInput
-            class='mt-5'
             v-model="score"
+            class="mt-5"
             :type="'number'"
             :vid="'Result'"
             placeholder="Type score here..."
