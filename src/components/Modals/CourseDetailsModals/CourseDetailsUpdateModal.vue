@@ -86,7 +86,6 @@ export default {
   },
   async mounted() {
     this.getCourses().then(() => {
-      console.log(this.courses);
       let currentItem = this.getCourseById(this.$route.params.id);
 
       const { status, name, docs_link, date } = currentItem

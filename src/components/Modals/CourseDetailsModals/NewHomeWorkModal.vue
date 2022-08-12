@@ -102,8 +102,8 @@ export default {
         date: this.date
       })
       this.updateCourse({ id, course: updatedCourse })
-        .then(() => {
-          this.getCourses();
+        .then(async () => {
+          await this.getCourses();
         })
         .then(() => {
           this.$refs.newHomework.closeModal();

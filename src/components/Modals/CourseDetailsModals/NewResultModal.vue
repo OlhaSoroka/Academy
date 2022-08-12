@@ -120,8 +120,8 @@ export default {
       const updatedCourse = JSON.parse(JSON.stringify(course))
       updatedCourse.results.push({ ...currentUser, score: this.score })
       this.updateCourse({ id, course: updatedCourse })
-        .then(() => {
-          this.getCourses();
+        .then(async () => {
+          await this.getCourses();
         })
         .then(() => {
           this.$refs.newGroupMemberModal.closeModal();

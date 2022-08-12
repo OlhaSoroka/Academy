@@ -110,8 +110,8 @@ export default {
       const updatedCourse = JSON.parse(JSON.stringify(course))
       updatedCourse.applicants.push(currentUser)
       this.updateCourse({ id, course: updatedCourse })
-        .then(() => {
-          this.getCourses();
+        .then(async () => {
+          await this.getCourses();
         })
         .then(() => {
           this.$refs.newApplicantModal.closeModal();

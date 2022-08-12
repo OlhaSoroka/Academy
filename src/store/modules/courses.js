@@ -133,7 +133,7 @@ export default {
 		async updateCourse({ dispatch }, payload) {
 			const { id, course } = payload
 			dispatch("getCourses")
-			updateCourseById(id, course)
+			await updateCourseById(id, course)
 		},
 		deleteCourseFromState({ commit, dispatch }, id) {
 			commit("changeLoadingStatus")

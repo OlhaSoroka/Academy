@@ -1,47 +1,47 @@
 <template>
-  <BaseModal
-    ref="addCommentModal"
-    :header="'Add comment'"
-    @isClosed="clearInputs()"
-  >
-    <template #body>
-      <div>
-        <ValidationObserver v-slot="{ invalid }">
-          <form
-            class="flex items-center flex-col mt-4"
-            @submit.prevent="submit"
-          >
-            <div class="mt-2">
-              <ValidationProvider rules="required|min:1">
-                <textarea
-                  v-model="comments"
-                  class="border"
-                  cols="45"
-                  rows="3"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="flex">
-              <BaseButton
-                class="mr-4"
-                :disabled="invalid"
-                type="submit"
-              >
-                Submit
-              </BaseButton>
-              <BaseButton
-                variant="btn_red"
-                type="button"
-                @click="cancel"
-              >
-                Cancel
-              </BaseButton>
-            </div>
-          </form>
-        </ValidationObserver>
-      </div>
-    </template>
-  </BaseModal>
+	<BaseModal
+		ref="addCommentModal"
+		:header="'Add comment'"
+		@isClosed="clearInputs()"
+	>
+		<template #body>
+			<div>
+				<ValidationObserver v-slot="{ invalid }">
+					<form
+						class="flex items-center flex-col mt-4"
+						@submit.prevent="submit"
+					>
+						<div class="mt-2">
+							<ValidationProvider rules="required|min:1">
+								<textarea
+									v-model="comments"
+									class="border"
+									cols="45"
+									rows="3"
+								/>
+							</ValidationProvider>
+						</div>
+						<div class="flex">
+							<BaseButton
+								class="mr-4"
+								:disabled="invalid"
+								type="submit"
+							>
+								Submit
+							</BaseButton>
+							<BaseButton
+								variant="btn_red"
+								type="button"
+								@click="cancel"
+							>
+								Cancel
+							</BaseButton>
+						</div>
+					</form>
+				</ValidationObserver>
+			</div>
+		</template>
+	</BaseModal>
 </template>
 
 <script>
