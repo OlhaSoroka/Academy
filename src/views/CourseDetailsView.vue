@@ -4,7 +4,7 @@
       Course Details
     </h2>
     <div v-if="isUser">
-      <nav class="nav">
+      <nav class="nav my-0">
         <BaseButton
           class="nav__btn"
           variant="btn_black"
@@ -14,7 +14,7 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-        <div class="grid grid-cols-2 grid-rows-2 gap-x-10 gap-y-10 ">
+        <div class="grid grid-cols-2 grid-rows-2 gap-x-5 gap-y-5 xl:gap-x-10 xl:gap-y-10">
           <div class="part col-span-1 col-start-1"> 
             <h2 class="part__text">
               Main info
@@ -137,7 +137,7 @@
             </BaseButton>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3 gap-x-20 gap-y-10">
+        <div class="grid grid-cols-5 grid-rows-3 gap-x-5 gap-y-5 xl:gap-x-15 xl:gap-y-10">
           <div class="part col-span-2 col-start-1 row-span-1">
             <h2 class="part__text">
               Main info
@@ -199,7 +199,7 @@
               @delete="deleteApplicant"
             />
           </div>
-          <div class="part col-span-2 col-start-1 row-span-2">
+          <div class="part col-span-2 col-start-1 row-span-1 xl:row-span-2">
             <h2 class="part__text">
               Group
             </h2>
@@ -214,7 +214,7 @@
               :delete-btns="false"
             />
           </div>
-          <div class="part col-span-2 col-start-3">
+          <div class="part col-start-3 col-span-3 xl:col-span-2">
             <h2 class="part__text">
               Homeworks
             </h2>
@@ -229,7 +229,7 @@
               :delete-btns="false"
             />
           </div>
-          <div class="part">
+          <div class="part col-start-1 col-span-2 xl:col-span-1">
             <h2 class="part__text">
               Results
             </h2>
@@ -438,7 +438,7 @@ button {
 }
 
 .courses__container {
-  @apply flex justify-center flex-col mt-10 w-[89vw];
+  @apply flex justify-center flex-col mt-10 mx-3;
 }
 
 .courses__container > * {
