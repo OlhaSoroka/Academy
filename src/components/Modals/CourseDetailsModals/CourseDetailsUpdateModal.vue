@@ -32,7 +32,10 @@
           />
         </div>
         <div class="mx-1 flex gap-10">
-          <BaseButton @click="submit">
+          <BaseButton
+            :disabled="!(newName.length && newDate.length)"
+            @click="submit"
+          >
             Update
           </BaseButton>
           <BaseButton
@@ -98,12 +101,12 @@ export default {
   },
   methods: {
     ...mapActions('courses', ['addNewComment', 'getCourses', 'updateCourse']),
-    // clearInputs() {
-    //   this.newStatus = ""
-    //   this.newName = ""
-    //   this.newDate = ""
-    //   this.newDocs_link = ""
-    // },
+    clearInputs() {
+      this.newStatus = ""
+      this.newName = ""
+      this.newDate = ""
+      this.newDocs_link = ""
+    },
     makeDate(propsDate) {
       // case dd/mm/yyyy -> yyyy-mm--dd
       const date = propsDate.split('/')

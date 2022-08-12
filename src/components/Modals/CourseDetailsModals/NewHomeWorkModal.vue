@@ -18,7 +18,7 @@
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!name.length && !date.length"
+            :disabled="!(date.length && name.length)"
             @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
           >
             Add
