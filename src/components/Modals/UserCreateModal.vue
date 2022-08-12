@@ -11,12 +11,13 @@
             <div
               v-for="input in userInputsValue" 
               :key="input.label"
-            >
+            >            
               <BaseInput
                 v-model="createModel[input.model]"
                 :type="input.type"
                 :label="input.label"
                 :placeholder="input.placeholder"
+                :vid="input.vid"
                 :rules="requiredField(input.label)"
               />
             </div>
@@ -77,6 +78,7 @@ export default {
       createModel: {
         fullName: "",
         password: "",
+        confirmpassword: "",
         email: "",
         course: "",
         initialScore: "",
@@ -97,6 +99,7 @@ export default {
       this.createModel = {
         fullName: "",
         password: "",
+        confirmpassword: "",
         email: "",
         course: "",
         initialScore: "",
@@ -114,8 +117,14 @@ export default {
       this.clearInputs()
     },
     requiredField(label) {
-      if (label==="Name" || label==="Course"){
+      if (label==="Full Name" || label==="Course" || label==="Initial Score"){
         return "required"}
+      if (label==="Confirm password") {
+        return "confirmed:password"
+      }
+      if (label==="Password") {
+        return "confirmed:password"
+      }
     }
   }
 };
