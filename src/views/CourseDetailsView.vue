@@ -15,7 +15,7 @@
       </nav>
       <div v-if="courseItem">
         <div class="grid grid-cols-2 grid-rows-2 gap-x-5 gap-y-5 xl:gap-x-10 xl:gap-y-10">
-          <div class="part col-span-1 col-start-1"> 
+          <div class="part col-span-1 col-start-1">
             <h2 class="part__text">
               Main info
             </h2>
@@ -109,36 +109,6 @@
           </BaseButton>
 
           <div class="nav__courses">
-            <BaseButton
-              class="nav__btn"
-              @click="toggleNewGroupMemberModal"
-            >
-              New group member
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="toggleNewHomeworkModal"
-            >
-              New homework
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="toggleNewResultModal"
-            >
-              New result
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="toggleUpdateModal"
-            >
-              Update main info
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="openModal"
-            >
-              New applicant
-            </BaseButton>
 
             <BaseButton
               class="nav__btn whitespace-nowrap"
@@ -166,9 +136,17 @@
         </nav>
         <div class="grid grid-cols-5 grid-rows-3 gap-x-5 gap-y-5 xl:gap-x-15 xl:gap-y-10">
           <div class="part col-span-2 col-start-1 row-span-1">
-            <h2 class="part__text">
-              Main info
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Main info
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleUpdateModal"
+              >
+                <BaseEditIcon />
+              </BaseButton>
+            </div>
             <div class="flex flex-col gap-5">
               <div class="text-left">
                 <label class="main__header_label">Name
@@ -188,9 +166,9 @@
                   <label class="text-xs ">
                     Docs
                     <p class="text-2xl "><a
-                      target="”_blank”"
-                      :href="courseItem.docs_link"
-                    >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                        target="”_blank”"
+                        :href="courseItem.docs_link"
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
                     </p>
                   </label>
                 </BaseTooltip>
@@ -210,9 +188,17 @@
             </div>
           </div>
           <div class="part col-span-3 col-start-3">
-            <h2 class="part__text">
-              Applicants
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Applicants
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="openModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
             <BaseTable
               class="table"
               :table-data="{
@@ -226,9 +212,19 @@
             />
           </div>
           <div class="part col-span-2 col-start-1 row-span-1 xl:row-span-2">
-            <h2 class="part__text">
-              Group
-            </h2>
+            <div class='header'>
+              <h2 class="part__text">
+                Group
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewGroupMemberModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
+
+
             <BaseTable
               class="table"
               :table-data="{
@@ -242,9 +238,18 @@
             />
           </div>
           <div class="part col-start-3 col-span-3 xl:col-span-2">
-            <h2 class="part__text">
-              Homeworks
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Homework
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewHomeworkModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
+
             <BaseTable
               class="table"
               :table-data="{
@@ -258,9 +263,17 @@
             />
           </div>
           <div class="part col-start-1 col-span-2 xl:col-span-1">
-            <h2 class="part__text">
-              Results
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Results
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewResultModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
             <BaseTable
               class="table"
               :table-data="{
@@ -330,6 +343,9 @@ import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/Co
 import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue';
 import NewResultModal from '../components/Modals/CourseDetailsModals/NewResultModal.vue';
 import NewHomeWorkModal from '../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue';
+import BasePlus from '@/components/BaseComponents/BaseIcons/BasePlus.vue';
+import BaseEditIcon from '@/components/BaseComponents/BaseIcons/BaseEditIcon.vue';
+
 // import NewCommentModal from '../components/Modals/CourseDetailsModals/NewCommentModal.vue';
 
 Object.keys(rules).forEach((rule) => {
@@ -348,8 +364,9 @@ export default {
     NewGroupMember,
     NewResultModal,
     NewHomeWorkModal,
-    // NewCommentModal
-  },
+    BasePlus,
+    BaseEditIcon
+},
   data() {
     return {
       isAddCommentModalOpen: false,
@@ -518,6 +535,10 @@ export default {
 <style lang="postcss" scoped>
 .table {
   @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+}
+
+.header {
+  @apply flex justify-between items-center
 }
 
 .part {
