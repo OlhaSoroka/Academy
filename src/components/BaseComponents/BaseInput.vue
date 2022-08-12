@@ -18,10 +18,16 @@
         v-on="listeners"
       >
       <p class="text-red-700 text-xs w-72 -ml-2 text-center absolute">
-        <span v-if="errors.length > 0 && type === 'password'">
+        <span v-if="errors.length > 0 && vid === 'password'">
           6 chars min with at least 1 Latin letter and 1 number.
         </span>
-        <span v-else>{{ errors[0] }}</span>
+        <span v-if="errors.length > 0 && vid === 'confirmpassword'">
+          Passwords do not match.
+        </span>        
+        <span v-if="errors.length > 0 && label === 'Full Name'">
+          Full Name is empty.
+        </span>        
+        <span v-if="errors.length > 0 && vid != 'confirmpassword' && vid != 'password' && label != 'Full Name'">{{ errors[0] }}</span>
       </p>
     </div>
   </ValidationProvider>
@@ -71,7 +77,8 @@ export default {
   data() {
     return {
       emailRules: "required|email",
-      passwordRules: "min:6|regex:[A-Za-z]+[0-9]+",
+      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+",
+      initialScoreRules: "required|min_value:0"
     };
   },
   computed: {
@@ -94,7 +101,8 @@ export default {
         return `${this.emailRules}|${this.rules}`;
       } else if (this.type === "password" && this.vid != "text") {
         return `${this.passwordRules}|${this.rules}`;
-      } else return `${this.rules}`;
+      } else if (this.type === 'number')  return `${this.initialScoreRules}`;
+      else return `${this.rules}`;
     },
   },
   methods: {

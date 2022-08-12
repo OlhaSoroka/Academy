@@ -1,7 +1,7 @@
 <template>
   <BaseModal
-    ref="newApplicantModal"
-    :header="'Add new applicant'"
+    ref="newGroupMemberModal"
+    :header="'Add new group member'"
     @isClosed="clearInputs()"
   >
     <template #body>
@@ -10,15 +10,15 @@
           <label
             for="applicants"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >Select an option</label>
+          >Select the applicant, to become a member of group</label>
 
           <select
             id="applicants"
-            v-model="newApplicant"
+            v-model="newGroupMember"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option
-              v-for="(user) in usersWithoutApplicants"
+              v-for="(user) in getApplicants"
               :key="user.id"
               :value="user.id"
             >
@@ -28,13 +28,13 @@
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!newApplicant.length"
+            :disabled="!newGroupMember.length"
             @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
           >
             Add
           </BaseButton>
-          <BaseButton 
-            :variant="'btn_red'"
+          <BaseButton
+            variant="btn_red"
             @click="cancelModal"
           >
             Cancel
@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      newApplicant: ''
+      newGroupMember: ''
     }
   },
   computed: {
@@ -75,11 +75,12 @@ export default {
       const id = pathArray[pathArray.length - 1]
       return id;
     },
-    usersWithoutApplicants() {
-      return this.users.filter(user => {
-        const { applicants } = this.currentCourse
-        return !applicants.some(applicant => applicant.id === user.id)
-      })
+    getApplicants() {
+      return this.currentCourse.applicants.filter(
+        (applicant) => {
+          return !this.currentCourse.group.some((groupMember) => groupMember.id === applicant.id)
+        }
+      )
     },
     currentCourse() {
       return this.getCourseById(this.currentRouteName)
@@ -87,7 +88,7 @@ export default {
   },
   watch: {
     toggleModal() {
-      this.$refs.newApplicantModal.openModal();
+      this.$refs.newGroupMemberModal.openModal();
     },
   },
 
@@ -96,25 +97,25 @@ export default {
   },
 
   methods: {
-    ...mapActions("courses", ["addNewApplicant", 'getCourses']),
+    ...mapActions("courses", ["updateCourse", 'getCourses']),
     ...mapActions('users', ['fetchUsers']),
     clearInputs() {
-      this.newApplicant = ''
+      this.newGroupMember = ''
     },
     cancelModal() {
-      this.$refs.newApplicantModal.closeModal();
+      this.$refs.newGroupMemberModal.closeModal();
       this.clearInputs()
     },
     confirmAdding({ id, course }) {
-      const currentUser = this.users.find(el => el.id === this.newApplicant)
+      const currentUser = this.users.find(el => el.id === this.newGroupMember)
       const updatedCourse = JSON.parse(JSON.stringify(course))
-      updatedCourse.applicants.push(currentUser)
-      this.addNewApplicant({ id, course: updatedCourse })
-        .then(() => {
-          this.getCourses();
+      updatedCourse.group.push(currentUser)
+      this.updateCourse({ id, course: updatedCourse })
+        .then(async () => {
+          await this.getCourses();
         })
         .then(() => {
-          this.$refs.newApplicantModal.closeModal();
+          this.$refs.newGroupMemberModal.closeModal();
         })
         .finally(() => this.clearInputs()
         )
