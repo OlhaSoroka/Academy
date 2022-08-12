@@ -89,14 +89,12 @@ export default {
   async mounted() {
     this.getCourses().then(() => {
       let currentItem = this.getCourseById(this.$route.params.id);
-
       const { status, name, docs_link, date } = currentItem
       this.newStatus = status
       this.newName = name
       this.newDate = this.makeDate(date)
       this.newDocs_link = docs_link
     })
-
   },
   methods: {
     ...mapActions('courses', ['addNewComment', 'getCourses', 'updateCourse']),
