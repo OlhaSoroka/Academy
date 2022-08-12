@@ -108,7 +108,7 @@
             Back
           </BaseButton>
 
-          <div class="nav__courses flex-wrap justify-between">
+          <div class="nav__courses">
             <BaseButton
               class="nav__btn"
               @click="toggleNewGroupMemberModal"
@@ -552,7 +552,7 @@ button {
 }
 
 .nav__courses {
-  @apply flex;
+  @apply flex flex-wrap justify-between;
 }
 
 .main__header_label {
