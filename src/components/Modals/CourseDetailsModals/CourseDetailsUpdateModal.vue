@@ -56,7 +56,6 @@ import BaseButton from '@/components/BaseComponents/BaseButton.vue';
 import BaseModal from '@/components/BaseComponents/BaseModal.vue';
 import BaseInput from '@/components/BaseComponents/BaseInput.vue';
 import BaseSelect from '@/components/BaseComponents/BaseSelect/BaseSelect.vue';
-// import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
 export default {
   components: {
