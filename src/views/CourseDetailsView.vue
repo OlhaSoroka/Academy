@@ -186,9 +186,9 @@
                   <label class="text-xs ">
                     Docs
                     <p class="text-2xl "><a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                      target="”_blank”"
+                      :href="courseItem.docs_link"
+                    >{{ courseItem.docs_link.slice(0, 20) }}</a>
                     </p>
                   </label>
                 </BaseTooltip>
@@ -309,7 +309,6 @@
     <NewResultModal :toggle-modal="isNewResultModal" />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
-
   </div>
 </template>
 
