@@ -6,7 +6,7 @@
   >
     <template #body>
       <div class="flex justify-center flex-col mt-7  gap-10">
-        <div class="mx-1">
+        <div class="w-[256px] mx-1 flex flex-col">
           <label
             for="applicants"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
@@ -15,7 +15,7 @@
           <select
             id="applicants"
             v-model="newApplicant"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="ml-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option
               v-for="(user) in getGroup"
@@ -26,13 +26,15 @@
             </option>
           </select>
           <BaseInput
+            class='mt-5'
             v-model="score"
+            :type="'number'"
             placeholder="Type score here..."
           />
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!newApplicant.length"
+            :disabled="!(newApplicant.length && score.length)"
             @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
           >
             Add
