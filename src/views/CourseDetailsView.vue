@@ -132,9 +132,9 @@
                   <label class="text-xs ">
                     Docs
                     <p class="text-2xl "><a
-                      target="”_blank”"
-                      :href="courseItem.docs_link"
-                    >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                        target="”_blank”"
+                        :href="courseItem.docs_link"
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
                     </p>
                   </label>
                 </BaseTooltip>
@@ -254,7 +254,7 @@
     <NewGroupMember :toggle-modal="isNewGroupMemberModal" />
     <NewResultModal :toggle-modal="isNewResultModal" />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
-    <AddCommentModal :toggle-modal="isAddCommentModalOpen" />
+    <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
   </div>
 </template>
 
@@ -266,9 +266,9 @@ import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
 import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
-import NewApplicantModal from '@/components/Modals/NewApplicantModal.vue';
+import NewApplicantModal from '@/components/Modals/CourseDetailsModals/NewApplicantModal.vue';
 import { patchCourse } from '.././api/course/index';
-import AddCommentModal from '../components/Modals/AddCommentModal.vue';
+import NewCommentModal from '../components/Modals/CourseDetailsModals/NewCommentModal.vue';
 import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
 import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
 import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue';
@@ -285,7 +285,7 @@ export default {
     BaseTable,
     BaseButton,
     NewApplicantModal,
-    AddCommentModal,
+    NewCommentModal,
     BaseTooltip,
     CourseDetailsUpdateModal,
     NewGroupMember,
