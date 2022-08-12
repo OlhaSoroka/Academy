@@ -1,17 +1,18 @@
 <template>
-  <div class="tooltip">
-    <slot />
-    <span class="tooltiptext">{{ text }}</span>
-  </div>
+    <div class="tooltip">
+        <slot />
+        <p class="tooltiptext">{{ text }}</p>
+    </div>
 </template>
 <script>
 export default {
     props: {
-        text: String
+        text: [String, Number]
     }
 }
 </script>
 <style>
+
 .tooltip {
     position: relative;
     display: inline-block;
@@ -20,14 +21,14 @@ export default {
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: fit-content;
     background-color: black;
     color: #fff;
-    text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    padding: 5px;
     position: absolute;
+    word-wrap: break-word;
     z-index: 1;
+    max-width: 500px;
 }
 
 .tooltip:hover .tooltiptext {

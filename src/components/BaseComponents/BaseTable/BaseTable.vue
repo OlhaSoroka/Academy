@@ -1,71 +1,75 @@
 <template>
-  <table
-    v-if="!isDataLoading"
-    class="BaseTable border-none"
-  >
-    <thead class="table-head">
-      <!-- if props logo is true we`ll add column with logos-->
-      <BaseTableRow :props-data="1">
-        <td v-if="logo" />
-        <th
-          v-for="[key, value] in getEntriesFromArray(getTablePart(tableData, 'head'))"
-          :key="key"
-          class="app-table-header__th text-start text-sky-800"
-          @click="sortTable(key)"
-        >
-          <!-- make the header from props headerData-->
-          <span>
-            {{ value }}
-          </span>
-          <!-- arrows which visualize the current sort state-->
-          <BaseArrowDown v-if="key === sort.value && !sort.sortDirection" />
-          <BaseArrowUp v-if="key === sort.value && sort.sortDirection" />
-        </th>
-      </BaseTableRow>
-    </thead>
-    <tbody
-      v-if="!!tableData.bodyData.length"
-      class="table-tbody"
-    >
-      <BaseTableRow
-        v-for="item in getTablePart(tableData, 'body')"
-        :key="item.id"
-        :editable="editBtns"
-        :deletable="deleteBtns"
-        :viewed="viewBtns"
-        @delete="onDelete(item.id)"
-        @edit="onEdit(item.id)"
-        @view="onView(item.id)"
-      >
-        <!-- fill the logo column if logo flag is true-->
-        <td v-if="logo">
-          <img
-            :src="logoUrl(item)"
-            alt="image"
-            width="40"
-          >
-        </td>
-        <!-- fill the row according to the header-->
-        <td
-          v-for="(prop, index) in getEntriesFromArray(getTablePart(tableData, 'head'))"
-          :key="index"
-          class="text-start"
-        >
-          {{ checkTableData(item[prop[0]]) }}
-        </td>
-      </BaseTableRow>
-    </tbody>
-    <tr v-else>
-      <td colspan="145">
-        <h2 class="text-xl opacity-80">
-          No data...
-        </h2>
-      </td>
-    </tr>
-  </table>
+	<table
+		v-if="!isDataLoading"
+		class="BaseTable border-none"
+	>
+		<thead class="table-head">
+			<!-- if props logo is true we`ll add column with logos-->
+			<BaseTableRow :props-data="1">
+				<td v-if="logo" />
+				<th
+					v-for="[key, value] in getEntriesFromArray(getTablePart(tableData, 'head'))"
+					:key="key"
+					class="app-table-header__th text-start text-sky-800"
+					@click="sortTable(key)"
+				>
+					<!-- make the header from props headerData-->
+					<span>
+						{{ value }}
+					</span>
+					<!-- arrows which visualize the current sort state-->
+					<BaseArrowDown v-if="key === sort.value && !sort.sortDirection" />
+					<BaseArrowUp v-if="key === sort.value && sort.sortDirection" />
+				</th>
+			</BaseTableRow>
+		</thead>
+		<tbody
+			v-if="!!tableData.bodyData.length"
+			class="table-tbody"
+		>
+			<BaseTableRow
+				v-for="item in getTablePart(tableData, 'body')"
+				:key="item.id"
+				:editable="editBtns"
+				:deletable="deleteBtns"
+				:viewed="viewBtns"
+				@delete="onDelete(item.id)"
+				@edit="onEdit(item.id)"
+				@view="onView(item.id)"
+			>
+				<!-- fill the logo column if logo flag is true-->
+				<td v-if="logo">
+					<img
+						:src="logoUrl(item)"
+						alt="image"
+						width="40"
+					>
+				</td>
+				<!-- fill the row according to the header-->
+				<td
+					v-for="(prop, index) in getEntriesFromArray(getTablePart(tableData, 'head'))"
+					:key="index"
+					class="text-start"
+				>
+					<BaseTooltip :text="(item[prop[0]])">
+						{{
+								typeof item[prop[0]] === "string" ? item[prop[0]].slice(0, 30) : item[prop[0]]
+						}}
+					</BaseTooltip>
+				</td>
+			</BaseTableRow>
+		</tbody>
+		<tr v-else>
+			<td colspan="145">
+				<h2 class="text-xl opacity-80">
+					No data...
+				</h2>
+			</td>
+		</tr>
+	</table>
 
-  <!-- if data is loading -->
-  <BaseSpinner v-else />
+	<!-- if data is loading -->
+	<BaseSpinner v-else />
 </template>
 
 <script>
@@ -73,12 +77,14 @@ import BaseTableRow from '../../UI/BaseTable/BaseTableRow.vue';
 import BaseSpinner from '../BaseSpinner/BaseSpinner.vue';
 import BaseArrowDown from '../BaseIcons/BaseArrowDown.vue';
 import BaseArrowUp from '../BaseIcons/BaseArrowUp.vue';
+import BaseTooltip from '../BaseTooltip/BaseTooltip.vue';
 export default {
 	components: {
 		BaseTableRow,
 		BaseSpinner,
 		BaseArrowDown,
 		BaseArrowUp,
+		BaseTooltip
 	},
 	/* 
   isDataLoading - flag of loading data
@@ -93,15 +99,15 @@ export default {
 			type: Object,
 		},
 		/* 
-        tableData : {
-            headingData : [{},...],
-            headingData - [{name O f Prop In Object : name That Should be on page }, ...]
-            example : [{'fullname':' Повне ім'я }]
+		tableData : {
+			headingData : [{},...],
+			headingData - [{name O f Prop In Object : name That Should be on page }, ...]
+			example : [{'fullname':' Повне ім'я }]
 
-            bodyData : [{} , ... ]
-            bodyData - data to rows
-        }
-    */
+			bodyData : [{} , ... ]
+			bodyData - data to rows
+		}
+	*/
 		isDataLoading: {
 			required: true,
 			type: Boolean,
@@ -127,8 +133,8 @@ export default {
 	data() {
 		return {
 			/*
-      table only able to sort by 1 column and a-z || z-a ways
-      */
+	  table only able to sort by 1 column and a-z || z-a ways
+	  */
 			sort: {
 				value: null,
 				sortDirection: null, // null || true || false
