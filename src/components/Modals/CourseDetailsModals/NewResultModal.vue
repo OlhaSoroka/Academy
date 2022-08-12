@@ -29,6 +29,7 @@
             class='mt-5'
             v-model="score"
             :type="'number'"
+            :vid="'Result'"
             placeholder="Type score here..."
           />
         </div>
