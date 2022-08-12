@@ -115,9 +115,9 @@ export default {
       this.clearInputs()
     },
     requiredField(label) {
-      if (label==="Name" || label==="Course"){
+      if (label==="Full " || label==="Course"){
         return "required"}
-      if (label==="Confirm new password") {
+      if (label==="Confirm password") {
         return "confirmed:password"
       }
       if (label==="Password") {

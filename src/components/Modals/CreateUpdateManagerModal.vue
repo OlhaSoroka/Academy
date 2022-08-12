@@ -12,7 +12,7 @@
               ref="fullName"
               v-model="fullName"
               type="text"
-              label="Fullname"
+              label="Full Name"
               placeholder="Enter fullname"
               rules="required"
             />
@@ -32,7 +32,7 @@
               <BaseInput
                 v-model="password"
                 type="password"
-                label="New password"
+                label="Password"
                 vid="password"
                 placeholder="Enter password"
               />
@@ -41,7 +41,7 @@
               <BaseInput
                 v-model="confirmPassword"
                 type="password"
-                label="Confirm new password"                
+                label="Confirm password"                
                 placeholder="Confirm password"
                 vid="confirmpassword"
                 rules="confirmed:password"

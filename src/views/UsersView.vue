@@ -200,7 +200,7 @@ export default {
       ],
       adminUserCreateInputs: [
         {
-          label: "Name",
+          label: "Full Name",
           model: "fullName",
           type: "text",
           placeholder: "Enter name",
@@ -219,7 +219,7 @@ export default {
           vid: "password"
         },
         {
-          label: "Confirm new password",
+          label: "Confirm password",
           model: "confirmpassword",
           type: "password",
           vid: "confirmpassword",
