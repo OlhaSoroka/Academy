@@ -38,20 +38,20 @@
           <div class="flex justify-evenly mt-5">
             <div class="mx-2">
               <BaseButton
-                type="submit"
-                :disabled="invalid"
-                @click="submitCourseCreateButton"
-              >
-                Create
-              </BaseButton>
-            </div>
-            <div class="mx-2">
-              <BaseButton
                 :disabled="false"
                 variant="btn_red"
                 @click="canselCourseCreateButton"
               >
                 Cancel
+              </BaseButton>
+            </div>
+            <div class="mx-2">
+              <BaseButton
+                type="submit"
+                :disabled="invalid"
+                @click="submitCourseCreateButton"
+              >
+                Create
               </BaseButton>
             </div>
           </div>

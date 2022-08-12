@@ -26,19 +26,19 @@
             >
               <div class="mx-2">
                 <BaseButton
-                  :disabled="invalid"
-                  @click="submitUserCreateButton"
-                >
-                  Create
-                </BaseButton>
-              </div>
-              <div class="mx-2">
-                <BaseButton
                   :disabled="false"
                   variant="btn_red"
                   @click="canselUserCreateButton"
                 >
                   Cancel
+                </BaseButton>
+              </div>
+              <div class="mx-2">
+                <BaseButton
+                  :disabled="invalid"
+                  @click="submitUserCreateButton"
+                >
+                  Create
                 </BaseButton>
               </div>
             </div>
