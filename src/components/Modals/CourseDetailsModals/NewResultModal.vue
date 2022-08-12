@@ -34,7 +34,7 @@
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!(newApplicant.length && score.length)"
+            :disabled="!(newApplicant.length && score.length && score >= 0)"
             @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
           >
             Add
