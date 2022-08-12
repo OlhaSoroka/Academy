@@ -17,6 +17,6 @@ export const patchCourse = async (id, field, value) => {
 	return await response.data
 }
 export const deleteCourse = async (id) => {
-	const response = axios.delete(`${COURSES_URL}/posts/${id}`)
+	const response = await axios.delete(`${COURSES_URL}/posts/${id}`)
 	return await response.data
 }

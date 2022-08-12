@@ -24,7 +24,7 @@
             Add
           </BaseButton>
           <BaseButton
-            :variant="btn_red"
+            variant="btn_red"
             @click="cancelModal"
           >
             Cancel

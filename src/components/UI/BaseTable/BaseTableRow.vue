@@ -1,36 +1,32 @@
 <template>
   <tr class="row">
     <slot />
-    <td
-      v-if="deletable"
-      @click="deleteRow"
-    >
-      <div class="flex justify-end w-full">
+    <div class="flex justify-center">
+      <td
+        v-if="deletable"
+        @click="deleteRow"
+      >
         <div class="icon__container icon__container--red">
           <BaseDeleteIcon />
         </div>
-      </div>
-    </td>
-    <td
-      v-if="editable"
-      @click="editRow"
-    >
-      <div class="flex justify-start w-full">
+      </td>
+      <td
+        v-if="editable"
+        @click="editRow"
+      >
         <div class="icon__container icon__container--blue">
           <BaseEditIcon />
         </div>
-      </div>
-    </td>
-    <td
-      v-if="viewed"
-      @click="viewRow"
-    >
-      <div class="flex justify-center w-full">
+      </td>
+      <td
+        v-if="viewed"
+        @click="viewRow"
+      >
         <div class="icon__container icon__container--blue">
           <BaseDetailsIcon />
         </div>
-      </div>
-    </td>
+      </td>
+    </div>
   </tr>
 </template>
 

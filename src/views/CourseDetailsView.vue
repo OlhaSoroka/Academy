@@ -14,33 +14,87 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-        <h2 class="part__text">
-          Main Info
-        </h2>
-        <BaseTable
-          :table-data="{
-            headingData: headersUser,
-            bodyData: [courseItem],
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
-        <h2 class="part__text">
-          Group
-        </h2>
-        <BaseTable
-          :table-data="{
-            headingData: headersGroup,
-            bodyData: courseItem.group,
-          }"
-          :edit-btns="false"
-          :is-data-loading="loadingStatus"
-          :delete-btns="false"
-        />
+        <div class="grid grid-cols-2 grid-rows-2 gap-x-10 gap-y-10 ">
+          <div class="part col-span-1 col-start-1">
+            <h2 class="part__text">
+              Main info
+            </h2>
+            <div class="flex justify-between flex-wrap">
+              <div class="text-left">
+                <label class="main__header_label">Name
+                  <p class="main__header_text">{{ courseItem.name }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date
+                  <p class="main__header_text">{{ courseItem.date }}</p>
+                </label>
+              </div>
+              <div
+                v-if="courseItem.docs_link"
+                class="text-left"
+              >
+                <BaseTooltip :text="courseItem.docs_link">
+                  <label class="main__header_label">
+                    Docs :
+                    <p class="main__header_text">
+                      <a
+                        target="”_blank”"
+                        :href="courseItem.docs_link"
+                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                    </p>
+                  </label>
+                </BaseTooltip>
+              </div>
+              <div
+                v-if="courseItem.status === 'not started'"
+                class="text-left p-1 rounded-md"
+                :class="{
+                  'bg-blue-300': courseItem.status === 'not started',
+                  'bg-green-500': courseItem.status === 'in progress',
+                  'bg-red-400': courseItem.status === 'finished',
+                }"
+              >
+                <label class="main__header_label">Status
+                  <p class="main__header_text">{{ courseItem.status }}</p>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="part col-span-1 col-start-2 row-span-2">
+            <h2 class="part__text">
+              Homeworks
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerHomework,
+                bodyData: courseItem.homework,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+          <div class="part col-span-1 col-start-1">
+            <h2 class="part__text">
+              Group
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headersGroup,
+                bodyData: courseItem.group,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+            />
+          </div>
+        </div>
       </div>
     </div>
-    <div v-else-if="isManagerOrAdmin">
+    <div v-else-if="isManager || isAdmin">
       <div
         v-if="courseItem"
         class="text-center my-3"
@@ -115,13 +169,13 @@
             </h2>
             <div class="flex flex-col gap-5">
               <div class="text-left">
-                <label class="text-xs">Name
-                  <p class="text-2xl">{{ courseItem.name }}</p>
+                <label class="main__header_label">Name
+                  <p class="main__header_text">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="text-xs">Date
-                  <p class="text-2xl">{{ courseItem.date }}</p>
+                <label class="main__header_label">Date
+                  <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
               <div
@@ -219,7 +273,7 @@
           </div>
           <div
             v-if="courseItem.comments.length"
-            class="part col-span-3"
+            class="part col-span-3 col-start-3"
           >
             <h2 class="part__text">
               Comments
@@ -255,6 +309,7 @@
     <NewResultModal :toggle-modal="isNewResultModal" />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
+
   </div>
 </template>
 
@@ -274,6 +329,7 @@ import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/Co
 import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue';
 import NewResultModal from '../components/Modals/CourseDetailsModals/NewResultModal.vue';
 import NewHomeWorkModal from '../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue';
+// import NewCommentModal from '../components/Modals/CourseDetailsModals/NewCommentModal.vue';
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -290,7 +346,8 @@ export default {
     CourseDetailsUpdateModal,
     NewGroupMember,
     NewResultModal,
-    NewHomeWorkModal
+    NewHomeWorkModal,
+    // NewCommentModal
   },
   data() {
     return {
@@ -317,8 +374,8 @@ export default {
       'courseIndex',
       'nextCourseId',
       'previousCourseId',
-      "lastCourseId",
-      "firstCourseId",
+      'lastCourseId',
+      'firstCourseId',
     ]),
     ...mapGetters('user', ['user']),
     isUser() {
@@ -328,9 +385,17 @@ export default {
         return false;
       }
     },
-    isManagerOrAdmin() {
+    isManager() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE || ADMIN_ROLE;
+        return this.user.role === MANAGER_ROLE;
+      } else {
+        return false;
+      }
+    },
+
+    isAdmin() {
+      if (this.user) {
+        return this.user.role === ADMIN_ROLE;
       } else {
         return false;
       }
@@ -444,6 +509,7 @@ export default {
     }
   },
 
+
 };
 </script>
 
@@ -486,5 +552,13 @@ button {
 
 .nav__courses {
   @apply flex;
+}
+
+.main__header_label {
+  @apply font-semibold text-sky-800;
+}
+
+.main__header_text {
+  @apply text-2xl font-thin text-slate-700;
 }
 </style>

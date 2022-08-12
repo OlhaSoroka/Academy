@@ -37,7 +37,7 @@
             Update
           </BaseButton>
           <BaseButton
-            :variant="btn_red"
+            variant="btn_red"
             @click="cancel"
           >
             Cancel
@@ -78,7 +78,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('courses', ['getCourseById']),
+    ...mapGetters('courses', ['getCourseById', 'courses']),
   },
   watch: {
     toggleModal() {
@@ -86,25 +86,26 @@ export default {
     },
   },
   async mounted() {
-    await this.getCourses()
+    this.getCourses().then(() => {
+      console.log(this.courses);
+      let currentItem = this.getCourseById(this.$route.params.id);
 
-    let currentItem = await this.getCourseById(this.$route.params.id);
-
-    const { status, name, docs_link, date } = currentItem
-    this.newStatus = status
-    this.newName = name
-    this.newDate = this.makeDate(date)
-    this.newDocs_link = docs_link
+      const { status, name, docs_link, date } = currentItem
+      this.newStatus = status
+      this.newName = name
+      this.newDate = this.makeDate(date)
+      this.newDocs_link = docs_link
+    })
 
   },
   methods: {
     ...mapActions('courses', ['addNewComment', 'getCourses', 'updateCourse']),
-    clearInputs() {
-      this.newStatus = ""
-      this.newName = ""
-      this.newDate = ""
-      this.newDocs_link = ""
-    },
+    // clearInputs() {
+    //   this.newStatus = ""
+    //   this.newName = ""
+    //   this.newDate = ""
+    //   this.newDocs_link = ""
+    // },
     makeDate(propsDate) {
       // case dd/mm/yyyy -> yyyy-mm--dd
       const date = propsDate.split('/')
