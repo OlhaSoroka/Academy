@@ -9,13 +9,12 @@
         exist on this site.
       </h2>
       <h2>
-        You can back to
-        <button 
-          class="text-sky-700 underline" 
+        You can back to <BaseButton 
+          class="max-w-fit" 
           @click="goToCourses"
         >
           Courses
-        </button>
+        </BaseButton>
       </h2>
     </div>
   </div>
@@ -23,8 +22,12 @@
 
 <script>
 import { COURSE_DASHBOARD } from "../constants/routes.constant";
+import BaseButton from '../components/BaseComponents/BaseButton.vue';
 
 export default {
+  components: {
+		BaseButton
+  },
   methods: {
     goToCourses() {
       this.$router.push({ name: COURSE_DASHBOARD });
