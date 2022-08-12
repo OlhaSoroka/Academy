@@ -2,7 +2,6 @@
   <BaseModal
     ref="cdUpdateModal"
     :header="'Update course details'"
-    @isClosed="clearInputs()"
   >
     <template #body>
       <div class="flex justify-center flex-col mt-7  gap-10">
