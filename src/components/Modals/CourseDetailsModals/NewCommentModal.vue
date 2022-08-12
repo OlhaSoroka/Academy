@@ -30,7 +30,7 @@
                 Submit
               </BaseButton>
               <BaseButton
-                :variant="'btn_red'"
+                variant="btn_red"
                 type="button"
                 @click="cancel"
               >
