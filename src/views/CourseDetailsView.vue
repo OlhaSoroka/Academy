@@ -4,7 +4,7 @@
       Course Details
     </h2>
     <div v-if="isUser">
-      <nav class="nav my-0">
+      <nav class="nav">
         <BaseButton
           class="nav__btn"
           variant="btn_black"
