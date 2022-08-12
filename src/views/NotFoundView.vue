@@ -9,7 +9,8 @@
         exist on this site.
       </h2>
       <h2>
-        You can back to <BaseButton 
+        You can back to
+        <BaseButton 
           class="max-w-fit" 
           @click="goToCourses"
         >
@@ -22,11 +23,11 @@
 
 <script>
 import { COURSE_DASHBOARD } from "../constants/routes.constant";
-import BaseButton from '../components/BaseComponents/BaseButton.vue';
+import BaseButton from "../components/BaseComponents/BaseButton.vue";
 
 export default {
   components: {
-		BaseButton
+    BaseButton,
   },
   methods: {
     goToCourses() {

@@ -284,7 +284,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import BaseButton from '../components/BaseComponents/BaseButton.vue';
 import BaseTable from '../components/BaseComponents/BaseTable/BaseTable.vue';
-import { COURSE_DETAILS, COURSE_DASHBOARD} from '../constants/routes.constant';
+import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
 import { extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
