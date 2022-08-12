@@ -130,8 +130,7 @@ export default {
         fullName: "",
         email: "",
         course: "",
-        password: "",
-        initialScore: "",
+        initialScore: "",        
       },
       managerUserEditInputs: [
         {
@@ -204,14 +203,12 @@ export default {
           label: "Full Name",
           model: "fullName",
           type: "text",
-          vid: "fullName",
           placeholder: "Enter name",
         },
         {
           label: "Email",
           model: "email",
           type: "email",
-          vid: "email",
           placeholder: "Enter email",
         },
         {
@@ -232,14 +229,12 @@ export default {
           label: "Course",
           model: "course",
           type: "text",
-          vid: "course",
           placeholder: "Enter course",
         },
         {
           label: "Initial Score",
           model: "initialScore",
           type: "number",
-          vid: "initialscore",
           placeholder: "Enter initial score",
         },
       ],

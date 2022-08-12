@@ -78,6 +78,7 @@ export default {
       createModel: {
         fullName: "",
         password: "",
+        confirmpassword: "",
         email: "",
         course: "",
         initialScore: "",
@@ -98,6 +99,7 @@ export default {
       this.createModel = {
         fullName: "",
         password: "",
+        confirmpassword: "",
         email: "",
         course: "",
         initialScore: "",
