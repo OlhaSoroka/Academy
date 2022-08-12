@@ -130,7 +130,7 @@ export default {
         fullName: "",
         email: "",
         course: "",
-        initialScore: "",
+        initialScore: "",        
       },
       managerUserEditInputs: [
         {
@@ -200,7 +200,7 @@ export default {
       ],
       adminUserCreateInputs: [
         {
-          label: "Name",
+          label: "Full Name",
           model: "fullName",
           type: "text",
           placeholder: "Enter name",
@@ -216,6 +216,14 @@ export default {
           model: "password",
           type: "password",
           placeholder: "Enter password",
+          vid: "password"
+        },
+        {
+          label: "Confirm password",
+          model: "confirmpassword",
+          type: "password",
+          vid: "confirmpassword",
+          placeholder: "Confirm password",          
         },
         {
           label: "Course",
