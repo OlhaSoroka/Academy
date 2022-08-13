@@ -217,5 +217,4 @@ export default {
 .BaseTable {
 	@apply w-full;
 }
-
 </style>
