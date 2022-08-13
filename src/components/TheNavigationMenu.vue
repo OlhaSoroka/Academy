@@ -106,8 +106,7 @@ export default {
 
 <style lang="postcss">
 .navigation-menu {
-	@apply bg-stone-50 text-sky-700 w-48 h-screen;
-	font-family: font-mono;
+	@apply bg-stone-50 text-sky-700 w-48 h-screen;	
 }
 
 .navigation-menu > * {
