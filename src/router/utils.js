@@ -1,4 +1,4 @@
-import { LOGIN, NOT_FOUND } from '@/constants/routes.constant';
+import { LOGIN } from '@/constants/routes.constant';
 import { getAllCourses } from '@/api/course';
 import store from '../store/index';
 
@@ -34,6 +34,6 @@ export const isCourseExist = async (to, _, next) => {
 	if (validIds.includes(+to.params.id)) {
 		next();
 	} else {
-		next({ name: NOT_FOUND });
+		next({ path: '*' });
 	}
 };
