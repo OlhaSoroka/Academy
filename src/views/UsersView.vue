@@ -197,7 +197,7 @@ export default {
         { fullName: "Full Name" },
         { email: "Email" },
         { course: "Course" },
-        { initialScore: "Initial Score" }
+        { initialScore: "Initial Score" },
       ],
     };
   },
