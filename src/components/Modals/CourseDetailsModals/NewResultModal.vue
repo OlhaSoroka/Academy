@@ -88,10 +88,7 @@ export default {
       let res = this.currentCourse.group.filter(groupMember => {
         return !this.currentCourse.results.some(resulter => resulter.id === groupMember.id)
       })
-
       return res
-
-
     },
     currentCourse() {
       return this.getCourseById(this.currentRouteName)
@@ -102,11 +99,9 @@ export default {
       this.$refs.newGroupMemberModal.openModal();
     },
   },
-
   async mounted() {
     this.fetchUsers()
   },
-
   methods: {
     ...mapActions("courses", ["updateCourse", 'getCourses']),
     ...mapActions('users', ['fetchUsers']),

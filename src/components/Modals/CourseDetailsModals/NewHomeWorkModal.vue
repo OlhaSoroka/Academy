@@ -55,11 +55,10 @@ export default {
   data() {
     return {
       name: '',
-      date: ""
+      date: ''
     }
   },
   computed: {
-    ...mapGetters('users', ['users']),
     ...mapGetters('user', ['user']),
     ...mapGetters('courses', ['getCourseById']),
     currentRouteName() {
@@ -68,7 +67,6 @@ export default {
       const id = pathArray[pathArray.length - 1]
       return id;
     },
-
     currentCourse() {
       return this.getCourseById(this.currentRouteName)
     }
@@ -78,14 +76,8 @@ export default {
       this.$refs.newHomework.openModal();
     },
   },
-
-  async mounted() {
-    this.fetchUsers()
-  },
-
   methods: {
     ...mapActions("courses", ["updateCourse", 'getCourses']),
-    ...mapActions('users', ['fetchUsers']),
     clearInputs() {
       this.name = ''
     },
