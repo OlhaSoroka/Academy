@@ -10,7 +10,6 @@
         <th
           v-for="[key, value] in getEntriesFromArray(getTablePart(tableData, 'head'))"
           :key="key"
-          class=""
           :class="setHeaderNumClass(value)"
           @click="sortTable(key)"
         >
