@@ -21,18 +21,18 @@
             </div>
             <div class="flex justify-center mt-5">
               <BaseButton
-                :disabled="invalid"
-                variant="btn_green"
-                @click="submitUserEditButton"
-              >
-                Update
-              </BaseButton>
-              <BaseButton
                 :disabled="false"
                 variant="btn_red"
                 @click="cancelUserEditButton"
               >
                 Cancel
+              </BaseButton>
+              <BaseButton
+                :disabled="invalid"
+                variant="btn_green"
+                @click="submitUserEditButton"
+              >
+                Update
               </BaseButton>
             </div>
           </div>
