@@ -29,7 +29,6 @@
               </BaseButton>
               <BaseButton
                 :disabled="invalid"
-                variant="btn_green"
                 @click="submitUserEditButton"
               >
                 Update
