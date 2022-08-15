@@ -22,6 +22,7 @@ export default {
     async fetchUser(store, id) {
       try {
         const user = await gethUserByID(id, store.getters.accessToken);
+        localStorage.setItem("user", JSON.stringify(user));
         store.commit("SET_USER", user);
       } catch (error) {
         const errorMessage =

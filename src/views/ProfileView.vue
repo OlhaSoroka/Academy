@@ -4,16 +4,19 @@
     class="profile__container"
   >
     <div class="profile__image_container">
-      <div class="profile__image_block">
-        <!-- disable image cache -->
+      <div
+        v-if="!isImageLoaded"
+        class="profile__image_loading"
+      >
+        <BaseSpinner />
+      </div>
+      <div
+        v-show="isImageLoaded"
+        class="profile__image_block"
+      >
         <img
-          v-if="user.avatarUrl.path"
-          :src="user.avatarUrl.path + '?' + Date.now()"
-        >
-        <img
-          v-else
-          src="../assets/no_avatar.png"
-          alt="avatar"
+          :src="user.avatarUrl.path"
+          @load="profileImageLoaded"
         >
       </div>
     </div>
@@ -71,7 +74,10 @@
         </div>
       </div>
     </div>
-    <ChangeImageModal :toggle-modal="isChangeImageModalOpen" />
+    <ChangeImageModal
+      :toggle-modal="isChangeImageModalOpen"
+      @onProfileImageChange="profileImageChanged"
+    />
     <ChangePasswordModal :toggle-modal="isChangePasswordModalOpen" />
   </div>
 </template>
@@ -79,14 +85,21 @@
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import ChangeImageModal from "@/components/Modals/ChangeImageModal.vue";
 import ChangePasswordModal from "@/components/Modals/ChangePasswordModal.vue";
+import BaseSpinner from "@/components/BaseComponents/BaseSpinner/BaseSpinner.vue";
 import { mapGetters } from "vuex";
 import { USER_ROLE } from "@/constants/roles.constant";
 export default {
-  components: { BaseButton, ChangeImageModal, ChangePasswordModal },
+  components: {
+    BaseButton,
+    ChangeImageModal,
+    ChangePasswordModal,
+    BaseSpinner,
+  },
   data() {
     return {
       isChangePasswordModalOpen: false,
       isChangeImageModalOpen: false,
+      isImageLoaded: false,
     };
   },
   computed: {
@@ -96,6 +109,12 @@ export default {
     },
   },
   methods: {
+    profileImageLoaded() {
+      this.isImageLoaded = true;
+    },
+    profileImageChanged() {
+      this.isImageLoaded = false;
+    },
     openProfileImageChangeModal() {
       this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
     },
@@ -115,8 +134,16 @@ export default {
   @apply bg-sky-800 flex justify-center items-center p-12;
 }
 
+.profile__image_loading {
+  @apply w-64 h-64 flex justify-center items-center;
+}
+
+.profile__image_block {
+  @apply rounded-full shadow-md w-64 h-64 block relative;
+}
+
 .profile__image_block img {
-  @apply rounded-full shadow-md max-w-xs w-full h-full block;
+  @apply w-full h-full object-cover;
 }
 
 .profile__info_container {
