@@ -51,7 +51,15 @@
           :key="index"
           :class="setNumClass(checkTableData(item[prop[0]]))"
         >
-          {{ checkTableData(item[prop[0]]) }}
+          <BaseTooltip
+            v-if="typeof item[prop[0]] === 'string' && item[prop[0]].length > 30"
+            :text="(item[prop[0]])"
+          >
+            {{
+              typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 30)}...` : item[prop[0]]
+            }}
+          </BaseTooltip>
+          <span v-else>{{ item[prop[0]] }}</span>
         </td>
       </BaseTableRow>
     </tbody>
@@ -73,12 +81,14 @@ import BaseTableRow from '../../UI/BaseTable/BaseTableRow.vue';
 import BaseSpinner from '../BaseSpinner/BaseSpinner.vue';
 import BaseArrowDown from '../BaseIcons/BaseArrowDown.vue';
 import BaseArrowUp from '../BaseIcons/BaseArrowUp.vue';
+import BaseTooltip from '../BaseTooltip/BaseTooltip.vue';
 export default {
 	components: {
 		BaseTableRow,
 		BaseSpinner,
 		BaseArrowDown,
 		BaseArrowUp,
+		BaseTooltip
 	},
 	/* 
   isDataLoading - flag of loading data
@@ -93,15 +103,15 @@ export default {
 			type: Object,
 		},
 		/* 
-        tableData : {
-            headingData : [{},...],
-            headingData - [{name O f Prop In Object : name That Should be on page }, ...]
-            example : [{'fullname':' Повне ім'я }]
+		tableData : {
+			headingData : [{},...],
+			headingData - [{name O f Prop In Object : name That Should be on page }, ...]
+			example : [{'fullname':' Повне ім'я }]
 
-            bodyData : [{} , ... ]
-            bodyData - data to rows
-        }
-    */
+			bodyData : [{} , ... ]
+			bodyData - data to rows
+		}
+	*/
 		isDataLoading: {
 			required: true,
 			type: Boolean,
@@ -127,8 +137,8 @@ export default {
 	data() {
 		return {
 			/*
-      table only able to sort by 1 column and a-z || z-a ways
-      */
+	  table only able to sort by 1 column and a-z || z-a ways
+	  */
 			sort: {
 				value: null,
 				sortDirection: null, // null || true || false
