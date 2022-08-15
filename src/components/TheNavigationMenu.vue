@@ -3,6 +3,16 @@
     v-if="!!user"
     class="navigation-menu"
   >
+    <router-link :to="{ name: COURSE_DASHBOARD }">
+      <svg
+        class="navigation-menu-icon"
+        width="16"
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-courses" />
+      </svg>
+      <span class="navigation-menu-text">Courses</span>
+    </router-link>
     <router-link :to="{ name: USERS }">
       <svg
         class="navigation-menu-icon"
@@ -25,16 +35,6 @@
         <use href="../icons/sprite-navigation.svg#icon-managers" />
       </svg>
       <span class="navigation-menu-text">Managers</span>
-    </router-link>
-    <router-link :to="{ name: COURSE_DASHBOARD }">
-      <svg
-        class="navigation-menu-icon"
-        width="16"
-        height="16"
-      >
-        <use href="../icons/sprite-navigation.svg#icon-courses" />
-      </svg>
-      <span class="navigation-menu-text">Courses</span>
     </router-link>
     <label
       for="logout"
