@@ -3,15 +3,13 @@
     <div class="courses__topbar_container">
       <div>
         <h2 class="courses__header">
-          Courses Dashboard 
+          Courses Dashboard
         </h2>
         <h3 class="courses__subheader">
           Courses list of InventorSoft Academy
         </h3>
       </div>
-      <div 
-        v-if="isManager || isAdmin"
-      >
+      <div v-if="isManager || isAdmin">
         <BaseButton
           :loading="loadingStatus"
           @click.prevent="openCourseViewCreateModal"
@@ -52,9 +50,7 @@
           @view="goToCourseDetails"
         />
       </div>
-      <CourseCreateModal
-        :is-opened-course-create-modal="isCreateModalOpen"
-      />
+      <CourseCreateModal :is-opened-course-create-modal="isCreateModalOpen" />
       <BaseDeleteModal
         :toggle-modal="isDeleteModalOpen"
         :target-value="targetCourse.name"
@@ -73,7 +69,7 @@ import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import CourseCreateModal from "@/components/Modals/CourseCreateModal.vue";
-import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal.vue"
+import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal.vue";
 import {
   USER_ROLE,
   MANAGER_ROLE,
@@ -85,33 +81,30 @@ export default {
     BaseTable,
     BaseButton,
     BaseDeleteModal,
-    CourseCreateModal
+    CourseCreateModal,
   },
   data() {
     return {
       isCreateModalOpen: false,
       isDeleteModalOpen: false,
       targetCourse: {
-        id:	null,
-        name:	"",
-        date:	"",
-        status:	"",
-        docs_link:	"",
-        applicants:	[],
-        group:	[],
-        homework:	[],
-        results:	[],
-        comments:	[]
+        id: null,
+        name: "",
+        date: "",
+        status: "",
+        docs_link: "",
+        applicants: [],
+        group: [],
+        homework: [],
+        results: [],
+        comments: [],
       },
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
         { status: "Status" },
       ],
-      headersManager: [
-        { name: "Course Name" },
-        { date: "Date" },
-      ],
+      headersManager: [{ name: "Course Name" }, { date: "Date" }],
     };
   },
   computed: {
@@ -121,7 +114,7 @@ export default {
     },
     ...mapGetters("user", ["user"]),
     isUser() {
-       if (this.user) {
+      if (this.user) {
         return this.user.role === USER_ROLE;
       } else {
         return false;
@@ -140,17 +133,17 @@ export default {
       } else {
         return false;
       }
-    }
+    },
   },
   mounted() {
     this.getCourses();
   },
   methods: {
-    ...mapActions('courses', ["getCourses", "deleteCourseFromState"]),
+    ...mapActions("courses", ["getCourses", "deleteCourseFromState"]),
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
-    openCoursesDeleteModal(id){
+    openCoursesDeleteModal(id) {
       this.targetCourse = this.courses.find((e) => e.id === id);
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
     },
@@ -159,14 +152,14 @@ export default {
     },
     submitDelete() {
       this.deleteCourseFromState(this.targetCourse.id);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="postcss" scoped>
-.courses__container{
- @apply p-10 m-auto flex flex-col justify-center;
+.courses__container {
+  @apply p-10 m-auto flex flex-col justify-center;
 }
 
 .courses__header {
@@ -181,8 +174,7 @@ export default {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
 
-.courses__topbar_container{
+.courses__topbar_container {
   @apply w-full flex justify-between items-center;
 }
-
 </style>

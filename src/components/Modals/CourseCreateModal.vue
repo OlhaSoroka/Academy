@@ -6,7 +6,7 @@
   >
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
-        <div> 
+        <div>
           <BaseInput
             v-model="courseToAdd.name"
             type="text"
@@ -28,10 +28,23 @@
             id="status"
             v-model="courseToAdd.status"
             rules="required"
-            class="border-2 m-1 w-64 border-sky-700 focus-visible:border-sky-700 focus-visible:outline-0 text-gray-900 text-sm rounded-lg 0 block w-full py-2  checked:border-sky-700"
+            class="
+              border-2
+              m-1
+              w-64
+              border-sky-700
+              focus-visible:border-sky-700 focus-visible:outline-0
+              text-gray-900 text-sm
+              rounded-lg
+              0
+              block
+              w-full
+              py-2
+              checked:border-sky-700
+            "
           >
             <option
-              v-for="(status) in statuses"
+              v-for="status in statuses"
               :key="status"
               :value="status"
             >
@@ -69,7 +82,7 @@ import { ValidationObserver } from "vee-validate";
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseInput from "@/components/BaseComponents/BaseInput";
 import BaseModal from "@/components/BaseComponents/BaseModal";
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "CourseCreateModal",
   components: { BaseInput, BaseButton, ValidationObserver, BaseModal },
@@ -77,7 +90,7 @@ export default {
     isOpenedCourseCreateModal: {
       required: true,
       type: Boolean,
-    }
+    },
   },
   data() {
     return {
@@ -85,13 +98,13 @@ export default {
         id: 0,
         name: "",
         date: "",
-        status: "not started"
+        status: "not started",
       },
-      statuses: ["not started", "in progress", "finished"]
-    }
+      statuses: ["not started", "in progress", "finished"],
+    };
   },
   computed: {
-    ...mapGetters('courses', ["courses"])
+    ...mapGetters("courses", ["courses"]),
   },
   watch: {
     isOpenedCourseCreateModal() {
@@ -99,20 +112,20 @@ export default {
     },
   },
   methods: {
-    ...mapActions('courses', ["createNewCourse"]),
+    ...mapActions("courses", ["createNewCourse"]),
     clearInputs() {
       this.courseToAdd = {
         name: "",
         date: "",
         status: "not started",
-      }
+      };
     },
     submitCourseCreateButton() {
-      let newCourse = { ...this.courseToAdd }
+      let newCourse = { ...this.courseToAdd };
       const { name, date, status } = newCourse;
-      if (name !== "" && date !== "" && status !=="") {
+      if (name !== "" && date !== "" && status !== "") {
         if (this.courses.length > 0) {
-          const ids = this.courses.map(course => {
+          const ids = this.courses.map((course) => {
             return course.id;
           });
           newCourse.id = Math.max(...ids) + 1;
@@ -123,19 +136,19 @@ export default {
           ...newCourse,
           applicants: [],
           comments: [],
-          docs_link: '',
+          docs_link: "",
           group: [],
           homework: [],
           results: [],
-        }
-        this.createNewCourse(newCourse)
-        this.$refs.courseCreateModal.closeModal()
+        };
+        this.createNewCourse(newCourse);
+        this.$refs.courseCreateModal.closeModal();
       }
     },
     canselCourseCreateButton() {
       this.$refs.courseCreateModal.closeModal();
-      this.clearInputs()
+      this.clearInputs();
     },
-  }
+  },
 };
 </script>

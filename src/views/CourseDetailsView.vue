@@ -4,7 +4,7 @@
       Course Details
     </h2>
     <div v-if="isUser">
-      <nav class="nav">
+      <nav class="nav my-3">
         <BaseButton
           class="nav__btn"
           variant="btn_black"
@@ -107,7 +107,7 @@
         v-if="courseItem"
         class="text-center my-3"
       >
-        <nav class="nav flex-wrap">
+        <nav class="nav flex-wrap my-3">
           <BaseButton
             class="nav__btn"
             variant="btn_black"
@@ -186,7 +186,6 @@
                       >{{
                         courseItem.docs_link.slice(0, 20)
                       }}</a>
-
                     </p>
                   </label>
                 </BaseTooltip>
@@ -242,7 +241,6 @@
               </BaseButton>
             </div>
 
-
             <BaseTable
               class="table"
               :table-data="{
@@ -267,7 +265,6 @@
                 <BasePlus />
               </BaseButton>
             </div>
-
 
             <BaseTable
               class="table"
@@ -352,12 +349,11 @@
 </template>
 
 <script>
-
 import { mapActions, mapGetters } from "vuex";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
-import BaseEditIcon from '@/components/BaseComponents/BaseIcons/BaseEditIcon.vue';
+import BaseEditIcon from "@/components/BaseComponents/BaseIcons/BaseEditIcon.vue";
 
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
@@ -366,7 +362,7 @@ import {
   MANAGER_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
-import BasePlus from '@/components/BaseComponents/BaseIcons/BasePlus.vue';
+import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
 
 import NewApplicantModal from "@/components/Modals/CourseDetailsModals/NewApplicantModal.vue";
 import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
@@ -394,9 +390,8 @@ export default {
     NewHomeWorkModal,
     BasePlus,
     BaseEditIcon,
-    BaseDeleteModal
-},
-
+    BaseDeleteModal,
+  },
   data() {
     return {
       comments: "",
@@ -624,7 +619,7 @@ export default {
 }
 
 .header {
-  @apply flex justify-between items-center
+  @apply flex justify-between items-center;
 }
 
 .part {

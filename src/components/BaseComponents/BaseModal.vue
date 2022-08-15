@@ -2,11 +2,11 @@
   <div>
     <transition name="fade">
       <div
-        v-if="show" 
+        v-if="show"
         class="modal"
       >
         <div
-          class="modal__backdrop" 
+          class="modal__backdrop"
           @click="closeModal()"
         />
         <div class="modal__dialog">

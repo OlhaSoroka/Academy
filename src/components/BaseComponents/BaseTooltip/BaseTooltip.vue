@@ -8,31 +8,33 @@
 </template>
 <script>
 export default {
-    props: {
-        text: [String, Number]
-    }
-}
+  props: {
+    text: {
+      type: [String, Number],
+      required: true
+    },
+  },
+};
 </script>
-<style>
-
+<style scoped>
 .tooltip {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .tooltip .tooltiptext {
-    visibility: hidden;
-    background-color: black;
-    color: #fff;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    word-wrap: break-word;
-    z-index: 1;
-    max-width: 500px;
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  word-wrap: break-word;
+  z-index: 1;
+  max-width: 500px;
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
+  visibility: visible;
 }
 </style>

@@ -20,7 +20,6 @@
         >
       </div>
     </div>
-
     <div class="profile__info_container">
       <div class="profile__user_info_wrapper">
         <div class="profile__info_subtitle">
@@ -47,7 +46,7 @@
             Course
           </div>
           <div class="profile__info_title">
-            {{ user.course || '--' }}
+            {{ user.course || "--" }}
           </div>
         </div>
         <div class="profile__course_item">
@@ -55,7 +54,7 @@
             Score
           </div>
           <div class="profile__info_title">
-            {{ user.initialScore || '--' }}
+            {{ user.initialScore || "--" }}
           </div>
         </div>
       </div>
@@ -83,90 +82,95 @@
   </div>
 </template>
 <script>
-import BaseButton from '@/components/BaseComponents/BaseButton.vue';
-import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
-import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
-import BaseSpinner from '@/components/BaseComponents/BaseSpinner/BaseSpinner.vue';
-import { mapGetters } from 'vuex';
-import { USER_ROLE } from '@/constants/roles.constant';
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import ChangeImageModal from "@/components/Modals/ChangeImageModal.vue";
+import ChangePasswordModal from "@/components/Modals/ChangePasswordModal.vue";
+import BaseSpinner from "@/components/BaseComponents/BaseSpinner/BaseSpinner.vue";
+import { mapGetters } from "vuex";
+import { USER_ROLE } from "@/constants/roles.constant";
 export default {
-	components: { BaseButton, ChangeImageModal, ChangePasswordModal, BaseSpinner },
-	data() {
-		return {
-			isChangePasswordModalOpen: false,
-			isChangeImageModalOpen: false,
-			isImageLoaded: false,
-		};
-	},
-	computed: {
-		...mapGetters('user', ['user', 'isImageLoading']),
-		isUser() {
-			return this.user.role === USER_ROLE;
-		},
-	},
-	methods: {
-		profileImageLoaded() {
-			this.isImageLoaded = true;
-		},
-		profileImageChanged() {
-			this.isImageLoaded = false;
-		},
-		openProfileImageChangeModal() {
-			this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
-		},
-		openPasswordChangeModal() {
-			this.isChangePasswordModalOpen = !this.isChangePasswordModalOpen;
-		},
-	},
+  components: {
+    BaseButton,
+    ChangeImageModal,
+    ChangePasswordModal,
+    BaseSpinner,
+  },
+  data() {
+    return {
+      isChangePasswordModalOpen: false,
+      isChangeImageModalOpen: false,
+      isImageLoaded: false,
+    };
+  },
+  computed: {
+    ...mapGetters("user", ["user", "isImageLoading"]),
+    isUser() {
+      return this.user.role === USER_ROLE;
+    },
+  },
+  methods: {
+    profileImageLoaded() {
+      this.isImageLoaded = true;
+    },
+    profileImageChanged() {
+      this.isImageLoaded = false;
+    },
+    openProfileImageChangeModal() {
+      this.isChangeImageModalOpen = !this.isChangeImageModalOpen;
+    },
+    openPasswordChangeModal() {
+      this.isChangePasswordModalOpen = !this.isChangePasswordModalOpen;
+    },
+  },
 };
 </script>
 
 <style lang="postcss" scoped>
 .profile__container {
-	@apply w-full h-2/3 self-center mx-auto shadow-xl flex justify-center;
+  @apply w-full h-2/3 self-center mx-auto shadow-xl flex justify-center;
 }
 
 .profile__image_container {
-	@apply bg-sky-800 flex justify-center items-center p-12;
+  @apply bg-sky-800 flex justify-center items-center p-12;
 }
 
 .profile__image_loading {
-	@apply w-64 h-64 flex justify-center items-center;
+  @apply w-64 h-64 flex justify-center items-center;
 }
 
 .profile__image_block {
-	@apply rounded-full shadow-md w-64 h-64 block relative;
+  @apply rounded-full shadow-md w-64 h-64 block relative;
 }
 
 .profile__image_block img {
-	@apply w-full h-full object-cover;
+  @apply w-full h-full object-cover;
 }
 
 .profile__info_container {
-	@apply p-12 text-start grow;
+  @apply p-12 text-start grow;
 }
 
 .profile__course_info_wrapper {
-	@apply flex mb-5;
+  @apply flex mb-5;
 }
 
 .profile__user_info_wrapper {
-	@apply mb-5;
+  @apply mb-5;
 }
 
 .profile__course_item {
-	@apply mr-5;
+  @apply mr-5;
 }
 
 .profile__info_subtitle {
-	@apply text-stone-300 font-semibold text-lg;
+  @apply text-stone-300 font-semibold text-lg;
 }
 
 .profile__info_title {
-	@apply text-stone-700 font-bold text-4xl;
+  @apply text-stone-700 font-bold text-4xl;
 }
 
 .profile__buttons_wrapper {
-	@apply flex;
+  @apply flex;
 }
 </style>
