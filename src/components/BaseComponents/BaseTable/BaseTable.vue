@@ -10,7 +10,7 @@
         <th
           v-for="[key, value] in getEntriesFromArray(getTablePart(tableData, 'head'))"
           :key="key"
-          class="app-table-header__th text-start text-sky-800"
+          :class="setHeaderNumClass(value)"
           @click="sortTable(key)"
         >
           <!-- make the header from props headerData-->
@@ -49,7 +49,7 @@
         <td
           v-for="(prop, index) in getEntriesFromArray(getTablePart(tableData, 'head'))"
           :key="index"
-          class="text-start"
+          :class="setNumClass(checkTableData(item[prop[0]]))"
         >
           {{ checkTableData(item[prop[0]]) }}
         </td>
@@ -134,6 +134,7 @@ export default {
 				sortDirection: null, // null || true || false
 			},
 			items: [],
+			baseTableHeaderStyles: "app-table-header__th text-sky-800"
 		};
 	},
 	updated() {
@@ -194,6 +195,20 @@ export default {
 		isDataNumber(data) {
 			return typeof data === 'number';
 		},
+		setNumClass(value) {
+			if(!isNaN(value)){
+				return "text-right"
+			} else {
+				return "text-start"
+			}
+		},
+		setHeaderNumClass(value){
+			if(value.toLowerCase().includes("score") || value.toLowerCase().includes("result")){
+				return `${this.baseTableHeaderStyles} text-right`
+			} else {
+				return `${this.baseTableHeaderStyles} text-start`
+			}
+        }
 	},
 };
 </script>

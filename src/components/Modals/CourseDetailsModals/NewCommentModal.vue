@@ -21,20 +21,19 @@
                 />
               </ValidationProvider>
             </div>
-            <div class="flex">
-              <BaseButton
-                class="mr-4"
-                :disabled="invalid"
-                type="submit"
-              >
-                Submit
-              </BaseButton>
+            <div class="mx-1 flex gap-20">
               <BaseButton
                 variant="btn_red"
                 type="button"
                 @click="cancel"
               >
                 Cancel
+              </BaseButton>
+              <BaseButton
+                :disabled="invalid"
+                type="submit"
+              >
+                Add
               </BaseButton>
             </div>
           </form>
