@@ -1,8 +1,10 @@
 <template>
-    <div class="tooltip">
-        <slot />
-        <p class="tooltiptext">{{ text }}</p>
-    </div>
+  <div class="tooltip">
+    <slot />
+    <p class="tooltiptext">
+      {{ text }}
+    </p>
+  </div>
 </template>
 <script>
 export default {
