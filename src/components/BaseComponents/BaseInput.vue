@@ -14,7 +14,7 @@
         v-bind="$attrs"
         v-model="model"
         :type="type"
-        :class="['base-input', {'!border-red-700': errors.length > 0}]"
+        :class="['base-input', { '!border-red-700': errors.length > 0 }]"
         v-on="listeners"
       >
       <p class="text-red-700 text-xs w-72 -ml-2 text-center absolute">
@@ -23,11 +23,13 @@
         </span>
         <span v-if="errors.length > 0 && vid === 'confirmpassword'">
           Passwords do not match.
-        </span>        
+        </span>
         <span v-if="errors.length > 0 && label === 'Full Name'">
           Full Name is empty.
-        </span>        
-        <span v-if="errors.length > 0 && vid != 'confirmpassword' && vid != 'password' && label != 'Full Name'">{{ errors[0] }}</span>
+        </span>
+        <span v-if="errors.length > 0 && vid != 'confirmpassword' && vid != 'password' && label != 'Full Name'">{{
+            errors[0]
+        }}</span>
       </p>
     </div>
   </ValidationProvider>
@@ -101,7 +103,7 @@ export default {
         return `${this.emailRules}|${this.rules}`;
       } else if (this.type === "password" && this.vid != "text") {
         return `${this.passwordRules}|${this.rules}`;
-      } else if (this.type === 'number')  return `${this.initialScoreRules}`;
+      } else if (this.type === 'number') return `${this.initialScoreRules}`;
       else return `${this.rules}`;
     },
   },
@@ -114,7 +116,12 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+
 .base-input {
   @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
+}
+
+.base-input:disabled {
+  @apply bg-gray-50 border-gray-300;
 }
 </style>

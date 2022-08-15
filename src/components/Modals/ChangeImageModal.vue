@@ -84,8 +84,7 @@ export default {
       this.$refs.profileImageModal.closeModal();
     },
     onImageSelected(e) {
-      this.file = e.target.files[0];
-      if (this.file) {
+      if (e.target.files[0]) {
         this.file = e.target.files[0];
         const fileReader = new FileReader();
         fileReader.onloadend = () => {

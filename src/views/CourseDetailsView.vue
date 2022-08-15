@@ -118,37 +118,6 @@
 
           <div class="nav__courses">
             <BaseButton
-              class="nav__btn"
-              @click="toggleNewGroupMemberModal"
-            >
-              New group member
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="toggleNewHomeworkModal"
-            >
-              New homework
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="toggleNewResultModal"
-            >
-              New result
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="toggleUpdateModal"
-            >
-              Update main info
-            </BaseButton>
-            <BaseButton
-              class="nav__btn"
-              @click="openModal"
-            >
-              New applicant
-            </BaseButton>
-
-            <BaseButton
               class="nav__btn whitespace-nowrap"
               @click="openAddCommentModal"
             >
@@ -180,9 +149,17 @@
           "
         >
           <div class="part col-span-2 col-start-1 row-span-1">
-            <h2 class="part__text">
-              Main info
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Main info
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleUpdateModal"
+              >
+                <BaseEditIcon />
+              </BaseButton>
+            </div>
             <div class="flex flex-col gap-5">
               <div class="text-left">
                 <label class="main__header_label">Name
@@ -201,6 +178,7 @@
                 <BaseTooltip :text="courseItem.docs_link">
                   <label class="text-xs">
                     Docs
+
                     <p class="text-2xl">
                       <a
                         target="”_blank”"
@@ -208,6 +186,7 @@
                       >{{
                         courseItem.docs_link.slice(0, 20)
                       }}</a>
+
                     </p>
                   </label>
                 </BaseTooltip>
@@ -227,9 +206,17 @@
             </div>
           </div>
           <div class="part col-span-3 col-start-3">
-            <h2 class="part__text">
-              Applicants
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Applicants
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="openModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
             <BaseTable
               class="table"
               :table-data="{
@@ -243,9 +230,19 @@
             />
           </div>
           <div class="part col-span-2 col-start-1 row-span-1 xl:row-span-2">
-            <h2 class="part__text">
-              Group
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Group
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewGroupMemberModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
+
+
             <BaseTable
               class="table"
               :table-data="{
@@ -259,9 +256,19 @@
             />
           </div>
           <div class="part col-start-3 col-span-3 xl:col-span-2">
-            <h2 class="part__text">
-              Homework
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Homework
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewHomeworkModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
+
+
             <BaseTable
               class="table"
               :table-data="{
@@ -275,9 +282,17 @@
             />
           </div>
           <div class="part col-start-1 col-span-2 xl:col-span-1">
-            <h2 class="part__text">
-              Results
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Results
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewResultModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
             <BaseTable
               class="table"
               :table-data="{
@@ -337,10 +352,13 @@
 </template>
 
 <script>
+
 import { mapActions, mapGetters } from "vuex";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
+import BaseEditIcon from '@/components/BaseComponents/BaseIcons/BaseEditIcon.vue';
+
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
 import {
@@ -348,6 +366,8 @@ import {
   MANAGER_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
+import BasePlus from '@/components/BaseComponents/BaseIcons/BasePlus.vue';
+
 import NewApplicantModal from "@/components/Modals/CourseDetailsModals/NewApplicantModal.vue";
 import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
 import BaseTooltip from "../components/BaseComponents/BaseTooltip/BaseTooltip.vue";
@@ -372,8 +392,11 @@ export default {
     NewGroupMember,
     NewResultModal,
     NewHomeWorkModal,
-    BaseDeleteModal,
-  },
+    BasePlus,
+    BaseEditIcon,
+    BaseDeleteModal
+},
+
   data() {
     return {
       comments: "",
@@ -598,6 +621,10 @@ export default {
 <style lang="postcss" scoped>
 .table {
   @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+}
+
+.header {
+  @apply flex justify-between items-center
 }
 
 .part {
