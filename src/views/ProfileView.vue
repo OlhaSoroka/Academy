@@ -131,7 +131,7 @@ export default {
 }
 
 .profile__image_loading {
-	@apply w-52 h-52 flex justify-center items-center;
+	@apply w-64 h-64 flex justify-center items-center;
 }
 
 .profile__image_block {
