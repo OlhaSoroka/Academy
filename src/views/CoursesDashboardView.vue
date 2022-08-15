@@ -40,7 +40,7 @@
           class="text-center"
           :table-data="{
             headingData: headersManager,
-            bodyData: courses,
+            bodyData: tableData,
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
@@ -105,13 +105,11 @@ export default {
         { status: "Status" },
       ],
       headersManager: [{ name: "Course Name" }, { date: "Date" }],
+      tableData: [],
     };
   },
   computed: {
-    ...mapGetters("courses", ["sortedCourses", "loadingStatus"]),
-    courses() {
-      return this.sortedCourses;
-    },
+    ...mapGetters("courses", ["sortedCourses", "loadingStatus", 'courses']),
     ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
@@ -137,6 +135,7 @@ export default {
   },
   mounted() {
     this.getCourses();
+    this.tableData = this.courses
   },
   methods: {
     ...mapActions("courses", ["getCourses", "deleteCourseFromState"]),
