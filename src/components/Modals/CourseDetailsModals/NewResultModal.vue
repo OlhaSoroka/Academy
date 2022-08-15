@@ -8,14 +8,20 @@
       <div class="flex justify-center flex-col mt-7 gap-10">
         <div class="w-[256px] mx-1 flex flex-col">
           <label
+            v-if="getGroup.length"
             for="applicants"
-            class="select__label"
-          >Select a member of group, whose result you want to add
-          </label>
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+          >Select a member of group, whose result you want to add </label>
+          <label
+            v-else
+            for="applicants"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+          >All group members have results added </label>
 
           <select
             id="applicants"
             v-model="newApplicant"
+            :disabled="!getGroup.length"
             class="select__resuls"
           >
             <option
@@ -31,6 +37,7 @@
             class="mt-5"
             :type="'number'"
             :vid="'Result'"
+            :disabled="!getGroup.length"
             placeholder="Type score here..."
           />
         </div>
@@ -86,12 +93,9 @@ export default {
       return id;
     },
     getGroup() {
-      let res = this.currentCourse.group.filter((groupMember) => {
-        return !this.currentCourse.results.some(
-          (resulter) => resulter.id === groupMember.id
-        );
-      });
-      return res;
+      return this.currentCourse.group.filter(groupMember => {
+        return !this.currentCourse.results.some(resulter => resulter.id === groupMember.id)
+      })
     },
     currentCourse() {
       return this.getCourseById(this.currentRouteName);

@@ -8,13 +8,20 @@
       <div class="flex justify-center flex-col mt-7 gap-10">
         <div class="mx-1">
           <label
+            v-if="usersWithoutApplicants.length"
             for="applicants"
             class="select__label"
           >Select the user, to become an applicant</label>
+          <label
+            v-else
+            for="applicants"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+          >No users to apply to this course</label>
 
           <select
             id="applicants"
             v-model="newApplicant"
+            :disabled="!usersWithoutApplicants.length"
             class="select__applicants"
           >
             <option
@@ -124,6 +131,7 @@ export default {
 .select__applicants {
   @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
+
 .select__label {
   @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400;
 }
