@@ -8,11 +8,17 @@
       <div class="flex justify-center flex-col mt-7  gap-10">
         <div class="mx-1">
           <label
+            v-if="getApplicants.length"
             for="applicants"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
           >Select the applicant, to become a member of group</label>
-
+          <label
+            v-else
+            for="applicants"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+          >No available group members to add </label>
           <select
+            :disabled="!getApplicants.length"
             id="applicants"
             v-model="newGroupMember"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -110,6 +116,7 @@ export default {
       const currentUser = this.users.find(el => el.id === this.newGroupMember)
       const updatedCourse = JSON.parse(JSON.stringify(course))
       updatedCourse.group.push(currentUser)
+      
       this.updateCourse({ id, course: updatedCourse })
         .then(async () => {
           await this.getCourses();
