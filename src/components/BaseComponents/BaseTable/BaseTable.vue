@@ -52,11 +52,11 @@
           :class="setNumClass(checkTableData(item[prop[0]]))"
         >
           <BaseTooltip
-            v-if="typeof item[prop[0]] === 'string' && item[prop[0]].length > 30"
+            v-if="typeof item[prop[0]] === 'string' && item[prop[0]].length > 25"
             :text="(item[prop[0]])"
           >
             {{
-              typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 30)}...` : item[prop[0]]
+              typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 25)}...` : item[prop[0]]
             }}
           </BaseTooltip>
           <span v-else>{{ item[prop[0]] }}</span>
