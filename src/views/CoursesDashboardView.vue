@@ -40,7 +40,7 @@
           class="text-center"
           :table-data="{
             headingData: headersManager,
-            bodyData: tableData,
+            bodyData: courses,
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
@@ -105,7 +105,6 @@ export default {
         { status: "Status" },
       ],
       headersManager: [{ name: "Course Name" }, { date: "Date" }],
-      tableData: [],
     };
   },
   computed: {
@@ -135,7 +134,6 @@ export default {
   },
   async mounted() {
     await this.getCourses();
-    this.tableData = this.courses
   },
   methods: {
     ...mapActions("courses", ["getCourses", "deleteCourseFromState"]),

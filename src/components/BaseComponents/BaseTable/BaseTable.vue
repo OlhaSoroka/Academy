@@ -18,8 +18,8 @@
             {{ value }}
           </span>
           <!-- arrows which visualize the current sort state-->
-          <BaseArrowDown v-if="key === sort.value && !sort.sortDirection" />
-          <BaseArrowUp v-if="key === sort.value && sort.sortDirection" />
+          <BaseArrowDown v-show="key === sort.value && !sort.sortDirection" />
+          <BaseArrowUp v-show="key === sort.value && sort.sortDirection" />
         </th>
       </BaseTableRow>
     </thead>
