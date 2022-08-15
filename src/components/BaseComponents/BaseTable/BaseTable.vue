@@ -207,7 +207,7 @@ export default {
 		},
 		setNumClass(value) {
 			if (!isNaN(value)) {
-				return "text-right"
+				return "text-right pr-[20px]"
 			} else {
 				return "text-start"
 			}
@@ -224,6 +224,6 @@ export default {
 </script>
 <style lang="postcss">
 .BaseTable {
-	@apply w-full table-fixed;
+	@apply w-full /* table-fixed */;
 }
 </style>

@@ -130,7 +130,7 @@ export default {
 
 <style lang="postcss" scoped>
 .select__applicants {
-  @apply border-2 w-64 border-sky-700 focus-visible:border-sky-700 focus-visible:outline-0 text-gray-900 text-sm rounded-lg block w-full py-2 checked:border-sky-700;
+  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }
 
 .select__label {
