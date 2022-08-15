@@ -16,7 +16,7 @@
             v-else
             for="applicants"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >No available group members to add </label>
+          >No applicants to add to course group </label>
           <select
             :disabled="!getApplicants.length"
             id="applicants"
