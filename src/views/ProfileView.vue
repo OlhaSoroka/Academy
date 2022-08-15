@@ -17,7 +17,6 @@
         >
       </div>
     </div>
-
     <div class="profile__info_container">
       <div class="profile__user_info_wrapper">
         <div class="profile__info_subtitle">
@@ -66,9 +65,7 @@
           </BaseButton>
         </div>
         <div class="mr-5">
-          <BaseButton
-            @click="openPasswordChangeModal"
-          >
+          <BaseButton @click="openPasswordChangeModal">
             Change password
           </BaseButton>
         </div>
@@ -79,11 +76,11 @@
   </div>
 </template>
 <script>
-import BaseButton from '@/components/BaseComponents/BaseButton.vue';
-import ChangeImageModal from '@/components/Modals/ChangeImageModal.vue';
-import ChangePasswordModal from '@/components/Modals/ChangePasswordModal.vue';
-import { mapGetters } from 'vuex';
-import { USER_ROLE } from '@/constants/roles.constant';
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import ChangeImageModal from "@/components/Modals/ChangeImageModal.vue";
+import ChangePasswordModal from "@/components/Modals/ChangePasswordModal.vue";
+import { mapGetters } from "vuex";
+import { USER_ROLE } from "@/constants/roles.constant";
 export default {
   components: { BaseButton, ChangeImageModal, ChangePasswordModal },
   data() {
@@ -93,10 +90,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('user', ['user', 'isImageLoading']),
+    ...mapGetters("user", ["user", "isImageLoading"]),
     isUser() {
       return this.user.role === USER_ROLE;
-    }
+    },
   },
   methods: {
     openProfileImageChangeModal() {
@@ -105,7 +102,6 @@ export default {
     openPasswordChangeModal() {
       this.isChangePasswordModalOpen = !this.isChangePasswordModalOpen;
     },
-
   },
 };
 </script>

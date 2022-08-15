@@ -31,56 +31,56 @@
 </template>
 
 <script>
-import BaseEditIcon from '../../BaseComponents/BaseIcons/BaseEditIcon.vue';
-import BaseDeleteIcon from '../../BaseComponents/BaseIcons/BaseDeleteIcon.vue';
-import BaseDetailsIcon from '../../BaseComponents/BaseIcons/BaseDetailsIcon.vue';
+import BaseEditIcon from "../../BaseComponents/BaseIcons/BaseEditIcon.vue";
+import BaseDeleteIcon from "../../BaseComponents/BaseIcons/BaseDeleteIcon.vue";
+import BaseDetailsIcon from "../../BaseComponents/BaseIcons/BaseDetailsIcon.vue";
 export default {
-	components: {
-		BaseEditIcon,
-		BaseDeleteIcon,
-		BaseDetailsIcon,
-	},
-	props: {
-		deletable: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		editable: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		viewed: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	methods: {
-		deleteRow() {
-			this.$emit('delete');
-		},
-		editRow() {
-			this.$emit('edit');
-		},
-		viewRow() {
-			this.$emit('view');
-		},
-	},
+  components: {
+    BaseEditIcon,
+    BaseDeleteIcon,
+    BaseDetailsIcon,
+  },
+  props: {
+    deletable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    viewed: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    deleteRow() {
+      this.$emit("delete");
+    },
+    editRow() {
+      this.$emit("edit");
+    },
+    viewRow() {
+      this.$emit("view");
+    },
+  },
 };
 </script>
 
 <style lang="postcss">
 .icon__container {
-	@apply cursor-pointer w-8 h-8 p-2 rounded-full;
+  @apply cursor-pointer w-8 h-8 p-2 rounded-full;
 }
 .icon__container--red {
-	@apply text-red-500  hover:bg-red-50;
+  @apply text-red-500  hover:bg-red-50;
 }
 .icon__container--blue {
-	@apply text-sky-700 hover:bg-blue-50;
+  @apply text-sky-700 hover:bg-blue-50;
 }
 .row {
-	@apply border-t-8 border-t-transparent shadow-sm;
+  @apply border-t-8 border-t-transparent shadow-sm;
 }
 </style>
