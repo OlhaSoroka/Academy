@@ -7,7 +7,10 @@
     <template #body>
       <div class="flex justify-center flex-col mt-7 gap-10">
         <div class="mx-1">
-          <BaseInput v-model="name" />
+          <BaseInput
+            v-model="name"
+            label="Homework Name"
+          />
           <BaseInput
             v-model="date"
             type="date"
