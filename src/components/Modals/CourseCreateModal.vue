@@ -21,6 +21,9 @@
             rules="required"
             onkeydown="return false"
           />
+          <div class="w-full text-left ml-1">
+            <label for="status">Status</label>
+          </div>
           <select
             id="status"
             v-model="courseToAdd.status"
