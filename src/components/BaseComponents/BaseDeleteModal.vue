@@ -1,24 +1,24 @@
 <template>
   <BaseModal
-    ref="deleteManagerModal"
+    ref="baseDeleteModal"
     :header="'Confirm delete'"
   >
     <template #body>
-      <div v-if="manager">
+      <div v-if="targetValue">
         Do you really want to delete
-        <span class="font-bold">{{ manager.fullName }}</span>?
+        <span class="font-bold">{{ targetValue }}</span>?
       </div>
-      <div class="flex justify-center mt-7">
-        <div class="mx-1">
+      <div class="flex justify-evenly mt-5">
+        <div class="mx-2">
           <BaseButton
             :variant="'btn_red'"
-            @click="handleDeleteManager(manager.id)"
+            @click="submit()"
           >
             Delete
           </BaseButton>
         </div>
-        <div class="mx-1">
-          <BaseButton @click="cancelModal">
+        <div class="mx-2">
+          <BaseButton @click="cancel">
             Cancel
           </BaseButton>
         </div>
@@ -30,33 +30,36 @@
 <script>
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseModal from "@/components/BaseComponents/BaseModal.vue";
-import { mapActions } from "vuex";
 export default {
+  name: "BaseDeleteModal",
   components: { BaseButton, BaseModal },
   props: {
     toggleModal: {
       type: Boolean,
       default: false,
     },
-    manager: {
-      type: Object,
+    targetValue: {
+      type: [Object, Array, String],
       default: null,
     },
   },
+  data() {
+    return {
+      test: {},
+    };
+  },
   watch: {
     toggleModal() {
-      this.$refs.deleteManagerModal.openModal();
+      this.$refs.baseDeleteModal.openModal();
     },
   },
   methods: {
-    ...mapActions("managers", ["deleteManager"]),
-    handleDeleteManager(id) {
-      this.deleteManager(id);
-      this.idToDelete = null;
-      this.$refs.deleteManagerModal.closeModal();
+    submit() {
+      this.$emit("delete");
+      this.$refs.baseDeleteModal.closeModal();
     },
-    cancelModal() {
-      this.$refs.deleteManagerModal.closeModal();
+    cancel() {
+      this.$refs.baseDeleteModal.closeModal();
     },
   },
 };

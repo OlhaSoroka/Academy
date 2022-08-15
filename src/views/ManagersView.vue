@@ -22,7 +22,7 @@
     <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5">
       <BaseTable
         :table-data="{
-          headingData: [{ fullName: 'Fullname' }, { email: 'Email' }],
+          headingData: [{ fullName: 'Full Name' }, { email: 'Email' }],
           bodyData: managers,
         }"
         :edit-btns="true"
@@ -37,25 +37,26 @@
       :update-mode="isUpdateMode"
       :toggle-modal="isCreateUpdateModalOpen"
     />
-    <DeleteManagerModal
-      :manager="selectedManager"
+    <BaseDeleteModal
       :toggle-modal="isDeleteModalOpen"
+      :target-value="fullName"
+      @delete="submitDelete"
     />
   </div>
 </template>
 <script>
-import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
-import BaseButton from '@/components/BaseComponents/BaseButton.vue';
-import DeleteManagerModal from '@/components/Modals/DeleteManagerModal.vue';
-import CreateUpdateManagerModal from '@/components/Modals/CreateUpdateManagerModal.vue';
-import { mapActions, mapGetters } from 'vuex';
+import BaseTable from "@/components/BaseComponents/BaseTable/BaseTable.vue";
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import CreateUpdateManagerModal from "@/components/Modals/CreateUpdateManagerModal.vue";
+import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
     BaseTable,
     BaseButton,
     CreateUpdateManagerModal,
-    DeleteManagerModal,
+    BaseDeleteModal,
   },
   data() {
     return {
@@ -63,10 +64,11 @@ export default {
       isCreateUpdateModalOpen: false,
       isUpdateMode: false,
       isDeleteModalOpen: false,
+      fullName: null,
     };
   },
   computed: {
-    ...mapGetters('managers', ['managers', 'isManagersLoading']),
+    ...mapGetters("managers", ["managers", "isManagersLoading"]),
     selectedManager() {
       return this.managers.find((manager) => {
         return manager.id === this.selectedManagerId;
@@ -77,7 +79,7 @@ export default {
     await this.fetchManagers();
   },
   methods: {
-    ...mapActions('managers', ['fetchManagers']),
+    ...mapActions("managers", ["fetchManagers", "deleteManager"]),
     toggleCreateUpdateModal(id, updateMode) {
       this.selectedManagerId = id;
       this.isUpdateMode = updateMode;
@@ -86,6 +88,11 @@ export default {
     toggleDeleteManagerModal(id) {
       this.selectedManagerId = id;
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
+      this.fullName = this.selectedManager.fullName;
+      console.log(this.selectedManager.fullName, "selectedManager");
+    },
+    submitDelete() {
+      this.deleteManager(this.selectedManagerId);
     },
   },
 };
@@ -109,6 +116,6 @@ export default {
 }
 
 .managers__table_container {
-  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
 </style>

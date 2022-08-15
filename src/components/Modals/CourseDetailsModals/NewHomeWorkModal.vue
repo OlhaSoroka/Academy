@@ -5,7 +5,7 @@
     @isClosed="clearInputs()"
   >
     <template #body>
-      <div class="flex justify-center flex-col mt-7  gap-10">
+      <div class="flex justify-center flex-col mt-7 gap-10">
         <div class="mx-1">
           <BaseInput
             v-model="name"
@@ -21,16 +21,16 @@
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!(date.length && name.length)"
-            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
-          >
-            Add
-          </BaseButton>
-          <BaseButton
             variant="btn_red"
             @click="cancelModal"
           >
             Cancel
+          </BaseButton>
+          <BaseButton
+            :disabled="!(date.length && name.length)"
+            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
+          >
+            Add
           </BaseButton>
         </div>
       </div>
@@ -57,53 +57,45 @@ export default {
   },
   data() {
     return {
-      name: '',
-      date: ""
-    }
+      name: "",
+      date: "",
+    };
   },
   computed: {
-    ...mapGetters('users', ['users']),
-    ...mapGetters('user', ['user']),
-    ...mapGetters('courses', ['getCourseById']),
+    ...mapGetters("user", ["user"]),
+    ...mapGetters("courses", ["getCourseById"]),
     currentRouteName() {
-      const fullPath = this.$router.history.current.path
-      const pathArray = fullPath.split('/')
-      const id = pathArray[pathArray.length - 1]
+      const fullPath = this.$router.history.current.path;
+      const pathArray = fullPath.split("/");
+      const id = pathArray[pathArray.length - 1];
       return id;
     },
-
     currentCourse() {
-      return this.getCourseById(this.currentRouteName)
-    }
+      return this.getCourseById(this.currentRouteName);
+    },
   },
   watch: {
     toggleModal() {
       this.$refs.newHomework.openModal();
     },
   },
-
-  async mounted() {
-    this.fetchUsers()
-  },
-
   methods: {
-    ...mapActions("courses", ["updateCourse", 'getCourses']),
-    ...mapActions('users', ['fetchUsers']),
+    ...mapActions("courses", ["updateCourse", "getCourses"]),
     clearInputs() {
-      this.name = ''
+      this.name = "";
     },
     cancelModal() {
       this.$refs.newHomework.closeModal();
-      this.clearInputs()
+      this.clearInputs();
     },
     confirmAdding({ id, course }) {
-      const updatedCourse = JSON.parse(JSON.stringify(course))
+      const updatedCourse = JSON.parse(JSON.stringify(course));
 
       updatedCourse.homework.push({
         id: `${this.name}  (${this.user.fullName})`,
         name: `${this.name} (${this.user.fullName})`,
-        date: this.date
-      })
+        date: this.date,
+      });
       this.updateCourse({ id, course: updatedCourse })
         .then(async () => {
           await this.getCourses();
@@ -111,9 +103,8 @@ export default {
         .then(() => {
           this.$refs.newHomework.closeModal();
         })
-        .finally(() => this.clearInputs()
-        )
-    }
+        .finally(() => this.clearInputs());
+    },
   },
 };
 </script>

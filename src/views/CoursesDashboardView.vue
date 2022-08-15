@@ -55,9 +55,10 @@
       <CourseCreateModal
         :is-opened-course-create-modal="isCreateModalOpen"
       />
-      <CourseDeleteModal
-        :is-opened-course-delete-modal="isDeleteModalOpen"
-        :course-to-delete="targetCourse"
+      <BaseDeleteModal
+        :toggle-modal="isDeleteModalOpen"
+        :target-value="targetCourse.name"
+        @delete="submitDelete"
       />
     </div>
     <div v-else>
@@ -69,10 +70,10 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
-import CourseDeleteModal from "../components/Modals/CourseDeleteModal.vue"
 import { COURSE_DETAILS } from "../constants/routes.constant";
 import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import CourseCreateModal from "@/components/Modals/CourseCreateModal.vue";
+import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal.vue"
 import {
   USER_ROLE,
   MANAGER_ROLE,
@@ -83,7 +84,7 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    CourseDeleteModal,
+    BaseDeleteModal,
     CourseCreateModal
   },
   data() {
@@ -145,7 +146,7 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions('courses', ["getCourses"]),
+    ...mapActions('courses', ["getCourses", "deleteCourseFromState"]),
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },
@@ -155,6 +156,9 @@ export default {
     },
     openCourseViewCreateModal() {
       this.isCreateModalOpen = !this.isCreateModalOpen;
+    },
+    submitDelete() {
+      this.deleteCourseFromState(this.targetCourse.id);
     }
   }
 };

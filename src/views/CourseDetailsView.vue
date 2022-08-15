@@ -14,7 +14,14 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-        <div class="grid grid-cols-2 grid-rows-2 gap-x-5 gap-y-5 xl:gap-x-10 xl:gap-y-10">
+
+        <div
+          class="
+            grid grid-cols-2 grid-rows-2
+            gap-x-5 gap-y-5
+            xl:gap-x-10 xl:gap-y-10
+          "
+        >
           <div class="part col-span-1 col-start-1">
             <h2 class="part__text">
               Main info
@@ -41,7 +48,9 @@
                       <a
                         target="”_blank”"
                         :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                      >{{
+                        courseItem.docs_link.slice(0, 20)
+                      }}</a>
                     </p>
                   </label>
                 </BaseTooltip>
@@ -63,7 +72,7 @@
           </div>
           <div class="part col-span-1 col-start-2 row-span-2">
             <h2 class="part__text">
-              Homeworks
+              Homework
             </h2>
             <BaseTable
               class="table"
@@ -134,7 +143,13 @@
             </div>
           </div>
         </nav>
-        <div class="grid grid-cols-5 grid-rows-3 gap-x-5 gap-y-5 xl:gap-x-15 xl:gap-y-10">
+        <div
+          class="
+            grid grid-cols-5 grid-rows-3
+            gap-x-5 gap-y-5
+            xl:gap-x-15 xl:gap-y-10
+          "
+        >
           <div class="part col-span-2 col-start-1 row-span-1">
             <div class="header">
               <h2 class="part__text">
@@ -163,12 +178,17 @@
                 class="text-left"
               >
                 <BaseTooltip :text="courseItem.docs_link">
-                  <label class="text-xs ">
+                  <label class="text-xs">
                     Docs
-                    <p class="text-2xl "><a
+
+                    <p class="text-2xl">
+                      <a
                         target="”_blank”"
                         :href="courseItem.docs_link"
-                      >{{ courseItem.docs_link.slice(0, 20) }}</a>
+                      >{{
+                        courseItem.docs_link.slice(0, 20)
+                      }}</a>
+
                     </p>
                   </label>
                 </BaseTooltip>
@@ -250,6 +270,7 @@
               </BaseButton>
             </div>
 
+
             <BaseTable
               class="table"
               :table-data="{
@@ -324,34 +345,43 @@
     <NewResultModal :toggle-modal="isNewResultModal" />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
+    <BaseDeleteModal
+      :toggle-modal="isDeleteModalOpen"
+      :target-value="targetRow"
+      @delete="submitDelete"
+    />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import BaseButton from '../components/BaseComponents/BaseButton.vue';
-import BaseTable from '../components/BaseComponents/BaseTable/BaseTable.vue';
-import { COURSE_DETAILS, COURSE_DASHBOARD } from '../constants/routes.constant';
-import { extend } from 'vee-validate';
-import * as rules from 'vee-validate/dist/rules';
-import { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } from '@/constants/roles.constant';
-import NewApplicantModal from '@/components/Modals/CourseDetailsModals/NewApplicantModal.vue';
-import { patchCourse } from '.././api/course/index';
-import NewCommentModal from '../components/Modals/CourseDetailsModals/NewCommentModal.vue';
-import BaseTooltip from '../components/BaseComponents/BaseTooltip/BaseTooltip.vue';
-import CourseDetailsUpdateModal from '@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue';
-import NewGroupMember from '../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue';
-import NewResultModal from '../components/Modals/CourseDetailsModals/NewResultModal.vue';
-import NewHomeWorkModal from '../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue';
-import BasePlus from '@/components/BaseComponents/BaseIcons/BasePlus.vue';
+
+import { mapActions, mapGetters } from "vuex";
+import BaseButton from "../components/BaseComponents/BaseButton.vue";
+import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
+import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import BaseEditIcon from '@/components/BaseComponents/BaseIcons/BaseEditIcon.vue';
 
-// import NewCommentModal from '../components/Modals/CourseDetailsModals/NewCommentModal.vue';
+import { extend } from "vee-validate";
+import * as rules from "vee-validate/dist/rules";
+import {
+  USER_ROLE,
+  MANAGER_ROLE,
+  ADMIN_ROLE,
+} from "@/constants/roles.constant";
+import BasePlus from '@/components/BaseComponents/BaseIcons/BasePlus.vue';
+
+import NewApplicantModal from "@/components/Modals/CourseDetailsModals/NewApplicantModal.vue";
+import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
+import BaseTooltip from "../components/BaseComponents/BaseTooltip/BaseTooltip.vue";
+import CourseDetailsUpdateModal from "@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue";
+import NewGroupMember from "../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue";
+import NewResultModal from "../components/Modals/CourseDetailsModals/NewResultModal.vue";
+import NewHomeWorkModal from "../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue";
+import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
 });
-
 
 export default {
   components: {
@@ -365,37 +395,57 @@ export default {
     NewResultModal,
     NewHomeWorkModal,
     BasePlus,
-    BaseEditIcon
+    BaseEditIcon,
+    BaseDeleteModal
 },
+
   data() {
     return {
-      isAddCommentModalOpen: false,
       comments: "",
+      payload: {},
+      targetRow: {},
+      isAddCommentModalOpen: false,
       isModalOpened: false,
       isUpdateModalOpened: false,
       isNewGroupMemberModal: false,
       isNewResultModal: false,
       isNewHomeworkModal: false,
-      headersUser: [{ name: 'Course Name' }, { date: 'Date' }, { status: 'Status' }],
-      headersGroup: [{ fullName: 'Fullname' }, { email: 'Email' }],
-      headerMainInfo: [{ name: 'Course Name' }, { date: 'Date' }, { docs_link: 'Docs Link' }],
-      headerApplicants: [{ fullName: 'Fullname' }, { initialScore: 'initialScore' }],
-      headerHomework: [{ name: 'Homework Name' }, { date: 'Date' }],
+      isDeleteModalOpen: false,
+      headersUser: [
+        { name: "Course Name" },
+        { date: "Date" },
+        { status: "Status" },
+      ],
+      headersGroup: [{ fullName: "Full Name" }, { email: "Email" }],
+      headerMainInfo: [
+        { name: "Course Name" },
+        { date: "Date" },
+        { docs_link: "Docs Link" },
+      ],
+      headerApplicants: [
+        { fullName: "Full Name" },
+        { initialScore: "Initial Score" },
+      ],
+      headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
       headerResults: [{ fullName: "Name" }, { score: "Results" }],
-      headerComments: [{ message: 'Message' }, { createdAt: 'Date' }, { author: 'Author' }],
+      headerComments: [
+        { message: "Message" },
+        { createdAt: "Date" },
+        { author: "Author" },
+      ],
     };
   },
   computed: {
-    ...mapGetters('courses', [
-      'loadingStatus',
-      'getCourseById',
-      'courseIndex',
-      'nextCourseId',
-      'previousCourseId',
-      'lastCourseId',
-      'firstCourseId',
+    ...mapGetters("courses", [
+      "loadingStatus",
+      "getCourseById",
+      "courseIndex",
+      "nextCourseId",
+      "previousCourseId",
+      "lastCourseId",
+      "firstCourseId",
     ]),
-    ...mapGetters('user', ['user']),
+    ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
         return this.user.role === USER_ROLE;
@@ -410,7 +460,6 @@ export default {
         return false;
       }
     },
-
     isAdmin() {
       if (this.user) {
         return this.user.role === ADMIN_ROLE;
@@ -426,75 +475,117 @@ export default {
     },
     isFirstCourse() {
       return this.$route.params.id === this.firstCourseId;
-    }
+    },
   },
   mounted() {
     this.getCourses();
   },
   methods: {
-    ...mapActions('courses', ['getCourses', 'addNewComment']),
+    ...mapActions("courses", ["getCourses", "addNewComment", "patchCourses"]),
     openModal() {
       this.isModalOpened = !this.isModalOpened;
     },
+    openDeleteModal() {
+      this.isDeleteModalOpen = !this.isDeleteModalOpen;
+    },
+    submitDelete() {
+      this.patchCourses(this.payload);
+    },
     deleteApplicant(id) {
+      this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
       const { applicants } = currentCourse;
-      const filteredApplicants = applicants.filter((applicant) => applicant.id !== id);
-
-      patchCourse(this.$route.params.id, 'applicants', filteredApplicants)
-        .then(() => this.getCourses())
+      const filteredApplicants = applicants.filter(
+        (applicant) => applicant.id !== id
+      );
+      this.targetRow = applicants.filter(
+        (applicant) => applicant.id === id
+      )[0].fullName;
+      this.payload = {
+        id: this.$route.params.id,
+        field: "applicants",
+        value: filteredApplicants,
+      };
     },
     deleteHomework(id) {
+      this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
       const { homework } = currentCourse;
       const filteredHomework = homework.filter((task) => task.id !== id);
-
-      patchCourse(this.$route.params.id, 'homework', filteredHomework)
-        .then(() => this.getCourses())
+      this.targetRow = homework.filter((task) => task.id === id)[0].name;
+      this.payload = {
+        id: this.$route.params.id,
+        field: "homework",
+        value: filteredHomework,
+      };
     },
     deleteComment(id) {
+      this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
       const { comments } = currentCourse;
       const filteredComments = comments.filter((comment) => comment.id !== id);
-
-      patchCourse(this.$route.params.id, 'comments', filteredComments)
-        .then(() => this.getCourses())
+      this.targetRow = comments.filter(
+        (comment) => comment.id === id
+      )[0].message;
+      this.payload = {
+        id: this.$route.params.id,
+        field: "comments",
+        value: filteredComments,
+      };
     },
     deleteGroupMember(id) {
+      this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
       const { group } = currentCourse;
-      const filteredGroup = group.filter((groupMember) => groupMember.id !== id);
-
-      patchCourse(this.$route.params.id, 'group', filteredGroup)
-        .then(() => this.getCourses())
+      const filteredGroup = group.filter(
+        (groupMember) => groupMember.id !== id
+      );
+      this.targetRow = group.filter(
+        (groupMember) => groupMember.id === id
+      )[0].fullName;
+      this.payload = {
+        id: this.$route.params.id,
+        field: "group",
+        value: filteredGroup,
+      };
     },
     deleteResultRow(id) {
+      this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
       const { results } = currentCourse;
-      const filteredResults = results.filter((resultRow) => resultRow.id !== id);
-
-      patchCourse(this.$route.params.id, 'results', filteredResults)
-        .then(() => this.getCourses())
+      const filteredResults = results.filter(
+        (resultRow) => resultRow.id !== id
+      );
+      this.targetRow = results.filter(
+        (resultRow) => resultRow.id === id
+      )[0].fullName;
+      this.payload = {
+        id: this.$route.params.id,
+        field: "results",
+        value: filteredResults,
+      };
     },
     previousPage() {
       this.$router.push({
         name: COURSE_DETAILS,
         params: { id: this.previousCourseId(this.$route.params.id) },
       });
-      this.comments = '';
+      this.comments = "";
     },
     nextPage() {
       this.$router.push({
         name: COURSE_DETAILS,
         params: { id: this.nextCourseId(this.$route.params.id) },
       });
-      this.comments = '';
+      this.comments = "";
     },
     getBackCourseDetailsView() {
       this.$router.push({ name: COURSE_DASHBOARD });
     },
     submit() {
-      let currentItem = JSON.parse(JSON.stringify(this.getCourseById(this.$route.params.id)));
+      let currentItem = JSON.parse(
+        JSON.stringify(this.getCourseById(this.$route.params.id))
+      );
       currentItem.comments.push({
         id: Date.now(),
         message: this.comments,
@@ -508,28 +599,25 @@ export default {
         id: this.$route.params.id,
       };
       this.addNewComment(payload);
-      this.comments = '';
+      this.comments = "";
     },
     openAddCommentModal() {
       this.isAddCommentModalOpen = !this.isAddCommentModalOpen;
     },
     toggleUpdateModal() {
-      this.isUpdateModalOpened = !this.isUpdateModalOpened
+      this.isUpdateModalOpened = !this.isUpdateModalOpened;
     },
     toggleNewGroupMemberModal() {
-      this.isNewGroupMemberModal = !this.isNewGroupMemberModal
+      this.isNewGroupMemberModal = !this.isNewGroupMemberModal;
     },
     toggleNewResultModal() {
-      this.isNewResultModal = !this.isNewResultModal
+      this.isNewResultModal = !this.isNewResultModal;
     },
     toggleNewHomeworkModal() {
-      this.isNewHomeworkModal = !this.isNewHomeworkModal
-    }
+      this.isNewHomeworkModal = !this.isNewHomeworkModal;
+    },
   },
-
-
 };
-
 </script>
 
 <style lang="postcss" scoped>
@@ -561,7 +649,7 @@ button {
   @apply flex justify-center flex-col mt-10 mx-3;
 }
 
-.courses__container>* {
+.courses__container > * {
   @apply pb-0.5;
 }
 

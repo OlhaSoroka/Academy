@@ -12,7 +12,7 @@
       <div v-if="isManager || isAdmin">
         <BaseButton
           :loading="usersLoadingStatus"
-          @click.prevent="openUsersViewCreateModal"
+          @click.prevent="openCreateModal"
         >
           Add new user
         </BaseButton>
@@ -41,29 +41,30 @@
         <div class="users-table-container">
           <BaseTable
             :table-data="{
-              headingData: headersManager,
+              headingData: headersAdmin,
               bodyData: users,
             }"
             :edit-btns="true"
             :is-data-loading="usersLoadingStatus"
             :delete-btns="true"
-            @edit="openUsersViewEditModal"
-            @delete="openUsersDeleteEditModal"
+            @edit="openEditModal"
+            @delete="openDeleteModal"
           />
         </div>
       </div>
       <UserEditModal
         :is-opened-user-edit-modal="isEditModalOpen"
         :target-user-value="targetUser"
-        :user-inputs-value="managerUserEditInputs"
+        :user-inputs-value="adminUserEditInputs"
       />
       <UserCreateModal
         :is-opened-user-create-modal="isCreateModalOpen"
-        :user-inputs-value="managerUserCreateInputs"
+        :user-inputs-value="adminUserCreateInputs"
       />
-      <UserDeleteModal
-        :is-opened-user-delete-modal="isDeleteModalOpen"
-        :target-user-value="targetUser"
+      <BaseDeleteModal
+        :toggle-modal="isDeleteModalOpen"
+        :target-value="targetUser.fullName"
+        @delete="submitDelete"
       />
     </div>
     <div v-else-if="isAdmin">
@@ -77,8 +78,8 @@
             :edit-btns="true"
             :is-data-loading="usersLoadingStatus"
             :delete-btns="true"
-            @edit="openUsersViewEditModal"
-            @delete="openUsersDeleteEditModal"
+            @edit="openEditModal"
+            @delete="openDeleteModal"
           />
         </div>
       </div>
@@ -91,9 +92,10 @@
         :is-opened-user-create-modal="isCreateModalOpen"
         :user-inputs-value="adminUserCreateInputs"
       />
-      <UserDeleteModal
-        :is-opened-user-delete-modal="isDeleteModalOpen"
-        :target-user-value="targetUser"
+      <BaseDeleteModal
+        :toggle-modal="isDeleteModalOpen"
+        :target-value="targetUser.fullName"
+        @delete="submitDelete"
       />
     </div>
   </div>
@@ -109,7 +111,7 @@ import BaseTable from "../components/BaseComponents/BaseTable/BaseTable";
 import BaseButton from "../components/BaseComponents/BaseButton";
 import UserCreateModal from "../components/Modals/UserCreateModal";
 import UserEditModal from "../components/Modals/UserEditModal";
-import UserDeleteModal from "../components/Modals/UserDeleteModal";
+import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
 
 export default {
   name: "UsersView",
@@ -118,7 +120,7 @@ export default {
     BaseButton,
     UserCreateModal,
     UserEditModal,
-    UserDeleteModal,
+    BaseDeleteModal,
   },
   data() {
     return {
@@ -130,11 +132,11 @@ export default {
         fullName: "",
         email: "",
         course: "",
-        initialScore: "",        
+        initialScore: "",
       },
-      managerUserEditInputs: [
+      adminUserEditInputs: [
         {
-          label: "Name",
+          label: "Full Name",
           model: "fullName",
           type: "text",
           placeholder: "Enter name",
@@ -144,58 +146,12 @@ export default {
           model: "email",
           type: "email",
           placeholder: "Enter email",
-        },
-        {
-          label: "Course",
-          model: "course",
-          type: "text",
-          placeholder: "Enter course",
         },
         {
           label: "Initial Score",
           model: "initialScore",
           type: "number",
           placeholder: "Enter initial score",
-        },
-      ],
-      managerUserCreateInputs: [
-        {
-          label: "Name",
-          model: "fullName",
-          type: "text",
-          placeholder: "Enter name",
-        },
-        {
-          label: "Email",
-          model: "email",
-          type: "email",
-          placeholder: "Enter email",
-        },
-        {
-          label: "Password",
-          model: "password",
-          type: "password",
-          placeholder: "Enter password",
-        },
-      ],
-      adminUserEditInputs: [
-        {
-          label: "Name",
-          model: "fullName",
-          type: "text",
-          placeholder: "Enter name",
-        },
-        {
-          label: "Email",
-          model: "email",
-          type: "email",
-          placeholder: "Enter email",
-        },
-        {
-          label: "Course",
-          model: "course",
-          type: "text",
-          placeholder: "Enter course",
         },
       ],
       adminUserCreateInputs: [
@@ -216,20 +172,14 @@ export default {
           model: "password",
           type: "password",
           placeholder: "Enter password",
-          vid: "password"
+          vid: "password",
         },
         {
           label: "Confirm password",
           model: "confirmpassword",
           type: "password",
           vid: "confirmpassword",
-          placeholder: "Confirm password",          
-        },
-        {
-          label: "Course",
-          model: "course",
-          type: "text",
-          placeholder: "Enter course",
+          placeholder: "Confirm password",
         },
         {
           label: "Initial Score",
@@ -239,20 +189,15 @@ export default {
         },
       ],
       headersUser: [
-        { fullName: "Name" },
+        { fullName: "Full Name" },
         { email: "Email" },
         { course: "Course" },
       ],
-      headersManager: [
-        { fullName: "Name" },
+      headersAdmin: [
+        { fullName: "Full Name" },
         { email: "Email" },
         { course: "Course" },
         { initialScore: "Initial Score" },
-      ],
-      headersAdmin: [
-        { fullName: "Name" },
-        { email: "Email" },
-        { course: "Course" },
       ],
     };
   },
@@ -285,19 +230,22 @@ export default {
     await this.fetchUsers();
   },
   methods: {
-    ...mapActions("users", ["fetchUsers"]),
-    openUsersViewEditModal(id) {
+    ...mapActions("users", ["fetchUsers", "deleteUser"]),
+    openEditModal(id) {
       this.targetUser = JSON.parse(
         JSON.stringify(this.users.find((e) => e.id === id))
       );
       this.isEditModalOpen = !this.isEditModalOpen;
     },
-    openUsersViewCreateModal() {
+    openCreateModal() {
       this.isCreateModalOpen = !this.isCreateModalOpen;
     },
-    openUsersDeleteEditModal(id) {
+    openDeleteModal(id) {
       this.targetUser = this.users.find((e) => e.id === id);
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
+    },
+    submitDelete() {
+      this.deleteUser(this.targetUser.id);
     },
   },
 };

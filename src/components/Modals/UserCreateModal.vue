@@ -9,9 +9,9 @@
         <ValidationObserver v-slot="{ invalid }">
           <div>
             <div
-              v-for="input in userInputsValue" 
+              v-for="input in userInputsValue"
               :key="input.label"
-            >            
+            >
               <BaseInput
                 v-model="createModel[input.model]"
                 :type="input.type"
@@ -21,17 +21,33 @@
                 :rules="requiredField(input.label)"
               />
             </div>
-            <div 
-              class="flex justify-evenly mt-5"
-            >
-              <div class="mx-2">
-                <BaseButton
-                  :disabled="invalid"
-                  @click="submitUserCreateButton"
+            <div>
+              <label
+                for="applicants"
+                class="block ml-1 text-start"
+              >Select Course</label>
+              <select
+                id="applicants"
+                v-model="createModel.course"
+                class="select__course"
+              >
+                <option
+                  value=""
+                  disabled
+                  selected
                 >
-                  Create
-                </BaseButton>
-              </div>
+                  Select Course
+                </option>
+                <option
+                  v-for="course in courses"
+                  :key="course.id"
+                  :value="course.name"
+                >
+                  {{ course.name }}
+                </option>
+              </select>
+            </div>
+            <div class="flex justify-evenly mt-5">
               <div class="mx-2">
                 <BaseButton
                   :disabled="false"
@@ -39,6 +55,14 @@
                   @click="canselUserCreateButton"
                 >
                   Cancel
+                </BaseButton>
+              </div>
+              <div class="mx-2">
+                <BaseButton
+                  :disabled="invalid || !createModel.course != 0"
+                  @click="submitUserCreateButton"
+                >
+                  Create
                 </BaseButton>
               </div>
             </div>
@@ -50,7 +74,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import BaseModal from "../BaseComponents/BaseModal";
 import BaseInput from "../BaseComponents/BaseInput";
 import BaseButton from "../BaseComponents/BaseButton";
@@ -88,13 +112,20 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters("courses", ["courses"]),
+  },
   watch: {
     isOpenedUserCreateModal() {
       this.$refs.userCreateModal.openModal();
     },
   },
+  mounted() {
+    this.getCourses();
+  },
   methods: {
     ...mapActions("users", ["createNewUser"]),
+    ...mapActions("courses", ["getCourses"]),
     clearInputs() {
       this.createModel = {
         fullName: "",
@@ -106,26 +137,33 @@ export default {
         role: "user",
         avatarUrl:
           "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
-      }
+      };
     },
     submitUserCreateButton() {
-      this.createNewUser(this.createModel)
-      this.$refs.userCreateModal.closeModal()
+      this.createNewUser(this.createModel);
+      this.$refs.userCreateModal.closeModal();
     },
     canselUserCreateButton() {
       this.$refs.userCreateModal.closeModal();
-      this.clearInputs()
+      this.clearInputs();
     },
     requiredField(label) {
-      if (label==="Full Name" || label==="Course" || label==="Initial Score"){
-        return "required"}
-      if (label==="Confirm password") {
-        return "confirmed:password"
+      if (label === "Full Name" || label === "Initial Score") {
+        return "required";
       }
-      if (label==="Password") {
-        return "confirmed:password"
+      if (label === "Confirm password") {
+        return "confirmed:password";
       }
-    }
-  }
+      if (label === "Password") {
+        return "confirmed:password";
+      }
+    },
+  },
 };
 </script>
+
+<style lang="postcss" scoped>
+.select__course {
+  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
+}
+</style>

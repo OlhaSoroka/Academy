@@ -33,16 +33,16 @@
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!(newName.length && newDate.length)"
-            @click="submit"
-          >
-            Update
-          </BaseButton>
-          <BaseButton
             variant="btn_red"
             @click="cancel"
           >
             Cancel
+          </BaseButton>
+          <BaseButton
+            :disabled="!(newName.length && newDate.length)"
+            @click="submit"
+          >
+            Update
           </BaseButton>
         </div>
       </div>

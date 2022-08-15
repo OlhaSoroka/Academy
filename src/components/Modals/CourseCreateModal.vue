@@ -21,6 +21,9 @@
             rules="required"
             onkeydown="return false"
           />
+          <div class="w-full text-left ml-1">
+            <label for="status">Status</label>
+          </div>
           <select
             id="status"
             v-model="courseToAdd.status"
@@ -38,20 +41,20 @@
           <div class="flex justify-evenly mt-5">
             <div class="mx-2">
               <BaseButton
-                type="submit"
-                :disabled="invalid"
-                @click="submitCourseCreateButton"
-              >
-                Create
-              </BaseButton>
-            </div>
-            <div class="mx-2">
-              <BaseButton
                 :disabled="false"
                 variant="btn_red"
                 @click="canselCourseCreateButton"
               >
                 Cancel
+              </BaseButton>
+            </div>
+            <div class="mx-2">
+              <BaseButton
+                type="submit"
+                :disabled="invalid"
+                @click="submitCourseCreateButton"
+              >
+                Create
               </BaseButton>
             </div>
           </div>

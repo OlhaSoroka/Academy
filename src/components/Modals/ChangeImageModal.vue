@@ -22,6 +22,14 @@
         >
         <div class="mt-5 flex">
           <div class="w-24 mx-2">
+            <BaseButton
+              :variant="'btn_red'"
+              @click="cancel"
+            >
+              Cancel
+            </BaseButton>
+          </div>
+          <div class="w-24 mx-2">
             <BaseButton @click="selectImage">
               Select
             </BaseButton>
@@ -34,14 +42,6 @@
               @click="submitImage"
             >
               Submit
-            </BaseButton>
-          </div>
-          <div class="w-24 mx-2">
-            <BaseButton
-              :variant="'btn_red'"
-              @click="cancel"
-            >
-              Cancel
             </BaseButton>
           </div>
         </div>
@@ -84,8 +84,7 @@ export default {
       this.$refs.profileImageModal.closeModal();
     },
     onImageSelected(e) {
-      this.file = e.target.files[0];
-      if (this.file) {
+      if (e.target.files[0]) {
         this.file = e.target.files[0];
         const fileReader = new FileReader();
         fileReader.onloadend = () => {
