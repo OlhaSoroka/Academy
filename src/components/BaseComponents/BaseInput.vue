@@ -122,6 +122,6 @@ export default {
 }
 
 .base-input:disabled {
-  @apply bg-gray-200 border-gray-500;
+  @apply bg-gray-50 border-gray-300;
 }
 </style>
