@@ -44,60 +44,60 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import BaseButton from '@/components/BaseComponents/BaseButton.vue';
-import BaseModal from '@/components/BaseComponents/BaseModal.vue';
-import { ValidationObserver, ValidationProvider } from 'vee-validate';
+import { mapActions, mapGetters } from "vuex";
+import BaseButton from "@/components/BaseComponents/BaseButton.vue";
+import BaseModal from "@/components/BaseComponents/BaseModal.vue";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
-	components: { BaseModal, BaseButton, ValidationObserver, ValidationProvider },
-	props: {
-		toggleModal: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data() {
-		return {
-			comments: '',
-		};
-	},
-	computed: {
-		...mapGetters('courses', ['getCourseById']),
-		...mapGetters('user', ['user']),
-	},
-	watch: {
-		toggleModal() {
-			this.$refs.addCommentModal.openModal();
-		},
-	},
-	methods: {
-		...mapActions('courses', ['addNewComment']),
-		clearInputs() {
-			this.comments = '';
-		},
-		submit() {
-			let currentItem = this.getCourseById(this.$route.params.id);
-			currentItem.comments.push({
-				id: Date.now(),
-				message: this.comments,
-				createdAt: new Date().toLocaleString(),
-				author: this.user.fullName,
-				author_id: this.user.id,
-				author_email: this.user.email,
-			});
-			let payload = {
-				currentItemUpdate: currentItem,
-				id: this.$route.params.id,
-			};
-			this.addNewComment(payload);
-			this.clearInputs();
-			this.$refs.addCommentModal.closeModal();
-		},
-		cancel() {
-			this.clearInputs();
-			this.$refs.addCommentModal.closeModal();
-		},
-	},
+  components: { BaseModal, BaseButton, ValidationObserver, ValidationProvider },
+  props: {
+    toggleModal: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      comments: "",
+    };
+  },
+  computed: {
+    ...mapGetters("courses", ["getCourseById"]),
+    ...mapGetters("user", ["user"]),
+  },
+  watch: {
+    toggleModal() {
+      this.$refs.addCommentModal.openModal();
+    },
+  },
+  methods: {
+    ...mapActions("courses", ["addNewComment"]),
+    clearInputs() {
+      this.comments = "";
+    },
+    submit() {
+      let currentItem = this.getCourseById(this.$route.params.id);
+      currentItem.comments.push({
+        id: Date.now(),
+        message: this.comments,
+        createdAt: new Date().toLocaleString(),
+        author: this.user.fullName,
+        author_id: this.user.id,
+        author_email: this.user.email,
+      });
+      let payload = {
+        currentItemUpdate: currentItem,
+        id: this.$route.params.id,
+      };
+      this.addNewComment(payload);
+      this.clearInputs();
+      this.$refs.addCommentModal.closeModal();
+    },
+    cancel() {
+      this.clearInputs();
+      this.$refs.addCommentModal.closeModal();
+    },
+  },
 };
 </script>
