@@ -139,7 +139,7 @@ export default {
 }
 
 .profile__image_block {
-  @apply rounded-full shadow-md w-64 h-64 block relative;
+  @apply rounded-full shadow-md w-64 h-64 block relative overflow-hidden;
 }
 
 .profile__image_block img {
