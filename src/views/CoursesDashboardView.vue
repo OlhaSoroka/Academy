@@ -133,8 +133,8 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getCourses();
+  async mounted() {
+    await this.getCourses();
     this.tableData = this.courses
   },
   methods: {

@@ -224,6 +224,6 @@ export default {
 </script>
 <style lang="postcss">
 .BaseTable {
-	@apply w-full;
+	@apply w-full table-fixed;
 }
 </style>
