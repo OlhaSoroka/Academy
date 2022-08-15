@@ -10,13 +10,15 @@
           <label
             v-if="getGroup.length"
             for="applicants"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >Select a member of group, whose result you want to add </label>
+            class="select__label"
+          >Select a member of group, whose result you want to add
+          </label>
           <label
             v-else
             for="applicants"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >All group members have results added </label>
+            class="select__label"
+          >All group members have results added
+          </label>
 
           <select
             id="applicants"
@@ -50,7 +52,9 @@
           </BaseButton>
           <BaseButton
             :disabled="!(newApplicant.length && score.length && score >= 0)"
-            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
+            @click="
+              confirmAdding({ id: currentRouteName, course: currentCourse })
+            "
           >
             Add
           </BaseButton>
@@ -93,9 +97,11 @@ export default {
       return id;
     },
     getGroup() {
-      return this.currentCourse.group.filter(groupMember => {
-        return !this.currentCourse.results.some(resulter => resulter.id === groupMember.id)
-      })
+      return this.currentCourse.group.filter((groupMember) => {
+        return !this.currentCourse.results.some(
+          (resulter) => resulter.id === groupMember.id
+        );
+      });
     },
     currentCourse() {
       return this.getCourseById(this.currentRouteName);

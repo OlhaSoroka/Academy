@@ -4,9 +4,12 @@
     :header="'Confirm delete'"
   >
     <template #body>
-      <div v-if="targetValue">
-        Do you really want to delete
-        <span class="font-bold">{{ targetValue }}</span>?
+      <div
+        v-if="targetValue"
+        class="max-w-md"
+      >
+        Do you really want to delete:
+        <span class="font-bold break-all">{{ targetValue }}</span>?
       </div>
       <div class="flex justify-evenly mt-5">
         <div class="mx-2">

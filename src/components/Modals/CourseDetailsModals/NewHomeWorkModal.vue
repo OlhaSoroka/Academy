@@ -28,7 +28,9 @@
           </BaseButton>
           <BaseButton
             :disabled="!(date.length && name.length)"
-            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
+            @click="
+              confirmAdding({ id: currentRouteName, course: currentCourse })
+            "
           >
             Add
           </BaseButton>

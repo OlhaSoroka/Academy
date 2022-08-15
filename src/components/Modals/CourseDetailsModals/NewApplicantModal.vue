@@ -15,9 +15,8 @@
           <label
             v-else
             for="applicants"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+            class="select__label"
           >No users to apply to this course</label>
-
           <select
             id="applicants"
             v-model="newApplicant"
@@ -42,7 +41,9 @@
           </BaseButton>
           <BaseButton
             :disabled="!newApplicant.length"
-            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
+            @click="
+              confirmAdding({ id: currentRouteName, course: currentCourse })
+            "
           >
             Add
           </BaseButton>

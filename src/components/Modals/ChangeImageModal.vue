@@ -38,9 +38,7 @@
             v-if="profileImageSrc"
             class="w-24 mx-2"
           >
-            <BaseButton
-              @click="submitImage"
-            >
+            <BaseButton @click="submitImage">
               Submit
             </BaseButton>
           </div>

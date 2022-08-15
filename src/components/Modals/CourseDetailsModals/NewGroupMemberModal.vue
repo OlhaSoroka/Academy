@@ -15,8 +15,9 @@
           <label
             v-else
             for="applicants"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >No applicants to add to course group </label>
+            class="select__label"
+          >No applicants to add to course group
+          </label>
           <select
             id="applicants"
             v-model="newGroupMember"
@@ -41,7 +42,9 @@
           </BaseButton>
           <BaseButton
             :disabled="!newGroupMember.length"
-            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
+            @click="
+              confirmAdding({ id: currentRouteName, course: currentCourse })
+            "
           >
             Add
           </BaseButton>
@@ -111,7 +114,6 @@ export default {
       this.clearInputs();
     },
     confirmAdding({ id, course }) {
-
       const currentUser = this.users.find(
         (el) => el.id === this.newGroupMember
       );

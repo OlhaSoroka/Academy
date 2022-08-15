@@ -27,9 +27,14 @@
         <span v-if="errors.length > 0 && label === 'Full Name'">
           Full Name is empty.
         </span>
-        <span v-if="errors.length > 0 && vid != 'confirmpassword' && vid != 'password' && label != 'Full Name'">{{
-            errors[0]
-        }}</span>
+        <span
+          v-if="
+            errors.length > 0 &&
+              vid != 'confirmpassword' &&
+              vid != 'password' &&
+              label != 'Full Name'
+          "
+        >{{ errors[0] }}</span>
       </p>
     </div>
   </ValidationProvider>
@@ -80,7 +85,7 @@ export default {
     return {
       emailRules: "required|email",
       passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+",
-      initialScoreRules: "required|min_value:0"
+      initialScoreRules: "required|min_value:0",
     };
   },
   computed: {
@@ -103,7 +108,7 @@ export default {
         return `${this.emailRules}|${this.rules}`;
       } else if (this.type === "password" && this.vid != "text") {
         return `${this.passwordRules}|${this.rules}`;
-      } else if (this.type === 'number') return `${this.initialScoreRules}`;
+      } else if (this.type === "number") return `${this.initialScoreRules}`;
       else return `${this.rules}`;
     },
   },
@@ -116,7 +121,6 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-
 .base-input {
   @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }

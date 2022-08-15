@@ -78,9 +78,9 @@ export default {
   methods: {
     ...mapActions("user", ["changePassword"]),
     clearInputs() {
-			this.newPassword="";
-      this.confirmedPassword="";
-		},
+      this.newPassword = "";
+      this.confirmedPassword = "";
+    },
     openPasswordChangeModal() {
       this.$refs.passwordModal.openModal();
     },
