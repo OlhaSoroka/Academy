@@ -29,18 +29,18 @@
           <div class="flex justify-center mt-5">
             <div class="mx-1">
               <BaseButton
-                :disabled="invalid"
-                @click="submitPasswordChange"
-              >
-                Submit
-              </BaseButton>
-            </div>
-            <div class="mx-1">
-              <BaseButton
                 :variant="'btn_red'"
                 @click="cancelPasswordChange"
               >
                 Cancel
+              </BaseButton>
+            </div>
+            <div class="mx-1">
+              <BaseButton
+                :disabled="invalid"
+                @click="submitPasswordChange"
+              >
+                Submit
               </BaseButton>
             </div>
           </div>

@@ -22,6 +22,14 @@
         >
         <div class="mt-5 flex">
           <div class="w-24 mx-2">
+            <BaseButton
+              :variant="'btn_red'"
+              @click="cancel"
+            >
+              Cancel
+            </BaseButton>
+          </div>
+          <div class="w-24 mx-2">
             <BaseButton @click="selectImage">
               Select
             </BaseButton>
@@ -34,14 +42,6 @@
               @click="submitImage"
             >
               Submit
-            </BaseButton>
-          </div>
-          <div class="w-24 mx-2">
-            <BaseButton
-              :variant="'btn_red'"
-              @click="cancel"
-            >
-              Cancel
             </BaseButton>
           </div>
         </div>

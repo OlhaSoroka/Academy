@@ -28,16 +28,16 @@
         </div>
         <div class="mx-1 flex gap-10">
           <BaseButton
-            :disabled="!newGroupMember.length"
-            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
-          >
-            Add
-          </BaseButton>
-          <BaseButton
             variant="btn_red"
             @click="cancelModal"
           >
             Cancel
+          </BaseButton>
+          <BaseButton
+            :disabled="!newGroupMember.length"
+            @click="confirmAdding({ id: currentRouteName, course: currentCourse })"
+          >
+            Add
           </BaseButton>
         </div>
       </div>
