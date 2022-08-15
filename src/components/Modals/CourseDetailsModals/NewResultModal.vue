@@ -16,12 +16,12 @@
             v-else
             for="applicants"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-          >No available group members to add </label>
+          >All group members have results added </label>
 
           <select
-            :disabled="!getGroup.length"
             id="applicants"
             v-model="newApplicant"
+            :disabled="!getGroup.length"
             class="select__resuls"
           >
             <option

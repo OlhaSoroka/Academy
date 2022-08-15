@@ -14,7 +14,6 @@
         </BaseButton>
       </nav>
       <div v-if="courseItem">
-
         <div
           class="
             grid grid-cols-2 grid-rows-2
@@ -118,7 +117,6 @@
           </BaseButton>
 
           <div class="nav__courses">
-
             <BaseButton
               class="nav__btn whitespace-nowrap"
               @click="openAddCommentModal"
@@ -232,7 +230,7 @@
             />
           </div>
           <div class="part col-span-2 col-start-1 row-span-1 xl:row-span-2">
-            <div class='header'>
+            <div class="header">
               <h2 class="part__text">
                 Group
               </h2>

@@ -20,8 +20,8 @@
 
           <select
             id="applicants"
-            :disabled="!usersWithoutApplicants.length"
             v-model="newApplicant"
+            :disabled="!usersWithoutApplicants.length"
             class="select__applicants"
           >
             <option
@@ -129,10 +129,10 @@ export default {
 
 <style lang="postcss" scoped>
 .select__applicants {
-  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
 
 .select__label {
-  @apply block mb-2 text-sm font-medium text-gray-900 dark: text-gray-400;
+  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400;
 }
 </style>

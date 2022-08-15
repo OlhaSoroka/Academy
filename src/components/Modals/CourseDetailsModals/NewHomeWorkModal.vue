@@ -9,7 +9,7 @@
         <div class="mx-1">
           <BaseInput
             v-model="name"
-            label="Homework name"
+            label="Homework Name"
           />
           <BaseInput
             v-model="date"

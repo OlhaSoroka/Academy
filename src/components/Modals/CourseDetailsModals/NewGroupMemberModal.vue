@@ -18,9 +18,9 @@
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
           >No applicants to add to course group </label>
           <select
-            :disabled="!getApplicants.length"
             id="applicants"
             v-model="newGroupMember"
+            :disabled="!getApplicants.length"
             class="select__group_manager"
           >
             <option
