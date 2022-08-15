@@ -108,10 +108,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("courses", ["sortedCourses", "loadingStatus"]),
-    courses() {
-      return this.sortedCourses;
-    },
+    ...mapGetters("courses", ["loadingStatus", 'courses']),
     ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
@@ -135,11 +132,12 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getCourses();
+  async mounted() {
+    await this.getCourses();
+    this.sortCourses()
   },
   methods: {
-    ...mapActions("courses", ["getCourses", "deleteCourseFromState"]),
+    ...mapActions("courses", ["getCourses", "deleteCourseFromState", 'sortCourses']),
     goToCourseDetails(id) {
       this.$router.push({ name: COURSE_DETAILS, params: { id: id } });
     },

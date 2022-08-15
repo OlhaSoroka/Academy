@@ -14,12 +14,12 @@
           @click="sortTable(key)"
         >
           <!-- make the header from props headerData-->
-          <span>
+          <span :class="{ 'pr-[20px]': key !== sort.value }">
             {{ value }}
+            <BaseArrowDown v-show="key === sort.value && !sort.sortDirection" />
+            <BaseArrowUp v-show="key === sort.value && sort.sortDirection" />
           </span>
           <!-- arrows which visualize the current sort state-->
-          <BaseArrowDown v-if="key === sort.value && !sort.sortDirection" />
-          <BaseArrowUp v-if="key === sort.value && sort.sortDirection" />
         </th>
       </BaseTableRow>
     </thead>
@@ -52,11 +52,11 @@
           :class="setNumClass(checkTableData(item[prop[0]]))"
         >
           <BaseTooltip
-            v-if="typeof item[prop[0]] === 'string' && item[prop[0]].length > 30"
+            v-if="typeof item[prop[0]] === 'string' && item[prop[0]].length > 25"
             :text="(item[prop[0]])"
           >
             {{
-              typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 30)}...` : item[prop[0]]
+              typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 25)}...` : item[prop[0]]
             }}
           </BaseTooltip>
           <span v-else>{{ item[prop[0]] }}</span>
@@ -206,24 +206,24 @@ export default {
 			return typeof data === 'number';
 		},
 		setNumClass(value) {
-			if(!isNaN(value)){
+			if (!isNaN(value)) {
 				return "text-right"
 			} else {
 				return "text-start"
 			}
 		},
-		setHeaderNumClass(value){
-			if(value.toLowerCase().includes("score") || value.toLowerCase().includes("result")){
+		setHeaderNumClass(value) {
+			if (value.toLowerCase().includes("score") || value.toLowerCase().includes("result")) {
 				return `${this.baseTableHeaderStyles} text-right`
 			} else {
 				return `${this.baseTableHeaderStyles} text-start`
 			}
-        }
+		}
 	},
 };
 </script>
 <style lang="postcss">
 .BaseTable {
-	@apply w-full;
+	@apply w-full table-fixed;
 }
 </style>
