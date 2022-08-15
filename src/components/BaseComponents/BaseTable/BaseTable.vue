@@ -14,12 +14,12 @@
           @click="sortTable(key)"
         >
           <!-- make the header from props headerData-->
-          <span>
+          <span :class="{ 'pr-[20px]': key !== sort.value }">
             {{ value }}
+            <BaseArrowDown v-show="key === sort.value && !sort.sortDirection" />
+            <BaseArrowUp v-show="key === sort.value && sort.sortDirection" />
           </span>
           <!-- arrows which visualize the current sort state-->
-          <BaseArrowDown v-show="key === sort.value && !sort.sortDirection" />
-          <BaseArrowUp v-show="key === sort.value && sort.sortDirection" />
         </th>
       </BaseTableRow>
     </thead>
@@ -206,19 +206,19 @@ export default {
 			return typeof data === 'number';
 		},
 		setNumClass(value) {
-			if(!isNaN(value)){
+			if (!isNaN(value)) {
 				return "text-right"
 			} else {
 				return "text-start"
 			}
 		},
-		setHeaderNumClass(value){
-			if(value.toLowerCase().includes("score") || value.toLowerCase().includes("result")){
+		setHeaderNumClass(value) {
+			if (value.toLowerCase().includes("score") || value.toLowerCase().includes("result")) {
 				return `${this.baseTableHeaderStyles} text-right`
 			} else {
 				return `${this.baseTableHeaderStyles} text-start`
 			}
-        }
+		}
 	},
 };
 </script>
