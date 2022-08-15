@@ -97,6 +97,7 @@ export default {
       if (this.file) {
         this.changeProfileImage(this.file);
         this.profileImageSrc = "";
+        this.$emit('onProfileImageChange');
         this.$refs.profileImageModal.closeModal();
       }
     },
