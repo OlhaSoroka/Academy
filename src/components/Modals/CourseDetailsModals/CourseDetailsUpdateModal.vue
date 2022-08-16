@@ -69,9 +69,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    id: {
+      type: Number,
+      default: null,
+    }
   },
   data() {
     return {
+     currentItem: {
+      type: Object
+     },
       newStatus: "",
       newName: "",
       newDate: "",
@@ -85,16 +92,20 @@ export default {
     toggleModal() {
       this.$refs.cdUpdateModal.openModal();
     },
-  },
-  async mounted() {
-    this.getCourses().then(() => {
-      let currentItem = this.getCourseById(this.$route.params.id);
-      const { status, name, docs_link, date } = currentItem
+   id() {
+      this.getCourses().then(() => {
+      this.currentItem = this.getCourseById(this.id)
+      const { status, name, docs_link, date } = this.currentItem
       this.newStatus = status
       this.newName = name
       this.newDate = this.makeDate(date)
       this.newDocs_link = docs_link
-    })
+       }
+       )
+    }
+  },
+  async mounted() {
+    this.getCourses()
   },
   methods: {
     ...mapActions('courses', ['addNewComment', 'getCourses', 'updateCourse']),
@@ -113,7 +124,7 @@ export default {
       return propsDate
     },
     async submit() {
-      let currentItem = this.getCourseById(this.$route.params.id);
+      let currentItem = this.getCourseById(this.id);
       let itemCopy = JSON.parse(JSON.stringify(currentItem))
 
       itemCopy = {
