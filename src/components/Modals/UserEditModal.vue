@@ -28,7 +28,6 @@
                 id="applicants"
                 v-model="targetUser.course"
                 class="select__course"
-                name="cars"
               >
                 <option
                   v-if="!courses.find((item) => item.name == targetUser.course)"
