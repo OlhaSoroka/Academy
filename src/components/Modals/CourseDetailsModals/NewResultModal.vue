@@ -94,12 +94,6 @@ export default {
   computed: {
     ...mapGetters("users", ["users"]),
     ...mapGetters("courses", ["getCourseById"]),
-    /* currentRouteName() {
-      const fullPath = this.$router.history.current.path;
-      const pathArray = fullPath.split("/");
-      const id = pathArray[pathArray.length - 1];
-      return id;
-    }, */
     getGroup() {
       return this.currentCourse.group.filter((groupMember) => {
         return !this.currentCourse.results.some(

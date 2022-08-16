@@ -87,9 +87,6 @@ export default {
   },
   computed: {
     ...mapGetters('courses', ['getCourseById', 'courses']),
-/*     currentItem() {
-      return this.getCourseById(this.id)
-    } */
   },
   watch: {
     toggleModal() {
