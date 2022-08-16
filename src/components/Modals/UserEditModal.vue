@@ -21,11 +21,11 @@
             </div>
             <div>
               <label
-                for="applicants"
+                for="courses"
                 class="block ml-1 text-start"
               >Select Course</label>
               <select
-                id="applicants"
+                id="courses"
                 v-model="targetUser.course"
                 class="select__course"
               >
