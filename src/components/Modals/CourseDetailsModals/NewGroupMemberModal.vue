@@ -43,7 +43,7 @@
           <BaseButton
             :disabled="!newGroupMember.length"
             @click="
-              confirmAdding({ id: currentRouteName, course: currentCourse })
+              confirmAdding({ id: id, course: currentCourse })
             "
           >
             Add
@@ -69,6 +69,10 @@ export default {
       type: Object,
       default: null,
     },
+    id: {
+      type: Number,
+      default: null,
+    }
   },
   data() {
     return {
@@ -78,12 +82,12 @@ export default {
   computed: {
     ...mapGetters("users", ["users"]),
     ...mapGetters("courses", ["getCourseById"]),
-    currentRouteName() {
+/*     currentRouteName() {
       const fullPath = this.$router.history.current.path;
       const pathArray = fullPath.split("/");
       const id = pathArray[pathArray.length - 1];
       return id;
-    },
+    }, */
     getApplicants() {
       return this.currentCourse.applicants.filter((applicant) => {
         return !this.currentCourse.group.some(
@@ -92,7 +96,7 @@ export default {
       });
     },
     currentCourse() {
-      return this.getCourseById(this.currentRouteName);
+      return this.getCourseById(this.id);
     },
   },
   watch: {

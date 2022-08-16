@@ -42,7 +42,7 @@
           <BaseButton
             :disabled="!newApplicant.length"
             @click="
-              confirmAdding({ id: currentRouteName, course: currentCourse })
+              confirmAdding({ id: id, course: currentCourse })
             "
           >
             Add
@@ -68,6 +68,10 @@ export default {
       type: Object,
       default: null,
     },
+    id: {
+      type: Number,
+      default: null,
+    }
   },
   data() {
     return {
@@ -77,12 +81,13 @@ export default {
   computed: {
     ...mapGetters("users", ["users"]),
     ...mapGetters("courses", ["getCourseById"]),
-    currentRouteName() {
+
+    /* currentRouteName() {
       const fullPath = this.$router.history.current.path;
       const pathArray = fullPath.split("/");
       const id = pathArray[pathArray.length - 1];
       return id;
-    },
+    }, */
     usersWithoutApplicants() {
       return this.users.filter((user) => {
         const { applicants } = this.currentCourse;
@@ -90,13 +95,13 @@ export default {
       });
     },
     currentCourse() {
-      return this.getCourseById(this.currentRouteName);
+      return this.getCourseById(this.id);
     },
   },
   watch: {
     toggleModal() {
       this.$refs.newApplicantModal.openModal();
-    },
+    }
   },
   async mounted() {
     this.fetchUsers();

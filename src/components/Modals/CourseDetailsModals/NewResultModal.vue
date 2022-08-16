@@ -53,7 +53,7 @@
           <BaseButton
             :disabled="!(newApplicant.length && score.length && score >= 0)"
             @click="
-              confirmAdding({ id: currentRouteName, course: currentCourse })
+              confirmAdding({ id: id, course: currentCourse })
             "
           >
             Add
@@ -80,6 +80,10 @@ export default {
       type: Object,
       default: null,
     },
+    id: {
+      type: Number,
+      default: null,
+    }
   },
   data() {
     return {
@@ -90,12 +94,12 @@ export default {
   computed: {
     ...mapGetters("users", ["users"]),
     ...mapGetters("courses", ["getCourseById"]),
-    currentRouteName() {
+    /* currentRouteName() {
       const fullPath = this.$router.history.current.path;
       const pathArray = fullPath.split("/");
       const id = pathArray[pathArray.length - 1];
       return id;
-    },
+    }, */
     getGroup() {
       return this.currentCourse.group.filter((groupMember) => {
         return !this.currentCourse.results.some(
@@ -104,7 +108,7 @@ export default {
       });
     },
     currentCourse() {
-      return this.getCourseById(this.currentRouteName);
+      return this.getCourseById(this.id);
     },
   },
   watch: {
