@@ -26,6 +26,7 @@
               >Select Course</label>
               <select
                 id="courses"
+
                 v-model="targetUser.course"
                 class="select__course"
               >
