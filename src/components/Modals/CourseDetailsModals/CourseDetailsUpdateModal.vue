@@ -87,6 +87,9 @@ export default {
   },
   computed: {
     ...mapGetters('courses', ['getCourseById', 'courses']),
+/*     currentItem() {
+      return this.getCourseById(this.id)
+    } */
   },
   watch: {
     toggleModal() {
@@ -105,7 +108,14 @@ export default {
     }
   },
   async mounted() {
-    this.getCourses()
+    this.getCourses().then(() => {
+      this.currentItem = this.getCourseById(this.id)
+      const { status, name, docs_link, date } = this.currentItem
+      this.newStatus = status
+      this.newName = name
+      this.newDate = this.makeDate(date)
+      this.newDocs_link = docs_link
+    })
   },
   methods: {
     ...mapActions('courses', ['addNewComment', 'getCourses', 'updateCourse']),
