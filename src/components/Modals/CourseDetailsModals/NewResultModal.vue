@@ -53,7 +53,7 @@
           <BaseButton
             :disabled="!(newApplicant.length && score.length && score >= 0)"
             @click="
-              confirmAdding({ id: currentRouteName, course: currentCourse })
+              confirmAdding({ id: id, course: currentCourse })
             "
           >
             Add
@@ -80,6 +80,10 @@ export default {
       type: Object,
       default: null,
     },
+    id: {
+      type: Number,
+      default: null,
+    }
   },
   data() {
     return {
@@ -90,12 +94,6 @@ export default {
   computed: {
     ...mapGetters("users", ["users"]),
     ...mapGetters("courses", ["getCourseById"]),
-    currentRouteName() {
-      const fullPath = this.$router.history.current.path;
-      const pathArray = fullPath.split("/");
-      const id = pathArray[pathArray.length - 1];
-      return id;
-    },
     getGroup() {
       return this.currentCourse.group.filter((groupMember) => {
         return !this.currentCourse.results.some(
@@ -104,7 +102,7 @@ export default {
       });
     },
     currentCourse() {
-      return this.getCourseById(this.currentRouteName);
+      return this.getCourseById(this.id);
     },
   },
   watch: {
@@ -144,7 +142,7 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .select__resuls {
-  @apply ml-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
 }
 .select__label {
   @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400;

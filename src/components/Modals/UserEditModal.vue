@@ -21,14 +21,13 @@
             </div>
             <div>
               <label
-                for="applicants"
+                for="course"
                 class="block ml-1 text-start"
               >Select Course</label>
               <select
-                id="applicants"
+                id="course"
                 v-model="targetUser.course"
                 class="select__course"
-                name="cars"
               >
                 <option
                   v-if="!courses.find((item) => item.name == targetUser.course)"

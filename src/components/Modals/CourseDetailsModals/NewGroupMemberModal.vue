@@ -6,7 +6,7 @@
   >
     <template #body>
       <div class="flex justify-center flex-col mt-7 gap-10">
-        <div class="mx-1">
+        <div class="mx-1 flex flex-col items-center">
           <label
             v-if="getApplicants.length"
             for="applicants"
@@ -43,7 +43,7 @@
           <BaseButton
             :disabled="!newGroupMember.length"
             @click="
-              confirmAdding({ id: currentRouteName, course: currentCourse })
+              confirmAdding({ id: id, course: currentCourse })
             "
           >
             Add
@@ -69,6 +69,10 @@ export default {
       type: Object,
       default: null,
     },
+    id: {
+      type: Number,
+      default: null,
+    }
   },
   data() {
     return {
@@ -78,12 +82,6 @@ export default {
   computed: {
     ...mapGetters("users", ["users"]),
     ...mapGetters("courses", ["getCourseById"]),
-    currentRouteName() {
-      const fullPath = this.$router.history.current.path;
-      const pathArray = fullPath.split("/");
-      const id = pathArray[pathArray.length - 1];
-      return id;
-    },
     getApplicants() {
       return this.currentCourse.applicants.filter((applicant) => {
         return !this.currentCourse.group.some(
@@ -92,7 +90,7 @@ export default {
       });
     },
     currentCourse() {
-      return this.getCourseById(this.currentRouteName);
+      return this.getCourseById(this.id);
     },
   },
   watch: {
@@ -133,7 +131,7 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .select__group_manager {
-  @apply border-2 w-64 border-sky-700 focus-visible:border-sky-700 focus-visible:outline-0 text-gray-900 text-sm rounded-lg block w-full py-2 checked:border-sky-700;
+  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900 ;
 }
 .select__label {
   @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400;

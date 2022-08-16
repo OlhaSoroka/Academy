@@ -334,10 +334,22 @@
         Back
       </BaseButton>
     </div>
-    <CourseDetailsUpdateModal :toggle-modal="isUpdateModalOpened" />
-    <NewApplicantModal :toggle-modal="isModalOpened" />
-    <NewGroupMember :toggle-modal="isNewGroupMemberModal" />
-    <NewResultModal :toggle-modal="isNewResultModal" />
+    <CourseDetailsUpdateModal 
+      :id="+$route.params.id" 
+      :toggle-modal="isUpdateModalOpened"
+    />
+    <NewApplicantModal 
+      :id="+$route.params.id" 
+      :toggle-modal="isModalOpened" 
+    />
+    <NewGroupMember 
+      :id="+$route.params.id" 
+      :toggle-modal="isNewGroupMemberModal" 
+    />
+    <NewResultModal 
+      :id="+$route.params.id" 
+      :toggle-modal="isNewResultModal" 
+    />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
     <BaseDeleteModal

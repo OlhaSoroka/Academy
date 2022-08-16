@@ -23,11 +23,11 @@
             </div>
             <div>
               <label
-                for="applicants"
+                for="course"
                 class="block ml-1 text-start"
               >Select Course</label>
               <select
-                id="applicants"
+                id="course"
                 v-model="createModel.course"
                 class="select__course"
               >

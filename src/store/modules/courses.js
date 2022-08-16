@@ -61,7 +61,6 @@ export default {
 			state.isLoading = !state.isLoading
 		},
 		sortCourses(state) {
-      console.log(state);
 			state.courses.sort((a, b) => a.date > b.date ? -1: 1)
 		},
 	},
