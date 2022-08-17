@@ -123,7 +123,7 @@
             >
               Add comment
             </BaseButton>
-            <div>
+            <div class="flex">
               <BaseButton
                 :disabled="isFirstCourse"
                 class="nav__btn"
@@ -667,7 +667,7 @@ button {
 }
 
 .nav__courses {
-  @apply flex flex-wrap justify-between;
+  @apply flex justify-between;
 }
 
 .main__header_label {
