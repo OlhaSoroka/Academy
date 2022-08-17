@@ -26,7 +26,7 @@
               placeholder="Confirm password"
             />
           </div>
-          <div class="flex justify-center mt-5">
+          <div class="w-full flex justify-around mt-5">
             <div class="mx-1">
               <BaseButton
                 :variant="'btn_red'"
