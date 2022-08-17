@@ -2,7 +2,7 @@
   <div>
     <label
       for="applicants"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+      class="block ml-1 font-medium text-gray-900 dark:text-gray-400"
     >Select an option</label>
 
     <select

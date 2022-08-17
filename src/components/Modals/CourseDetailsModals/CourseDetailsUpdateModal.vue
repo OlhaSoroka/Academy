@@ -31,7 +31,7 @@
             :options="['in progress', 'finished', 'not started']"
           />
         </div>
-        <div class="mx-1 flex gap-10">
+        <div class="mx-1 flex justify-around">
           <BaseButton
             variant="btn_red"
             @click="cancel"
