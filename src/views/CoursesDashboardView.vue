@@ -1,5 +1,5 @@
 <template>
-  <div class="courses__container">
+  <div class="page courses__container">
     <div class="courses__topbar_container">
       <div>
         <h2 class="courses__header">
