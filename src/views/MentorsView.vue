@@ -1,21 +1,21 @@
 /* eslint-disable no-console *
 <template>
-  <div class="managers__container">
-    <div class="managers__topbar_container">
+  <div class="mentors__container">
+    <div class="mentors__topbar_container">
       <div>
-        <h2 class="managers__header">
-          Managers Dashboard
+        <h2 class="mentors__header">
+          Mentors Dashboard
         </h2>
-        <h3 class="managers__subheader">
-          Managers list of InventorSoft Academy
+        <h3 class="mentors__subheader">
+          Mentors list of InventorSoft Academy
         </h3>
       </div>
       <div>
         <BaseButton
-          :loading="isManagersLoading"
+          :loading="isMentorsLoading"
           @click="toggleCreateUpdateModal(null, false)"
         >
-          Add new manager
+          Add new mentor
         </BaseButton>
       </div>
     </div>
@@ -23,17 +23,17 @@
       <BaseTable
         :table-data="{
           headingData: [{ fullName: 'Full Name' }, { email: 'Email' }],
-          bodyData: managers,
+          bodyData: mentors,
         }"
         :edit-btns="true"
-        :is-data-loading="isManagersLoading"
+        :is-data-loading="isMentorsLoading"
         :delete-btns="true"
-        @delete="toggleDeleteManagerModal($event)"
+        @delete="toggleDeleteMentorModal($event)"
         @edit="toggleCreateUpdateModal($event, true)"
       />
     </div>
-    <CreateUpdateManagerModal
-      :manager="selectedManager"
+    <CreateUpdateMentorModal
+      :mentor="selectedMentor"
       :update-mode="isUpdateMode"
       :toggle-modal="isCreateUpdateModalOpen"
     />
@@ -47,7 +47,7 @@
 <script>
 import BaseTable from "@/components/BaseComponents/BaseTable/BaseTable.vue";
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
-import CreateUpdateManagerModal from "@/components/Modals/CreateUpdateManagerModal.vue";
+import CreateUpdateMentorModal from "@/components/Modals/CreateUpdateMentorModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
 import { mapActions, mapGetters } from "vuex";
 
@@ -55,12 +55,12 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    CreateUpdateManagerModal,
+    CreateUpdateMentorModal,
     BaseDeleteModal,
   },
   data() {
     return {
-      selectedManagerId: null,
+      selectedMentorId: null,
       isCreateUpdateModalOpen: false,
       isUpdateMode: false,
       isDeleteModalOpen: false,
@@ -68,54 +68,54 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("managers", ["managers", "isManagersLoading"]),
-    selectedManager() {
-      return this.managers.find((manager) => {
-        return manager.id === this.selectedManagerId;
+    ...mapGetters("mentors", ["mentors", "isMentorsLoading"]),
+    selectedMentor() {
+      return this.mentors.find((mentor) => {
+        return mentor.id === this.selectedMentorId;
       });
     },
   },
   async mounted() {
-    await this.fetchManagers();
+    await this.fetchMentors();
   },
   methods: {
-    ...mapActions("managers", ["fetchManagers", "deleteManager"]),
+    ...mapActions("mentors", ["fetchMentors", "deleteMentor"]),
     toggleCreateUpdateModal(id, updateMode) {
-      this.selectedManagerId = id;
+      this.selectedMentorId = id;
       this.isUpdateMode = updateMode;
       this.isCreateUpdateModalOpen = !this.isCreateUpdateModalOpen;
     },
-    toggleDeleteManagerModal(id) {
-      this.selectedManagerId = id;
+    toggleDeleteMentorModal(id) {
+      this.selectedMentorId = id;
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
-      this.fullName = this.selectedManager.fullName;
-      console.log(this.selectedManager.fullName, "selectedManager");
+      this.fullName = this.selectedMentor.fullName;
+      console.log(this.selectedMentor.fullName, "selectedMentor");
     },
     submitDelete() {
-      this.deleteManager(this.selectedManagerId);
+      this.deleteMentor(this.selectedMentorId);
     },
   },
 };
 </script>
 
 <style lang="postcss" scoped>
-.managers__container {
+.mentors__container {
   @apply w-full p-10 mx-auto flex flex-col justify-start items-start;
 }
 
-.managers__topbar_container {
+.mentors__topbar_container {
   @apply w-full flex justify-between items-center;
 }
 
-.managers__header {
+.mentors__header {
   @apply font-semibold text-lg text-start text-sky-700;
 }
 
-.managers__subheader {
+.mentors__subheader {
   @apply mt-2 font-normal text-stone-400;
 }
 
-.managers__table_container {
+.mentors__table_container {
   @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
 }
 </style>

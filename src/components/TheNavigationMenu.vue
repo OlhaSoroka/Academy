@@ -25,16 +25,16 @@
     </router-link>
     <router-link
       v-if="isAdmin"
-      :to="{ name: MANAGERS }"
+      :to="{ name: MENTORS }"
     >
       <svg
         class="navigation-menu-icon"
         width="16"
         height="16"
       >
-        <use href="../icons/sprite-navigation.svg#icon-managers" />
+        <use href="../icons/sprite-navigation.svg#icon-mentors" />
       </svg>
-      <span class="navigation-menu-text">Managers</span>
+      <span class="navigation-menu-text">Mentors</span>
     </router-link>
     <label
       for="logout"
@@ -71,7 +71,7 @@
 import {
   PROFILE,
   USERS,
-  MANAGERS,
+  MENTORS,
   COURSE_DASHBOARD,
   LOGIN,
 } from "@/constants/routes.constant";
@@ -89,7 +89,7 @@ export default {
     return {
       PROFILE,
       USERS,
-      MANAGERS,
+      MENTORS,
       COURSE_DASHBOARD,
       LOGIN,
     };

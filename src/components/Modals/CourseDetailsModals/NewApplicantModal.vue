@@ -64,7 +64,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    manager: {
+    mentor: {
       type: Object,
       default: null,
     },

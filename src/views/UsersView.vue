@@ -9,7 +9,7 @@
           Users list of InventorSoft Academy
         </h3>
       </div>
-      <div v-if="isManager || isAdmin">
+      <div v-if="isMentor || isAdmin">
         <BaseButton
           :loading="usersLoadingStatus"
           @click.prevent="openCreateModal"
@@ -34,8 +34,8 @@
       </div>
     </div>
     <div
-      v-else-if="isManager"
-      class="ManagerMembersView"
+      v-else-if="isMentor"
+      class="MentorMembersView"
     >
       <div v-if="users">
         <div class="users-table-container">
@@ -104,7 +104,7 @@
 import { mapGetters, mapActions } from "vuex";
 import {
   USER_ROLE,
-  MANAGER_ROLE,
+  MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable";
@@ -211,9 +211,9 @@ export default {
         return false;
       }
     },
-    isManager() {
+    isMentor() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE;
+        return this.user.role === MENTOR_ROLE;
       } else {
         return false;
       }

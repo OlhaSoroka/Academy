@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="isManager || isAdmin">
+    <div v-else-if="isMentor || isAdmin">
       <div
         v-if="courseItem"
         class="text-center my-3"
@@ -371,7 +371,7 @@ import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
 import {
   USER_ROLE,
-  MANAGER_ROLE,
+  MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
@@ -458,9 +458,9 @@ export default {
         return false;
       }
     },
-    isManager() {
+    isMentor() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE;
+        return this.user.role === MENTOR_ROLE;
       } else {
         return false;
       }
