@@ -13,7 +13,7 @@
       </svg>
       <span class="navigation-menu-text">Courses</span>
     </router-link>
-    <router-link :to="{ name: USERS }">
+    <router-link :to="{ name: STUDENTS }">
       <svg
         class="navigation-menu-icon"
         width="16"
@@ -70,7 +70,7 @@
 <script>
 import {
   PROFILE,
-  USERS,
+  STUDENTS,
   MENTORS,
   COURSE_DASHBOARD,
   LOGIN,
@@ -88,7 +88,7 @@ export default {
   data() {
     return {
       PROFILE,
-      USERS,
+      STUDENTS,
       MENTORS,
       COURSE_DASHBOARD,
       LOGIN,

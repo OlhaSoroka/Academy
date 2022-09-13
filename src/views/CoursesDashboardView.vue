@@ -71,7 +71,7 @@ import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import CourseCreateModal from "@/components/Modals/CourseCreateModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal.vue";
 import {
-  USER_ROLE,
+  STUDENTS_ROLE,
   MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
@@ -112,7 +112,7 @@ export default {
     ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
-        return this.user.role === USER_ROLE;
+        return this.user.role === STUDENTS_ROLE;
       } else {
         return false;
       }

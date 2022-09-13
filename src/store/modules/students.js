@@ -4,25 +4,25 @@ import {
   registerUser,
   deleteUserById,
 } from "../../api/user/index";
-import { USER_ROLE } from "@/constants/roles.constant";
+import { STUDENTS_ROLE } from "@/constants/roles.constant";
 
 export default {
   state: {
-    users: [],
-    isUsersLoading: false,
+    students: [],
+    isStudentLoading: false,
   },
   getters: {
-    users: (state) => state.users,
-    usersLoadingStatus: (state) => state.isUsersLoading,
+    students: (state) => state.students,
+    studentsLoadingStatus: (state) => state.isStudentLoading,
   },
   actions: {
-    fetchUsers: async (store) => {
+    fetchStudents: async (store) => {
       const token = localStorage.getItem("accessToken");
       try {
-        store.commit("TOGGLE_LOADIN_STATUS");
+        store.commit("TOGGLE_LOADING_STATUS");
         const allUsers = await getAllUsers(token);
-        const users = allUsers.filter((user) => user.role === USER_ROLE);
-        store.commit("SET_USERS", users);
+        const students = allUsers.filter((user) => user.role === STUDENTS_ROLE);
+        store.commit("SET_STUDENTS", students);
       } catch (error) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
@@ -32,17 +32,17 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
+        store.commit("TOGGLE_LOADING_STATUS");
       }
     },
-    updateUser: async (store, data) => {
+    updateStudent: async (store, data) => {
       const token = localStorage.getItem("accessToken");
       try {
-        store.commit("TOGGLE_LOADIN_STATUS");
+        store.commit("TOGGLE_LOADING_STATUS");
         await updateUserByID(data.id, data, token);
         store.dispatch(
           "toast/show",
-          { message: "User succesfully updated", type: "success" },
+          { message: "User successfully updated", type: "success" },
           { root: true }
         );
       } catch (error) {
@@ -54,18 +54,18 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        store.dispatch("fetchUsers");
+        store.commit("TOGGLE_LOADING_STATUS");
+        store.dispatch("fetchStudents");
       }
     },
-    createNewUser: async (store, data) => {
+    createNewStudent: async (store, data) => {
       const token = localStorage.getItem("accessToken");
       try {
-        store.commit("TOGGLE_LOADIN_STATUS");
+        store.commit("TOGGLE_LOADING_STATUS");
         await registerUser(data, token);
         store.dispatch(
           "toast/show",
-          { message: "User succesfully created", type: "success" },
+          { message: "User successfully created", type: "success" },
           { root: true }
         );
       } catch (error) {
@@ -77,19 +77,19 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        store.dispatch("fetchUsers");
+        store.commit("TOGGLE_LOADING_STATUS");
+        store.dispatch("fetchStudents");
       }
     },
-    deleteUser: async (store, id) => {
+    deleteStudent: async (store, id) => {
       const token = localStorage.getItem("accessToken");
 
       try {
-        store.commit("TOGGLE_LOADIN_STATUS");
+        store.commit("TOGGLE_LOADING_STATUS");
         await deleteUserById(id, token);
         store.dispatch(
           "toast/show",
-          { message: "User succesfully deleted", type: "success" },
+          { message: "User successfully deleted", type: "success" },
           { root: true }
         );
       } catch (error) {
@@ -101,17 +101,17 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        store.dispatch("fetchUsers");
+        store.commit("TOGGLE_LOADING_STATUS");
+        store.dispatch("fetchStudents");
       }
     },
   },
   mutations: {
-    SET_USERS(state, users) {
-      state.users = users;
+    SET_STUDENTS(state, students) {
+      state.students = students;
     },
-    TOGGLE_LOADIN_STATUS(state) {
-      state.isUsersLoading = !state.isUsersLoading;
+    TOGGLE_LOADING_STATUS(state) {
+      state.isStudentLoading = !state.isStudentLoading;
     },
   },
   namespaced: true,

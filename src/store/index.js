@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import courses from "./modules/courses";
 import user from "./modules/user";
-import users from "./modules/users";
+import students from "./modules/students";
 import mentors from "./modules/mentors.store";
 import toast from "./modules/toast.store";
 
@@ -16,7 +16,7 @@ export default new Vuex.Store({
   modules: {
     courses,
     user,
-    users,
+    students,
     mentors,
     toast,
   },

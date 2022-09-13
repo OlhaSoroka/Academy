@@ -87,7 +87,7 @@ import ChangeImageModal from "@/components/Modals/ChangeImageModal.vue";
 import ChangePasswordModal from "@/components/Modals/ChangePasswordModal.vue";
 import BaseSpinner from "@/components/BaseComponents/BaseSpinner/BaseSpinner.vue";
 import { mapGetters } from "vuex";
-import { USER_ROLE } from "@/constants/roles.constant";
+import { STUDENTS_ROLE } from "@/constants/roles.constant";
 export default {
   components: {
     BaseButton,
@@ -105,7 +105,7 @@ export default {
   computed: {
     ...mapGetters("user", ["user", "isImageLoading"]),
     isUser() {
-      return this.user.role === USER_ROLE;
+      return this.user.role === STUDENTS_ROLE;
     },
   },
   methods: {

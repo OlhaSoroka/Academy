@@ -121,10 +121,10 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions("users", ["updateUser"]),
+    ...mapActions("students", ["updateStudent"]),
     ...mapActions("courses", ["getCourses"]),
     submitUserEditButton() {
-      this.updateUser(this.targetUser);
+      this.updateStudent(this.targetUser);
       this.$refs.userEditModal.closeModal();
     },
     cancelUserEditButton() {

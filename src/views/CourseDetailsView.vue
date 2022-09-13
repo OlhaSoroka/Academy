@@ -370,7 +370,7 @@ import BaseEditIcon from "@/components/BaseComponents/BaseIcons/BaseEditIcon.vue
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
 import {
-  USER_ROLE,
+  STUDENTS_ROLE,
   MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
@@ -453,7 +453,7 @@ export default {
     ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
-        return this.user.role === USER_ROLE;
+        return this.user.role === STUDENTS_ROLE;
       } else {
         return false;
       }

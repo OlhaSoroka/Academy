@@ -2,7 +2,7 @@ export const LOGIN = "login";
 export const RESET = "reset";
 
 export const PROFILE = "profile";
-export const USERS = "users";
+export const STUDENTS = "users";
 export const MENTORS = "mentors";
 
 export const COURSE_DASHBOARD = "courses-dashboard";

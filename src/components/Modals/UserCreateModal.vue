@@ -125,7 +125,7 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions("users", ["createNewUser"]),
+    ...mapActions("students", ["createNewStudent"]),
     ...mapActions("courses", ["getCourses"]),
     clearInputs() {
       this.createModel = {
@@ -141,7 +141,7 @@ export default {
       };
     },
     submitUserCreateButton() {
-      this.createNewUser(this.createModel);
+      this.createNewStudent(this.createModel);
       this.$refs.userCreateModal.closeModal();
     },
     canselUserCreateButton() {
