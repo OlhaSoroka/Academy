@@ -24,7 +24,7 @@
           class="text-center"
           :table-data="{
             headingData: headersUser,
-            bodyData: courses,
+            bodyData: coursesForUser(),
           }"
           :edit-btns="false"
           :is-data-loading="loadingStatus"
@@ -151,6 +151,15 @@ export default {
     submitDelete() {
       this.deleteCourseFromState(this.targetCourse.id);
     },
+    coursesForUser() {
+      let coursesWhereUserPresent = []
+      let groups = this.courses.map(course => course.group);
+      for (let i=0; i<groups.length; i++){
+      let  emailsOfCourse = groups[i].map(course => course.email);
+      if(emailsOfCourse.includes(this.user.email)){coursesWhereUserPresent.push(this.courses[i])}
+      }
+      return coursesWhereUserPresent
+    }
   },
 };
 </script>
