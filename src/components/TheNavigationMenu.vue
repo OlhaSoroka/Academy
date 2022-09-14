@@ -36,6 +36,19 @@
       </svg>
       <span class="navigation-menu-text">Managers</span>
     </router-link>
+    <router-link
+      v-if="isAdmin"
+      :to="{ name: ADMINS }"
+    >
+      <svg
+        class="navigation-menu-icon"
+        width="16"
+        height="16"
+      >
+        <use href="../icons/sprite-navigation.svg#icon-managers" />
+      </svg>
+      <span class="navigation-menu-text">Admins</span>
+    </router-link>
     <label
       for="logout"
       class="block"
@@ -72,6 +85,7 @@ import {
   PROFILE,
   USERS,
   MANAGERS,
+  ADMINS,
   COURSE_DASHBOARD,
   LOGIN,
 } from "@/constants/routes.constant";
@@ -90,6 +104,7 @@ export default {
       PROFILE,
       USERS,
       MANAGERS,
+      ADMINS,
       COURSE_DASHBOARD,
       LOGIN,
     };

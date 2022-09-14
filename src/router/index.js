@@ -7,12 +7,13 @@ const NotFoundView = () => import(/* webpackChunkName:'not-found'*/ '../views/No
 const ProfileView = () => import(/* webpackChunkName:'profile'*/ '../views/ProfileView.vue');
 const UsersView = () => import(/* webpackChunkName:'users'*/ '../views/UsersView.vue');
 const ManagersView = () => import(/* webpackChunkName:'managers'*/ '../views/ManagersView.vue');
+const AdminsView = () => import(/* webpackChunkName:'managers'*/ '../views/AdminsView.vue');
 const CoursesView = () => import(/* webpackChunkName:'courses'*/ '../views/CoursesView.vue');
 const CourseDetailsView = () => import(/* webpackChunkName:'course-details'*/ '../views/CourseDetailsView.vue');
 const CoursesDashboardView = () => import(/* webpackChunkName:'courses'*/ '../views/CoursesDashboardView.vue');
 
 import { ADMIN_ROLE } from '@/constants/roles.constant';
-import { LOGIN, RESET, PROFILE, MANAGERS, USERS, COURSE_DASHBOARD, COURSE_DETAILS, NOT_FOUND } from '@/constants/routes.constant';
+import { LOGIN, RESET, PROFILE, MANAGERS, ADMINS, USERS, COURSE_DASHBOARD, COURSE_DETAILS, NOT_FOUND } from '@/constants/routes.constant';
 import { authGuard, isCourseExist, roleGuard } from './utils';
 
 Vue.use(VueRouter);
@@ -54,6 +55,13 @@ const routes = [
 		path: '/managers',
 		name: MANAGERS,
 		component: ManagersView,
+		meta: { requiresAuth: true, requiredRoles: [ADMIN_ROLE] },
+		beforeEnter: roleGuard,
+	},
+	{
+		path: '/admins',
+		name: ADMINS,
+		component: AdminsView,
 		meta: { requiresAuth: true, requiredRoles: [ADMIN_ROLE] },
 		beforeEnter: roleGuard,
 	},
