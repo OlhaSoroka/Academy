@@ -29,6 +29,6 @@ export default {
 	min-height: 100vh;
 }
 .page {
-	/* @apply bg-sky-50 min-h-full */
+	/* @apply bg-primary-100 min-h-full */
 }
 </style>

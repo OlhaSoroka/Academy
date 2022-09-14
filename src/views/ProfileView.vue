@@ -131,7 +131,7 @@ export default {
 }
 
 .profile__image_container {
-  @apply bg-sky-800 flex justify-center items-center p-12;
+  @apply bg-primary-800 flex justify-center items-center p-12;
 }
 
 .profile__image_loading {

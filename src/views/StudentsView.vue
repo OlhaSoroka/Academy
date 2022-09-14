@@ -261,7 +261,7 @@ export default {
   @apply w-full flex justify-between items-center;
 }
 .users__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+  @apply font-semibold text-lg text-start text-primary-700;
 }
 .users__subheader {
   @apply mt-2 font-normal text-stone-400;

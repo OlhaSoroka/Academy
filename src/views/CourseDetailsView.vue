@@ -635,7 +635,7 @@ export default {
 }
 
 .part {
-  @apply shadow-lg bg-stone-50 p-6 border-sky-100 border-2 rounded-md;
+  @apply shadow-lg bg-stone-50 p-6 border-primary-100 border-2 rounded-md;
 }
 
 button {
@@ -643,7 +643,7 @@ button {
 }
 
 .courses__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+  @apply font-semibold text-lg text-start text-primary-700;
 }
 
 .part__text {
@@ -671,7 +671,7 @@ button {
 }
 
 .main__header_label {
-  @apply font-semibold text-sky-800;
+  @apply font-semibold text-primary-800;
 }
 
 .main__header_text {

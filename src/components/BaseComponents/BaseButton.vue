@@ -58,6 +58,6 @@ export default {
   @apply w-6 h-6 border-4 border-white border-double border-t-transparent rounded-full animate-spin mx-auto;
 }
 .btn_blue {
-  @apply bg-sky-700 hover:bg-sky-900;
+  @apply bg-primary-700 hover:bg-primary-900;
 }
 </style>

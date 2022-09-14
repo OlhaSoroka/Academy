@@ -161,7 +161,7 @@ export default {
 }
 
 .courses__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+  @apply font-semibold text-lg text-start text-primary-700;
 }
 
 .courses__subheader {

@@ -6,7 +6,7 @@
     <div class="navigation-main-logo">
       <img
         src="../assets/logo-h.svg"
-        alt=""
+        alt="main_logo"
       >
     </div>
 
@@ -23,7 +23,7 @@
         class=""
         :to="{ name: PROFILE }"
       >
-        <div class="mt-4 text-primary text-base">
+        <div class="mt-4 text-primary-700 text-base">
           {{ user.fullName }}
         </div>
       </router-link>
@@ -36,7 +36,6 @@
           :to="{ name: COURSE_DASHBOARD }"
         >
           <svg
-            class=""
             width="16"
             height="16"
           >
@@ -67,7 +66,6 @@
           :to="{ name: MENTORS }"
         >
           <svg
-            class=""
             width="16"
             height="16"
           >
@@ -83,7 +81,6 @@
         >
           <svg
             id="logout"
-            class=""
             width="16"
             height="16"
           >
