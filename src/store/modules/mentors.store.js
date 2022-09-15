@@ -1,28 +1,30 @@
+/* eslint-disable no-console */
 import {
   getAllUsers,
-  updateUserByID,
   registerUser,
   deleteUserById,
-} from "../../api/user/index";
-import { USER_ROLE } from "@/constants/roles.constant";
+  updateUserByID,
+} from "@/api/user";
+import { MENTOR_ROLE } from "@/constants/roles.constant";
 
 export default {
   state: {
-    users: [],
-    isUsersLoading: false,
+    mentors: [],
+    isMentorsLoading: false,
   },
   getters: {
-    users: (state) => state.users,
-    usersLoadingStatus: (state) => state.isUsersLoading,
+    mentors: (state) => state.mentors,
+    isMentorsLoading: (state) => state.isMentorsLoading,
   },
   actions: {
-    fetchUsers: async (store) => {
+    fetchMentors: async (store) => {
       const token = localStorage.getItem("accessToken");
+
       try {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        const allUsers = await getAllUsers(token);
-        const users = allUsers.filter((user) => user.role === USER_ROLE);
-        store.commit("SET_USERS", users);
+        store.commit("TOGGLE_MENTORS_LOADING");
+        const users = await getAllUsers(token);
+        const mentors = users.filter((user) => user.role === MENTOR_ROLE);
+        store.commit("SET_MENTORS", mentors);
       } catch (error) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
@@ -32,37 +34,15 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
+        store.commit("TOGGLE_MENTORS_LOADING");
       }
     },
-    updateUser: async (store, data) => {
+    createMentor: async (store, mentor) => {
       const token = localStorage.getItem("accessToken");
+
       try {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        await updateUserByID(data.id, data, token);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully updated", type: "success" },
-          { root: true }
-        );
-      } catch (error) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true }
-        );
-      } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        store.dispatch("fetchUsers");
-      }
-    },
-    createNewUser: async (store, data) => {
-      const token = localStorage.getItem("accessToken");
-      try {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        await registerUser(data, token);
+        store.commit("TOGGLE_MENTORS_LOADING");
+        await registerUser(mentor, token);
         store.dispatch(
           "toast/show",
           { message: "User succesfully created", type: "success" },
@@ -77,15 +57,15 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        store.dispatch("fetchUsers");
+        store.commit("TOGGLE_MENTORS_LOADING");
+        store.dispatch("fetchMentors");
       }
     },
-    deleteUser: async (store, id) => {
+    deleteMentor: async (store, id) => {
       const token = localStorage.getItem("accessToken");
 
       try {
-        store.commit("TOGGLE_LOADIN_STATUS");
+        store.commit("TOGGLE_MENTORS_LOADING");
         await deleteUserById(id, token);
         store.dispatch(
           "toast/show",
@@ -101,17 +81,41 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_LOADIN_STATUS");
-        store.dispatch("fetchUsers");
+        store.commit("TOGGLE_MENTORS_LOADING");
+        store.dispatch("fetchMentors");
+      }
+    },
+    updateMentor: async (store, mentorData) => {
+      const token = localStorage.getItem("accessToken");
+
+      try {
+        store.commit("TOGGLE_MENTORS_LOADING");
+        await updateUserByID(mentorData.id, mentorData, token);
+        store.dispatch(
+          "toast/show",
+          { message: "User succesfully updated", type: "success" },
+          { root: true }
+        );
+      } catch (error) {
+        const errorMessage =
+          error.response?.data?.error || error.response.data.message;
+        store.dispatch(
+          "toast/show",
+          { message: errorMessage, type: "error" },
+          { root: true }
+        );
+      } finally {
+        store.commit("TOGGLE_MENTORS_LOADING");
+        store.dispatch("fetchMentors");
       }
     },
   },
   mutations: {
-    SET_USERS(state, users) {
-      state.users = users;
+    SET_MENTORS: (state, mentors) => {
+      state.mentors = mentors;
     },
-    TOGGLE_LOADIN_STATUS(state) {
-      state.isUsersLoading = !state.isUsersLoading;
+    TOGGLE_MENTORS_LOADING: (state) => {
+      state.isMentorsLoading = !state.isMentorsLoading;
     },
   },
   namespaced: true,

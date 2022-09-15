@@ -144,7 +144,7 @@ export default {
 				sortDirection: null, // null || true || false
 			},
 			items: [],
-			baseTableHeaderStyles: "app-table-header__th text-sky-800"
+			baseTableHeaderStyles: "app-table-header__th text-primary-800"
 		};
 	},
 	updated() {

@@ -64,7 +64,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    manager: {
+    mentor: {
       type: Object,
       default: null,
     },
@@ -79,10 +79,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("users", ["users"]),
+    ...mapGetters("students", ["students"]),
     ...mapGetters("courses", ["getCourseById"]),
     usersWithoutApplicants() {
-      return this.users.filter((user) => {
+      return this.students.filter((user) => {
         const { applicants } = this.currentCourse;
         return !applicants.some((applicant) => applicant.id === user.id);
       });
@@ -97,11 +97,11 @@ export default {
     }
   },
   async mounted() {
-    this.fetchUsers();
+    this.fetchStudents();
   },
   methods: {
     ...mapActions("courses", ["updateCourse", "getCourses"]),
-    ...mapActions("users", ["fetchUsers"]),
+    ...mapActions("students", ["fetchStudents"]),
     clearInputs() {
       this.newApplicant = "";
     },
@@ -110,7 +110,7 @@ export default {
       this.clearInputs();
     },
     confirmAdding({ id, course }) {
-      const currentUser = this.users.find((el) => el.id === this.newApplicant);
+      const currentUser = this.students.find((el) => el.id === this.newApplicant);
       const updatedCourse = JSON.parse(JSON.stringify(course));
       updatedCourse.applicants.push(currentUser);
       this.updateCourse({ id, course: updatedCourse })
@@ -131,7 +131,7 @@ export default {
 
 
 .select__applicants {
-  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900 disabled:bg-gray-50 disabled:border-gray-300;
+  @apply block p-1 m-1 w-64 ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900 disabled:bg-gray-50 disabled:border-gray-300;
 }
 
 .select__label {

@@ -1,5 +1,5 @@
 <template>
-  <div class="courses__container">
+  <div class="page courses__container">
     <div class="courses__topbar_container">
       <div>
         <h2 class="courses__header">
@@ -9,7 +9,7 @@
           Courses list of InventorSoft Academy
         </h3>
       </div>
-      <div v-if="isManager || isAdmin">
+      <div v-if="isMentor || isAdmin">
         <BaseButton
           :loading="loadingStatus"
           @click.prevent="openCourseViewCreateModal"
@@ -34,12 +34,12 @@
         />
       </div>
     </div>
-    <div v-else-if="isManager || isAdmin">
+    <div v-else-if="isMentor || isAdmin">
       <div class="courses__table_container">
         <BaseTable
           class="text-center"
           :table-data="{
-            headingData: headersManager,
+            headingData: headersMentor,
             bodyData: courses,
           }"
           :edit-btns="false"
@@ -71,8 +71,8 @@ import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import CourseCreateModal from "@/components/Modals/CourseCreateModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal.vue";
 import {
-  USER_ROLE,
-  MANAGER_ROLE,
+  STUDENTS_ROLE,
+  MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 
@@ -104,7 +104,7 @@ export default {
         { date: "Date" },
         { status: "Status" },
       ],
-      headersManager: [{ name: "Course Name" }, { date: "Date" }],
+      headersMentor: [{ name: "Course Name" }, { date: "Date" }],
     };
   },
   computed: {
@@ -112,14 +112,14 @@ export default {
     ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
-        return this.user.role === USER_ROLE;
+        return this.user.role === STUDENTS_ROLE;
       } else {
         return false;
       }
     },
-    isManager() {
+    isMentor() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE;
+        return this.user.role === MENTOR_ROLE;
       } else {
         return false;
       }
@@ -170,7 +170,7 @@ export default {
 }
 
 .courses__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+  @apply font-semibold text-lg text-start text-primary-700;
 }
 
 .courses__subheader {
