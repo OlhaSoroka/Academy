@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import courses from "./modules/courses";
 import user from "./modules/user";
+import admins from "./modules/admins.store";
 import students from "./modules/students";
 import mentors from "./modules/mentors.store";
 import toast from "./modules/toast.store";
@@ -19,5 +20,6 @@ export default new Vuex.Store({
     students,
     mentors,
     toast,
+    admins,
   },
 });

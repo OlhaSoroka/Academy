@@ -66,12 +66,29 @@
           :to="{ name: MENTORS }"
         >
           <svg
+            class="navigation-menu-icon"
             width="16"
             height="16"
           >
             <use href="../icons/sprite-navigation.svg#icon-mentors" />
           </svg>
           <span class="navigation-text">Mentors</span>
+        </router-link>
+      </div>
+      <div>
+        <router-link
+          v-if="isAdmin"
+          class="navigation-link"
+          :to="{ name: ADMINS }"
+        >
+          <svg
+            class="navigation-menu-icon"
+            width="16"
+            height="16"
+          >
+            <use href="../icons/sprite-navigation.svg#icon-admin" />
+          </svg>
+          <span class="navigation-text">Admins</span>
         </router-link>
       </div>
       <div>
@@ -93,33 +110,40 @@
   </div>
 </template>
 <script>
-import { PROFILE, STUDENTS, MENTORS, COURSE_DASHBOARD, LOGIN } from '@/constants/routes.constant';
-import { ADMIN_ROLE } from '@/constants/roles.constant';
-import { mapActions, mapGetters } from 'vuex';
+import {
+  PROFILE,
+  STUDENTS,
+  MENTORS,
+  ADMINS,
+  COURSE_DASHBOARD,
+  LOGIN,
+} from "@/constants/routes.constant";
+import { ADMIN_ROLE } from "@/constants/roles.constant";
+import { mapActions, mapGetters } from "vuex";
 export default {
-	name: 'NavigationMenu',
-	props: {
-		role: {
-			default: 'user',
-			type: String,
-		},
-	},
-	data() {
-		return {
-			PROFILE,
-			STUDENTS,
-			MENTORS,
-			COURSE_DASHBOARD,
-			LOGIN,
-		};
-	},
-	computed: {
-		...mapGetters('user', ['user']),
-		isAdmin() {
-			return this.user.role === ADMIN_ROLE;
-		},
-	},
-
+  name: "NavigationMenu",
+  props: {
+    role: {
+      default: "user",
+      type: String,
+    },
+  },
+  data() {
+    return {
+      PROFILE,
+      STUDENTS,
+      MENTORS,
+      ADMINS,
+      COURSE_DASHBOARD,
+      LOGIN,
+    };
+  },
+  computed: {
+    ...mapGetters("user", ["user"]),
+    isAdmin() {
+      return this.user.role === ADMIN_ROLE;
+    },
+  },
 	methods: {
 		...mapActions('user', ['logoutUser']),
 		async logout() {
