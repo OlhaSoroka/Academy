@@ -5,7 +5,7 @@
     :vid="vid"
     :rules="allRules"
   >
-    <div class="mb-6">
+    <div>
       <label
         v-if="label"
         class="block ml-1 text-start"
@@ -122,7 +122,7 @@ export default {
 
 <style lang="postcss" scoped>
 .base-input {
-  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
+  @apply block p-1 m-1 w-full ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900;
 }
 
 .base-input:disabled {

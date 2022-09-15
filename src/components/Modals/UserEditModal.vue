@@ -2,7 +2,7 @@
   <div>
     <BaseModal
       ref="userEditModal"
-      :header="'Edit User'"
+      :header="'Update student'"
     >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
@@ -10,6 +10,7 @@
             <div
               v-for="input in userInputsValue"
               :key="input.label"
+              class="w-72"
             >
               <BaseInput
                 v-model="targetUser[input.model]"
@@ -121,10 +122,10 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions("users", ["updateUser"]),
+    ...mapActions("students", ["updateStudent"]),
     ...mapActions("courses", ["getCourses"]),
     submitUserEditButton() {
-      this.updateUser(this.targetUser);
+      this.updateStudent(this.targetUser);
       this.$refs.userEditModal.closeModal();
     },
     cancelUserEditButton() {
@@ -141,6 +142,6 @@ export default {
 
 <style lang="postcss" scoped>
 .select__course {
-  @apply block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900;
+  @apply block p-1 m-1 w-64 ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900;
 }
 </style>

@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="isManager || isAdmin">
+    <div v-else-if="isMentor || isAdmin">
       <div
         v-if="courseItem"
         class="text-center my-3"
@@ -370,8 +370,8 @@ import BaseEditIcon from "@/components/BaseComponents/BaseIcons/BaseEditIcon.vue
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
 import {
-  USER_ROLE,
-  MANAGER_ROLE,
+  STUDENTS_ROLE,
+  MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
@@ -453,14 +453,14 @@ export default {
     ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
-        return this.user.role === USER_ROLE;
+        return this.user.role === STUDENTS_ROLE;
       } else {
         return false;
       }
     },
-    isManager() {
+    isMentor() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE;
+        return this.user.role === MENTOR_ROLE;
       } else {
         return false;
       }
@@ -635,7 +635,7 @@ export default {
 }
 
 .part {
-  @apply shadow-lg bg-stone-50 p-6 border-sky-100 border-2 rounded-md;
+  @apply shadow-lg bg-stone-50 p-6 border-primary-100 border-2 rounded-md;
 }
 
 button {
@@ -643,7 +643,7 @@ button {
 }
 
 .courses__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+  @apply font-semibold text-lg text-start text-primary-700;
 }
 
 .part__text {
@@ -671,7 +671,7 @@ button {
 }
 
 .main__header_label {
-  @apply font-semibold text-sky-800;
+  @apply font-semibold text-primary-800;
 }
 
 .main__header_text {

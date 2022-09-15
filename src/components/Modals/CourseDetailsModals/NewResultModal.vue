@@ -76,7 +76,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    manager: {
+    mentor: {
       type: Object,
       default: null,
     },
@@ -111,11 +111,11 @@ export default {
     },
   },
   async mounted() {
-    this.fetchUsers();
+    this.fetchStudents();
   },
   methods: {
     ...mapActions("courses", ["updateCourse", "getCourses"]),
-    ...mapActions("users", ["fetchUsers"]),
+    ...mapActions("students", ["fetchStudents"]),
     clearInputs() {
       this.newApplicant = "";
       this.score = "";
@@ -146,7 +146,7 @@ export default {
 
 
 .select__resuls {
-  @apply block p-1 h-9 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900 disabled:bg-gray-50 disabled:border-gray-300;
+  @apply block p-1 h-9 m-1 w-64 ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900 disabled:bg-gray-50 disabled:border-gray-300;
 }
 .select__label {
   @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400;

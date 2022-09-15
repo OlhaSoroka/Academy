@@ -1,14 +1,16 @@
 <template>
-  <div class="loginform">
+  <div>
     <ValidationObserver v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
-        <BaseInput
-          v-model="formData.email"
-          type="text"
-          label="Email"
-          vid="email"
-          placeholder="aaa@gmail.com"
-        />
+        <div class="mb-4">
+          <BaseInput
+            v-model="formData.email"
+            type="text"
+            label="Email"
+            vid="email"
+            placeholder="aaa@gmail.com"
+          />
+        </div>
         <div v-if="isLoginPage">
           <BaseInput
             v-model="formData.password"
@@ -17,20 +19,23 @@
             vid="text"
             placeholder="qwe123"
           />
-          <BaseButton
-            :loading="isDataLoading"
-            class="my-3"
-            type="submit"
-          >
-            Submit
-          </BaseButton>
-          <!-- <BaseSpinner v-if="isDataLoading" /> -->
           <p
             class="link"
             @click="goToResetPage"
           >
-            Reset password
+            Forgot password ?
           </p>
+          <div class="flex justify-center">
+            <BaseButton
+              :loading="isDataLoading"
+              class="my-3"
+              type="submit"
+            >
+              Submit
+            </BaseButton>
+          </div>
+
+          <!-- <BaseSpinner v-if="isDataLoading" /> -->
         </div>
       </form>
     </ValidationObserver>
@@ -187,6 +192,6 @@ export default {
 
 <style lang="postcss" scoped>
 .link {
-  @apply mx-2 cursor-pointer text-end hover:opacity-75 transition-opacity underline text-xs;
+  @apply cursor-pointer hover:opacity-75 transition-opacity underline text-xs text-end;
 }
 </style>
