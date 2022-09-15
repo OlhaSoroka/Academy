@@ -3,10 +3,10 @@
     <div class="users__topbar_container">
       <div>
         <h2 class="users__header">
-          Users Dashboard
+          Students Dashboard
         </h2>
         <h3 class="users__subheader">
-          Users list of InventorSoft Academy
+          Students list of InventorSoft Academy
         </h3>
       </div>
       <div v-if="isManager || isAdmin">
@@ -14,7 +14,7 @@
           :loading="usersLoadingStatus"
           @click.prevent="openCreateModal"
         >
-          Add new user
+          Add new students
         </BaseButton>
       </div>
     </div>

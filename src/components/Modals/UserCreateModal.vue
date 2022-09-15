@@ -2,7 +2,7 @@
   <div>
     <BaseModal
       ref="userCreateModal"
-      :header="'Add new user'"
+      :header="'Add new student'"
       @isClosed="clearInputs()"
     >
       <template #body>

@@ -21,7 +21,7 @@
       >
         <use href="../icons/sprite-navigation.svg#icon-members" />
       </svg>
-      <span class="navigation-menu-text">Users</span>
+      <span class="navigation-menu-text">Students</span>
     </router-link>
     <router-link
       v-if="isAdmin"
@@ -32,9 +32,9 @@
         width="16"
         height="16"
       >
-        <use href="../icons/sprite-navigation.svg#icon-managers" />
+        <use href="../icons/sprite-navigation.svg#icon-mentors" />
       </svg>
-      <span class="navigation-menu-text">Managers</span>
+      <span class="navigation-menu-text">Mentors</span>
     </router-link>
     <router-link
       v-if="isAdmin"

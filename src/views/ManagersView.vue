@@ -4,10 +4,10 @@
     <div class="managers__topbar_container">
       <div>
         <h2 class="managers__header">
-          Managers Dashboard
+          Mentors Dashboard
         </h2>
         <h3 class="managers__subheader">
-          Managers list of InventorSoft Academy
+          Mentors list of InventorSoft Academy
         </h3>
       </div>
       <div>
@@ -15,7 +15,7 @@
           :loading="isManagersLoading"
           @click="toggleCreateUpdateModal(null, false)"
         >
-          Add new manager
+          Add new mentors
         </BaseButton>
       </div>
     </div>

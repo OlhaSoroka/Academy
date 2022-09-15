@@ -1,7 +1,7 @@
 <template>
   <BaseModal
     ref="createUpdateManagerModal"
-    :header="isUpdateMode ? 'Update manager' : 'Add new manager'"
+    :header="isUpdateMode ? 'Update mentor' : 'Add new mentor'"
     @isClosed="clearInputs()"
   >
     <template #body>
