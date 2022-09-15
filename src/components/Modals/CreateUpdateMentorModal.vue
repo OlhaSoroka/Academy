@@ -7,7 +7,7 @@
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
         <div>
-          <div>
+          <div class="w-80">
             <BaseInput
               ref="fullName"
               v-model="fullName"
@@ -17,7 +17,7 @@
               rules="required"
             />
           </div>
-          <div>
+          <div class="w-80">
             <BaseInput
               ref="email"
               v-model="email"
@@ -51,7 +51,7 @@
           <div class="mt-6">
             <div
               v-if="isUpdateMode"
-              class="mx-1"
+              class="mx-1 flex justify-center"
             >
               <BaseButton @click="toggleChangePassword">
                 {{ changePasswordMode ? "Hide password" : "Change password" }}

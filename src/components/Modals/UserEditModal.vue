@@ -2,7 +2,7 @@
   <div>
     <BaseModal
       ref="userEditModal"
-      :header="'Edit User'"
+      :header="'Update student'"
     >
       <template #body>
         <ValidationObserver v-slot="{ invalid }">
@@ -10,6 +10,7 @@
             <div
               v-for="input in userInputsValue"
               :key="input.label"
+              class="w-72"
             >
               <BaseInput
                 v-model="targetUser[input.model]"

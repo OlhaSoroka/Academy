@@ -2,7 +2,7 @@
   <div class="login-page-container">
     <div class="login-page-shader">
       <div class="w-1/5">
-        <div class="font-semibold text-3xl p-4 from-neutral-900">
+        <div class="login-title">
           Academy Application
         </div>
         <div class="login-form-container">
@@ -15,7 +15,7 @@
           </div>
           <LoginForm />
         </div>
-        <div class="font-light text-xs p-4 text-white">
+        <div class="login-link">
           Copyright © <a
             class="text-primary-700 text-xs font-semibold"
             href="https://inventorsoft.co/"
@@ -83,11 +83,17 @@ export default {
 	@apply w-full h-full bg-gradient-to-b from-white to-transparent flex justify-center items-center;
 }
 .login-form-container {
-	@apply bg-white p-8 rounded-lg shadow-2xl ;
+	@apply bg-white p-8 rounded-lg shadow-2xl;
 }
 .login-form-wrapper {
 }
 .login-form-logo {
-  @apply w-1/2 
+	@apply w-1/2;
+}
+.login-title {
+	@apply font-semibold text-3xl p-4 from-neutral-900;
+}
+.login-link {
+	@apply font-light text-xs p-4 text-white flex justify-center
 }
 </style>

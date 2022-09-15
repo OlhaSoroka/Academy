@@ -99,11 +99,11 @@ export default {
     },
   },
   async mounted() {
-    this.fetchUsers();
+    this.fetchStudents();
   },
   methods: {
     ...mapActions("courses", ["updateCourse", "getCourses"]),
-    ...mapActions("users", ["fetchUsers"]),
+    ...mapActions("students", ["fetchStudents"]),
     clearInputs() {
       this.newGroupMember = "";
     },

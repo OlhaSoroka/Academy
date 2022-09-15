@@ -2,7 +2,7 @@
   <div>
     <BaseModal
       ref="userCreateModal"
-      :header="'Add new user'"
+      :header="'Add new student'"
       @isClosed="clearInputs()"
     >
       <template #body>
@@ -11,12 +11,13 @@
             <div
               v-for="input in userInputsValue"
               :key="input.label"
+              class="w-80"
             >
               <BaseInput
                 v-model="createModel[input.model]"
                 :type="input.type"
                 :label="input.label"
-                :placeholder="input.placeholder"
+                :placeholder="input.placeholder"  
                 :vid="input.vid"
                 :rules="requiredField(input.label)"
               />
@@ -165,6 +166,6 @@ export default {
 
 <style lang="postcss" scoped>
 .select__course {
-  @apply block p-1 m-1 w-64 ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900;
+  @apply block p-1 m-1 w-full ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900;
 }
 </style>

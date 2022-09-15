@@ -20,15 +20,13 @@ export default {
 </script>
 
 <style lang="postcss">
-#app {
+/* #app {
 	font-family: 'Poppins', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
 	min-height: 100vh;
-}
-.page {
-	/* @apply bg-primary-100 min-h-full */
-}
+} */
+
 </style>

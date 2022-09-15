@@ -1,5 +1,5 @@
 <template>
-  <div class="loginform">
+  <div>
     <ValidationObserver v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
         <div class="mb-4">
@@ -25,13 +25,16 @@
           >
             Forgot password ?
           </p>
-          <BaseButton
-            :loading="isDataLoading"
-            class="my-3"
-            type="submit"
-          >
-            Submit
-          </BaseButton>
+          <div class="flex justify-center">
+            <BaseButton
+              :loading="isDataLoading"
+              class="my-3"
+              type="submit"
+            >
+              Submit
+            </BaseButton>
+          </div>
+
           <!-- <BaseSpinner v-if="isDataLoading" /> -->
         </div>
       </form>

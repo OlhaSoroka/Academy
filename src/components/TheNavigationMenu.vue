@@ -11,11 +11,11 @@
     </div>
 
     <div class="mt-5">
-      <div class="">
-        <div class="">
+      <div class="flex justify-center">
+        <div class="rounded-full shadow-md w-24 h-24 block relative overflow-hidden ">
           <img
             :src="user.avatarUrl.path"
-            class="rounded-full w-1/2 h-1/2 m-auto mt-4"
+            class="w-full h-full object-cover"
           >
         </div>
       </div>
@@ -23,7 +23,7 @@
         class=""
         :to="{ name: PROFILE }"
       >
-        <div class="mt-4 text-primary-700 text-base">
+        <div class="navigation-profile-name">
           {{ user.fullName }}
         </div>
       </router-link>
@@ -136,13 +136,16 @@ export default {
  @apply m-auto w-2/3
 }
 .navigation-link{
- @apply flex  justify-center items-center m-auto p-3 cursor-pointer opacity-70
+ @apply flex  justify-center items-center m-auto p-3 cursor-pointer opacity-70 hover:opacity-100
 }
 .navigation-text{
    @apply w-1/2 text-start ml-4
 }
 
 .router-link-exact-active {
-	@apply opacity-100
+	@apply opacity-100 
+}
+.navigation-profile-name {
+ @apply  mt-4 text-primary-700 text-base hover:text-primary-900 flex justify-center
 }
 </style>

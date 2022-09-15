@@ -7,7 +7,7 @@
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
         <div class="flex flex-col items-center">
-          <div>
+          <div class="w-64">
             <BaseInput
               v-model="newPassword"
               type="password"
@@ -16,7 +16,7 @@
               placeholder="Enter new password"
             />
           </div>
-          <div>
+          <div class="w-64">
             <BaseInput
               v-model="confirmedPassword"
               type="password"

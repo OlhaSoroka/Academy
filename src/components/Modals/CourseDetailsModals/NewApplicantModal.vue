@@ -79,10 +79,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("users", ["users"]),
+    ...mapGetters("students", ["students"]),
     ...mapGetters("courses", ["getCourseById"]),
     usersWithoutApplicants() {
-      return this.users.filter((user) => {
+      return this.students.filter((user) => {
         const { applicants } = this.currentCourse;
         return !applicants.some((applicant) => applicant.id === user.id);
       });
@@ -97,11 +97,11 @@ export default {
     }
   },
   async mounted() {
-    this.fetchUsers();
+    this.fetchStudents();
   },
   methods: {
     ...mapActions("courses", ["updateCourse", "getCourses"]),
-    ...mapActions("users", ["fetchUsers"]),
+    ...mapActions("students", ["fetchStudents"]),
     clearInputs() {
       this.newApplicant = "";
     },
@@ -110,7 +110,7 @@ export default {
       this.clearInputs();
     },
     confirmAdding({ id, course }) {
-      const currentUser = this.users.find((el) => el.id === this.newApplicant);
+      const currentUser = this.students.find((el) => el.id === this.newApplicant);
       const updatedCourse = JSON.parse(JSON.stringify(course));
       updatedCourse.applicants.push(currentUser);
       this.updateCourse({ id, course: updatedCourse })
