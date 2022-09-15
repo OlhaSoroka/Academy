@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page-container">
+  <div class="login-page-container relative">
     <div class="login-page-shader">
       <div class="w-1/5">
         <div class="login-title">
@@ -15,13 +15,13 @@
           </div>
           <LoginForm />
         </div>
-        <div class="login-link">
-          Copyright © <a
-            class="text-primary-700 text-xs font-semibold"
-            href="https://inventorsoft.co/"
-          >InventorSoft</a>
-        </div>
       </div>
+    </div>
+    <div class="login-link absolute bottom-0 right-0">
+      Copyright © <a
+        class="text-primary-700 text-xs font-semibold"
+        href="https://inventorsoft.co/"
+      >InventorSoft</a>
     </div>
   </div>
 </template>
@@ -94,6 +94,6 @@ export default {
 	@apply font-semibold text-3xl p-4 from-neutral-900;
 }
 .login-link {
-	@apply font-light text-xs p-4 text-white flex justify-center
+	@apply font-light text-xs p-4 text-white flex justify-end items-end;
 }
 </style>

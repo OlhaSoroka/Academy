@@ -56,7 +56,7 @@
           >
             <use href="../icons/sprite-navigation.svg#icon-members" />
           </svg>
-          <span class="navigation-text">Users</span>
+          <span class="navigation-text">Students</span>
         </router-link>
       </div>
       <div>
