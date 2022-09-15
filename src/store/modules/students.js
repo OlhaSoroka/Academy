@@ -1,30 +1,28 @@
-/* eslint-disable no-console */
 import {
   getAllUsers,
+  updateUserByID,
   registerUser,
   deleteUserById,
-  updateUserByID,
-} from "@/api/user";
-import { MANAGER_ROLE } from "@/constants/roles.constant";
+} from "../../api/user/index";
+import { STUDENTS_ROLE } from "@/constants/roles.constant";
 
 export default {
   state: {
-    managers: [],
-    isManagersLoading: false,
+    students: [],
+    isStudentLoading: false,
   },
   getters: {
-    managers: (state) => state.managers,
-    isManagersLoading: (state) => state.isManagersLoading,
+    students: (state) => state.students,
+    studentsLoadingStatus: (state) => state.isStudentLoading,
   },
   actions: {
-    fetchManagers: async (store) => {
+    fetchStudents: async (store) => {
       const token = localStorage.getItem("accessToken");
-
       try {
-        store.commit("TOGGLE_MANAGERS_LOADING");
-        const users = await getAllUsers(token);
-        const managers = users.filter((user) => user.role === MANAGER_ROLE);
-        store.commit("SET_MANAGERS", managers);
+        store.commit("TOGGLE_LOADING_STATUS");
+        const allUsers = await getAllUsers(token);
+        const students = allUsers.filter((user) => user.role === STUDENTS_ROLE);
+        store.commit("SET_STUDENTS", students);
       } catch (error) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
@@ -34,18 +32,17 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_MANAGERS_LOADING");
+        store.commit("TOGGLE_LOADING_STATUS");
       }
     },
-    createManager: async (store, manager) => {
+    updateStudent: async (store, data) => {
       const token = localStorage.getItem("accessToken");
-
       try {
-        store.commit("TOGGLE_MANAGERS_LOADING");
-        await registerUser(manager, token);
+        store.commit("TOGGLE_LOADING_STATUS");
+        await updateUserByID(data.id, data, token);
         store.dispatch(
           "toast/show",
-          { message: "User succesfully created", type: "success" },
+          { message: "User successfully updated", type: "success" },
           { root: true }
         );
       } catch (error) {
@@ -57,19 +54,42 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_MANAGERS_LOADING");
-        store.dispatch("fetchManagers");
+        store.commit("TOGGLE_LOADING_STATUS");
+        store.dispatch("fetchStudents");
       }
     },
-    deleteManager: async (store, id) => {
+    createNewStudent: async (store, data) => {
+      const token = localStorage.getItem("accessToken");
+      try {
+        store.commit("TOGGLE_LOADING_STATUS");
+        await registerUser(data, token);
+        store.dispatch(
+          "toast/show",
+          { message: "User successfully created", type: "success" },
+          { root: true }
+        );
+      } catch (error) {
+        const errorMessage =
+          error.response?.data?.error || error.response.data.message;
+        store.dispatch(
+          "toast/show",
+          { message: errorMessage, type: "error" },
+          { root: true }
+        );
+      } finally {
+        store.commit("TOGGLE_LOADING_STATUS");
+        store.dispatch("fetchStudents");
+      }
+    },
+    deleteStudent: async (store, id) => {
       const token = localStorage.getItem("accessToken");
 
       try {
-        store.commit("TOGGLE_MANAGERS_LOADING");
+        store.commit("TOGGLE_LOADING_STATUS");
         await deleteUserById(id, token);
         store.dispatch(
           "toast/show",
-          { message: "User succesfully deleted", type: "success" },
+          { message: "User successfully deleted", type: "success" },
           { root: true }
         );
       } catch (error) {
@@ -81,41 +101,17 @@ export default {
           { root: true }
         );
       } finally {
-        store.commit("TOGGLE_MANAGERS_LOADING");
-        store.dispatch("fetchManagers");
-      }
-    },
-    updateManager: async (store, managerData) => {
-      const token = localStorage.getItem("accessToken");
-
-      try {
-        store.commit("TOGGLE_MANAGERS_LOADING");
-        await updateUserByID(managerData.id, managerData, token);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully updated", type: "success" },
-          { root: true }
-        );
-      } catch (error) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true }
-        );
-      } finally {
-        store.commit("TOGGLE_MANAGERS_LOADING");
-        store.dispatch("fetchManagers");
+        store.commit("TOGGLE_LOADING_STATUS");
+        store.dispatch("fetchStudents");
       }
     },
   },
   mutations: {
-    SET_MANAGERS: (state, managers) => {
-      state.managers = managers;
+    SET_STUDENTS(state, students) {
+      state.students = students;
     },
-    TOGGLE_MANAGERS_LOADING: (state) => {
-      state.isManagersLoading = !state.isManagersLoading;
+    TOGGLE_LOADING_STATUS(state) {
+      state.isStudentLoading = !state.isStudentLoading;
     },
   },
   namespaced: true,
