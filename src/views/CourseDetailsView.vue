@@ -143,7 +143,7 @@
         </nav>
         <div
           class="
-            grid grid-cols-5 grid-rows-3
+            grid grid-cols-4 grid-rows-4 auto-rows-fr
             gap-x-5 gap-y-5
             xl:gap-x-15 xl:gap-y-10
           "
@@ -204,7 +204,25 @@
               </div>
             </div>
           </div>
-          <div class="part col-span-3 col-start-3">
+          <div
+            class="part col-span-2 col-start-3"
+          >
+            <h2 class="part__text">
+              Comments
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerComments,
+                bodyData: courseItem.comments,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="true"
+              @delete="deleteComment"
+            />
+          </div>
+          <div class="part col-span-2 col-start-1">
             <div class="header">
               <h2 class="part__text">
                 Applicants
@@ -228,7 +246,7 @@
               @delete="deleteApplicant"
             />
           </div>
-          <div class="part col-span-2 col-start-1 row-span-1 xl:row-span-2">
+          <div class="part col-span-2 col-start-3 row-span-1 xl:row-span-1">
             <div class="header">
               <h2 class="part__text">
                 Group
@@ -253,7 +271,7 @@
               @delete="deleteGroupMember"
             />
           </div>
-          <div class="part col-start-3 col-span-3 xl:col-span-2">
+          <div class="part col-start-1 col-span-4">
             <div class="header">
               <h2 class="part__text">
                 Homework
@@ -278,7 +296,7 @@
               @delete="deleteHomework"
             />
           </div>
-          <div class="part col-start-1 col-span-2 xl:col-span-1">
+          <div class="part col-start-1 row-start-4 col-span-4">
             <div class="header">
               <h2 class="part__text">
                 Results
@@ -300,25 +318,6 @@
               :is-data-loading="loadingStatus"
               :delete-btns="true"
               @delete="deleteResultRow"
-            />
-          </div>
-          <div
-            v-if="courseItem.comments.length"
-            class="part col-span-3 col-start-3"
-          >
-            <h2 class="part__text">
-              Comments
-            </h2>
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headerComments,
-                bodyData: courseItem.comments,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="true"
-              @delete="deleteComment"
             />
           </div>
         </div>
