@@ -80,7 +80,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("users", ["users"]),
+    ...mapGetters("students", ["students"]),
     ...mapGetters("courses", ["getCourseById"]),
     getApplicants() {
       return this.currentCourse.applicants.filter((applicant) => {
@@ -112,7 +112,7 @@ export default {
       this.clearInputs();
     },
     confirmAdding({ id, course }) {
-      const currentUser = this.users.find(
+      const currentUser = this.students.find(
         (el) => el.id === this.newGroupMember
       );
       const updatedCourse = JSON.parse(JSON.stringify(course));

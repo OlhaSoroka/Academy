@@ -23,7 +23,7 @@
             class="link"
             @click="goToResetPage"
           >
-            Forgot password ?
+            Forgot password?
           </p>
           <div class="flex justify-center">
             <BaseButton

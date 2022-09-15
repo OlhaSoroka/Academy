@@ -18,8 +18,8 @@
       </div>
     </div>
     <div class="login-link absolute bottom-0 right-0">
-      Copyright © <a
-        class="text-primary-700 text-xs font-semibold"
+      Copyright ©<a
+        class="text-primary-700 text-xs font-semibold mx-1"
         href="https://inventorsoft.co/"
       >InventorSoft</a>
     </div>
