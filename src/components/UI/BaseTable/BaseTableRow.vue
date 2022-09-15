@@ -78,7 +78,7 @@ export default {
   @apply text-red-500  hover:bg-red-50;
 }
 .icon__container--blue {
-  @apply text-sky-700 hover:bg-blue-50;
+  @apply text-primary-700 hover:bg-blue-50;
 }
 .row {
   @apply border-t-8 border-t-transparent shadow-sm;

@@ -6,7 +6,7 @@
   >
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
-        <div>
+        <div class="w-72">
           <BaseInput
             v-model="courseToAdd.name"
             type="text"
@@ -28,7 +28,7 @@
             id="status"
             v-model="courseToAdd.status"
             rules="required"
-            class="block p-1 m-1 w-64 ml-1 border-2 border-sky-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-sky-700 focus:outline-none focus:text-cyan-900"
+            class="block p-1 m-1 w-full ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900"
           >
             <option
               v-for="status in statuses"

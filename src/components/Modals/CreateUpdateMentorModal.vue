@@ -1,13 +1,13 @@
 <template>
   <BaseModal
-    ref="createUpdateManagerModal"
+    ref="createUpdateMentorModal"
     :header="isUpdateMode ? 'Update mentor' : 'Add new mentor'"
     @isClosed="clearInputs()"
   >
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
         <div>
-          <div>
+          <div class="w-80">
             <BaseInput
               ref="fullName"
               v-model="fullName"
@@ -17,7 +17,7 @@
               rules="required"
             />
           </div>
-          <div>
+          <div class="w-80">
             <BaseInput
               ref="email"
               v-model="email"
@@ -51,7 +51,7 @@
           <div class="mt-6">
             <div
               v-if="isUpdateMode"
-              class="mx-1"
+              class="mx-1 flex justify-center"
             >
               <BaseButton @click="toggleChangePassword">
                 {{ changePasswordMode ? "Hide password" : "Change password" }}
@@ -62,7 +62,7 @@
             <div class="mx-2">
               <BaseButton
                 :variant="'btn_red'"
-                @click="cancelAddNewManager"
+                @click="cancelAddNewMentor"
               >
                 Cancel
               </BaseButton>
@@ -70,7 +70,7 @@
             <div class="mx-2">
               <BaseButton
                 :disabled="invalid"
-                @click="submitAddNewManager"
+                @click="submitAddNewMentor"
               >
                 {{ isUpdateMode ? "Update" : "Create" }}
               </BaseButton>
@@ -87,7 +87,7 @@ import { ValidationObserver } from "vee-validate";
 import BaseInput from "@/components/BaseComponents/BaseInput.vue";
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseModal from "@/components/BaseComponents/BaseModal.vue";
-import { MANAGER_ROLE } from "@/constants/roles.constant";
+import { MENTOR_ROLE } from "@/constants/roles.constant";
 import { mapActions } from "vuex";
 export default {
   components: { BaseInput, BaseButton, BaseModal, ValidationObserver },
@@ -96,7 +96,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    manager: {
+    mentor: {
       required: false,
       type: Object,
       default: null,
@@ -113,62 +113,62 @@ export default {
   },
   computed: {
     isUpdateMode() {
-      return !!this.manager;
+      return !!this.mentor;
     },
   },
   watch: {
     toggleModal() {
       this.changePasswordMode = false;
-      this.$refs.createUpdateManagerModal.openModal();
+      this.$refs.createUpdateMentorModal.openModal();
       if (this.isUpdateMode) {
-        this.fullName = this.manager.fullName;
-        this.email = this.manager.email;
+        this.fullName = this.mentor.fullName;
+        this.email = this.mentor.email;
       }
     },
   },
   methods: {
-    ...mapActions("managers", ["createManager", "updateManager"]),
+    ...mapActions("mentors", ["createMentor", "updateMentor"]),
     clearInputs() {
       this.fullName = "";
       this.email = "";
       this.password = "";
       this.confirmPassword = "";
     },
-    submitAddNewManager() {
+    submitAddNewMentor() {
       if (this.isUpdateMode) {
-        this.updateManagerHandler();
+        this.updateMentorHandler();
       } else {
-        this.createManagerHandler();
+        this.createMentorHandler();
       }
-      this.$refs.createUpdateManagerModal.closeModal();
+      this.$refs.createUpdateMentorModal.closeModal();
     },
-    cancelAddNewManager() {
+    cancelAddNewMentor() {
       this.clearInputs();
-      this.$refs.createUpdateManagerModal.closeModal();
+      this.$refs.createUpdateMentorModal.closeModal();
     },
     toggleChangePassword() {
       this.changePasswordMode = !this.changePasswordMode;
     },
-    updateManagerHandler() {
-      const managerData = {
-        id: this.manager.id,
+    updateMentorHandler() {
+      const mentorData = {
+        id: this.mentor.id,
         fullName: this.fullName,
         email: this.email,
       };
       if (this.changePasswordMode) {
-        managerData.password = this.password;
+        mentorData.password = this.password;
       }
-      this.updateManager(managerData);
+      this.updateMentor(mentorData);
       this.clearInputs();
     },
-    createManagerHandler() {
-      const manager = {
+    createMentorHandler() {
+      const mentor = {
         email: this.email,
         fullName: this.fullName,
         password: this.password,
-        role: MANAGER_ROLE,
+        role: MENTOR_ROLE,
       };
-      this.createManager(manager);
+      this.createMentor(mentor);
       this.clearInputs();
     },
   },

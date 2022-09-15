@@ -1,90 +1,119 @@
 <template>
   <div
-    v-if="!!user"
-    class="navigation-menu"
-  >
-    <router-link :to="{ name: COURSE_DASHBOARD }">
-      <svg
-        class="navigation-menu-icon"
-        width="16"
-        height="16"
+    v-if="!!user" 
+    class="navigation-container"
+  > 
+    <div class="navigation-main-logo">
+      <img
+        src="../assets/logo-h.svg"
+        alt="main_logo"
       >
-        <use href="../icons/sprite-navigation.svg#icon-courses" />
-      </svg>
-      <span class="navigation-menu-text">Courses</span>
-    </router-link>
-    <router-link :to="{ name: USERS }">
-      <svg
-        class="navigation-menu-icon"
-        width="16"
-        height="16"
-      >
-        <use href="../icons/sprite-navigation.svg#icon-members" />
-      </svg>
-      <span class="navigation-menu-text">Students</span>
-    </router-link>
-    <router-link
-      v-if="isAdmin"
-      :to="{ name: MANAGERS }"
-    >
-      <svg
-        class="navigation-menu-icon"
-        width="16"
-        height="16"
-      >
-        <use href="../icons/sprite-navigation.svg#icon-mentors" />
-      </svg>
-      <span class="navigation-menu-text">Mentors</span>
-    </router-link>
-    <router-link
-      v-if="isAdmin"
-      :to="{ name: ADMINS }"
-    >
-      <svg
-        class="navigation-menu-icon"
-        width="16"
-        height="16"
-      >
-        <use href="../icons/sprite-navigation.svg#icon-managers" />
-      </svg>
-      <span class="navigation-menu-text">Admins</span>
-    </router-link>
-    <label
-      for="logout"
-      class="block"
-      @click="logout"
-    >
-      <svg
-        id="logout"
-        class="navigation-menu-icon inline"
-        width="16"
-        height="16"
-      >
-        <use href="../icons/sprite-navigation.svg#icon-exit" />
-      </svg>
-      <span class="navigation-menu-text">Log out</span>
-    </label>
+    </div>
 
-    <router-link
-      class="navigation-menu-profile"
-      :to="{ name: PROFILE }"
-    >
-      <div class="profile__image_container">
-        <div class="profile__image_block">
-          <!-- disable image cache -->
-          <img :src="user.avatarUrl.path + '?' + Date.now()">
+    <div class="mt-5">
+      <div class="flex justify-center">
+        <div class="rounded-full shadow-md w-24 h-24 block relative overflow-hidden ">
+          <img
+            :src="user.avatarUrl.path"
+            class="w-full h-full object-cover"
+          >
         </div>
       </div>
-      <span class="navigation-menu-text">{{ user.fullName }}</span>
-    </router-link>
+      <router-link
+        class=""
+        :to="{ name: PROFILE }"
+      >
+        <div class="navigation-profile-name">
+          {{ user.fullName }}
+        </div>
+      </router-link>
+    </div>
+
+    <div class="mt-5">
+      <div>
+        <router-link 
+          class="navigation-link"
+          :to="{ name: COURSE_DASHBOARD }"
+        >
+          <svg
+            width="16"
+            height="16"
+          >
+            <use href="../icons/sprite-navigation.svg#icon-courses" />
+          </svg>
+          <span class="navigation-text">Courses</span>
+        </router-link>
+      </div>
+      <div>
+        <router-link
+          class="navigation-link"
+          :to="{ name: STUDENTS }"
+        >
+          <svg
+            class="navigation-menu-icon"
+            width="16"
+            height="16"
+          >
+            <use href="../icons/sprite-navigation.svg#icon-members" />
+          </svg>
+          <span class="navigation-text">Students</span>
+        </router-link>
+      </div>
+      <div>
+        <router-link
+          v-if="isAdmin"
+          class="navigation-link"
+          :to="{ name: MENTORS }"
+        >
+          <svg
+            class="navigation-menu-icon"
+            width="16"
+            height="16"
+          >
+            <use href="../icons/sprite-navigation.svg#icon-mentors" />
+          </svg>
+          <span class="navigation-text">Mentors</span>
+        </router-link>
+      </div>
+      <div>
+        <router-link
+          v-if="isAdmin"
+          class="navigation-link"
+          :to="{ name: ADMINS }"
+        >
+          <svg
+            class="navigation-menu-icon"
+            width="16"
+            height="16"
+          >
+            <use href="../icons/sprite-navigation.svg#icon-admin" />
+          </svg>
+          <span class="navigation-text">Admins</span>
+        </router-link>
+      </div>
+      <div>
+        <div
+          class="navigation-link"
+          @click="logout"
+        >
+          <svg
+            id="logout"
+            width="16"
+            height="16"
+          >
+            <use href="../icons/sprite-navigation.svg#icon-exit" />
+          </svg>
+          <span class="navigation-text">Log out</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
 <script>
 import {
   PROFILE,
-  USERS,
-  MANAGERS,
+  STUDENTS,
+  MENTORS,
   ADMINS,
   COURSE_DASHBOARD,
   LOGIN,
@@ -102,8 +131,8 @@ export default {
   data() {
     return {
       PROFILE,
-      USERS,
-      MANAGERS,
+      STUDENTS,
+      MENTORS,
       ADMINS,
       COURSE_DASHBOARD,
       LOGIN,
@@ -115,70 +144,32 @@ export default {
       return this.user.role === ADMIN_ROLE;
     },
   },
-
-  methods: {
-    ...mapActions("user", ["logoutUser"]),
-    async logout() {
-      await this.logoutUser();
-    },
-  },
+	methods: {
+		...mapActions('user', ['logoutUser']),
+		async logout() {
+			await this.logoutUser();
+		},
+	},
 };
 </script>
-
 <style lang="postcss" scoped>
-.navigation-menu {
-  @apply bg-stone-50 text-sky-700 w-48 h-screen;
+.navigation-container{
+  @apply p-4 border-r-2 border-stone-200
 }
-
-.navigation-menu > * {
-  @apply text-left flex text-base px-2 py-3 hover:bg-sky-400 hover:text-stone-50 hover:fill-stone-50 hover:duration-500 focus:bg-sky-400 focus:text-stone-50 focus:duration-500 focus:fill-stone-50;
+.navigation-main-logo{
+ @apply m-auto w-2/3
 }
-
-.navigation-menu-profile {
-  @apply absolute w-40 bottom-2;
+.navigation-link{
+ @apply flex  justify-center items-center m-auto p-3 cursor-pointer opacity-70 hover:opacity-100
 }
-.profile__image_block img {
-  @apply rounded-full shadow-md max-w-xs w-12 h-12 block;
-}
-
-@media only screen and (max-width: 480px) {
-  .navigation-menu {
-    @apply w-10;
-  }
-
-  .navigation-menu-text {
-    @apply hidden;
-  }
-
-  .navigation-menu > * {
-    @apply p-2;
-  }
-
-  .navigation-menu-icon {
-    @apply fill-sky-700;
-  }
-
-  .navigation-menu-profile {
-    @apply w-10;
-  }
-}
-
-.navigation-menu > *:hover,
-.navigation-menu > *:focus {
-  .navigation-menu-icon {
-    @apply m-1 fill-stone-50 duration-500;
-  }
-}
-
-.navigation-menu-icon {
-  @apply m-1 fill-sky-700;
-}
-
-.navigation-menu-text {
-  @apply ml-2.5;
+.navigation-text{
+   @apply w-1/2 text-start ml-4
 }
 
 .router-link-exact-active {
-  @apply bg-sky-400 text-white;
+	@apply opacity-100 
+}
+.navigation-profile-name {
+ @apply  mt-4 text-primary-700 text-base hover:text-primary-900 flex justify-center
 }
 </style>

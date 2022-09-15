@@ -9,43 +9,43 @@
           Students list of InventorSoft Academy
         </h3>
       </div>
-      <div v-if="isManager || isAdmin">
+      <div v-if="isMentor || isAdmin">
         <BaseButton
-          :loading="usersLoadingStatus"
+          :loading="studentsLoadingStatus"
           @click.prevent="openCreateModal"
         >
-          Add new students
+          Add new student
         </BaseButton>
       </div>
     </div>
-    <div v-if="isUser">
-      <div v-if="users">
+    <div v-if="isStudent">
+      <div v-if="students">
         <div class="users-table-container">
           <BaseTable
             :table-data="{
-              headingData: headersUser,
-              bodyData: users,
+              headingData: headersStudent,
+              bodyData: students,
             }"
             :edit-btns="false"
-            :is-data-loading="usersLoadingStatus"
+            :is-data-loading="studentsLoadingStatus"
             :delete-btns="false"
           />
         </div>
       </div>
     </div>
     <div
-      v-else-if="isManager"
-      class="ManagerMembersView"
+      v-else-if="isMentor"
+      class="MentorMembersView"
     >
-      <div v-if="users">
+      <div v-if="students">
         <div class="users-table-container">
           <BaseTable
             :table-data="{
-              headingData: headersAdmin,
-              bodyData: users,
+              headingData: headersStudentAdminView,
+              bodyData: students,
             }"
             :edit-btns="true"
-            :is-data-loading="usersLoadingStatus"
+            :is-data-loading="studentsLoadingStatus"
             :delete-btns="true"
             @edit="openEditModal"
             @delete="openDeleteModal"
@@ -54,29 +54,29 @@
       </div>
       <UserEditModal
         :is-opened-user-edit-modal="isEditModalOpen"
-        :target-user-value="targetUser"
-        :user-inputs-value="adminUserEditInputs"
+        :target-user-value="targetStudent"
+        :user-inputs-value="adminStudentEditInputs"
       />
       <UserCreateModal
         :is-opened-user-create-modal="isCreateModalOpen"
-        :user-inputs-value="adminUserCreateInputs"
+        :user-inputs-value="adminStudentCreateInputs"
       />
       <BaseDeleteModal
         :toggle-modal="isDeleteModalOpen"
-        :target-value="targetUser.fullName"
+        :target-value="targetStudent.fullName"
         @delete="submitDelete"
       />
     </div>
     <div v-else-if="isAdmin">
-      <div v-if="users">
+      <div v-if="students">
         <div class="users-table-container">
           <BaseTable
             :table-data="{
-              headingData: headersAdmin,
-              bodyData: users,
+              headingData: headersStudentAdminView,
+              bodyData: students,
             }"
             :edit-btns="true"
-            :is-data-loading="usersLoadingStatus"
+            :is-data-loading="studentsLoadingStatus"
             :delete-btns="true"
             @edit="openEditModal"
             @delete="openDeleteModal"
@@ -85,16 +85,16 @@
       </div>
       <UserEditModal
         :is-opened-user-edit-modal="isEditModalOpen"
-        :target-user-value="targetUser"
-        :user-inputs-value="adminUserEditInputs"
+        :target-user-value="targetStudent"
+        :user-inputs-value="adminStudentEditInputs"
       />
       <UserCreateModal
         :is-opened-user-create-modal="isCreateModalOpen"
-        :user-inputs-value="adminUserCreateInputs"
+        :user-inputs-value="adminStudentCreateInputs"
       />
       <BaseDeleteModal
         :toggle-modal="isDeleteModalOpen"
-        :target-value="targetUser.fullName"
+        :target-value="targetStudent.fullName"
         @delete="submitDelete"
       />
     </div>
@@ -103,8 +103,8 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import {
-  USER_ROLE,
-  MANAGER_ROLE,
+  STUDENTS_ROLE,
+  MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable";
@@ -127,14 +127,14 @@ export default {
       isCreateModalOpen: false,
       isEditModalOpen: false,
       isDeleteModalOpen: false,
-      targetUser: {
+      targetStudent: {
         id: null,
         fullName: "",
         email: "",
         course: "",
         initialScore: "",
       },
-      adminUserEditInputs: [
+      adminStudentEditInputs: [
         {
           label: "Full Name",
           model: "fullName",
@@ -154,7 +154,7 @@ export default {
           placeholder: "Enter initial score",
         },
       ],
-      adminUserCreateInputs: [
+      adminStudentCreateInputs: [
         {
           label: "Full Name",
           model: "fullName",
@@ -188,12 +188,12 @@ export default {
           placeholder: "Enter initial score",
         },
       ],
-      headersUser: [
+      headersStudent: [
         { fullName: "Full Name" },
         { email: "Email" },
         { course: "Course" },
       ],
-      headersAdmin: [
+      headersStudentAdminView: [
         { fullName: "Full Name" },
         { email: "Email" },
         { course: "Course" },
@@ -202,18 +202,18 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("users", ["usersLoadingStatus", "users"]),
+    ...mapGetters("students", ["studentsLoadingStatus", "students"]),
     ...mapGetters("user", ["user"]),
-    isUser() {
+    isStudent() {
       if (this.user) {
-        return this.user.role === USER_ROLE;
+        return this.user.role === STUDENTS_ROLE;
       } else {
         return false;
       }
     },
-    isManager() {
+    isMentor() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE;
+        return this.user.role === MENTOR_ROLE;
       } else {
         return false;
       }
@@ -227,13 +227,13 @@ export default {
     },
   },
   async mounted() {
-    await this.fetchUsers();
+    await this.fetchStudents();
   },
   methods: {
-    ...mapActions("users", ["fetchUsers", "deleteUser"]),
+    ...mapActions("students", ["fetchStudents", "deleteStudent"]),
     openEditModal(id) {
-      this.targetUser = JSON.parse(
-        JSON.stringify(this.users.find((e) => e.id === id))
+      this.targetStudent = JSON.parse(
+        JSON.stringify(this.students.find((e) => e.id === id))
       );
       this.isEditModalOpen = !this.isEditModalOpen;
     },
@@ -241,11 +241,11 @@ export default {
       this.isCreateModalOpen = !this.isCreateModalOpen;
     },
     openDeleteModal(id) {
-      this.targetUser = this.users.find((e) => e.id === id);
+      this.targetStudent = this.students.find((e) => e.id === id);
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
     },
     submitDelete() {
-      this.deleteUser(this.targetUser.id);
+      this.deleteStudent(this.targetStudent.id);
     },
   },
 };
@@ -261,7 +261,7 @@ export default {
   @apply w-full flex justify-between items-center;
 }
 .users__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+  @apply font-semibold text-lg text-start text-primary-700;
 }
 .users__subheader {
   @apply mt-2 font-normal text-stone-400;

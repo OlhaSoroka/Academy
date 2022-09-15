@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="isManager || isAdmin">
+    <div v-else-if="isMentor || isAdmin">
       <div
         v-if="courseItem"
         class="text-center my-3"
@@ -143,7 +143,7 @@
         </nav>
         <div
           class="
-            grid grid-cols-5 grid-rows-3
+            grid grid-cols-4 grid-rows-4 auto-rows-fr
             gap-x-5 gap-y-5
             xl:gap-x-15 xl:gap-y-10
           "
@@ -204,7 +204,25 @@
               </div>
             </div>
           </div>
-          <div class="part col-span-3 col-start-3">
+          <div
+            class="part col-span-2 col-start-3"
+          >
+            <h2 class="part__text">
+              Comments
+            </h2>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerComments,
+                bodyData: courseItem.comments,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="true"
+              @delete="deleteComment"
+            />
+          </div>
+          <div class="part col-span-2 col-start-1">
             <div class="header">
               <h2 class="part__text">
                 Applicants
@@ -228,7 +246,7 @@
               @delete="deleteApplicant"
             />
           </div>
-          <div class="part col-span-2 col-start-1 row-span-1 xl:row-span-2">
+          <div class="part col-span-2 col-start-3 row-span-1 xl:row-span-1">
             <div class="header">
               <h2 class="part__text">
                 Group
@@ -253,7 +271,7 @@
               @delete="deleteGroupMember"
             />
           </div>
-          <div class="part col-start-3 col-span-3 xl:col-span-2">
+          <div class="part col-start-1 col-span-4">
             <div class="header">
               <h2 class="part__text">
                 Homework
@@ -278,7 +296,7 @@
               @delete="deleteHomework"
             />
           </div>
-          <div class="part col-start-1 col-span-2 xl:col-span-1">
+          <div class="part col-start-1 row-start-4 col-span-4">
             <div class="header">
               <h2 class="part__text">
                 Results
@@ -300,25 +318,6 @@
               :is-data-loading="loadingStatus"
               :delete-btns="true"
               @delete="deleteResultRow"
-            />
-          </div>
-          <div
-            v-if="courseItem.comments.length"
-            class="part col-span-3 col-start-3"
-          >
-            <h2 class="part__text">
-              Comments
-            </h2>
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headerComments,
-                bodyData: courseItem.comments,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="true"
-              @delete="deleteComment"
             />
           </div>
         </div>
@@ -370,8 +369,8 @@ import BaseEditIcon from "@/components/BaseComponents/BaseIcons/BaseEditIcon.vue
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
 import {
-  USER_ROLE,
-  MANAGER_ROLE,
+  STUDENTS_ROLE,
+  MENTOR_ROLE,
   ADMIN_ROLE,
 } from "@/constants/roles.constant";
 import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
@@ -453,14 +452,14 @@ export default {
     ...mapGetters("user", ["user"]),
     isUser() {
       if (this.user) {
-        return this.user.role === USER_ROLE;
+        return this.user.role === STUDENTS_ROLE;
       } else {
         return false;
       }
     },
-    isManager() {
+    isMentor() {
       if (this.user) {
-        return this.user.role === MANAGER_ROLE;
+        return this.user.role === MENTOR_ROLE;
       } else {
         return false;
       }
@@ -635,7 +634,7 @@ export default {
 }
 
 .part {
-  @apply shadow-lg bg-stone-50 p-6 border-sky-100 border-2 rounded-md;
+  @apply shadow-lg bg-stone-50 p-6 border-primary-100 border-2 rounded-md;
 }
 
 button {
@@ -643,7 +642,7 @@ button {
 }
 
 .courses__header {
-  @apply font-semibold text-lg text-start text-sky-700;
+  @apply font-semibold text-lg text-start text-primary-700;
 }
 
 .part__text {
@@ -671,7 +670,7 @@ button {
 }
 
 .main__header_label {
-  @apply font-semibold text-sky-800;
+  @apply font-semibold text-primary-800;
 }
 
 .main__header_text {
