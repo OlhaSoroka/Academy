@@ -255,7 +255,7 @@ export default {
   @apply w-full p-10 mx-auto;
 }
 .users-table-container {
-  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5 bg-white;
 }
 .users__topbar_container {
   @apply w-full flex justify-between items-center;

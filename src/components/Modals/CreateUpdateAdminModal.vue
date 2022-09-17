@@ -7,7 +7,7 @@
     <template #body>
       <ValidationObserver v-slot="{ invalid }">
         <div>
-          <div>
+          <div class="w-80">
             <BaseInput
               ref="fullName"
               v-model="fullName"
@@ -17,7 +17,7 @@
               rules="required"
             />
           </div>
-          <div>
+          <div class="w-80">
             <BaseInput
               ref="email"
               v-model="email"
@@ -28,7 +28,7 @@
             />
           </div>
           <div v-if="!isUpdateMode || changePasswordMode">
-            <div>
+            <div class="w-80">
               <BaseInput
                 v-model="password"
                 type="password"
@@ -37,7 +37,7 @@
                 placeholder="Enter password"
               />
             </div>
-            <div>
+            <div class="w-80">
               <BaseInput
                 v-model="confirmPassword"
                 type="password"
