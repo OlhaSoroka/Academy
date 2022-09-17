@@ -3,7 +3,7 @@
     <div class="courses__topbar_container">
       <div>
         <h2 class="courses__header">
-          Courses Dashboard
+          Courses DashboardS
         </h2>
         <h3 class="courses__subheader">
           Courses list of InventorSoft Academy
