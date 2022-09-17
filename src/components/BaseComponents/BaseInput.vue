@@ -17,7 +17,7 @@
         :class="['base-input', { '!border-red-700': errors.length > 0 }]"
         v-on="listeners"
       >
-      <p class="text-red-700 text-xs w-72 -ml-2 text-center absolute">
+      <p class="text-red-700 text-xs w-72 ml-1  base-input-error-text">
         <span v-if="errors.length > 0 && vid === 'password'">
           6 chars min with at least 1 Latin letter and 1 number.
         </span>
@@ -127,5 +127,8 @@ export default {
 
 .base-input:disabled {
   @apply bg-gray-50 border-gray-300;
+}
+.base-input-error-text {
+  font-size: 10px ;
 }
 </style>
