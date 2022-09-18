@@ -1,24 +1,25 @@
-# inventorsoft-vue-2022-1
+# inventorsoft-vue-2022
 
-## Project setup
+## Project setup frontend
 ```
+cd ./frontend
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Project setup backend
 ```
+cd ./backend
+npm install
+```
+
+### Compiles and hot-reloads for frontend development
+```
+cd ./frontend
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for frontend production
 ```
+cd ./frontend
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
