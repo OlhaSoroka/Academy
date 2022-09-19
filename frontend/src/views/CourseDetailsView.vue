@@ -7,7 +7,7 @@
       v-if="courseItem" 
       class="courses__subheader"
     >
-      Course Details of {{ courseItem.name }} course
+      Details of {{ courseItem.name }} course
     </h3>
     <div v-if="isUser">
       <nav class="nav my-3">
