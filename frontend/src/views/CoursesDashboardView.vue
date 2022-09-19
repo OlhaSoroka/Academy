@@ -178,7 +178,7 @@ export default {
 }
 
 .courses__table_container {
-  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5 bg-white;
 }
 
 .courses__topbar_container {

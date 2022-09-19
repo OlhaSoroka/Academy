@@ -19,7 +19,7 @@
         </BaseButton>
       </div>
     </div>
-    <div class="w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5">
+    <div class="mentors__table_container">
       <BaseTable
         :table-data="{
           headingData: [{ fullName: 'Full Name' }, { email: 'Email' }],
@@ -116,6 +116,6 @@ export default {
 }
 
 .mentors__table_container {
-  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5;
+  @apply w-full border-2 border-stone-200 shadow-md rounded-md mt-5 p-5 bg-white;
 }
 </style>

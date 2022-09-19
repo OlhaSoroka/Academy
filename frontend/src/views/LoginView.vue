@@ -77,7 +77,7 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .login-page-container {
-	background: url('../assets/login_page_image.jpg');
+	background: center / cover no-repeat url("https://img.freepik.com/free-photo/the-abstract-office-desktop_155003-4104.jpg?w=1380&t=st=1663421755~exp=1663422355~hmac=b28676ff949959534e5a221079d206021d07ac4cfa0e7acc16c48573842f91ec");
 }
 .login-page-shader {
 	@apply w-full h-full bg-gradient-to-b from-white to-transparent flex justify-center items-center;
@@ -85,8 +85,7 @@ export default {
 .login-form-container {
 	@apply bg-white p-8 rounded-lg shadow-2xl;
 }
-.login-form-wrapper {
-}
+
 .login-form-logo {
 	@apply w-1/2;
 }
@@ -94,6 +93,6 @@ export default {
 	@apply font-semibold text-3xl p-4 from-neutral-900;
 }
 .login-link {
-	@apply font-light text-xs p-4 text-white flex justify-end items-end;
+	@apply font-light text-xs p-4 text-black flex justify-end items-end;
 }
 </style>
