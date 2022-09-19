@@ -3,6 +3,12 @@
     <h2 class="courses__header">
       Course Details
     </h2>
+    <h3 
+      v-if="courseItem" 
+      class="courses__subheader"
+    >
+      Details of {{ courseItem.name }} course
+    </h3>
     <div v-if="isUser">
       <nav class="nav my-3">
         <BaseButton
@@ -58,9 +64,9 @@
                 v-if="courseItem.status === 'not started'"
                 class="text-left p-1 rounded-md"
                 :class="{
-                  'bg-blue-300': courseItem.status === 'not started',
-                  'bg-green-500': courseItem.status === 'in progress',
-                  'bg-red-400': courseItem.status === 'finished',
+                  'bg-blue-300/50': courseItem.status === 'not started',
+                  'bg-green-500/50': courseItem.status === 'in progress',
+                  'bg-red-400/50': courseItem.status === 'finished',
                 }"
               >
                 <label class="main__header_label">Status
@@ -117,12 +123,6 @@
           </BaseButton>
 
           <div class="nav__courses">
-            <BaseButton
-              class="nav__btn whitespace-nowrap"
-              @click="openAddCommentModal"
-            >
-              Add comment
-            </BaseButton>
             <div class="flex">
               <BaseButton
                 :disabled="isFirstCourse"
@@ -193,9 +193,9 @@
               <div
                 class="text-left p-1 rounded-md w-fit"
                 :class="{
-                  'bg-blue-300': courseItem.status === 'not started',
-                  'bg-green-500': courseItem.status === 'in progress',
-                  'bg-red-400': courseItem.status === 'finished',
+                  'bg-blue-300/25': courseItem.status === 'not started',
+                  'bg-green-500/25': courseItem.status === 'in progress',
+                  'bg-red-400/25': courseItem.status === 'finished',
                 }"
               >
                 <label class="text-xs">Status
@@ -207,9 +207,17 @@
           <div
             class="part col-span-2 col-start-3"
           >
-            <h2 class="part__text">
-              Comments
-            </h2>
+            <div class="header">
+              <h2 class="part__text">
+                Comments
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="openAddCommentModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
             <BaseTable
               class="table"
               :table-data="{
@@ -645,12 +653,16 @@ button {
   @apply font-semibold text-lg text-start text-primary-700;
 }
 
+.courses__subheader {
+  @apply mt-2 font-normal text-stone-400 text-start;
+}
+
 .part__text {
   @apply text-left text-xl text-gray-700 mb-2;
 }
 
 .courses__container {
-  @apply flex justify-center flex-col mt-10 mx-3;
+  @apply flex justify-center flex-col p-10;
 }
 
 .courses__container > * {
