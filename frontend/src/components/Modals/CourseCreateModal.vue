@@ -17,8 +17,26 @@
           <BaseInput
             v-model="courseToAdd.date"
             type="date"
-            label="Date"
+            label="Date of starting"
             rules="required"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="courseToAdd.date_project_start"
+            type="date"
+            label="Date of starting project"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="courseToAdd.date_project_demo"
+            type="date"
+            label="Date of demo"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="courseToAdd.date_final_interview"
+            type="date"
+            label="Date of final interview"
             onkeydown="return false"
           />
           <div class="w-full text-left ml-1">
@@ -85,6 +103,9 @@ export default {
         id: 0,
         name: "",
         date: "",
+        date_project_start: "",
+        date_project_demo: "",
+        date_final_interview: "",
         status: "not started",
       },
       statuses: ["not started", "in progress", "finished"],
@@ -104,13 +125,16 @@ export default {
       this.courseToAdd = {
         name: "",
         date: "",
+        date_project_start: "",
+        date_project_demo: "",
+        date_final_interview: "",
         status: "not started",
       };
     },
     submitCourseCreateButton() {
       let newCourse = { ...this.courseToAdd };
-      const { name, date, status } = newCourse;
-      if (name !== "" && date !== "" && status !== "") {
+      const { name, date, date_project_start, date_project_demo, date_final_interview, status } = newCourse;
+      if (name !== "" && date !== "" && status !== "" && date_project_start !== "" && date_project_demo !== "" && date_final_interview !== "") {
         if (this.courses.length > 0) {
           const ids = this.courses.map((course) => {
             return course.id;

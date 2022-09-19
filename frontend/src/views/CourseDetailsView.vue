@@ -167,8 +167,23 @@
                 </label>
               </div>
               <div class="text-left">
-                <label class="main__header_label">Date
+                <label class="main__header_label">Date of starting
                   <p class="main__header_text">{{ courseItem.date }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of starting project
+                  <p class="main__header_text">{{ courseItem.date_project_start }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of demo
+                  <p class="main__header_text">{{ courseItem.date_project_demo }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of final interview
+                  <p class="main__header_text">{{ courseItem.date_final_interview }}</p>
                 </label>
               </div>
               <div
