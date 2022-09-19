@@ -133,8 +133,8 @@ export default {
     },
     submitCourseCreateButton() {
       let newCourse = { ...this.courseToAdd };
-      const { name, date, date_project_start, date_project_demo, date_final_interview, status } = newCourse;
-      if (name !== "" && date !== "" && status !== "" && date_project_start !== "" && date_project_demo !== "" && date_final_interview !== "") {
+      const { name, date, status } = newCourse;
+      if (name !== "" && date !== "" && status !== "") {
         if (this.courses.length > 0) {
           const ids = this.courses.map((course) => {
             return course.id;

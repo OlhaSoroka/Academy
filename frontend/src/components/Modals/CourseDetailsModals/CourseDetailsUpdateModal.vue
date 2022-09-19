@@ -30,21 +30,18 @@
             v-model="newDate_project_start"
             type="date"
             label="Date of starting project"
-            rules="required"
             onkeydown="return false"
           />
           <BaseInput
             v-model="newDate_project_demo"
             type="date"
             label="Date of demo"
-            rules="required"
             onkeydown="return false"
           />
           <BaseInput
             v-model="newDate_final_interview"
             type="date"
             label="Date of final interview"
-            rules="required"
             onkeydown="return false"
           />
           <BaseSelect
