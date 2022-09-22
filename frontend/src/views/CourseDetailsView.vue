@@ -27,23 +27,22 @@
             xl:gap-x-10 xl:gap-y-10
           "
         >
-          <div class="part col-span-1 col-start-1">
+          <div class="part col-span-2 col-start-1">
             <h2 class="part__text">
               Main info
             </h2>
             <div class="flex justify-between flex-wrap">
-              <div class="text-left">
-                <label class="main__header_label">Name
-                  <p class="main__header_text">{{ courseItem.name }}</p>
-                </label>
-              </div>
-              <div class="text-left">
-                <label class="main__header_label">Date
-                  <p class="main__header_text">{{ courseItem.date }}</p>
-                </label>
-              </div>
+              <BaseTable
+                class="table"
+                :table-data="{
+                  headingData: headerMainInfo,
+                  bodyData: [courseItem],
+                }"
+                :edit-btns="false"
+                :is-data-loading="loadingStatus"
+                :delete-btns="false"
+              />
               <div
-                v-if="courseItem.status === 'not started'"
                 class="text-left p-1 rounded-md"
                 :class="{
                   'bg-blue-300/50': courseItem.status === 'not started',
@@ -57,7 +56,7 @@
               </div>
             </div>
           </div>
-          <div class="part col-span-1 col-start-2 row-span-2">
+          <div class="part col-span-1 col-start-2 row-start-2 row-span-1">
             <h2 class="part__text">
               Homework
             </h2>
@@ -85,6 +84,27 @@
               :edit-btns="false"
               :is-data-loading="loadingStatus"
               :delete-btns="false"
+            />
+          </div>
+          <div 
+            v-if="courseItem.materials"
+            class="part col-start-1 row-start-3 col-span-2"
+          >
+            <div class="header">
+              <h2 class="part__text">
+                Materials
+              </h2>
+            </div>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerMaterials,
+                bodyData: courseItem.materials,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+              @delete="deleteMaterialRow"
             />
           </div>
         </div>
@@ -438,7 +458,10 @@ export default {
       headersGroup: [{ fullName: "Full Name" }, { email: "Email" }],
       headerMainInfo: [
         { name: "Course Name" },
-        { date: "Date" },
+        { date: "Date of starting" },
+        { date_project_start: "Date of starting project"},
+        { date_project_demo: "Date of demo"},
+        { date_final_interview: "Date of final interview"},
       ],
       headerApplicants: [
         { fullName: "Full Name" },

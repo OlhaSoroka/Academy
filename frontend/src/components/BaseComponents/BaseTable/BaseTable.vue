@@ -59,7 +59,7 @@
               target="”_blank”"
               :href="item[prop[0]]"
             > 
-              {{typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 25)}...` : item[prop[0]] }}
+              {{ typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 25)}...` : item[prop[0]] }}
             </a>
           </BaseTooltip>
           <BaseTooltip
