@@ -43,24 +43,6 @@
                 </label>
               </div>
               <div
-                v-if="courseItem.docs_link"
-                class="text-left"
-              >
-                <BaseTooltip :text="courseItem.docs_link">
-                  <label class="main__header_label">
-                    Docs :
-                    <p class="main__header_text">
-                      <a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{
-                        courseItem.docs_link.slice(0, 20)
-                      }}</a>
-                    </p>
-                  </label>
-                </BaseTooltip>
-              </div>
-              <div
                 v-if="courseItem.status === 'not started'"
                 class="text-left p-1 rounded-md"
                 :class="{
@@ -185,25 +167,6 @@
                 <label class="main__header_label">Date of final interview
                   <p class="main__header_text">{{ courseItem.date_final_interview }}</p>
                 </label>
-              </div>
-              <div
-                v-if="courseItem.docs_link"
-                class="text-left"
-              >
-                <BaseTooltip :text="courseItem.docs_link">
-                  <label class="text-xs">
-                    Docs
-
-                    <p class="text-2xl">
-                      <a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{
-                        courseItem.docs_link.slice(0, 20)
-                      }}</a>
-                    </p>
-                  </label>
-                </BaseTooltip>
               </div>
               <div
                 class="text-left p-1 rounded-md w-fit"
@@ -400,7 +363,6 @@ import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
 
 import NewApplicantModal from "@/components/Modals/CourseDetailsModals/NewApplicantModal.vue";
 import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
-import BaseTooltip from "../components/BaseComponents/BaseTooltip/BaseTooltip.vue";
 import CourseDetailsUpdateModal from "@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue";
 import NewGroupMember from "../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue";
 import NewResultModal from "../components/Modals/CourseDetailsModals/NewResultModal.vue";
@@ -417,7 +379,6 @@ export default {
     BaseButton,
     NewApplicantModal,
     NewCommentModal,
-    BaseTooltip,
     CourseDetailsUpdateModal,
     NewGroupMember,
     NewResultModal,
@@ -447,7 +408,6 @@ export default {
       headerMainInfo: [
         { name: "Course Name" },
         { date: "Date" },
-        { docs_link: "Docs Link" },
       ],
       headerApplicants: [
         { fullName: "Full Name" },
