@@ -358,7 +358,7 @@
     <HomeworkResaltsModal 
       :id="+$route.params.id" 
       :toggle-modal="isEditHomeworkResultModalOpen"
-      :studentId="studentId"
+      :student-id="studentId"
     />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
     <BaseDeleteModal

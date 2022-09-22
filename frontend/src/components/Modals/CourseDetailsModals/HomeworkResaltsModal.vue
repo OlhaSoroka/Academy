@@ -7,7 +7,7 @@
       #body 
     >
       <h2 v-if="currentStudent">
-        For {{currentStudent.students_name}}
+        For {{ currentStudent.students_name }}
       </h2>
       <div class="flex justify-center flex-col mt-7  gap-10">
         <div class="text-left">
