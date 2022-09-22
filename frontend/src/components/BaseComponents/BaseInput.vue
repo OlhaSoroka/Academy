@@ -41,10 +41,6 @@
 </template>
 
 <script>
-/* use example: <ValidationObserver>
-        <BaseInput type="password" label="Password" vid="password" placeholder="qwe123"/>
-      <BaseInput type="password" label="ConfirmPassword" rules="confirmed:password" placeholder="qwe123"/>
-      </ValidationObserver> */
 import { ValidationProvider } from "vee-validate";
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
@@ -84,8 +80,7 @@ export default {
   data() {
     return {
       emailRules: "required|email",
-      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+",
-      initialScoreRules: "required|min_value:0",
+      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+"
     };
   },
   computed: {
@@ -108,8 +103,7 @@ export default {
         return `${this.emailRules}|${this.rules}`;
       } else if (this.type === "password" && this.vid != "text") {
         return `${this.passwordRules}|${this.rules}`;
-      } else if (this.type === "number") return `${this.initialScoreRules}`;
-      else return `${this.rules}`;
+      } else return `${this.rules}`;
     },
   },
   methods: {

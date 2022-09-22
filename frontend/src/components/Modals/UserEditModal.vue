@@ -1,4 +1,4 @@
-!<template>
+<template>
   <div>
     <BaseModal
       ref="userEditModal"
@@ -18,6 +18,7 @@
                 :label="input.label"
                 :placeholder="input.placeholder"
                 :rules="requiredField(input.label)"
+                :disabled="input.model === 'email'"
               />
             </div>
             <div>

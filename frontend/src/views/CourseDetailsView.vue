@@ -3,8 +3,8 @@
     <h2 class="courses__header">
       Course Details
     </h2>
-    <h3 
-      v-if="courseItem" 
+    <h3
+      v-if="courseItem"
       class="courses__subheader"
     >
       Details of {{ courseItem.name }} course
@@ -143,7 +143,8 @@
         </nav>
         <div
           class="
-            grid grid-cols-4 grid-rows-4 auto-rows-fr
+            grid grid-cols-4 grid-rows-4
+            auto-rows-fr
             gap-x-5 gap-y-5
             xl:gap-x-15 xl:gap-y-10
           "
@@ -204,9 +205,7 @@
               </div>
             </div>
           </div>
-          <div
-            class="part col-span-2 col-start-3"
-          >
+          <div class="part col-span-2 col-start-3">
             <div class="header">
               <h2 class="part__text">
                 Comments
@@ -230,55 +229,15 @@
               @delete="deleteComment"
             />
           </div>
-          <div class="part col-span-2 col-start-1">
-            <div class="header">
-              <h2 class="part__text">
-                Applicants
-              </h2>
-              <BaseButton
-                class="nav__btn"
-                @click="openModal"
-              >
-                <BasePlus />
-              </BaseButton>
-            </div>
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headerApplicants,
-                bodyData: courseItem.applicants,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="true"
-              @delete="deleteApplicant"
-            />
-          </div>
-          <div class="part col-span-2 col-start-3 row-span-1 xl:row-span-1">
-            <div class="header">
-              <h2 class="part__text">
-                Group
-              </h2>
-              <BaseButton
-                class="nav__btn"
-                @click="toggleNewGroupMemberModal"
-              >
-                <BasePlus />
-              </BaseButton>
-            </div>
 
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headersGroup,
-                bodyData: courseItem.group,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="true"
-              @delete="deleteGroupMember"
-            />
+          <div class="part col-span-4 col-start-1 row-span-1 xl:row-span-1">
+            <GroupWidget :course="courseItem" />
           </div>
+
+          <div class="part col-span-4 col-start-1 row-span-1 xl:row-span-1">
+            <ResultWidget :course="courseItem" />
+          </div>
+
           <div class="part col-start-1 col-span-4">
             <div class="header">
               <h2 class="part__text">
@@ -291,6 +250,7 @@
                 <BasePlus />
               </BaseButton>
             </div>
+            
 
             <BaseTable
               class="table"
@@ -302,30 +262,6 @@
               :is-data-loading="loadingStatus"
               :delete-btns="true"
               @delete="deleteHomework"
-            />
-          </div>
-          <div class="part col-start-1 row-start-4 col-span-4">
-            <div class="header">
-              <h2 class="part__text">
-                Results
-              </h2>
-              <BaseButton
-                class="nav__btn"
-                @click="toggleNewResultModal"
-              >
-                <BasePlus />
-              </BaseButton>
-            </div>
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headerResults,
-                bodyData: courseItem.results,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="true"
-              @delete="deleteResultRow"
             />
           </div>
         </div>
@@ -341,21 +277,9 @@
         Back
       </BaseButton>
     </div>
-    <CourseDetailsUpdateModal 
-      :id="+$route.params.id" 
+    <CourseDetailsUpdateModal
+      :id="+$route.params.id"
       :toggle-modal="isUpdateModalOpened"
-    />
-    <NewApplicantModal 
-      :id="+$route.params.id" 
-      :toggle-modal="isModalOpened" 
-    />
-    <NewGroupMember 
-      :id="+$route.params.id" 
-      :toggle-modal="isNewGroupMemberModal" 
-    />
-    <NewResultModal 
-      :id="+$route.params.id" 
-      :toggle-modal="isNewResultModal" 
     />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
@@ -383,14 +307,13 @@ import {
 } from "@/constants/roles.constant";
 import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
 
-import NewApplicantModal from "@/components/Modals/CourseDetailsModals/NewApplicantModal.vue";
 import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
 import BaseTooltip from "../components/BaseComponents/BaseTooltip/BaseTooltip.vue";
 import CourseDetailsUpdateModal from "@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue";
-import NewGroupMember from "../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue";
-import NewResultModal from "../components/Modals/CourseDetailsModals/NewResultModal.vue";
 import NewHomeWorkModal from "../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
+import GroupWidget from "@/components/GroupWidget.vue";
+import ResultWidget from "@/components/ResultWidget.vue";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -400,17 +323,16 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    NewApplicantModal,
     NewCommentModal,
     BaseTooltip,
     CourseDetailsUpdateModal,
-    NewGroupMember,
-    NewResultModal,
     NewHomeWorkModal,
     BasePlus,
     BaseEditIcon,
     BaseDeleteModal,
-  },
+    GroupWidget,
+    ResultWidget
+},
   data() {
     return {
       comments: "",
@@ -419,8 +341,6 @@ export default {
       isAddCommentModalOpen: false,
       isModalOpened: false,
       isUpdateModalOpened: false,
-      isNewGroupMemberModal: false,
-      isNewResultModal: false,
       isNewHomeworkModal: false,
       isDeleteModalOpen: false,
       headersUser: [
@@ -436,7 +356,6 @@ export default {
       ],
       headerApplicants: [
         { fullName: "Full Name" },
-        { initialScore: "Initial Score" },
       ],
       headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
       headerResults: [{ fullName: "Name" }, { score: "Results" }],
@@ -618,12 +537,6 @@ export default {
     },
     toggleUpdateModal() {
       this.isUpdateModalOpened = !this.isUpdateModalOpened;
-    },
-    toggleNewGroupMemberModal() {
-      this.isNewGroupMemberModal = !this.isNewGroupMemberModal;
-    },
-    toggleNewResultModal() {
-      this.isNewResultModal = !this.isNewResultModal;
     },
     toggleNewHomeworkModal() {
       this.isNewHomeworkModal = !this.isNewHomeworkModal;

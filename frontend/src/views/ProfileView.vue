@@ -55,9 +55,6 @@
             <div class="profile-info-subtitle">
               <span class="profile-info-title">Course: </span>{{ user.course || "--" }}
             </div>
-            <div class="profile-info-subtitle">
-              <span class="profile-info-title">Score: </span>{{ user.initialScore || "--" }}
-            </div>
           </div>
           <div class="mt-5">
             <BaseButton @click="openPasswordChangeModal">

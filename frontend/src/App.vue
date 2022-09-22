@@ -1,5 +1,8 @@
 <template>
-  <div class="flex relative">
+  <div
+    id="app"
+    class="flex relative"
+  >
     <navigation-menu
       role="admin"
       :is-open="isOpen"
@@ -39,4 +42,6 @@ export default {
 };
 </script>
 
-<style lang="postcss"></style>
+<style lang="scss">
+
+</style>

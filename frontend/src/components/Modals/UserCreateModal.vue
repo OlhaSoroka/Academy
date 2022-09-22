@@ -107,7 +107,6 @@ export default {
         confirmpassword: "",
         email: "",
         course: "",
-        initialScore: "",
         role: "user",
         avatarUrl:
           "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
@@ -131,11 +130,12 @@ export default {
     clearInputs() {
       this.createModel = {
         fullName: "",
+        phone: "",
+        city: "",
         password: "",
         confirmpassword: "",
         email: "",
         course: "",
-        initialScore: "",
         role: "user",
         avatarUrl:
           "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
