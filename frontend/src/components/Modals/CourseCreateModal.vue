@@ -127,6 +127,7 @@ export default {
           group: [],
           homework: [],
           results: [],
+          materials: [],
         };
         this.createNewCourse(newCourse);
         this.$refs.courseCreateModal.closeModal();
