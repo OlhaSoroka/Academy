@@ -304,28 +304,25 @@
               @delete="deleteHomework"
             />
           </div>
-          <div class="part col-start-1 row-start-4 col-span-4">
+          <div 
+            v-if="courseItem.homework_results"
+            class="part col-start-1 row-start-4 col-span-4"
+          >
             <div class="header">
               <h2 class="part__text">
-                Results
+                Homework Results
               </h2>
-              <BaseButton
-                class="nav__btn"
-                @click="toggleNewResultModal"
-              >
-                <BasePlus />
-              </BaseButton>
             </div>
             <BaseTable
               class="table"
               :table-data="{
-                headingData: headerResults,
-                bodyData: courseItem.results,
+                headingData: headerHomeworkResults,
+                bodyData: courseItem.homework_results,
               }"
-              :edit-btns="false"
+              :edit-btns="true"
               :is-data-loading="loadingStatus"
-              :delete-btns="true"
-              @delete="deleteResultRow"
+              :delete-btns="false"
+              @edit="openEditHomeworkResultModal"
             />
           </div>
         </div>
@@ -358,6 +355,11 @@
       :toggle-modal="isNewResultModal" 
     />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
+    <HomeworkResaltsModal 
+      :id="+$route.params.id" 
+      :toggle-modal="isEditHomeworkResultModalOpen"
+      :studentId="studentId"
+    />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
     <BaseDeleteModal
       :toggle-modal="isDeleteModalOpen"
@@ -391,6 +393,7 @@ import NewGroupMember from "../components/Modals/CourseDetailsModals/NewGroupMem
 import NewResultModal from "../components/Modals/CourseDetailsModals/NewResultModal.vue";
 import NewHomeWorkModal from "../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
+import HomeworkResaltsModal from "../components/Modals/CourseDetailsModals/HomeworkResaltsModal.vue";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -407,6 +410,7 @@ export default {
     NewGroupMember,
     NewResultModal,
     NewHomeWorkModal,
+    HomeworkResaltsModal,
     BasePlus,
     BaseEditIcon,
     BaseDeleteModal,
@@ -415,7 +419,9 @@ export default {
     return {
       comments: "",
       payload: {},
+      homeworkPayload: {},
       targetRow: {},
+      studentId: null,
       isAddCommentModalOpen: false,
       isModalOpened: false,
       isUpdateModalOpened: false,
@@ -423,6 +429,7 @@ export default {
       isNewResultModal: false,
       isNewHomeworkModal: false,
       isDeleteModalOpen: false,
+      isEditHomeworkResultModalOpen: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -439,6 +446,21 @@ export default {
         { initialScore: "Initial Score" },
       ],
       headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
+      headerHomeworkResults: [
+        { students_name: "Students Name" }, 
+        { hw1: "HW 1" },
+        { hw2: "HW 2" },
+        { hw3: "HW 3" },
+        { hw4: "HW 4" },
+        { hw5: "HW 5" },
+        { hw6: "HW 6" },
+        { hw7: "HW 7" },
+        { hw8: "HW 8" },
+        { hw9: "HW 9" },
+        { hw10: "HW 10" },
+        { hw11: "HW 11" },
+        { total: "Total"},
+      ],
       headerResults: [{ fullName: "Name" }, { score: "Results" }],
       headerComments: [
         { message: "Message" },
@@ -502,6 +524,7 @@ export default {
     },
     submitDelete() {
       this.patchCourses(this.payload);
+      this.patchCourses(this.homeworkPayload);
     },
     deleteApplicant(id) {
       this.openDeleteModal();
@@ -531,6 +554,13 @@ export default {
         value: filteredHomework,
       };
     },
+    openEditHomeworkResultModal(id){
+      /* const currentCourse = this.getCourseById(this.$route.params.id); */
+      this.studentId = id;/* 
+      this.targetStudent = currentCourse.homework_results.find((e) => e.id === id);
+      console.log(currentCourse.homework_results, this.studentId , this.targetStudent) */
+      this.isEditHomeworkResultModalOpen = !this.isEditHomeworkResultModalOpen;
+    },
     deleteComment(id) {
       this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
@@ -552,9 +582,18 @@ export default {
       const filteredGroup = group.filter(
         (groupMember) => groupMember.id !== id
       );
+      const { homework_results } = currentCourse;
+      const filteredHomeworkResalts = homework_results.filter(
+        (groupMember) => groupMember.id !== id
+      );
       this.targetRow = group.filter(
         (groupMember) => groupMember.id === id
       )[0].fullName;
+      this.homeworkPayload = {
+        id: this.$route.params.id,
+        field: "homework_results",
+        value: filteredHomeworkResalts,
+      };
       this.payload = {
         id: this.$route.params.id,
         field: "group",
@@ -634,7 +673,7 @@ export default {
 
 <style lang="postcss" scoped>
 .table {
-  @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+  @apply border border-black mb-10 min-w-[50%] max-w-screen-xl mx-auto;
 }
 
 .header {

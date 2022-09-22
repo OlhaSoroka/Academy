@@ -126,6 +126,7 @@ export default {
           docs_link: "",
           group: [],
           homework: [],
+          homework_results: [],
           results: [],
         };
         this.createNewCourse(newCourse);
