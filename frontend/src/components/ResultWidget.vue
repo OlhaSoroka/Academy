@@ -21,7 +21,7 @@ import { updateCourseById } from "@/api/course";
 import { AgGridVue } from "ag-grid-vue";
 export default {
   components: {
-    AgGridVue,
+    AgGridVue, 
   },
   props: {
     course: {
@@ -40,8 +40,8 @@ export default {
     };
   },
   computed: {
-    group() {
-      return this.course.group;
+    results() {
+      return this.course.results;
     },
   },
   beforeMount() {
@@ -82,6 +82,7 @@ export default {
             filter: true,
             editable: false,
             width: 100,
+            headerClass: "total-col"
           },
           {
             field: "eng_test",
@@ -98,6 +99,7 @@ export default {
             filter: true,
             editable: false,
             width: 100,
+            headerClass: "total-col"
           },
           {
             field: "interview_result",
@@ -141,7 +143,7 @@ export default {
             width: 120,
           },
           {
-            field: "mentor's_feedback",
+            field: "mentors_feedback",
             headerName: "Mentor's Feedback",
             sortable: true,
             filter: false,
@@ -187,23 +189,27 @@ export default {
             minWidth: 200,
             maxWidth: 450,
             resizable: true,
+           
           },
         ],
       },
     ];
-
-    this.rowData = this.course.group;
+    this.rowData = this.course.results;
   },
   methods: {
     async onCellEdit(event) {
-      const updatedMember = this.group.find(
+      const updatedMember = this.results.find(
         (_, index) => index === event.rowIndex
       );
       updatedMember[event.colDef.field] = event.newValue;
-      this.group.splice(event.rowIndex, 1, updatedMember);
+
+      updatedMember.start_total = +updatedMember.multiple_choice + +updatedMember.tech_task;
+      updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test;
+
+      this.results.splice(event.rowIndex, 1, updatedMember);
       await updateCourseById(this.course.id, {
         ...this.course,
-        group: this.group,
+        results: this.results,
       });
     },
   },
@@ -218,6 +224,11 @@ export default {
 }
 .ag-header-cell-label {
   justify-content: center;
+}
+
+.total-col {
+  background-color: #aecde9!important;
+  color: white !important;
 }
 
 </style>

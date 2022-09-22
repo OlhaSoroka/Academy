@@ -2,6 +2,7 @@ import { getAllUsers, updateUserByID, registerUser, deleteUserById } from '../..
 import { STUDENTS_ROLE } from '@/constants/roles.constant';
 import { getAllCourses, updateCourseById } from '@/api/course';
 import { createGroupMember, updateGroupMember } from '@/helpers/createUpdateGroupMember';
+import { createResultMember , updateResultMember } from '@/helpers/createUpdateResultMember'; 
 
 export default {
 	state: {
@@ -32,21 +33,25 @@ export default {
 			try {
 				store.commit('TOGGLE_LOADING_STATUS');
 				const email = await updateUserByID(data.id, data, token);
-				console.log({email});
 				const allUsers = await getAllUsers(token);
 				const student = allUsers.find((user) => user.email === email);
-				console.log({student});
 				const allCourses = await getAllCourses();
 				const studentsCourse = allCourses.find((course) => course.name === student.course);
-				console.log({studentsCourse});
 				if (studentsCourse) {
 					const groupMember = studentsCourse.group.find(member => member.email === student.email);
+					const resultMember = studentsCourse.group.find(member => member.email === student.email);
 					const updatedGroupMember = {
 						...groupMember,
 						...updateGroupMember(student)
 					};
-					const indexToUpdate = studentsCourse.group.find(member => member.email === student.email);
-					studentsCourse.group.splice(indexToUpdate, 1, updatedGroupMember);
+					const updatedResultMember = {
+						...resultMember,
+						...updateResultMember(student)
+					};
+					const indexToUpdateGroupMember = studentsCourse.group.find(member => member.email === student.email);
+					const indexToUpdateResultMember = studentsCourse.results.find(member => member.email === student.email);
+					studentsCourse.group.splice(indexToUpdateGroupMember, 1, updatedGroupMember);
+					studentsCourse.results.splice(indexToUpdateResultMember, 1, updatedResultMember);
 					await updateCourseById(studentsCourse.id, studentsCourse);
 				}
 				store.dispatch('toast/show', { message: 'User successfully updated', type: 'success' }, { root: true });
@@ -70,10 +75,11 @@ export default {
 				const studentsCourse = allCourses.find((course) => course.name === student.course);
 				if (studentsCourse) {
 					const groupMember = createGroupMember(student);
+					const resultMember = createResultMember(student);
 					studentsCourse.group.push(groupMember);
+					studentsCourse.results.push(resultMember);
 					await updateCourseById(studentsCourse.id, studentsCourse);
 				}
-
 				store.dispatch('toast/show', { message: 'User successfully created', type: 'success' }, { root: true });
 			} catch (error) {
 				const errorMessage = error.response?.data?.error || error.response?.data?.message;

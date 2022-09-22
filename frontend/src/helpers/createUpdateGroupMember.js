@@ -13,6 +13,8 @@ export const createGroupMember = (student) => {
 export const updateGroupMember = (student) => {
 	return {
 		fullName: student.fullName,
-		email: student.email
+		email: student.email,
+		phone: student.phone,
+		city: student.city,
 	};
 };

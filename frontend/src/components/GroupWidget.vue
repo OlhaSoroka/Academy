@@ -15,7 +15,7 @@
         @cellValueChanged="onCellEdit($event)"
       />
     </div>
-  </div>
+  </div> 
 </template>
 
 <script>
