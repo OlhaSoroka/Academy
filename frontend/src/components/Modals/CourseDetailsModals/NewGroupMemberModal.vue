@@ -117,6 +117,33 @@ export default {
       );
       const updatedCourse = JSON.parse(JSON.stringify(course));
       updatedCourse.group.push(currentUser);
+      updatedCourse.homework_results.push({
+        students_name: currentUser.fullName, 
+        id: currentUser.id, 
+        hw1: 0,
+        hw1repo: "",
+        hw2: 0,
+        hw2repo: "",
+        hw3: 0,
+        hw3repo: "",
+        hw4: 0,
+        hw4repo: "",
+        hw5: 0,
+        hw5repo: "",
+        hw6: 0,
+        hw6repo: "",
+        hw7: 0,
+        hw7repo: "",
+        hw8: 0,
+        hw8repo: "",
+        hw9: 0,
+        hw9repo: "",
+        hw10: 0,
+        hw10repo: "",
+        hw11: 0,
+        hw11repo: "",
+        total: 0
+        });
       this.updateCourse({ id, course: updatedCourse })
         .then(async () => {
           await this.getCourses();

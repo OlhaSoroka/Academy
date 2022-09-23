@@ -22,6 +22,12 @@
             onkeydown="return false"
           />
           <BaseInput
+            v-model="courseToAdd.homework_quantity"
+            type="number"
+            label="Quantity of homework"
+            rules="required"
+          />
+          <BaseInput
             v-model="courseToAdd.date_project_start"
             type="date"
             label="Date of starting project"
@@ -103,6 +109,7 @@ export default {
         id: 0,
         name: "",
         date: "",
+        homework_quantity: 0,
         date_project_start: "",
         date_project_demo: "",
         date_final_interview: "",
@@ -125,6 +132,7 @@ export default {
       this.courseToAdd = {
         name: "",
         date: "",
+        homework_quantity: 0,
         date_project_start: "",
         date_project_demo: "",
         date_final_interview: "",
@@ -150,6 +158,7 @@ export default {
           docs_link: "",
           group: [],
           homework: [],
+          homework_results: [],
           results: [],
           materials: [],
         };

@@ -224,7 +224,7 @@ export default {
 			}
 		},
 		setHeaderNumClass(value) {
-			if (value.toLowerCase().includes("score") || value.toLowerCase().includes("result")) {
+			if (value.toLowerCase().includes("score") || value.toLowerCase().includes("result") || value.toLowerCase().includes("hw") || value.toLowerCase().includes("total")) {
 				return `${this.baseTableHeaderStyles} text-right`
 			} else {
 				return `${this.baseTableHeaderStyles} text-start`
