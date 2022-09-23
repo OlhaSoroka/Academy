@@ -18,7 +18,10 @@
   
 <script>
 import { updateCourseById } from "@/api/course";
+import { ADMIN_ROLE, MENTOR_ROLE, STUDENTS_ROLE } from "@/constants/roles.constant";
 import { AgGridVue } from "ag-grid-vue";
+import { mapGetters } from 'vuex';
+
 export default {
   components: {
     AgGridVue, 
@@ -40,9 +43,19 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('user', ['user']),
     results() {
       return this.course.results;
     },
+    isAdmin() {
+      return this.user.role === ADMIN_ROLE
+    },
+    isMentor() {
+      return this.user.role === MENTOR_ROLE
+    },
+    isStudent() {
+      return this.user.role === STUDENTS_ROLE
+    }
   },
   beforeMount() {
     this.columnDefs = [
@@ -64,7 +77,7 @@ export default {
             headerName: "Multiple choice",
             sortable: true,
             filter: true,
-            editable: true,
+            editable: this.isAdmin,
             width: 150,
           },
           {
@@ -72,7 +85,7 @@ export default {
             headerName: "Tech Task",
             sortable: true,
             filter: true,
-            editable: true,
+            editable: this.isAdmin,
             width: 100,
           },
           {
@@ -89,7 +102,7 @@ export default {
             headerName: "English Test",
             sortable: true,
             filter: true,
-            editable: true,
+            editable: this.isAdmin,
             width: 100,
           },
           {
@@ -106,7 +119,7 @@ export default {
             headerName: "Interview Result",
             sortable: true,
             filter: true,
-            editable: true,
+            editable: this.isAdmin|| this.isMentor,
             width: 150,
           },
           {
@@ -114,7 +127,7 @@ export default {
             headerName: "Interviewer comments",
             sortable: true,
             filter: false,
-            editable: true,
+            editable: this.isAdmin|| this.isMentor,
             minWidth: 200,
             maxWidth: 450,
             resizable: true,
@@ -124,7 +137,7 @@ export default {
             headerName: "HR interviewer comments",
             sortable: true,
             filter: false,
-            editable: true,
+            editable:  this.isAdmin,
             minWidth: 200,
             maxWidth: 450,
             resizable: true,
@@ -139,7 +152,7 @@ export default {
             headerName: "Average homework score",
             sortable: true,
             filter: false,
-            editable: true,
+            editable: false,
             width: 120,
           },
           {
@@ -147,7 +160,7 @@ export default {
             headerName: "Mentor's Feedback",
             sortable: true,
             filter: false,
-            editable: true,
+            editable: this.isAdmin|| this.isMentor,
             minWidth: 200,
             maxWidth: 450,
             resizable: true,
@@ -157,7 +170,7 @@ export default {
             headerName: "Exit Tech interview",
             sortable: true,
             filter: false,
-            editable: true,
+            editable: this.isAdmin|| this.isMentor,
             width: 120,
           },
           {
@@ -165,7 +178,7 @@ export default {
             headerName: "Interviewer comments",
             sortable: true,
             filter: false,
-            editable: true,
+            editable: this.isAdmin|| this.isMentor,
             minWidth: 200,
             maxWidth: 450,
             resizable: true,
@@ -175,7 +188,7 @@ export default {
             headerName: "HR Interviewer comment",
             sortable: true,
             filter: false,
-            editable: true,
+            editable: this.isAdmin,
             minWidth: 200,
             maxWidth: 450,
             resizable: true,
@@ -185,7 +198,7 @@ export default {
             headerName: "English Interviewer comment",
             sortable: true,
             filter: false,
-            editable: true,
+            editable: this.isAdmin,
             minWidth: 200,
             maxWidth: 450,
             resizable: true,

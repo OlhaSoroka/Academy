@@ -20,7 +20,9 @@
 
 <script>
 import { updateCourseById } from "@/api/course";
+import { ADMIN_ROLE, MENTOR_ROLE, STUDENTS_ROLE } from "@/constants/roles.constant";
 import { AgGridVue } from "ag-grid-vue";
+import { mapGetters } from 'vuex';
 export default {
   components: {
     AgGridVue,
@@ -40,23 +42,40 @@ export default {
         autoHeaderHeight: true,
       },
     };
-
   },
   computed: {
+    ...mapGetters('user', ['user']),
     group() {
       return this.course.group;
     },
+    isAdmin() {
+      return this.user.role === ADMIN_ROLE
+    },
+    isMentor() {
+      return this.user.role === MENTOR_ROLE
+    },
+    isStudent() {
+      return this.user.role === STUDENTS_ROLE
+    }
   },
   beforeMount() {
-    this.columnDefs = [
+    if (this.isStudent) {
+      this.columnDefs = [
+      { field: "fullName",  headerName: "Name", sortable: true, filter: true, editable: false ,minWidth: 150, maxWidth: 250, resizable: true},
+      { field: "email" ,headerName: "Email", sortable: false, filter: true, editable: false ,minWidth: 150, maxWidth: 250 ,resizable: true}
+    ]
+    }
+    if (this.isAdmin ||this.isMentor) {
+      this.columnDefs=[
       { field: "fullName",  headerName: "Name", sortable: true, filter: true, editable: false ,minWidth: 150, maxWidth: 250, resizable: true},
       { field: "email" ,headerName: "Email", sortable: false, filter: true, editable: false ,minWidth: 150, maxWidth: 250 ,resizable: true},
-      { field: "phone" ,headerName: "Phone", sortable: false, filter: true, editable: true ,minWidth: 100, maxWidth: 200 ,resizable: true},
-      { field: "city" ,headerName: "City", sortable: true, filter: true, editable: true ,minWidth: 100, maxWidth: 200, resizable: true},
-      { field: "age" ,headerName: "Age", sortable: false, filter: true, editable: true ,minWidth: 100, maxWidth: 200 ,resizable: true},
-      { field: "education" ,headerName: "Education", sortable: true, filter: true, editable: true ,minWidth: 330, maxWidth: 450, resizable: true},
-      { field: "eng_level" ,headerName: "English level", sortable: true, filter: true, editable: true ,minWidth: 200, maxWidth: 300 ,resizable: true},
-    ];
+      { field: "phone" ,headerName: "Phone", sortable: false, filter: true, editable: this.isAdmin ,minWidth: 100, maxWidth: 200 ,resizable: true},
+      { field: "city" ,headerName: "City", sortable: true, filter: true, editable: this.isAdmin ,minWidth: 100, maxWidth: 200, resizable: true},
+      { field: "age" ,headerName: "Age", sortable: false, filter: true, editable: this.isAdmin ,minWidth: 100, maxWidth: 200 ,resizable: true},
+      { field: "education" ,headerName: "Education", sortable: true, filter: this.isAdmin, editable: true ,minWidth: 330, maxWidth: 450, resizable: true},
+      { field: "eng_level" ,headerName: "English level", sortable: true, filter: true, editable: this.isAdmin ,minWidth: 200, maxWidth: 300 ,resizable: true},
+      ]
+    }
 
     this.rowData = this.course.group;
   },
