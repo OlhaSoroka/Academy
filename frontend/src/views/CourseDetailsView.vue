@@ -27,31 +27,48 @@
             xl:gap-x-10 xl:gap-y-10
           "
         >
-          <div class="part col-span-2 col-start-1">
-            <h2 class="part__text">
-              Main info
-            </h2>
-            <div class="flex justify-between flex-wrap">
-              <BaseTable
-                class="table"
-                :table-data="{
-                  headingData: headerMainInfo,
-                  bodyData: [courseItem],
-                }"
-                :edit-btns="false"
-                :is-data-loading="loadingStatus"
-                :delete-btns="false"
-              />
+          <div class="part col-span-1 col-start-1 row-span-1">
+            <div class="header">
+              <h2 class="part__text">
+                Main info
+              </h2>
+            </div>
+            <div class="flex flex-col gap-5">
+              <div class="text-left">
+                <label class="main__header_label">Name
+                  <p class="main__header_text">{{ courseItem.name }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of starting
+                  <p class="main__header_text">{{ courseItem.date }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of starting project
+                  <p class="main__header_text">{{ courseItem.date_project_start }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of demo
+                  <p class="main__header_text">{{ courseItem.date_project_demo }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of final interview
+                  <p class="main__header_text">{{ courseItem.date_final_interview }}</p>
+                </label>
+              </div>
               <div
-                class="text-left p-1 rounded-md"
+                class="text-left p-1 rounded-md w-fit"
                 :class="{
-                  'bg-blue-300/50': courseItem.status === 'not started',
-                  'bg-green-500/50': courseItem.status === 'in progress',
-                  'bg-red-400/50': courseItem.status === 'finished',
+                  'bg-blue-300/25': courseItem.status === 'not started',
+                  'bg-green-500/25': courseItem.status === 'in progress',
+                  'bg-red-400/25': courseItem.status === 'finished',
                 }"
               >
-                <label class="main__header_label">Status
-                  <p class="main__header_text">{{ courseItem.status }}</p>
+                <label class="text-xs">Status
+                  <p class="text-2xl">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
@@ -88,7 +105,7 @@
           </div>
           <div 
             v-if="courseItem.materials"
-            class="part col-start-1 row-start-3 col-span-2"
+            class="part col-start-2 row-start-1 col-span-1"
           >
             <div class="header">
               <h2 class="part__text">
@@ -469,7 +486,7 @@ export default {
       ],
       headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
       headerResults: [{ fullName: "Name" }, { score: "Results" }],
-      headerMaterials: [{ name: "Materials name" }, { link: "Link" }],
+      headerMaterials: [{ name: "Material name" }, { link: "Link" }],
       headerComments: [
         { message: "Message" },
         { createdAt: "Date" },
