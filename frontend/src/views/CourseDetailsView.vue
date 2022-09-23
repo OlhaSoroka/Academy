@@ -68,7 +68,7 @@
                 }"
               >
                 <label class="text-xs">Status
-                  <p class="text-2xl">{{ courseItem.status }}</p>
+                  <p class="text-xl">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
@@ -214,7 +214,7 @@
                 }"
               >
                 <label class="text-xs">Status
-                  <p class="text-2xl">{{ courseItem.status }}</p>
+                  <p class="text-xl">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
@@ -752,6 +752,6 @@ button {
 }
 
 .main__header_text {
-  @apply text-2xl font-thin text-slate-700;
+  @apply /* text-2xl  */font-thin text-slate-700;
 }
 </style>
