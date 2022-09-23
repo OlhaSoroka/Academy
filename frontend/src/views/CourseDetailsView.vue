@@ -331,7 +331,7 @@
             <BaseTable
               class="table"
               :table-data="{
-                headingData: headerHomeworkResults,
+                headingData: cutHeaderHomeworkResults(),
                 bodyData: courseItem.homework_results,
               }"
               :edit-btns="true"
@@ -733,6 +733,9 @@ export default {
     toggleNewHomeworkModal() {
       this.isNewHomeworkModal = !this.isNewHomeworkModal;
     },
+    cutHeaderHomeworkResults() {
+    return this.headerHomeworkResults.slice(0, +this.courseItem.homework_quantity + 1).concat(this.headerHomeworkResults.slice(-1))
+    }
   },
 };
 </script>
