@@ -39,7 +39,8 @@ export default {
 				const studentsCourse = allCourses.find((course) => course.name === student.course);
 				if (studentsCourse) {
 					const groupMember = studentsCourse.group.find(member => member.email === student.email);
-					const resultMember = studentsCourse.group.find(member => member.email === student.email);
+					const resultMember = studentsCourse.results.find(member => member.email === student.email);
+					console.log(resultMember);
 					const updatedGroupMember = {
 						...groupMember,
 						...updateGroupMember(student)
@@ -48,8 +49,9 @@ export default {
 						...resultMember,
 						...updateResultMember(student)
 					};
-					const indexToUpdateGroupMember = studentsCourse.group.find(member => member.email === student.email);
-					const indexToUpdateResultMember = studentsCourse.results.find(member => member.email === student.email);
+					console.log({updatedResultMember});
+					const indexToUpdateGroupMember = studentsCourse.group.findIndex(member => member.email === student.email);
+					const indexToUpdateResultMember = studentsCourse.results.findIndex(member => member.email === student.email);
 					studentsCourse.group.splice(indexToUpdateGroupMember, 1, updatedGroupMember);
 					studentsCourse.results.splice(indexToUpdateResultMember, 1, updatedResultMember);
 					await updateCourseById(studentsCourse.id, studentsCourse);
@@ -91,9 +93,18 @@ export default {
 		},
 		deleteStudent: async (store, id) => {
 			const token = localStorage.getItem('accessToken');
-
 			try {
 				store.commit('TOGGLE_LOADING_STATUS');
+				const student = store.state.students.find((student) => student.id === id);
+				const allCourses = await getAllCourses();
+				const studentsCourse = allCourses.find((course) => course.name === student.course);
+				if (studentsCourse) {
+					const indexToUpdateGroupMember = studentsCourse.group.findIndex(member => member.email === student.email);
+					const indexToUpdateResultMember = studentsCourse.results.findIndex(member => member.email === student.email);
+					studentsCourse.group.splice(indexToUpdateGroupMember, 1,);
+					studentsCourse.results.splice(indexToUpdateResultMember, 1);
+					await updateCourseById(studentsCourse.id, studentsCourse);
+				}
 				await deleteUserById(id, token);
 				store.dispatch('toast/show', { message: 'User successfully deleted', type: 'success' }, { root: true });
 			} catch (error) {

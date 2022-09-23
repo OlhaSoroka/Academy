@@ -84,6 +84,7 @@ export default {
       const updatedMember = this.group.find((_, index) => index === event.rowIndex);
       updatedMember[event.colDef.field] = event.newValue;
       this.group.splice(event.rowIndex, 1, updatedMember);
+      this.rowData = this.group;
       await updateCourseById(this.course.id, {...this.course, group: this.group});
     }
   },

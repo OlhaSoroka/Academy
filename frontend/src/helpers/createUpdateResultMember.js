@@ -1,6 +1,7 @@
 export const createResultMember = (student) => {
 	return {
 		fullName: student.fullName,
+		email: student.email,
 		multiple_choice:'0',
 		tech_task:'0',
 		start_total:'',
@@ -20,6 +21,6 @@ export const createResultMember = (student) => {
 
 export const updateResultMember = (student) => {
 	return {
-		fullName: student.fullName,
+		email: student.email,
 	};
 };

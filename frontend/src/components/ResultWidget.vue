@@ -220,6 +220,7 @@ export default {
       updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test;
 
       this.results.splice(event.rowIndex, 1, updatedMember);
+      this.rowData =  this.results;
       await updateCourseById(this.course.id, {
         ...this.course,
         results: this.results,
