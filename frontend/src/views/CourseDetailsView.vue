@@ -27,55 +27,53 @@
             xl:gap-x-10 xl:gap-y-10
           "
         >
-          <div class="part col-span-1 col-start-1">
-            <h2 class="part__text">
-              Main info
-            </h2>
-            <div class="flex justify-between flex-wrap">
+          <div class="part col-span-1 col-start-1 row-span-1">
+            <div class="header">
+              <h2 class="part__text">
+                Main info
+              </h2>
+            </div>
+            <div class="flex flex-col gap-5">
               <div class="text-left">
                 <label class="main__header_label">Name
                   <p class="main__header_text">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="main__header_label">Date
+                <label class="main__header_label">Date of starting
                   <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
-              <div
-                v-if="courseItem.docs_link"
-                class="text-left"
-              >
-                <BaseTooltip :text="courseItem.docs_link">
-                  <label class="main__header_label">
-                    Docs :
-                    <p class="main__header_text">
-                      <a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{
-                        courseItem.docs_link.slice(0, 20)
-                      }}</a>
-                    </p>
-                  </label>
-                </BaseTooltip>
+              <div class="text-left">
+                <label class="main__header_label">Date of starting project
+                  <p class="main__header_text">{{ courseItem.date_project_start }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of demo
+                  <p class="main__header_text">{{ courseItem.date_project_demo }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of final interview
+                  <p class="main__header_text">{{ courseItem.date_final_interview }}</p>
+                </label>
               </div>
               <div
-                v-if="courseItem.status === 'not started'"
-                class="text-left p-1 rounded-md"
+                class="text-left p-1 rounded-md w-fit"
                 :class="{
-                  'bg-blue-300/50': courseItem.status === 'not started',
-                  'bg-green-500/50': courseItem.status === 'in progress',
-                  'bg-red-400/50': courseItem.status === 'finished',
+                  'bg-blue-300/25': courseItem.status === 'not started',
+                  'bg-green-500/25': courseItem.status === 'in progress',
+                  'bg-red-400/25': courseItem.status === 'finished',
                 }"
               >
-                <label class="main__header_label">Status
-                  <p class="main__header_text">{{ courseItem.status }}</p>
+                <label class="text-xs">Status
+                  <p class="text-xl">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
           </div>
-          <div class="part col-span-1 col-start-2 row-span-2">
+          <div class="part col-span-1 col-start-2 row-start-2 row-span-1">
             <h2 class="part__text">
               Homework
             </h2>
@@ -103,6 +101,27 @@
               :edit-btns="false"
               :is-data-loading="loadingStatus"
               :delete-btns="false"
+            />
+          </div>
+          <div 
+            v-if="courseItem.materials"
+            class="part col-start-2 row-start-1 col-span-1"
+          >
+            <div class="header">
+              <h2 class="part__text">
+                Materials
+              </h2>
+            </div>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerMaterials,
+                bodyData: courseItem.materials,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+              @delete="deleteMaterialRow"
             />
           </div>
         </div>
@@ -167,28 +186,24 @@
                 </label>
               </div>
               <div class="text-left">
-                <label class="main__header_label">Date
+                <label class="main__header_label">Date of starting
                   <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
-              <div
-                v-if="courseItem.docs_link"
-                class="text-left"
-              >
-                <BaseTooltip :text="courseItem.docs_link">
-                  <label class="text-xs">
-                    Docs
-
-                    <p class="text-2xl">
-                      <a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{
-                        courseItem.docs_link.slice(0, 20)
-                      }}</a>
-                    </p>
-                  </label>
-                </BaseTooltip>
+              <div class="text-left">
+                <label class="main__header_label">Date of starting project
+                  <p class="main__header_text">{{ courseItem.date_project_start }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of demo
+                  <p class="main__header_text">{{ courseItem.date_project_demo }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of final interview
+                  <p class="main__header_text">{{ courseItem.date_final_interview }}</p>
+                </label>
               </div>
               <div
                 class="text-left p-1 rounded-md w-fit"
@@ -199,7 +214,7 @@
                 }"
               >
                 <label class="text-xs">Status
-                  <p class="text-2xl">{{ courseItem.status }}</p>
+                  <p class="text-xl">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
@@ -325,6 +340,33 @@
               @edit="openEditHomeworkResultModal"
             />
           </div>
+          <div 
+            v-if="courseItem.materials"
+            class="part col-start-1 row-start-5 col-span-4"
+          >
+            <div class="header">
+              <h2 class="part__text">
+                Materials
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewMaterialModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerMaterials,
+                bodyData: courseItem.materials,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="true"
+              @delete="deleteMaterialRow"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -361,6 +403,7 @@
       :student-id="studentId"
     />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
+    <NewMaterialModal :toggle-modal="isNewMaterialModal" />
     <BaseDeleteModal
       :toggle-modal="isDeleteModalOpen"
       :target-value="targetRow"
@@ -387,11 +430,11 @@ import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
 
 import NewApplicantModal from "@/components/Modals/CourseDetailsModals/NewApplicantModal.vue";
 import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
-import BaseTooltip from "../components/BaseComponents/BaseTooltip/BaseTooltip.vue";
 import CourseDetailsUpdateModal from "@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue";
 import NewGroupMember from "../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue";
 import NewResultModal from "../components/Modals/CourseDetailsModals/NewResultModal.vue";
 import NewHomeWorkModal from "../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue";
+import NewMaterialModal from "../components/Modals/CourseDetailsModals/NewMaterialModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
 import HomeworkResaltsModal from "../components/Modals/CourseDetailsModals/HomeworkResaltsModal.vue";
 
@@ -405,12 +448,12 @@ export default {
     BaseButton,
     NewApplicantModal,
     NewCommentModal,
-    BaseTooltip,
     CourseDetailsUpdateModal,
     NewGroupMember,
     NewResultModal,
     NewHomeWorkModal,
     HomeworkResaltsModal,
+    NewMaterialModal,
     BasePlus,
     BaseEditIcon,
     BaseDeleteModal,
@@ -430,6 +473,7 @@ export default {
       isNewHomeworkModal: false,
       isDeleteModalOpen: false,
       isEditHomeworkResultModalOpen: false,
+      isNewMaterialModal: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -438,8 +482,10 @@ export default {
       headersGroup: [{ fullName: "Full Name" }, { email: "Email" }],
       headerMainInfo: [
         { name: "Course Name" },
-        { date: "Date" },
-        { docs_link: "Docs Link" },
+        { date: "Date of starting" },
+        { date_project_start: "Date of starting project"},
+        { date_project_demo: "Date of demo"},
+        { date_final_interview: "Date of final interview"},
       ],
       headerApplicants: [
         { fullName: "Full Name" },
@@ -462,6 +508,7 @@ export default {
         { total: "Total"},
       ],
       headerResults: [{ fullName: "Name" }, { score: "Results" }],
+      headerMaterials: [{ name: "Material name" }, { link: "Link" }],
       headerComments: [
         { message: "Message" },
         { createdAt: "Date" },
@@ -616,6 +663,22 @@ export default {
         value: filteredResults,
       };
     },
+    deleteMaterialRow(id) {
+      this.openDeleteModal();
+      const currentCourse = this.getCourseById(this.$route.params.id);
+      const { materials } = currentCourse;
+      const filteredResults = materials.filter(
+        (materialRow) => materialRow.id !== id
+      );
+      this.targetRow = materials.filter(
+        (materialRow) => materialRow.id === id
+      )[0].name;
+      this.payload = {
+        id: this.$route.params.id,
+        field: "materials",
+        value: filteredResults,
+      };
+    },
     previousPage() {
       this.$router.push({
         name: COURSE_DETAILS,
@@ -663,6 +726,9 @@ export default {
     },
     toggleNewResultModal() {
       this.isNewResultModal = !this.isNewResultModal;
+    },
+    toggleNewMaterialModal() {
+      this.isNewMaterialModal = !this.isNewMaterialModal;
     },
     toggleNewHomeworkModal() {
       this.isNewHomeworkModal = !this.isNewHomeworkModal;
@@ -725,6 +791,6 @@ button {
 }
 
 .main__header_text {
-  @apply text-2xl font-thin text-slate-700;
+  @apply /* text-2xl  */font-thin text-slate-700;
 }
 </style>
