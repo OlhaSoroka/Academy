@@ -40,6 +40,7 @@ export default {
       defaultColDef: {
         wrapHeaderText: true,
         autoHeaderHeight: true,
+        suppressMovable: true
       },
     };
   },
@@ -56,6 +57,11 @@ export default {
     },
     isStudent() {
       return this.user.role === STUDENTS_ROLE
+    }
+  },
+  watch: {
+    course() {
+      this.rowData = this.course.group;
     }
   },
   beforeMount() {
@@ -76,7 +82,6 @@ export default {
       { field: "eng_level" ,headerName: "English level", sortable: true, filter: true, editable: this.isAdmin ,minWidth: 200, maxWidth: 300 ,resizable: true},
       ]
     }
-
     this.rowData = this.course.group;
   },
   methods: {
@@ -87,7 +92,7 @@ export default {
       this.rowData = this.group;
       await updateCourseById(this.course.id, {...this.course, group: this.group});
     }
-  },
+  }
 };
 </script>
 

@@ -39,6 +39,7 @@ export default {
       defaultColDef: {
         wrapHeaderText: true,
         autoHeaderHeight: true,
+        suppressMovable: true
       },
     };
   },
@@ -57,6 +58,11 @@ export default {
       return this.user.role === STUDENTS_ROLE
     }
   },
+  watch: {
+    course() {
+      this.rowData = this.course.results;
+    }
+  },
   beforeMount() {
     this.columnDefs = [
       {
@@ -70,7 +76,7 @@ export default {
             editable: false,
             minWidth: 150,
             maxWidth: 250,
-            resizable: true,
+            resizable: true
           },
           {
             field: "multiple_choice",
