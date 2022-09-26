@@ -21,6 +21,7 @@ export const createResultMember = (student) => {
 
 export const updateResultMember = (student) => {
 	return {
+		fullName: student.fullName,
 		email: student.email,
 	};
 };

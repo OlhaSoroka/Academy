@@ -245,10 +245,10 @@
               @delete="deleteComment"
             />
           </div>
-          <div class="part col-span-2 col-start-1">
+          <div class="part col-span-4 col-start-1">
             <GroupWidget :course="courseItem" />
           </div>
-          <div class="part col-span-2 col-start-3 row-span-1 xl:row-span-1">
+          <div class="part col-span-4 col-start-1">
             <ResultWidget :course="courseItem" />
           </div>
           <div class="part col-start-1 col-span-4">
