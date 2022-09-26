@@ -14,16 +14,40 @@
             id="name"
             v-model="newName"
           />
-          <label for="docs">Docs link</label>
+          <label 
+            v-if="getCourseById(id).homework_quantity"
+            for="homework_quantity"
+          >Homework quantity
+          </label>
           <BaseInput
-            id="docs"
-            v-model="newDocs_link"
+            v-if="getCourseById(id).homework_quantity"
+            id="homework_quantity"
+            v-model="newHomework_quantity"
+            type="number"
           />
           <BaseInput
             v-model="newDate"
             type="date"
-            label="Date"
+            label="Date of starting"
             rules="required"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="newDate_project_start"
+            type="date"
+            label="Date of starting project"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="newDate_project_demo"
+            type="date"
+            label="Date of demo"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="newDate_final_interview"
+            type="date"
+            label="Date of final interview"
             onkeydown="return false"
           />
           <BaseSelect
@@ -82,7 +106,10 @@ export default {
       newStatus: "",
       newName: "",
       newDate: "",
-      newDocs_link: "",
+      newDate_project_start: "",
+      newDate_project_demo: "",
+      newDate_final_interview: "",
+      newHomework_quantity: 0,
     };
   },
   computed: {
@@ -95,11 +122,14 @@ export default {
    id() {
       this.getCourses().then(() => {
       this.currentItem = this.getCourseById(this.id)
-      const { status, name, docs_link, date } = this.currentItem
+      const { status, name, date, date_project_start, date_project_demo, date_final_interview, homework_quantity } = this.currentItem
       this.newStatus = status
       this.newName = name
       this.newDate = this.makeDate(date)
-      this.newDocs_link = docs_link
+      this.newDate_project_start = this.makeDate(date_project_start)
+      this.newDate_project_demo = this.makeDate(date_project_demo)
+      this.newDate_final_interview = this.makeDate(date_final_interview)
+      this.newHomework_quantity = homework_quantity
        }
        )
     }
@@ -107,11 +137,14 @@ export default {
   async mounted() {
     this.getCourses().then(() => {
       this.currentItem = this.getCourseById(this.id)
-      const { status, name, docs_link, date } = this.currentItem
+      const { status, name, homework_quantity, date, date_project_start, date_project_demo, date_final_interview  } = this.currentItem
       this.newStatus = status
       this.newName = name
       this.newDate = this.makeDate(date)
-      this.newDocs_link = docs_link
+      this.newDate_project_start = this.makeDate(date_project_start)
+      this.newDate_project_demo = this.makeDate(date_project_demo)
+      this.newDate_final_interview = this.makeDate(date_final_interview)
+      this.newHomework_quantity = homework_quantity
     })
   },
   methods: {
@@ -120,9 +153,13 @@ export default {
       this.newStatus = ""
       this.newName = ""
       this.newDate = ""
-      this.newDocs_link = ""
+      this.newHomework_quantity = 0
+      this.newDate_project_start = ""
+      this.newDate_project_demo = ""
+      this.newDate_final_interview = ""
     },
     makeDate(propsDate) {
+      if(!propsDate) return "";
       // case dd/mm/yyyy -> yyyy-mm--dd
       const date = propsDate.split('/')
 
@@ -139,7 +176,10 @@ export default {
         name: this.newName,
         status: this.newStatus,
         date: this.newDate,
-        docs_link: this.newDocs_link
+        date_project_start: this.newDate_project_start,
+        date_project_demo: this.newDate_project_demo,
+        date_final_interview: this.newDate_final_interview,
+        homework_quantity: this.newHomework_quantity
       }
 
       await this.updateCourse({ id: itemCopy.id, course: itemCopy })

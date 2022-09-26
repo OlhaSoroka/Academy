@@ -52,7 +52,18 @@
           :class="setNumClass(checkTableData(item[prop[0]]))"
         >
           <BaseTooltip
-            v-if="typeof item[prop[0]] === 'string' && item[prop[0]].length > 25"
+            v-if="typeof item[prop[0]] === 'string' && item[prop[0]].match(/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/)"
+            :text="(item[prop[0]])"
+          >
+            <a  
+              target="”_blank”"
+              :href="item[prop[0]]"
+            > 
+              {{ typeof item[prop[0]] === "string" ? `${item[prop[0]].slice(0, 25)}...` : item[prop[0]] }}
+            </a>
+          </BaseTooltip>
+          <BaseTooltip
+            v-else-if="typeof item[prop[0]] === 'string' && item[prop[0]].length > 25"
             :text="(item[prop[0]])"
           >
             {{
@@ -213,7 +224,7 @@ export default {
 			}
 		},
 		setHeaderNumClass(value) {
-			if (value.toLowerCase().includes("score") || value.toLowerCase().includes("result")) {
+			if (value.toLowerCase().includes("score") || value.toLowerCase().includes("result") || value.toLowerCase().includes("hw") || value.toLowerCase().includes("total")) {
 				return `${this.baseTableHeaderStyles} text-right`
 			} else {
 				return `${this.baseTableHeaderStyles} text-start`

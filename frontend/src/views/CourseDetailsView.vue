@@ -27,55 +27,53 @@
             xl:gap-x-10 xl:gap-y-10
           "
         >
-          <div class="part col-span-1 col-start-1">
-            <h2 class="part__text">
-              Main info
-            </h2>
-            <div class="flex justify-between flex-wrap">
+          <div class="part col-span-1 col-start-1 row-span-1">
+            <div class="header">
+              <h2 class="part__text">
+                Main info
+              </h2>
+            </div>
+            <div class="flex flex-col gap-5">
               <div class="text-left">
                 <label class="main__header_label">Name
                   <p class="main__header_text">{{ courseItem.name }}</p>
                 </label>
               </div>
               <div class="text-left">
-                <label class="main__header_label">Date
+                <label class="main__header_label">Date of starting
                   <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
-              <div
-                v-if="courseItem.docs_link"
-                class="text-left"
-              >
-                <BaseTooltip :text="courseItem.docs_link">
-                  <label class="main__header_label">
-                    Docs :
-                    <p class="main__header_text">
-                      <a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{
-                        courseItem.docs_link.slice(0, 20)
-                      }}</a>
-                    </p>
-                  </label>
-                </BaseTooltip>
+              <div class="text-left">
+                <label class="main__header_label">Date of starting project
+                  <p class="main__header_text">{{ courseItem.date_project_start }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of demo
+                  <p class="main__header_text">{{ courseItem.date_project_demo }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of final interview
+                  <p class="main__header_text">{{ courseItem.date_final_interview }}</p>
+                </label>
               </div>
               <div
-                v-if="courseItem.status === 'not started'"
-                class="text-left p-1 rounded-md"
+                class="text-left p-1 rounded-md w-fit"
                 :class="{
-                  'bg-blue-300/50': courseItem.status === 'not started',
-                  'bg-green-500/50': courseItem.status === 'in progress',
-                  'bg-red-400/50': courseItem.status === 'finished',
+                  'bg-blue-300/25': courseItem.status === 'not started',
+                  'bg-green-500/25': courseItem.status === 'in progress',
+                  'bg-red-400/25': courseItem.status === 'finished',
                 }"
               >
-                <label class="main__header_label">Status
-                  <p class="main__header_text">{{ courseItem.status }}</p>
+                <label class="text-xs">Status
+                  <p class="text-xl">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
           </div>
-          <div class="part col-span-1 col-start-2 row-span-2">
+          <div class="part col-span-1 col-start-2 row-start-2 row-span-1">
             <h2 class="part__text">
               Homework
             </h2>
@@ -103,6 +101,27 @@
               :edit-btns="false"
               :is-data-loading="loadingStatus"
               :delete-btns="false"
+            />
+          </div>
+          <div 
+            v-if="courseItem.materials"
+            class="part col-start-2 row-start-1 col-span-1"
+          >
+            <div class="header">
+              <h2 class="part__text">
+                Materials
+              </h2>
+            </div>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerMaterials,
+                bodyData: courseItem.materials,
+              }"
+              :edit-btns="false"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+              @delete="deleteMaterialRow"
             />
           </div>
         </div>
@@ -168,28 +187,24 @@
                 </label>
               </div>
               <div class="text-left">
-                <label class="main__header_label">Date
+                <label class="main__header_label">Date of starting
                   <p class="main__header_text">{{ courseItem.date }}</p>
                 </label>
               </div>
-              <div
-                v-if="courseItem.docs_link"
-                class="text-left"
-              >
-                <BaseTooltip :text="courseItem.docs_link">
-                  <label class="text-xs">
-                    Docs
-
-                    <p class="text-2xl">
-                      <a
-                        target="”_blank”"
-                        :href="courseItem.docs_link"
-                      >{{
-                        courseItem.docs_link.slice(0, 20)
-                      }}</a>
-                    </p>
-                  </label>
-                </BaseTooltip>
+              <div class="text-left">
+                <label class="main__header_label">Date of starting project
+                  <p class="main__header_text">{{ courseItem.date_project_start }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of demo
+                  <p class="main__header_text">{{ courseItem.date_project_demo }}</p>
+                </label>
+              </div>
+              <div class="text-left">
+                <label class="main__header_label">Date of final interview
+                  <p class="main__header_text">{{ courseItem.date_final_interview }}</p>
+                </label>
               </div>
               <div
                 class="text-left p-1 rounded-md w-fit"
@@ -200,7 +215,7 @@
                 }"
               >
                 <label class="text-xs">Status
-                  <p class="text-2xl">{{ courseItem.status }}</p>
+                  <p class="text-xl">{{ courseItem.status }}</p>
                 </label>
               </div>
             </div>
@@ -241,27 +256,69 @@
           <div class="part col-start-1 col-span-4">
             <div class="header">
               <h2 class="part__text">
-                Homework
+                Homework Results
               </h2>
-              <BaseButton
-                class="nav__btn"
-                @click="toggleNewHomeworkModal"
-              >
-                <BasePlus />
-              </BaseButton>
             </div>
             
 
             <BaseTable
               class="table"
               :table-data="{
-                headingData: headerHomework,
-                bodyData: courseItem.homework,
+                headingData: cutHeaderHomeworkResults(),
+                bodyData: courseItem.homework_results,
+              }"
+              :edit-btns="true"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+              @edit="openEditHomeworkResultModal"
+            />
+          </div>
+          <div 
+            v-if="courseItem.homework_results"
+            class="part col-start-1 row-start-4 col-span-4"
+          >
+            <div class="header">
+              <h2 class="part__text">
+                Homework Results
+              </h2>
+            </div>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: cutHeaderHomeworkResults(),
+                bodyData: courseItem.homework_results,
+              }"
+              :edit-btns="true"
+              :is-data-loading="loadingStatus"
+              :delete-btns="false"
+              @edit="openEditHomeworkResultModal"
+            />
+          </div>
+          <div 
+            v-if="courseItem.materials"
+            class="part col-start-1 row-start-5 col-span-4"
+          >
+            <div class="header">
+              <h2 class="part__text">
+                Materials
+              </h2>
+              <BaseButton
+                class="nav__btn"
+                @click="toggleNewMaterialModal"
+              >
+                <BasePlus />
+              </BaseButton>
+            </div>
+            <BaseTable
+              class="table"
+              :table-data="{
+                headingData: headerMaterials,
+                bodyData: courseItem.materials,
               }"
               :edit-btns="false"
               :is-data-loading="loadingStatus"
               :delete-btns="true"
-              @delete="deleteHomework"
+              @delete="deleteMaterialRow"
             />
           </div>
         </div>
@@ -282,7 +339,13 @@
       :toggle-modal="isUpdateModalOpened"
     />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
+    <HomeworkResaltsModal 
+      :id="+$route.params.id" 
+      :toggle-modal="isEditHomeworkResultModalOpen"
+      :student-id="studentId"
+    />
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
+    <NewMaterialModal :toggle-modal="isNewMaterialModal" />
     <BaseDeleteModal
       :toggle-modal="isDeleteModalOpen"
       :target-value="targetRow"
@@ -308,10 +371,11 @@ import {
 import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
 
 import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
-import BaseTooltip from "../components/BaseComponents/BaseTooltip/BaseTooltip.vue";
 import CourseDetailsUpdateModal from "@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue";
 import NewHomeWorkModal from "../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue";
+import NewMaterialModal from "../components/Modals/CourseDetailsModals/NewMaterialModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
+import HomeworkResaltsModal from "../components/Modals/CourseDetailsModals/HomeworkResaltsModal.vue";
 import GroupWidget from "@/components/GroupWidget.vue";
 import ResultWidget from "@/components/ResultWidget.vue";
 
@@ -324,9 +388,10 @@ export default {
     BaseTable,
     BaseButton,
     NewCommentModal,
-    BaseTooltip,
     CourseDetailsUpdateModal,
     NewHomeWorkModal,
+    HomeworkResaltsModal,
+    NewMaterialModal,
     BasePlus,
     BaseEditIcon,
     BaseDeleteModal,
@@ -337,12 +402,16 @@ export default {
     return {
       comments: "",
       payload: {},
+      homeworkPayload: {},
       targetRow: {},
+      studentId: null,
       isAddCommentModalOpen: false,
       isModalOpened: false,
       isUpdateModalOpened: false,
       isNewHomeworkModal: false,
       isDeleteModalOpen: false,
+      isEditHomeworkResultModalOpen: false,
+      isNewMaterialModal: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -351,14 +420,32 @@ export default {
       headersGroup: [{ fullName: "Full Name" }, { email: "Email" }],
       headerMainInfo: [
         { name: "Course Name" },
-        { date: "Date" },
-        { docs_link: "Docs Link" },
+        { date: "Date of starting" },
+        { date_project_start: "Date of starting project"},
+        { date_project_demo: "Date of demo"},
+        { date_final_interview: "Date of final interview"},
       ],
       headerApplicants: [
         { fullName: "Full Name" },
       ],
       headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
+      headerHomeworkResults: [
+        { students_name: "Students Name" }, 
+        { hw1: "HW 1" },
+        { hw2: "HW 2" },
+        { hw3: "HW 3" },
+        { hw4: "HW 4" },
+        { hw5: "HW 5" },
+        { hw6: "HW 6" },
+        { hw7: "HW 7" },
+        { hw8: "HW 8" },
+        { hw9: "HW 9" },
+        { hw10: "HW 10" },
+        { hw11: "HW 11" },
+        { total: "Total"},
+      ],
       headerResults: [{ fullName: "Name" }, { score: "Results" }],
+      headerMaterials: [{ name: "Material name" }, { link: "Link" }],
       headerComments: [
         { message: "Message" },
         { createdAt: "Date" },
@@ -421,6 +508,7 @@ export default {
     },
     submitDelete() {
       this.patchCourses(this.payload);
+      this.patchCourses(this.homeworkPayload);
     },
     deleteApplicant(id) {
       this.openDeleteModal();
@@ -450,6 +538,13 @@ export default {
         value: filteredHomework,
       };
     },
+    openEditHomeworkResultModal(id){
+      /* const currentCourse = this.getCourseById(this.$route.params.id); */
+      this.studentId = id;/* 
+      this.targetStudent = currentCourse.homework_results.find((e) => e.id === id);
+      console.log(currentCourse.homework_results, this.studentId , this.targetStudent) */
+      this.isEditHomeworkResultModalOpen = !this.isEditHomeworkResultModalOpen;
+    },
     deleteComment(id) {
       this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
@@ -471,9 +566,18 @@ export default {
       const filteredGroup = group.filter(
         (groupMember) => groupMember.id !== id
       );
+      const { homework_results } = currentCourse;
+      const filteredHomeworkResalts = homework_results.filter(
+        (groupMember) => groupMember.id !== id
+      );
       this.targetRow = group.filter(
         (groupMember) => groupMember.id === id
       )[0].fullName;
+      this.homeworkPayload = {
+        id: this.$route.params.id,
+        field: "homework_results",
+        value: filteredHomeworkResalts,
+      };
       this.payload = {
         id: this.$route.params.id,
         field: "group",
@@ -493,6 +597,22 @@ export default {
       this.payload = {
         id: this.$route.params.id,
         field: "results",
+        value: filteredResults,
+      };
+    },
+    deleteMaterialRow(id) {
+      this.openDeleteModal();
+      const currentCourse = this.getCourseById(this.$route.params.id);
+      const { materials } = currentCourse;
+      const filteredResults = materials.filter(
+        (materialRow) => materialRow.id !== id
+      );
+      this.targetRow = materials.filter(
+        (materialRow) => materialRow.id === id
+      )[0].name;
+      this.payload = {
+        id: this.$route.params.id,
+        field: "materials",
         value: filteredResults,
       };
     },
@@ -538,16 +658,28 @@ export default {
     toggleUpdateModal() {
       this.isUpdateModalOpened = !this.isUpdateModalOpened;
     },
+    toggleNewGroupMemberModal() {
+      this.isNewGroupMemberModal = !this.isNewGroupMemberModal;
+    },
+    toggleNewResultModal() {
+      this.isNewResultModal = !this.isNewResultModal;
+    },
+    toggleNewMaterialModal() {
+      this.isNewMaterialModal = !this.isNewMaterialModal;
+    },
     toggleNewHomeworkModal() {
       this.isNewHomeworkModal = !this.isNewHomeworkModal;
     },
+    cutHeaderHomeworkResults() {
+    return this.headerHomeworkResults.slice(0, +this.courseItem.homework_quantity + 1).concat(this.headerHomeworkResults.slice(-1))
+    }
   },
 };
 </script>
 
 <style lang="postcss" scoped>
 .table {
-  @apply border border-black mb-10 min-w-[50%] max-w-screen-lg mx-auto;
+  @apply border border-black mb-10 min-w-[50%] max-w-screen-xl mx-auto;
 }
 
 .header {
@@ -599,6 +731,6 @@ button {
 }
 
 .main__header_text {
-  @apply text-2xl font-thin text-slate-700;
+  @apply /* text-2xl  */font-thin text-slate-700;
 }
 </style>

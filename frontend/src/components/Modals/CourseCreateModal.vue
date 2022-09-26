@@ -17,8 +17,32 @@
           <BaseInput
             v-model="courseToAdd.date"
             type="date"
-            label="Date"
+            label="Date of starting"
             rules="required"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="courseToAdd.homework_quantity"
+            type="number"
+            label="Quantity of homework"
+            rules="required"
+          />
+          <BaseInput
+            v-model="courseToAdd.date_project_start"
+            type="date"
+            label="Date of starting project"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="courseToAdd.date_project_demo"
+            type="date"
+            label="Date of demo"
+            onkeydown="return false"
+          />
+          <BaseInput
+            v-model="courseToAdd.date_final_interview"
+            type="date"
+            label="Date of final interview"
             onkeydown="return false"
           />
           <div class="w-full text-left ml-1">
@@ -85,6 +109,10 @@ export default {
         id: 0,
         name: "",
         date: "",
+        homework_quantity: 0,
+        date_project_start: "",
+        date_project_demo: "",
+        date_final_interview: "",
         status: "not started",
       },
       statuses: ["not started", "in progress", "finished"],
@@ -104,6 +132,10 @@ export default {
       this.courseToAdd = {
         name: "",
         date: "",
+        homework_quantity: 0,
+        date_project_start: "",
+        date_project_demo: "",
+        date_final_interview: "",
         status: "not started",
       };
     },
@@ -126,7 +158,9 @@ export default {
           docs_link: "",
           group: [],
           homework: [],
+          homework_results: [],
           results: [],
+          materials: [],
         };
         this.createNewCourse(newCourse);
         this.$refs.courseCreateModal.closeModal();
