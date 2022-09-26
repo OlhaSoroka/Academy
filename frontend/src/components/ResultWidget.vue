@@ -18,7 +18,7 @@
   
 <script>
 import { updateCourseById } from "@/api/course";
-import { ADMIN_ROLE, MENTOR_ROLE, STUDENTS_ROLE } from "@/constants/roles.constant";
+import { ADMIN_ROLE, MENTOR_ROLE } from "@/constants/roles.constant";
 import { AgGridVue } from "ag-grid-vue";
 import { mapGetters } from 'vuex';
 
@@ -53,9 +53,6 @@ export default {
     },
     isMentor() {
       return this.user.role === MENTOR_ROLE
-    },
-    isStudent() {
-      return this.user.role === STUDENTS_ROLE
     }
   },
   watch: {
