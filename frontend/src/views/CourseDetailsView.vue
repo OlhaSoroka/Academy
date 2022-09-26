@@ -253,26 +253,6 @@
             <ResultWidget :course="courseItem" />
           </div>
 
-          <div class="part col-start-1 col-span-4">
-            <div class="header">
-              <h2 class="part__text">
-                Homework Results
-              </h2>
-            </div>
-            
-
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: cutHeaderHomeworkResults(),
-                bodyData: courseItem.homework_results,
-              }"
-              :edit-btns="true"
-              :is-data-loading="loadingStatus"
-              :delete-btns="false"
-              @edit="openEditHomeworkResultModal"
-            />
-          </div>
           <div 
             v-if="courseItem.homework_results"
             class="part col-start-1 row-start-4 col-span-4"
