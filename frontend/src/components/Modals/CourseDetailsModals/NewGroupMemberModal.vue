@@ -53,7 +53,6 @@
     </template>
   </BaseModal>
 </template>
-
 <script>
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseModal from "@/components/BaseComponents/BaseModal.vue";
@@ -157,13 +156,8 @@ export default {
 };
 </script>
 <style lang="postcss" scoped>
-
-
-
-
 .select__group_mentor {
   @apply block p-1 m-1 w-64 ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900 disabled:bg-gray-50 disabled:border-gray-300;
-
 }
 .select__label {
   @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400;

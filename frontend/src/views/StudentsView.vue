@@ -132,10 +132,9 @@ export default {
         fullName: "",
         email: "",
         course: "",
-        initialScore: "",
       },
       adminStudentEditInputs: [
-        {
+      {
           label: "Full Name",
           model: "fullName",
           type: "text",
@@ -147,12 +146,7 @@ export default {
           type: "email",
           placeholder: "Enter email",
         },
-        {
-          label: "Initial Score",
-          model: "initialScore",
-          type: "number",
-          placeholder: "Enter initial score",
-        },
+
       ],
       adminStudentCreateInputs: [
         {
@@ -181,12 +175,6 @@ export default {
           vid: "confirmpassword",
           placeholder: "Confirm password",
         },
-        {
-          label: "Initial Score",
-          model: "initialScore",
-          type: "number",
-          placeholder: "Enter initial score",
-        },
       ],
       headersStudent: [
         { fullName: "Full Name" },
@@ -196,8 +184,7 @@ export default {
       headersStudentAdminView: [
         { fullName: "Full Name" },
         { email: "Email" },
-        { course: "Course" },
-        { initialScore: "Initial Score" },
+        { course: "Course" }
       ],
     };
   },

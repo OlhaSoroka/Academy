@@ -15,10 +15,9 @@ module.exports = {
         },
       };
     if (req.body.role === "user") {
-      mandatoryUserSchemaKeys.push("course", "initialScore");
+      mandatoryUserSchemaKeys.push("course");
       Object.assign(user, {
-        course: req.body.course,
-        initialScore: req.body.initialScore,
+        course: req.body.course
       });
     }
     try {
