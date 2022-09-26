@@ -278,7 +278,7 @@
           </div>
           <div 
             v-if="courseItem.homework_results"
-            class="part col-start-1 row-start-4 col-span-4"
+            class="part col-start-1 col-span-4"
           >
             <div class="header">
               <h2 class="part__text">
@@ -299,7 +299,7 @@
           </div>
           <div 
             v-if="courseItem.materials"
-            class="part col-start-1 row-start-5 col-span-4"
+            class="part col-start-1 col-span-4"
           >
             <div class="header">
               <h2 class="part__text">
