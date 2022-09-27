@@ -6,7 +6,6 @@
     <div>
       <BaseTableEditable
         style="height: 400px"
-        class="ag-theme-alpine"
         :column-defs="columnDefs"
         :row-data="rowData"
         :default-col-def="defaultColDef"
@@ -36,11 +35,6 @@ export default {
     return {
       columnDefs: null,
       rowData: null,
-      defaultColDef: {
-        wrapHeaderText: true,
-        autoHeaderHeight: true,
-        suppressMovable: true
-      },
     };
   },
   computed: {
@@ -66,16 +60,13 @@ export default {
             field: "fullName",
             headerName: "Name",
             sortable: true,
-            filter: true,
             editable: false,
             width: 150,
-            resizable: true
           },
           {
             field: "multiple_choice",
             headerName: "Multiple choice",
             sortable: true,
-            filter: true,
             editable: this.isAdmin,
             width: 150,
           },
@@ -83,7 +74,6 @@ export default {
             field: "tech_task",
             headerName: "Tech Task",
             sortable: true,
-            filter: true,
             editable: this.isAdmin,
             width: 100,
           },
@@ -91,7 +81,6 @@ export default {
             field: "start_total",
             headerName: "Total",
             sortable: true,
-            filter: true,
             editable: false,
             width: 100,
             solid: true
@@ -100,7 +89,6 @@ export default {
             field: "eng_test",
             headerName: "English Test",
             sortable: true,
-            filter: true,
             editable: this.isAdmin,
             width: 100,
           },
@@ -108,8 +96,7 @@ export default {
             field: "middle_total",
             headerName: "Total",
             sortable: true,
-            filter: true,
-            editable: false,
+            editable: false, 
             width: 100,
             solid: true
           },
@@ -117,7 +104,6 @@ export default {
             field: "interview_result",
             headerName: "Interview Result",
             sortable: true,
-            filter: true,
             editable: this.isAdmin|| this.isMentor,
             width: 150,
           },
@@ -125,25 +111,20 @@ export default {
             field: "interviewer_comments",
             headerName: "Interviewer comments",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
             width: 250,
-            resizable: true,
           },
           {
             field: "hr_interviewer_comments",
             headerName: "HR interviewer comments",
             sortable: true,
-            filter: false,
             editable:  this.isAdmin,
             width: 250,
-            resizable: true,
           },
           {
             field: "average_homework_score",
             headerName: "Average homework score",
             sortable: true,
-            filter: false,
             editable: false,
             width: 120,
           },
@@ -151,16 +132,13 @@ export default {
             field: "mentors_feedback",
             headerName: "Mentor's Feedback",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
             width: 250,
-            resizable: true,
           },
           {
             field: "exit_tech_interview",
             headerName: "Exit Tech interview",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
             width: 120,
           },
@@ -168,29 +146,23 @@ export default {
             field: "final_interviewer_comments",
             headerName: "Interviewer comments",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
             width: 250,
-            resizable: true,
           },
           {
             field: "final_hr_interviewer_comments",
             headerName: "HR Interviewer comment",
             sortable: true,
-            filter: false,
             editable: this.isAdmin,
             width: 250,
-            resizable: true,
+
           },
           {
             field: "final_english_interviewer_comments",
             headerName: "English Interviewer comment",
             sortable: true,
-            filter: false,
             editable: this.isAdmin,
-            width: 250,
-            resizable: true,
-           
+            width: 250,           
           },
     ];
     this.rowData = this.course.results;
@@ -217,14 +189,6 @@ export default {
 </script>
   
   <style lang="scss">
-@import "~ag-grid-community/styles/ag-grid.css";
-@import "~ag-grid-community/styles/ag-theme-alpine.css";
-.ag-theme-alpine {
-  --ag-header-foreground-color: #308ee0;
-}
-.ag-header-cell-label {
-  justify-content: center;
-}
 
 .total-col {
   background-color: #aecde9!important;
