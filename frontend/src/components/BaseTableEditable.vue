@@ -1,10 +1,11 @@
 <template>
   <div style="overflow-x: auto">
     <table
+      v-click-outside-table
       style="width: 100%"
       class="border-2 border-slate-200 text-sm"
     >
-      <tr> 
+      <tr>
         <th
           v-for="column in columnDefs"
           :key="column.field"
@@ -12,7 +13,7 @@
           :class="{ 'bg-primary-300 text-white': column.solid }"
         >
           <div
-            class="min-w-[120px] min-h-[50px] flex justify-center items-center "
+            class="min-w-[120px] min-h-[50px] flex justify-center items-center"
             :style="{ width: column.width + 'px' }"
           >
             {{ column.headerName }}
@@ -30,19 +31,28 @@
           class="border-b-2 border-slate-200"
         >
           <div
-            
             class="min-h-[50px] flex justify-center items-center"
             @click="onCellClick(rowIndex, columnIndex, column.editable)"
           >
             <input
               v-if="isCellActive(rowIndex, columnIndex)"
-              class="min-h-[50px] w-full block py-1 px-2 shadow border-2 rounded border-primary-400 focus-visible:outline-none"
+              ref="cellInput"
+              class="
+                min-h-[50px]
+                w-full
+                block
+                py-1
+                px-2
+                shadow
+                border-2
+                rounded
+                border-primary-400
+                focus-visible:outline-none
+              "
               type="text"
               :value="row[column.field]"
             >
-            <div
-              v-else
-            >
+            <div v-else>
               {{ row[column.field] }}
             </div>
           </div>
@@ -66,23 +76,28 @@ export default {
   data() {
     return {
       activeCell: null,
-    }
+    };
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     onCellClick(rowIndex, columnIndex, isEditable) {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
+        console.log(this.activeCell);
+        setTimeout(() => {
+          this.$refs.cellInput[0].focus();
+        }, 50);
       }
     },
     isCellActive(rowIndex, columnIndex) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
-    }
-  }
+    },
+    onClickOutside() {
+      this.$emit('cellValueChanged', {newValue: "Lviv", rowIndex: 0, colDef: {field: "city"}})
+      this.activeCell = null;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-
 </style>

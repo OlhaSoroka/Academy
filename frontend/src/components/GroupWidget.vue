@@ -10,7 +10,6 @@
         style="height: 400px;"
         :column-defs="columnDefs"
         :row-data="rowData"
-        :default-col-def="defaultColDef"
         @cellValueChanged="onCellEdit($event)"
       />
     </div>
