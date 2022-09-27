@@ -40,7 +40,6 @@ export default {
 				if (studentsCourse) {
 					const groupMember = studentsCourse.group.find(member => member.email === student.email);
 					const resultMember = studentsCourse.results.find(member => member.email === student.email);
-					console.log(resultMember);
 					const updatedGroupMember = {
 						...groupMember,
 						...updateGroupMember(student)
@@ -49,7 +48,6 @@ export default {
 						...resultMember,
 						...updateResultMember(student)
 					};
-					console.log({updatedResultMember});
 					const indexToUpdateGroupMember = studentsCourse.group.findIndex(member => member.email === student.email);
 					const indexToUpdateResultMember = studentsCourse.results.findIndex(member => member.email === student.email);
 					studentsCourse.group.splice(indexToUpdateGroupMember, 1, updatedGroupMember);

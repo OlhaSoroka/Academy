@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-xl text-gray-700 mb-5">Result</div>
+      <div class="text-xl text-gray-700 mb-5">Results</div>
     </div>
     <div>
-      <ag-grid-vue
+      <BaseTableEditable
         style="height: 400px"
         class="ag-theme-alpine"
         :column-defs="columnDefs"
@@ -19,12 +19,12 @@
 <script>
 import { updateCourseById } from "@/api/course";
 import { ADMIN_ROLE, MENTOR_ROLE } from "@/constants/roles.constant";
-import { AgGridVue } from "ag-grid-vue";
+import BaseTableEditable from "./BaseTableEditable.vue";
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    AgGridVue, 
+    BaseTableEditable, 
   },
   props: {
     course: {
@@ -62,17 +62,13 @@ export default {
   },
   beforeMount() {
     this.columnDefs = [
-      {
-        headerName: "Income Results",
-        children: [
-          {
+    {
             field: "fullName",
             headerName: "Name",
             sortable: true,
             filter: true,
             editable: false,
-            minWidth: 150,
-            maxWidth: 250,
+            width: 150,
             resizable: true
           },
           {
@@ -98,7 +94,7 @@ export default {
             filter: true,
             editable: false,
             width: 100,
-            headerClass: "total-col"
+            solid: true
           },
           {
             field: "eng_test",
@@ -115,7 +111,7 @@ export default {
             filter: true,
             editable: false,
             width: 100,
-            headerClass: "total-col"
+            solid: true
           },
           {
             field: "interview_result",
@@ -131,8 +127,7 @@ export default {
             sortable: true,
             filter: false,
             editable: this.isAdmin|| this.isMentor,
-            minWidth: 200,
-            maxWidth: 450,
+            width: 250,
             resizable: true,
           },
           {
@@ -141,15 +136,9 @@ export default {
             sortable: true,
             filter: false,
             editable:  this.isAdmin,
-            minWidth: 200,
-            maxWidth: 450,
+            width: 250,
             resizable: true,
           },
-        ],
-      },
-      {
-        headerName: "Final Results",
-        children: [
           {
             field: "average_homework_score",
             headerName: "Average homework score",
@@ -164,8 +153,7 @@ export default {
             sortable: true,
             filter: false,
             editable: this.isAdmin|| this.isMentor,
-            minWidth: 200,
-            maxWidth: 450,
+            width: 250,
             resizable: true,
           },
           {
@@ -182,8 +170,7 @@ export default {
             sortable: true,
             filter: false,
             editable: this.isAdmin|| this.isMentor,
-            minWidth: 200,
-            maxWidth: 450,
+            width: 250,
             resizable: true,
           },
           {
@@ -192,8 +179,7 @@ export default {
             sortable: true,
             filter: false,
             editable: this.isAdmin,
-            minWidth: 200,
-            maxWidth: 450,
+            width: 250,
             resizable: true,
           },
           {
@@ -202,13 +188,10 @@ export default {
             sortable: true,
             filter: false,
             editable: this.isAdmin,
-            minWidth: 200,
-            maxWidth: 450,
+            width: 250,
             resizable: true,
            
           },
-        ],
-      },
     ];
     this.rowData = this.course.results;
   },

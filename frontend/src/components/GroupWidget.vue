@@ -6,7 +6,7 @@
       </div>
     </div>
     <div>
-      <ag-grid-vue
+      <BaseTableEditable
         style="height: 400px;"
         class="ag-theme-alpine"
         :column-defs="columnDefs"
@@ -21,11 +21,11 @@
 <script>
 import { updateCourseById } from "@/api/course";
 import { ADMIN_ROLE, MENTOR_ROLE, STUDENTS_ROLE } from "@/constants/roles.constant";
-import { AgGridVue } from "ag-grid-vue";
+import BaseTableEditable from "./BaseTableEditable.vue";
 import { mapGetters } from 'vuex';
 export default {
   components: {
-    AgGridVue,
+    BaseTableEditable
   },
   props: {
     course: {
