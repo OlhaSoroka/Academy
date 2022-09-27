@@ -28,14 +28,13 @@
               >Select Course</label>
               <select
                 id="courses"
-
                 v-model="targetUser.course"
+                disabled
                 class="select__course"
               >
                 <option
                   v-if="!courses.find((item) => item.name == targetUser.course)"
                   :value="targetUser.course"
-                  disabled
                   selected
                 >
                   Select Course
@@ -144,5 +143,8 @@ export default {
 <style lang="postcss" scoped>
 .select__course {
   @apply block p-1 m-1 w-64 ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900;
+}
+.select__course:disabled {
+  @apply bg-gray-50 border-gray-300;
 }
 </style>
