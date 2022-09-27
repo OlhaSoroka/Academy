@@ -14,6 +14,7 @@
             <BaseInput
               id="name"
               v-model="newName"
+              rules="required"
             />
             <label 
               v-if="getCourseById(id).homework_quantity"
@@ -64,7 +65,7 @@
               Cancel
             </BaseButton>
             <BaseButton
-              :disabled="!(newName.length && newDate.length) || invalid"
+              :disabled="invalid"
               @click="submit"
             >
               Update

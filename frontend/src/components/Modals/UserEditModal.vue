@@ -18,7 +18,7 @@
                 :label="input.label"
                 :placeholder="input.placeholder"
                 :rules="requiredField(input.label)"
-                :disabled="input.model === 'email' || input.model === 'course'"
+                :disabled="input.model === 'email'"
               />
             </div>
             <div>
