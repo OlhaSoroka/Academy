@@ -5,7 +5,7 @@
     </div>
     <div>
       <BaseTableEditable
-        style="height: 400px"
+        style="min-height: 400px"
         :column-defs="columnDefs"
         :row-data="rowData"
         @cellValueChanged="onCellEdit($event)"
