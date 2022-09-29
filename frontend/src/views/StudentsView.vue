@@ -75,7 +75,7 @@
               headingData: headersStudentAdminView,
               bodyData: students,
             }"
-            :edit-btns="true"
+            :edit-btns="false"
             :is-data-loading="studentsLoadingStatus"
             :delete-btns="true"
             @edit="openEditModal"

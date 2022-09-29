@@ -80,7 +80,8 @@ export default {
   data() {
     return {
       emailRules: "required|email",
-      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+"
+      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+",
+      numberRules: "min_value:0"
     };
   },
   computed: {
@@ -103,7 +104,9 @@ export default {
         return `${this.emailRules}|${this.rules}`;
       } else if (this.type === "password" && this.vid != "text") {
         return `${this.passwordRules}|${this.rules}`;
-      } else return `${this.rules}`;
+      } else if (this.type === "number") {
+        return `${this.numberRules}|${this.rules}`;
+      }else return `${this.rules}`;
     },
   },
   methods: {

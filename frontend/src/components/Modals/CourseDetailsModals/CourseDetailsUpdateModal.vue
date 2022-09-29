@@ -5,70 +5,73 @@
   >
     <template #body>
       <div class="flex justify-center flex-col mt-7  gap-10">
-        <div class="text-left">
-          <label
-            class=""
-            for="name"
-          >Name of course</label>
-          <BaseInput
-            id="name"
-            v-model="newName"
-          />
-          <label 
-            v-if="getCourseById(id).homework_quantity"
-            for="homework_quantity"
-          >Homework quantity
-          </label>
-          <BaseInput
-            v-if="getCourseById(id).homework_quantity"
-            id="homework_quantity"
-            v-model="newHomework_quantity"
-            type="number"
-          />
-          <BaseInput
-            v-model="newDate"
-            type="date"
-            label="Date of starting"
-            rules="required"
-            onkeydown="return false"
-          />
-          <BaseInput
-            v-model="newDate_project_start"
-            type="date"
-            label="Date of starting project"
-            onkeydown="return false"
-          />
-          <BaseInput
-            v-model="newDate_project_demo"
-            type="date"
-            label="Date of demo"
-            onkeydown="return false"
-          />
-          <BaseInput
-            v-model="newDate_final_interview"
-            type="date"
-            label="Date of final interview"
-            onkeydown="return false"
-          />
-          <BaseSelect
-            v-model="newStatus"
-            :options="['in progress', 'finished', 'not started']"
-          />
-        </div>
-        <div class="mx-1 flex justify-around">
-          <BaseButton
-            variant="btn_red"
-            @click="cancel"
-          >
-            Cancel
-          </BaseButton>
-          <BaseButton
-            :disabled="!(newName.length && newDate.length)"
-            @click="submit"
-          >
-            Update
-          </BaseButton>
-        </div>
+        <ValidationObserver v-slot="{ invalid }">
+          <div class="text-left">
+            <label
+              class=""
+              for="name"
+            >Name of course</label>
+            <BaseInput
+              id="name"
+              v-model="newName"
+              rules="required"
+            />
+            <label 
+              v-if="getCourseById(id).homework_quantity"
+              for="homework_quantity"
+            >Homework quantity
+            </label>
+            <BaseInput
+              v-if="getCourseById(id).homework_quantity"
+              id="homework_quantity"
+              v-model="newHomework_quantity"
+              type="number"
+            />
+            <BaseInput
+              v-model="newDate"
+              type="date"
+              label="Date of starting"
+              rules="required"
+              onkeydown="return false"
+            />
+            <BaseInput
+              v-model="newDate_project_start"
+              type="date"
+              label="Date of starting project"
+              onkeydown="return false"
+            />
+            <BaseInput
+              v-model="newDate_project_demo"
+              type="date"
+              label="Date of demo"
+              onkeydown="return false"
+            />
+            <BaseInput
+              v-model="newDate_final_interview"
+              type="date"
+              label="Date of final interview"
+              onkeydown="return false"
+            />
+            <BaseSelect
+              v-model="newStatus"
+              :options="['in progress', 'finished', 'not started']"
+            />
+          </div>
+          <div class="mx-1 flex justify-around">
+            <BaseButton
+              variant="btn_red"
+              @click="cancel"
+            >
+              Cancel
+            </BaseButton>
+            <BaseButton
+              :disabled="invalid"
+              @click="submit"
+            >
+              Update
+            </BaseButton>
+          </div>
+        </ValidationObserver>
       </div>
     </template>
   </BaseModal>
@@ -80,13 +83,15 @@ import BaseButton from '@/components/BaseComponents/BaseButton.vue';
 import BaseModal from '@/components/BaseComponents/BaseModal.vue';
 import BaseInput from '@/components/BaseComponents/BaseInput.vue';
 import BaseSelect from '@/components/BaseComponents/BaseSelect/BaseSelect.vue';
+import { ValidationObserver } from "vee-validate";
 
 export default {
   components: {
     BaseModal,
     BaseButton,
     BaseInput,
-    BaseSelect
+    BaseSelect,
+    ValidationObserver
   },
   props: {
     toggleModal: {
