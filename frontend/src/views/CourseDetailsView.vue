@@ -411,7 +411,8 @@ export default {
     BaseEditIcon,
     BaseDeleteModal,
     GroupWidget,
-    ResultWidget
+    ResultWidget,
+
   },
   data() {
     return {

@@ -1,15 +1,13 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-xl text-gray-700 mb-5">Result</div>
+      <div class="text-xl text-gray-700 mb-5">Results</div>
     </div>
     <div>
-      <ag-grid-vue
-        style="height: 400px"
-        class="ag-theme-alpine"
+      <BaseTableEditable
+        style="min-height: 400px"
         :column-defs="columnDefs"
         :row-data="rowData"
-        :default-col-def="defaultColDef"
         @cellValueChanged="onCellEdit($event)"
       />
     </div>
@@ -19,12 +17,12 @@
 <script>
 import { updateCourseById } from "@/api/course";
 import { ADMIN_ROLE, MENTOR_ROLE } from "@/constants/roles.constant";
-import { AgGridVue } from "ag-grid-vue";
+import BaseTableEditable from "./BaseTableEditable.vue";
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    AgGridVue, 
+    BaseTableEditable, 
   },
   props: {
     course: {
@@ -36,11 +34,6 @@ export default {
     return {
       columnDefs: null,
       rowData: null,
-      defaultColDef: {
-        wrapHeaderText: true,
-        autoHeaderHeight: true,
-        suppressMovable: true
-      },
     };
   },
   computed: {
@@ -62,24 +55,17 @@ export default {
   },
   beforeMount() {
     this.columnDefs = [
-      {
-        headerName: "Income Results",
-        children: [
-          {
+    {
             field: "fullName",
             headerName: "Name",
             sortable: true,
-            filter: true,
             editable: false,
-            minWidth: 150,
-            maxWidth: 250,
-            resizable: true
+            width: 150,
           },
           {
             field: "multiple_choice",
             headerName: "Multiple choice",
             sortable: true,
-            filter: true,
             editable: this.isAdmin,
             width: 150,
           },
@@ -87,7 +73,6 @@ export default {
             field: "tech_task",
             headerName: "Tech Task",
             sortable: true,
-            filter: true,
             editable: this.isAdmin,
             width: 100,
           },
@@ -95,16 +80,14 @@ export default {
             field: "start_total",
             headerName: "Total",
             sortable: true,
-            filter: true,
             editable: false,
             width: 100,
-            headerClass: "total-col"
+            solid: true
           },
           {
             field: "eng_test",
             headerName: "English Test",
             sortable: true,
-            filter: true,
             editable: this.isAdmin,
             width: 100,
           },
@@ -112,16 +95,14 @@ export default {
             field: "middle_total",
             headerName: "Total",
             sortable: true,
-            filter: true,
-            editable: false,
+            editable: false, 
             width: 100,
-            headerClass: "total-col"
+            solid: true
           },
           {
             field: "interview_result",
             headerName: "Interview Result",
             sortable: true,
-            filter: true,
             editable: this.isAdmin|| this.isMentor,
             width: 150,
           },
@@ -129,32 +110,20 @@ export default {
             field: "interviewer_comments",
             headerName: "Interviewer comments",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
-            minWidth: 200,
-            maxWidth: 450,
-            resizable: true,
+            width: 250,
           },
           {
             field: "hr_interviewer_comments",
             headerName: "HR interviewer comments",
             sortable: true,
-            filter: false,
             editable:  this.isAdmin,
-            minWidth: 200,
-            maxWidth: 450,
-            resizable: true,
+            width: 250,
           },
-        ],
-      },
-      {
-        headerName: "Final Results",
-        children: [
           {
             field: "average_homework_score",
             headerName: "Average homework score",
             sortable: true,
-            filter: false,
             editable: false,
             width: 120,
           },
@@ -162,17 +131,13 @@ export default {
             field: "mentors_feedback",
             headerName: "Mentor's Feedback",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
-            minWidth: 200,
-            maxWidth: 450,
-            resizable: true,
+            width: 250,
           },
           {
             field: "exit_tech_interview",
             headerName: "Exit Tech interview",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
             width: 120,
           },
@@ -180,35 +145,24 @@ export default {
             field: "final_interviewer_comments",
             headerName: "Interviewer comments",
             sortable: true,
-            filter: false,
             editable: this.isAdmin|| this.isMentor,
-            minWidth: 200,
-            maxWidth: 450,
-            resizable: true,
+            width: 250,
           },
           {
             field: "final_hr_interviewer_comments",
             headerName: "HR Interviewer comment",
             sortable: true,
-            filter: false,
             editable: this.isAdmin,
-            minWidth: 200,
-            maxWidth: 450,
-            resizable: true,
+            width: 250,
+
           },
           {
             field: "final_english_interviewer_comments",
             headerName: "English Interviewer comment",
             sortable: true,
-            filter: false,
             editable: this.isAdmin,
-            minWidth: 200,
-            maxWidth: 450,
-            resizable: true,
-           
+            width: 250,           
           },
-        ],
-      },
     ];
     this.rowData = this.course.results;
   },
@@ -234,14 +188,6 @@ export default {
 </script>
   
   <style lang="scss">
-@import "~ag-grid-community/styles/ag-grid.css";
-@import "~ag-grid-community/styles/ag-theme-alpine.css";
-.ag-theme-alpine {
-  --ag-header-foreground-color: #308ee0;
-}
-.ag-header-cell-label {
-  justify-content: center;
-}
 
 .total-col {
   background-color: #aecde9!important;

@@ -42,7 +42,6 @@ export default {
 					const groupMember = studentsCourse.group.find(member => member.email === student.email);
 					const resultMember = studentsCourse.results.find(member => member.email === student.email);
 					const resultHomeworkMember = studentsCourse.homework_results.find(member => member.id === student.id);
-					console.log(studentsCourse);
 					const updatedGroupMember = {
 						...groupMember,
 						...updateGroupMember(student)
