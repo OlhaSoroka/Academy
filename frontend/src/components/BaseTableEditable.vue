@@ -11,17 +11,18 @@
           :key="column.field"
           class="table_header"
           :class="{ 'table_header--solid': column.solid }"
+          @click="onHeaderClick(column)"
         >
           <div
             class="table_header_cell"
             :style="{ width: column.width + 'px' }"
           >
-            {{ column.headerName }}
+            {{ column.headerName }} <span v-if="sortBy === column.field">{{ activeSort }}</span>
           </div>
         </th>
       </tr>
       <tr
-        v-for="(row, rowIndex) in rowData"
+        v-for="(row, rowIndex) in rows"
         :key="rowIndex"
         class="table_row"
       >
@@ -71,9 +72,15 @@ export default {
   data() {
     return {
       activeCell: null,
+      activeSort: null,
+      sortBy: null,
+      rows: [],
     };
   },
   computed: {},
+  beforeMount() {
+    this.rows = [...this.rowData];
+  },
   methods: {
     onCellClick(rowIndex, columnIndex, isEditable) {
       if (isEditable) {
@@ -100,6 +107,55 @@ export default {
       const newValue = event.target.value;
       this.$emit("cellValueChanged", { newValue, rowIndex, colDef: { field } });
     },
+    onHeaderClick(column) {
+      if (column.sortable) {
+        this.setNextSort(column.field);
+        this.rows.sort(this.compare);
+      }
+    },
+    setNextSort(field) {
+      if (field !== this.sortBy) {
+        this.activeSort = null;
+      }
+      this.sortBy = field;
+
+      if (this.activeSort === "asc") {
+        this.activeSort = "desc";
+        return;
+      }
+      if (this.activeSort === "desc") {
+        this.activeSort = null;
+        return;
+      }
+      if (this.activeSort === null) {
+        this.activeSort = "asc";
+        return;
+      }
+    },
+    isNumber(value) {
+      return parseInt(value) ? +value : value
+    },
+    compare(a, b) {
+      if (this.activeSort === "asc") {
+        if (this.isNumber(a[this.sortBy]) > this.isNumber(b[this.sortBy])) {
+          return -1;
+        }
+        if (this.isNumber(b[this.sortBy]) > this.isNumber(a[this.sortBy])) {
+          return 1;
+        }
+      }
+      if (this.activeSort === "desc") {
+        if (this.isNumber(a[this.sortBy]) < this.isNumber(b[this.sortBy])) {
+          return -1;
+        }
+        if (this.isNumber(b[this.sortBy]) < this.isNumber(a[this.sortBy])) {
+          return 1;
+        }
+      }
+      if (this.activeSort === null) {
+        this.rows = [...this.rowData];
+      }
+    },
   },
 };
 </script>
@@ -117,10 +173,10 @@ export default {
   @apply min-w-[120px] min-h-[50px] flex justify-center items-center;
 }
 .table_row {
-  @apply hover:bg-primary-200 ;
+  @apply hover:bg-primary-200;
 }
 .table_row_item {
-  @apply border-b-2 border-slate-200 ;
+  @apply border-b-2 border-slate-200;
 }
 .table_cell {
   @apply min-h-[50px] flex justify-center items-center;
