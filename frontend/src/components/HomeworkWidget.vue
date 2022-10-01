@@ -34,6 +34,7 @@ export default {
     return {
       columnDefs: null,
       rowData: null,
+      originData: null,
     };
   },
   computed: {
@@ -50,134 +51,51 @@ export default {
   },
   watch: {
     course() {
-      this.rowData = this.course.homework_results;
+      let result = [];
+      this.course.homework_results.map(item => {
+        item.homework.map(homework => {
+          result.push({
+            sudentName: item.students_name,
+            studentId: item.id,
+            ...homework
+          })
+        })
+      })
+      this.rowData = result;
     }
   },
   beforeMount() {
     this.columnDefs = [
     {
-            field: "students_name",
+            field: "sudentName",
             headerName: "Name",
             sortable: true,
             editable: false,
             width: 150,
           },
+      
           {
-            field: "homework",
-            headerName: "HW1 name",
-            sortable: true,
-            editable: this.isAdmin,
-            width: 150,
-          },
-          {
-            field: "homework[0]",
+            field: "name",
             headerName: "HW1 date",
             sortable: true,
             editable: this.isAdmin,
             width: 100,
           },
           {
-            field: "homework[0].rate",
+            field: "rate",
             headerName: "HW1 rate",
             sortable: true,
             editable: this.isAdmin,
             width: 100,
           },
           {
-            field: "homework[0].link",
+            field: "link",
             headerName: "HW1 link",
             sortable: true,
             editable: this.isAdmin,
             width: 100,
           },
-          {
-            field: "start_total",
-            headerName: "Total",
-            sortable: true,
-            editable: false,
-            width: 100,
-            solid: true
-          },
-          {
-            field: "eng_test",
-            headerName: "English Test",
-            sortable: true,
-            editable: this.isAdmin,
-            width: 100,
-          },
-          {
-            field: "middle_total",
-            headerName: "Total",
-            sortable: true,
-            editable: false, 
-            width: 100,
-            solid: true
-          },
-          {
-            field: "interview_result",
-            headerName: "Interview Result",
-            sortable: true,
-            editable: this.isAdmin|| this.isMentor,
-            width: 150,
-          },
-          {
-            field: "interviewer_comments",
-            headerName: "Interviewer comments",
-            sortable: true,
-            editable: this.isAdmin|| this.isMentor,
-            width: 250,
-          },
-          {
-            field: "hr_interviewer_comments",
-            headerName: "HR interviewer comments",
-            sortable: true,
-            editable:  this.isAdmin,
-            width: 250,
-          },
-          {
-            field: "average_homework_score",
-            headerName: "Average homework score",
-            sortable: true,
-            editable: false,
-            width: 120,
-          },
-          {
-            field: "mentors_feedback",
-            headerName: "Mentor's Feedback",
-            sortable: true,
-            editable: this.isAdmin|| this.isMentor,
-            width: 250,
-          },
-          {
-            field: "exit_tech_interview",
-            headerName: "Exit Tech interview",
-            sortable: true,
-            editable: this.isAdmin|| this.isMentor,
-            width: 120,
-          },
-          {
-            field: "final_interviewer_comments",
-            headerName: "Interviewer comments",
-            sortable: true,
-            editable: this.isAdmin|| this.isMentor,
-            width: 250,
-          },
-          {
-            field: "final_hr_interviewer_comments",
-            headerName: "HR Interviewer comment",
-            sortable: true,
-            editable: this.isAdmin,
-            width: 250,
-
-          },
-          {
-            field: "final_english_interviewer_comments",
-            headerName: "English Interviewer comment",
-            sortable: true,
-            editable: this.isAdmin,
-            width: 250,           
-          },
-    ];
+    ]
     this.rowData = this.course.homework_results;
   },
   methods: {
