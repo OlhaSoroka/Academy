@@ -17,7 +17,18 @@
             class="table_header_cell"
             :style="{ width: column.width + 'px' }"
           >
-            {{ column.headerName }} <span v-if="sortBy === column.field">{{ activeSort }}</span>
+            <div class="flex">
+              <div :class="column.sortable && 'cursor-pointer'">
+                {{ column.headerName }}
+              </div>
+              <div v-if="sortBy === column.field">
+                <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
+                <span
+                  v-if="activeSort === 'desc'"
+                  class="rotate-180"
+                ><BaseArrowUp /></span>
+              </div>
+            </div>
           </div>
         </th>
       </tr>
@@ -33,6 +44,7 @@
         >
           <div
             class="table_cell"
+            :class="column.editable && 'cursor-pointer'"
             @click="onCellClick(rowIndex, columnIndex, column.editable)"
           >
             <input
@@ -41,8 +53,8 @@
               class="table_cell_input"
               type="text"
               :value="row[column.field]"
-              @focusout="onFocusOut($event, rowIndex, column.field)"
-              @keypress.enter="onEnterPress($event, rowIndex, column.field)"
+              @focusout="onFocusOut($event, row, column.field)"
+              @keypress.enter="onEnterPress($event, row, column.field)"
             >
             <div
               v-else
@@ -58,7 +70,13 @@
   </div>
 </template>
 <script>
+import BaseArrowDown from "../components/BaseComponents/BaseIcons/BaseArrowDown.vue";
+import BaseArrowUp from "../components/BaseComponents/BaseIcons/BaseArrowUp.vue";
 export default {
+  components: {
+    BaseArrowDown,
+    BaseArrowUp,
+  },
   props: {
     columnDefs: {
       type: Array,
@@ -66,6 +84,10 @@ export default {
     },
     rowData: {
       type: Array,
+      default: null,
+    },
+    uniqIdentifier: {
+      type: String,
       default: null,
     },
   },
@@ -77,7 +99,12 @@ export default {
       rows: [],
     };
   },
-  computed: {},
+  watch: {
+    rowData() {
+      this.rows = [...this.rowData];
+      this.rows.sort(this.compare);
+    },
+  },
   beforeMount() {
     this.rows = [...this.rowData];
   },
@@ -96,16 +123,20 @@ export default {
     onClickOutside() {
       this.activeCell = null;
     },
-    onFocusOut(event, rowIndex, field) {
-      this.emitCellUpdate(event, rowIndex, field);
+    onFocusOut(event, row, field) {
+      this.emitCellUpdate(event, row, field);
     },
-    onEnterPress(event, rowIndex, field) {
-      this.emitCellUpdate(event, rowIndex, field);
+    onEnterPress(event, row, field) {
+      this.emitCellUpdate(event, row, field);
       this.activeCell = null;
     },
-    emitCellUpdate(event, rowIndex, field) {
+    emitCellUpdate(event, row, field) {
       const newValue = event.target.value;
-      this.$emit("cellValueChanged", { newValue, rowIndex, colDef: { field } });
+      this.$emit("cellValueChanged", {
+        newValue,
+        uniqIdentifier: row[this.uniqIdentifier],
+        colDef: { field },
+      });
     },
     onHeaderClick(column) {
       if (column.sortable) {
@@ -133,7 +164,7 @@ export default {
       }
     },
     isNumber(value) {
-      return parseInt(value) ? +value : value
+      return parseInt(value) ? +value : value;
     },
     compare(a, b) {
       if (this.activeSort === "asc") {
