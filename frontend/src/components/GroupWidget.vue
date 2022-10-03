@@ -10,6 +10,7 @@
         style="height: 400px;"
         :column-defs="columnDefs"
         :row-data="rowData"
+        uniq-identifier="email"
         @cellValueChanged="onCellEdit($event)"
       />
     </div>
@@ -35,6 +36,7 @@ export default {
     return {
       columnDefs: null,
       rowData: null,
+      uniqIdentifier: "email"
     };
   },
   computed: {
@@ -68,10 +70,10 @@ export default {
       this.columnDefs=[
       { field: "fullName",  headerName: "Name", sortable: true, editable: this.isAdmin , width:200},
       { field: "email" ,headerName: "Email", sortable: true, editable: false , width:200 },
-      { field: "phone" ,headerName: "Phone", sortable: true, editable: this.isAdmin , width:200 },
+      { field: "phone" ,headerName: "Phone", sortable: false, editable: this.isAdmin , width:200 },
       { field: "city" ,headerName: "City", sortable: true, editable: this.isAdmin , width:200 },
       { field: "age" ,headerName: "Age", sortable: true, editable: this.isAdmin , width:200 },
-      { field: "education" ,headerName: "Education",  sortable: true, editable: this.isAdmin , width:250 },
+      { field: "education" ,headerName: "Education",  sortable: false, editable: this.isAdmin , width:250 },
       { field: "eng_level" ,headerName: "English level", sortable: true, editable: this.isAdmin , width:250 },
       ]
     } 
@@ -79,9 +81,10 @@ export default {
   },
   methods: {
     async onCellEdit(event) {
-      const updatedMember = this.group.find((_, index) => index === event.rowIndex);
+      const updatedMember = this.group.find((item) => item[this.uniqIdentifier] === event.uniqIdentifier);
+      const updateIndex = this.group.findIndex((item) => item[this.uniqIdentifier] === event.uniqIdentifier);
       updatedMember[event.colDef.field] = event.newValue;
-      this.group.splice(event.rowIndex, 1, updatedMember);
+      this.group.splice(updateIndex, 1, updatedMember);
       this.rowData = this.group;
       await updateCourseById(this.course.id, {...this.course, group: this.group});
     }
