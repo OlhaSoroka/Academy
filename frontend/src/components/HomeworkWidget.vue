@@ -4,7 +4,7 @@
       <div class="text-xl text-gray-700 mb-5">Homework</div>
     </div>
     <div>
-      <BaseTableEditable
+      <HomeworkTableEditable
         style="min-height: 400px"
         :column-defs="columnDefs"
         :row-data="rowData"
@@ -14,15 +14,15 @@
   </div>
 </template>
   
-<script>
-import { updateCourseById } from "@/api/course";
+<script>/* 
+import { updateCourseById } from "@/api/course"; */
 import { ADMIN_ROLE, MENTOR_ROLE } from "@/constants/roles.constant";
-import BaseTableEditable from "./BaseTableEditable.vue";
+import HomeworkTableEditable from "./HomeworkTableEditable.vue";
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    BaseTableEditable, 
+    HomeworkTableEditable, 
   },
   props: {
     course: {
@@ -39,8 +39,8 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['user']),
-    results() {
-      return this.course.results;
+    homework_results() {
+      return this.course.homework_results;
     },
     isAdmin() {
       return this.user.role === ADMIN_ROLE
@@ -51,17 +51,7 @@ export default {
   },
   watch: {
     course() {
-      let result = [];
-      this.course.homework_results.map(item => {
-        item.homework.map(homework => {
-          result.push({
-            sudentName: item.students_name,
-            studentId: item.id,
-            ...homework
-          })
-        })
-      })
-      this.rowData = result;
+      this.rowData = this.course.homework_results;
     }
   },
   beforeMount() {
@@ -100,20 +90,20 @@ export default {
   },
   methods: {
     async onCellEdit(event) {
-      const updatedMember = this.results.find(
+      const updatedMember = this.homework_results[event.rowIndex].homework/* .find(
         (_, index) => index === event.rowIndex
-      );
-      updatedMember[event.colDef.field] = event.newValue;
+      ); */
+      console.log(updatedMember)
+      updatedMember[event.field] = event.newValue;
+      /* updatedMember.start_total = +updatedMember.multiple_choice + +updatedMember.tech_task;
+      updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test; */
 
-      updatedMember.start_total = +updatedMember.multiple_choice + +updatedMember.tech_task;
-      updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test;
-
-      this.results.splice(event.rowIndex, 1, updatedMember);
-      this.rowData =  this.results;
+      /* this.homework_results.splice(event.rowIndex, 1, updatedMember);
+      this.rowData =  this.homework_results;
       await updateCourseById(this.course.id, {
         ...this.course,
-        results: this.results,
-      });
+        homework_results: this.homework_results,
+      }); */
     },
   },
   homeworkName(){
