@@ -258,18 +258,18 @@
               </h2>
               <div class="flex">
                 <BaseButton
-                variant='btn_red'
-                class="nav__btn"
-                @click="toggleHomeworkDeleteModal"
-              >
-                <BaseDeleteIcon />
-              </BaseButton>
-              <BaseButton
-                class="nav__btn"
-                @click="toggleNewHomeworkModal"
-              >
-                <BasePlus />
-              </BaseButton>
+                  variant="btn_red"
+                  class="nav__btn"
+                  @click="toggleHomeworkDeleteModal"
+                >
+                  <BaseDeleteIcon />
+                </BaseButton>
+                <BaseButton
+                  class="nav__btn"
+                  @click="toggleNewHomeworkModal"
+                >
+                  <BasePlus />
+                </BaseButton>
               </div>
             </div>
             <HomeworkWidget :course="courseItem" />
@@ -552,10 +552,10 @@ export default {
       this.patchCourses(this.homeworkPayload);
     },
     submitDeleteHomework(param){
-      const updatedCourse = JSON.parse(JSON.stringify(this.courseItem))
-      updatedCourse.homework_results.forEach(function (element) {
-      let filteredHomework = element.homework.filter((item) => item.name !==param)
-      element.homework=filteredHomework
+      const updatedCourse = {...this.courseItem}
+      updatedCourse.homework_results.forEach((element) => {
+      element.homework = element.homework.filter((item) => item.name !==param)
+      element.total = element.homework.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)
       });
       updateCourseById(this.courseItem.id, updatedCourse)
        .then(async () => {

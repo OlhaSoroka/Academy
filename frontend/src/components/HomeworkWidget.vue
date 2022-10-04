@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between">
-<!--       <div class="text-xl text-gray-700 mb-5">
+      <!--       <div class="text-xl text-gray-700 mb-5">
         Homework
       </div> -->
     </div>
@@ -53,6 +53,9 @@ export default {
   },
   watch: {
     course() {
+      /* this.course.homework_results.forEach((element) => {
+      element.total = element.homework.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)
+      }); */
       this.rowData = this.course.homework_results;
     }
   },
@@ -93,10 +96,11 @@ export default {
   methods: {
     async onCellEdit(event) {
       console.log(this.course)
-     /*  const updatedDAta = this.homework_results[event.rowIndex].homework */
-      const newCourseData = {...this.course}
-      newCourseData.homework_results[event.rowIndex].homework[event.homeworkIndex]=event.data;
-      console.log(newCourseData)
+      let newCourseData = {...this.course}
+      let homeworkResult = newCourseData.homework_results[event.rowIndex];
+      let homeworks = homeworkResult.homework;
+      homeworks[event.homeworkIndex] = event.data;
+      homeworkResult.total = homeworks.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)
       /* .find(
         (_, index) => index === event.rowIndex
       ); */
@@ -108,11 +112,8 @@ export default {
       /* this.homework_results.splice(event.rowIndex, 1, updatedMember);
       this.rowData =  this.homework_results;  */
       await updateCourseById(this.course.id, newCourseData); 
-    },
+    }
   },
-  homeworkName(){
-    return this.course.homework_results.homework[0].name
-  }
 };
 </script>
   

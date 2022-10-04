@@ -26,7 +26,7 @@
           </div>
         </th>
         <th class="table_header table_header--solid">
-        <div
+          <div
             class="table_header_cell"
           >
             Total
@@ -38,67 +38,74 @@
         :key="rowIndex"
         class="table_row"
       >
-      <td>
+        <td>
           <div
             class="p-2 text-ellipsis over"
-            >
-              {{ row.students_name }}
-            </div>
-      </td>
+          >
+            {{ row.students_name }}
+          </div>
+        </td>
         <template
           v-for="(homework, homeworkIndex) in row.homework"  
         >
-            <td
+          <td
             :key="homeworkIndex.toString() + rowIndex.toString()"
-          class="table_row_item"
-        >
-          <div
-            class="table_cell"
-           @click="oneClick(rowIndex, homeworkIndex, true, homework.link)"
+            class="table_row_item"
           >
-            <input
-              v-if="isCellActive(rowIndex, homeworkIndex)"
-              ref="cellInput"
-              class="table_cell_input"
-              type="text"
-              :value="homework.rate"
-              @focusout="onFocusOut($event, rowIndex, homeworkIndex, `rate`)"
-              @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `rate`)"
-            > 
             <div
-              v-else
-              class="p-2 text-ellipsis over"
+              class="table_cell"
+              @click="oneClick(rowIndex, homeworkIndex, true, homework.link)"
             >
+              <input
+                v-if="isCellActive(rowIndex, homeworkIndex)"
+                ref="cellInput"
+                class="table_cell_input"
+                type="text"
+                :value="homework.rate"
+                @focusout="onFocusOut($event, rowIndex, homeworkIndex, `rate`)"
+                @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `rate`)"
+              > 
+              <div
+                v-else
+                class="p-2 text-ellipsis over"
+              >
                 {{ homework.rate }}
+              </div>
             </div>
-          </div>
           </td>
           <td
-           :key="homeworkIndex.toString() + rowIndex.toString() + 'link'"
+            :key="homeworkIndex.toString() + rowIndex.toString() + 'link'"
           >
-          <div
-            class="table_cell"
-           @click="oneClick(rowIndex, homeworkIndex, true, homework.link)"
-          >
-            <input
-              v-if="isCellActive(rowIndex, homeworkIndex)"
-              ref="cellInput"
-              class="table_cell_input"
-              type="text"
-              :value="homework.link"
-              @focusout="onFocusOut($event, rowIndex, homeworkIndex, `link`)"
-              @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `link`)"
-            > 
             <div
-              v-else-if="false"
-              
-              class="table_cell max-w-[100px] overflow-hidden"
+              class="table_cell"
+              @click="oneClick(rowIndex, homeworkIndex, true, homework.link)"
             >
-            {{homework.link}}
+              <input
+                v-if="isCellActive(rowIndex, homeworkIndex)"
+                ref="cellInput"
+                class="table_cell_input"
+                type="text"
+                :value="homework.link"
+                @focusout="onFocusOut($event, rowIndex, homeworkIndex, `link`)"
+                @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `link`)"
+              > 
+              <div
+                v-else-if="false"
+              
+                class="table_cell max-w-[100px] overflow-hidden"
+              >
+                {{ homework.link }}
+              </div>
             </div>
+          </td>
+        </template>
+        <td>
+          <div
+            class="p-2 text-ellipsis over"
+          >
+            {{ row.total }}
           </div>
         </td>
-        </template>
       </tr>
     </table>
   </div>
