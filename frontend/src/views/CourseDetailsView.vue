@@ -256,11 +256,13 @@
               <h2 class="part__text">
                 Homework
               </h2>
-              <BaseButton
+              <div class="flex">
+                <BaseButton
+                variant='btn_red'
                 class="nav__btn"
                 @click="toggleHomeworkDeleteModal"
               >
-                Delete
+                <BaseDeleteIcon />
               </BaseButton>
               <BaseButton
                 class="nav__btn"
@@ -268,6 +270,7 @@
               >
                 <BasePlus />
               </BaseButton>
+              </div>
             </div>
             <HomeworkWidget :course="courseItem" />
             <!-- <BaseTable
@@ -382,6 +385,7 @@ import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import BaseEditIcon from "@/components/BaseComponents/BaseIcons/BaseEditIcon.vue";
+import BaseDeleteIcon from "@/components/BaseComponents/BaseIcons/BaseDeleteIcon.vue";
 import { updateCourseById } from '@/api/course';
 
 import { extend } from "vee-validate";
@@ -424,6 +428,7 @@ export default {
     NewMaterialModal,
     BasePlus,
     BaseEditIcon,
+    BaseDeleteIcon,
     BaseDeleteModal,
     GroupWidget,
     ResultWidget,
@@ -552,7 +557,10 @@ export default {
       let filteredHomework = element.homework.filter((item) => item.name !==param)
       element.homework=filteredHomework
       });
-      updateCourseById(this.courseItem.id, updatedCourse);
+      updateCourseById(this.courseItem.id, updatedCourse)
+       .then(async () => {
+          await this.getCourses();
+        })
     },
 
     deleteApplicant(id) {

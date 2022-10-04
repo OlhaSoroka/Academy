@@ -1,7 +1,8 @@
 export const createHomeworkResaltsMember = (student, homework) => {
 	return {students_name: student.fullName, 
             id: student.id, 
-            homework: homework
+            homework: homework,
+			total: ""
 	};
 };
 

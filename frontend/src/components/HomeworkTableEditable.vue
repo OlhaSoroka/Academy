@@ -6,32 +6,31 @@
       class="table"
     >
       <tr>
-        <th>
+        <th class="table_header">
           <div
             class="table_header_cell"
-            :style="{ width: 100 + 'px' }"
           >
             Name
           </div>
         </th>
-        <th
+        <th 
           v-for="(homework, homeworkIndex) in rowData[0].homework"
           :key="homeworkIndex"
+          colspan="2"
           class="table_header"
-          :class="{ 'table_header--solid': true }"
         >
           <div
             class="table_header_cell"
-            :style="{ width: 30 + 'px' }"
           >
             {{ homework.name }}
           </div>
-          <!-- <div
+        </th>
+        <th class="table_header table_header--solid">
+        <div
             class="table_header_cell"
-            :style="{ width: 30 + 'px' }"
           >
-            Link
-          </div> -->
+            Total
+          </div>
         </th>
       </tr>
       <tr
@@ -40,20 +39,22 @@
         class="table_row"
       >
       <td>
-        <div class="pointer-events-none p-2 text-ellipsis over"
-              :style="{ width: 100 + 'px' }"
+          <div
+            class="p-2 text-ellipsis over"
             >
               {{ row.students_name }}
             </div>
       </td>
-        <td
-          v-for="(homework, homeworkIndex) in row.homework"
-          :key="homeworkIndex"
+        <template
+          v-for="(homework, homeworkIndex) in row.homework"  
+        >
+            <td
+            :key="homeworkIndex.toString() + rowIndex.toString()"
           class="table_row_item"
         >
           <div
             class="table_cell"
-            @click="onCellClick(rowIndex, homeworkIndex, true)"
+           @click="oneClick(rowIndex, homeworkIndex, true, homework.link)"
           >
             <input
               v-if="isCellActive(rowIndex, homeworkIndex)"
@@ -61,20 +62,23 @@
               class="table_cell_input"
               type="text"
               :value="homework.rate"
-              @focusout="onFocusOut($event, rowIndex, homework.rate)"
-              @keypress.enter="onEnterPress($event, rowIndex, homework.rate)"
+              @focusout="onFocusOut($event, rowIndex, homeworkIndex, `rate`)"
+              @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `rate`)"
             > 
             <div
               v-else
-              class="pointer-events-none p-2 text-ellipsis over"
-              :style="{ width: 30 + 'px' }"
+              class="p-2 text-ellipsis over"
             >
-              {{ homework.rate}}
+                {{ homework.rate }}
             </div>
           </div>
+          </td>
+          <td
+           :key="homeworkIndex.toString() + rowIndex.toString() + 'link'"
+          >
           <div
             class="table_cell"
-            @click="onCellClick(rowIndex, homeworkIndex, true)"
+           @click="oneClick(rowIndex, homeworkIndex, true, homework.link)"
           >
             <input
               v-if="isCellActive(rowIndex, homeworkIndex)"
@@ -82,18 +86,19 @@
               class="table_cell_input"
               type="text"
               :value="homework.link"
-              @focusout="onFocusOut($event, rowIndex, homework.link)"
-              @keypress.enter="onEnterPress($event, rowIndex, homework.link)"
+              @focusout="onFocusOut($event, rowIndex, homeworkIndex, `link`)"
+              @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `link`)"
             > 
             <div
-              v-else
-              class="pointer-events-none p-2 text-ellipsis over"
-              :style="{ width: 30 + 'px' }"
+              v-else-if="false"
+              
+              class="table_cell max-w-[100px] overflow-hidden"
             >
-              {{ homework.link}}
+            {{homework.link}}
             </div>
           </div>
         </td>
+        </template>
       </tr>
     </table>
   </div>
@@ -113,6 +118,8 @@ export default {
   data() {
     return {
       activeCell: null,
+      clicks: 0,
+      timer: null
     };
   },
   computed: {},
@@ -131,17 +138,38 @@ export default {
     onClickOutside() {
       this.activeCell = null;
     },
-    onFocusOut(event, rowIndex, field) {
-      this.emitCellUpdate(event, rowIndex, field);
+    onFocusOut(event, rowIndex, homeworkIndex, fildName) {
+      this.emitCellUpdate(event, rowIndex, homeworkIndex, fildName);
     },
-    onEnterPress(event, rowIndex, field) {
-      this.emitCellUpdate(event, rowIndex, field);
+    onEnterPress(event, rowIndex, homeworkIndex, fildName) {
+      this.emitCellUpdate(event, rowIndex, homeworkIndex, fildName);
       this.activeCell = null;
     },
-    emitCellUpdate(event, rowIndex, field) {
+    emitCellUpdate(event, rowIndex, homeworkIndex, fildName) {
       const newValue = event.target.value;
-      this.$emit("cellValueChanged", { newValue, rowIndex, field });
+      const data = this.rowData[rowIndex].homework[homeworkIndex];
+      data[fildName] = newValue;
+      console.log(data)
+      this.$emit("cellValueChanged", {data, rowIndex, homeworkIndex});
     },
+    goToLink(link) {
+      if (link) {
+        window.open(link, `_blank`)
+      }
+    },
+    oneClick(rowIndex, columnIndex, isEditable, link=null) {
+          this.clicks++;
+          if (this.clicks === 1) {
+            this.timer = setTimeout( () => {
+              this.onCellClick(rowIndex, columnIndex, isEditable);
+              this.clicks = 0
+            }, 300);
+          } else {
+             clearTimeout(this.timer);  
+             this.goToLink(link)
+             this.clicks = 0;
+          }      
+        }
   },
 };
 </script>

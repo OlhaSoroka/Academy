@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-xl text-gray-700 mb-5">Homework</div>
+<!--       <div class="text-xl text-gray-700 mb-5">
+        Homework
+      </div> -->
     </div>
     <div>
       <HomeworkTableEditable
@@ -14,8 +16,8 @@
   </div>
 </template>
   
-<script>/* 
-import { updateCourseById } from "@/api/course"; */
+<script>
+import { updateCourseById } from "@/api/course";
 import { ADMIN_ROLE, MENTOR_ROLE } from "@/constants/roles.constant";
 import HomeworkTableEditable from "./HomeworkTableEditable.vue";
 import { mapGetters } from 'vuex';
@@ -90,20 +92,22 @@ export default {
   },
   methods: {
     async onCellEdit(event) {
-      const updatedMember = this.homework_results[event.rowIndex].homework/* .find(
+      console.log(this.course)
+     /*  const updatedDAta = this.homework_results[event.rowIndex].homework */
+      const newCourseData = {...this.course}
+      newCourseData.homework_results[event.rowIndex].homework[event.homeworkIndex]=event.data;
+      console.log(newCourseData)
+      /* .find(
         (_, index) => index === event.rowIndex
       ); */
-      console.log(updatedMember)
-      updatedMember[event.field] = event.newValue;
+      /* console.log(updatedMember)
+      updatedMember[event.field] = event.newValue; */
       /* updatedMember.start_total = +updatedMember.multiple_choice + +updatedMember.tech_task;
       updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test; */
 
       /* this.homework_results.splice(event.rowIndex, 1, updatedMember);
-      this.rowData =  this.homework_results;
-      await updateCourseById(this.course.id, {
-        ...this.course,
-        homework_results: this.homework_results,
-      }); */
+      this.rowData =  this.homework_results;  */
+      await updateCourseById(this.course.id, newCourseData); 
     },
   },
   homeworkName(){
