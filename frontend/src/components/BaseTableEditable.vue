@@ -11,22 +11,48 @@
           :key="column.field"
           class="table_header"
           :class="{ 'table_header--solid': column.solid }"
-          @click="onHeaderClick(column)"
         >
           <div
             class="table_header_cell"
             :style="{ width: column.width + 'px' }"
           >
-            <div class="flex">
-              <div :class="column.sortable && 'cursor-pointer'">
-                {{ column.headerName }}
-              </div>
-              <div v-if="sortBy === column.field">
-                <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
-                <span
-                  v-if="activeSort === 'desc'"
-                  class="rotate-180"
-                ><BaseArrowUp /></span>
+            <input
+              v-if="isHederActive(column)"
+              type="text"
+              class="table_cell_input"
+              :value="column.headerName"
+              @focusout="onHeaderFocusOut($event, column.field)"
+              @keypress.enter="onHeaderEnterPress($event, column.field)"
+            >
+            <div
+              v-else
+              class="flex"
+            >
+              <div
+                :class="column.sortable && 'cursor-pointer'"
+                class="flex"
+              >
+                <div
+                  class="p-1"
+                  @click="sortByColumn(column)"
+                >
+                  {{ column.headerName }}
+                </div>
+                <div v-if="column.headerEditable">
+                  <div
+                    class="p-1"
+                    @click="onHeaderEdit(column)"
+                  >
+                    <BaseEditIcon />
+                  </div>
+                </div>
+                <div v-if="sortBy === column.field">
+                  <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
+                  <span
+                    v-if="activeSort === 'desc'"
+                    class="rotate-180"
+                  ><BaseArrowUp /></span>
+                </div>
               </div>
             </div>
           </div>
@@ -72,10 +98,12 @@
 <script>
 import BaseArrowDown from "../components/BaseComponents/BaseIcons/BaseArrowDown.vue";
 import BaseArrowUp from "../components/BaseComponents/BaseIcons/BaseArrowUp.vue";
+import BaseEditIcon from "../components/BaseComponents/BaseIcons/BaseEditIcon.vue";
 export default {
   components: {
     BaseArrowDown,
     BaseArrowUp,
+    BaseEditIcon,
   },
   props: {
     columnDefs: {
@@ -97,6 +125,7 @@ export default {
       activeSort: null,
       sortBy: null,
       rows: [],
+      activeHeader: null,
     };
   },
   watch: {
@@ -120,11 +149,9 @@ export default {
     isCellActive(rowIndex, columnIndex) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
     },
-    onClickOutside() {
-      this.activeCell = null;
-    },
     onFocusOut(event, row, field) {
       this.emitCellUpdate(event, row, field);
+      this.activeCell = null;
     },
     onEnterPress(event, row, field) {
       this.emitCellUpdate(event, row, field);
@@ -138,11 +165,32 @@ export default {
         colDef: { field },
       });
     },
-    onHeaderClick(column) {
+    sortByColumn(column) {
       if (column.sortable) {
         this.setNextSort(column.field);
         this.rows.sort(this.compare);
       }
+    },
+    onHeaderEdit(column) {
+      this.activeHeader = column.field;
+    },
+    isHederActive(column) {
+      return this.activeHeader === column.field;
+    },
+    onHeaderFocusOut(event, field) {
+      this.emitHeaderUpdate(event, field);
+      this.activeHeader = null;
+    },
+    onHeaderEnterPress(event, field) {
+      this.emitHeaderUpdate(event, field);
+      this.activeHeader = null;
+    },
+    emitHeaderUpdate(event, field) {
+      const newHeaderName = event.target.value;
+      this.$emit("headerNameChanged", {
+        newHeaderName,
+        field,
+      });
     },
     setNextSort(field) {
       if (field !== this.sortBy) {
