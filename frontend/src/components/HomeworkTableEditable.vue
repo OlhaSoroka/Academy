@@ -135,7 +135,7 @@ export default {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
         setTimeout(() => {
-          this.$refs.cellInput[0]?.focus();
+          // this.$refs.cellInput[0]?.focus();
         }, 50);
       }
     },
