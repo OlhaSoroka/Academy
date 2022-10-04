@@ -11,17 +11,29 @@
           :key="column.field"
           class="table_header"
           :class="{ 'table_header--solid': column.solid }"
+          @click="onHeaderClick(column)"
         >
           <div
             class="table_header_cell"
             :style="{ width: column.width + 'px' }"
           >
-            {{ column.headerName }}
+            <div class="flex">
+              <div :class="column.sortable && 'cursor-pointer'">
+                {{ column.headerName }}
+              </div>
+              <div v-if="sortBy === column.field">
+                <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
+                <span
+                  v-if="activeSort === 'desc'"
+                  class="rotate-180"
+                ><BaseArrowUp /></span>
+              </div>
+            </div>
           </div>
         </th>
       </tr>
       <tr
-        v-for="(row, rowIndex) in rowData"
+        v-for="(row, rowIndex) in rows"
         :key="rowIndex"
         class="table_row"
       >
@@ -32,6 +44,7 @@
         >
           <div
             class="table_cell"
+            :class="column.editable && 'cursor-pointer'"
             @click="onCellClick(rowIndex, columnIndex, column.editable)"
           >
             <input
@@ -40,8 +53,8 @@
               class="table_cell_input"
               type="text"
               :value="row[column.field]"
-              @focusout="onFocusOut($event, rowIndex, column.field)"
-              @keypress.enter="onEnterPress($event, rowIndex, column.field)"
+              @focusout="onFocusOut($event, row, column.field)"
+              @keypress.enter="onEnterPress($event, row, column.field)"
             >
             <div
               v-else
@@ -57,7 +70,13 @@
   </div>
 </template>
 <script>
+import BaseArrowDown from "../components/BaseComponents/BaseIcons/BaseArrowDown.vue";
+import BaseArrowUp from "../components/BaseComponents/BaseIcons/BaseArrowUp.vue";
 export default {
+  components: {
+    BaseArrowDown,
+    BaseArrowUp,
+  },
   props: {
     columnDefs: {
       type: Array,
@@ -67,13 +86,28 @@ export default {
       type: Array,
       default: null,
     },
+    uniqIdentifier: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
       activeCell: null,
+      activeSort: null,
+      sortBy: null,
+      rows: [],
     };
   },
-  computed: {},
+  watch: {
+    rowData() {
+      this.rows = [...this.rowData];
+      this.rows.sort(this.compare);
+    },
+  },
+  beforeMount() {
+    this.rows = [...this.rowData];
+  },
   methods: {
     onCellClick(rowIndex, columnIndex, isEditable) {
       if (isEditable) {
@@ -89,16 +123,69 @@ export default {
     onClickOutside() {
       this.activeCell = null;
     },
-    onFocusOut(event, rowIndex, field) {
-      this.emitCellUpdate(event, rowIndex, field);
+    onFocusOut(event, row, field) {
+      this.emitCellUpdate(event, row, field);
     },
-    onEnterPress(event, rowIndex, field) {
-      this.emitCellUpdate(event, rowIndex, field);
+    onEnterPress(event, row, field) {
+      this.emitCellUpdate(event, row, field);
       this.activeCell = null;
     },
-    emitCellUpdate(event, rowIndex, field) {
+    emitCellUpdate(event, row, field) {
       const newValue = event.target.value;
-      this.$emit("cellValueChanged", { newValue, rowIndex, colDef: { field } });
+      this.$emit("cellValueChanged", {
+        newValue,
+        uniqIdentifier: row[this.uniqIdentifier],
+        colDef: { field },
+      });
+    },
+    onHeaderClick(column) {
+      if (column.sortable) {
+        this.setNextSort(column.field);
+        this.rows.sort(this.compare);
+      }
+    },
+    setNextSort(field) {
+      if (field !== this.sortBy) {
+        this.activeSort = null;
+      }
+      this.sortBy = field;
+
+      if (this.activeSort === "asc") {
+        this.activeSort = "desc";
+        return;
+      }
+      if (this.activeSort === "desc") {
+        this.activeSort = null;
+        return;
+      }
+      if (this.activeSort === null) {
+        this.activeSort = "asc";
+        return;
+      }
+    },
+    isNumber(value) {
+      return parseInt(value) ? +value : value;
+    },
+    compare(a, b) {
+      if (this.activeSort === "asc") {
+        if (this.isNumber(a[this.sortBy]) > this.isNumber(b[this.sortBy])) {
+          return -1;
+        }
+        if (this.isNumber(b[this.sortBy]) > this.isNumber(a[this.sortBy])) {
+          return 1;
+        }
+      }
+      if (this.activeSort === "desc") {
+        if (this.isNumber(a[this.sortBy]) < this.isNumber(b[this.sortBy])) {
+          return -1;
+        }
+        if (this.isNumber(b[this.sortBy]) < this.isNumber(a[this.sortBy])) {
+          return 1;
+        }
+      }
+      if (this.activeSort === null) {
+        this.rows = [...this.rowData];
+      }
     },
   },
 };
@@ -117,10 +204,10 @@ export default {
   @apply min-w-[120px] min-h-[50px] flex justify-center items-center;
 }
 .table_row {
-  @apply hover:bg-primary-200 ;
+  @apply hover:bg-primary-200;
 }
 .table_row_item {
-  @apply border-b-2 border-slate-200 ;
+  @apply border-b-2 border-slate-200;
 }
 .table_cell {
   @apply min-h-[50px] flex justify-center items-center;

@@ -10,6 +10,7 @@
         style="min-height: 400px"
         :column-defs="columnDefs"
         :row-data="rowData"
+        uniq-identifier="email"
         @cellValueChanged="onCellEdit($event)"
       />
     </div>
@@ -36,6 +37,7 @@ export default {
     return {
       columnDefs: null,
       rowData: null,
+      uniqIdentifier: "email"
     };
   },
   computed: {
@@ -111,14 +113,14 @@ export default {
           {
             field: "interviewer_comments",
             headerName: "Interviewer comments",
-            sortable: true,
+            sortable: false,
             editable: this.isAdmin|| this.isMentor,
             width: 250,
           },
           {
             field: "hr_interviewer_comments",
             headerName: "HR interviewer comments",
-            sortable: true,
+            sortable: false,
             editable:  this.isAdmin,
             width: 250,
           },
@@ -132,7 +134,7 @@ export default {
           {
             field: "mentors_feedback",
             headerName: "Mentor's Feedback",
-            sortable: true,
+            sortable: false,
             editable: this.isAdmin|| this.isMentor,
             width: 250,
           },
@@ -146,14 +148,14 @@ export default {
           {
             field: "final_interviewer_comments",
             headerName: "Interviewer comments",
-            sortable: true,
+            sortable: false,
             editable: this.isAdmin|| this.isMentor,
             width: 250,
           },
           {
             field: "final_hr_interviewer_comments",
             headerName: "HR Interviewer comment",
-            sortable: true,
+            sortable: false,
             editable: this.isAdmin,
             width: 250,
 
@@ -161,7 +163,7 @@ export default {
           {
             field: "final_english_interviewer_comments",
             headerName: "English Interviewer comment",
-            sortable: true,
+            sortable: false,
             editable: this.isAdmin,
             width: 250,           
           },
@@ -170,15 +172,14 @@ export default {
   },
   methods: {
     async onCellEdit(event) {
-      const updatedMember = this.results.find(
-        (_, index) => index === event.rowIndex
-      );
+      const updatedMember = this.results.find((item) => item[this.uniqIdentifier] === event.uniqIdentifier);
+      const updatedIndex = this.results.findIndex((item) => item[this.uniqIdentifier] === event.uniqIdentifier);
       updatedMember[event.colDef.field] = event.newValue;
 
       updatedMember.start_total = +updatedMember.multiple_choice + +updatedMember.tech_task;
       updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test;
 
-      this.results.splice(event.rowIndex, 1, updatedMember);
+      this.results.splice(updatedIndex, 1, updatedMember);
       this.rowData =  this.results;
       await updateCourseById(this.course.id, {
         ...this.course,
