@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import './index.css';
 import { initializeApp } from 'firebase/app';
+import clickOutsideDirective from './directives/click-outside.directive';
 
 const firebaseConfig = {
 	apiKey: process.env.VUE_APP_API_KEY,
@@ -18,6 +19,8 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 Vue.config.productionTip = false;
+
+Vue.directive('click-outside-table', clickOutsideDirective);
 
 new Vue({
 	router,

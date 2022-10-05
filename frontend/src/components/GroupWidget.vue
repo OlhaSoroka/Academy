@@ -90,13 +90,8 @@ export default {
       await updateCourseById(this.course.id, {...this.course, group: this.group});
     },
     async onHeaderEdit(event) {
-        this.columnDefs = this.columnDefs.map(column => {
-          if (column.field === event.field) {
-            column.headerName = event.newHeaderName;
-            return column
-          }
-          return column
-        })
+      console.log(event);
+      // Handle header edit logic here <=
     }
   }
 };

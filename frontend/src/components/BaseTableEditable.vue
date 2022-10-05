@@ -1,7 +1,6 @@
 <template>
   <div style="overflow-x: auto">
     <table
-      v-click-outside-table
       style="width: 100%"
       class="table"
     >
@@ -18,6 +17,7 @@
           >
             <input
               v-if="isHederActive(column)"
+              ref="headerInput"
               type="text"
               class="table_cell_input"
               :value="column.headerName"
@@ -173,6 +173,9 @@ export default {
     },
     onHeaderEdit(column) {
       this.activeHeader = column.field;
+      setTimeout(() => {
+          this.$refs.headerInput[0]?.focus();
+        }, 50);
     },
     isHederActive(column) {
       return this.activeHeader === column.field;
