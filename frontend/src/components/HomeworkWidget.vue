@@ -38,6 +38,7 @@ export default {
       columnDefs: null,
       rowData: null,
       originData: null,
+      uniqIdentifier: "id"
     };
   },
   computed: {
@@ -54,9 +55,6 @@ export default {
   },
   watch: {
     course() {
-      /* this.course.homework_results.forEach((element) => {
-      element.total = element.homework.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)
-      }); */
       this.rowData = this.course.homework_results;
     }
   },

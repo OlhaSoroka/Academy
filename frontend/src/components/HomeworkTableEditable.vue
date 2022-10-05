@@ -152,6 +152,10 @@ export default {
       type: Array,
       default: null,
     },
+    uniqIdentifier: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -216,9 +220,14 @@ export default {
     },
     emitCellUpdate(event, rowIndex, homeworkIndex, fildName) {
       const newValue = event.target.value;
-      const data = this.rowData[rowIndex].homework[homeworkIndex];
-      data[fildName] = newValue;
-      this.$emit("cellValueChanged", {data, rowIndex, homeworkIndex});
+      /* const data = this.rowData[rowIndex].homework[homeworkIndex];
+      data[fildName] = newValue; */
+      this.$emit("cellValueChanged", {
+        newValue,
+        uniqIdentifier: [this.uniqIdentifier],
+        homeworkIndex, 
+        fildName
+      });
     },
     goToLink(link) {
       if (link) {
