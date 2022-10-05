@@ -64,7 +64,7 @@ export default {
             headerName: "Name",
             sortable: true,
             editable: false,
-            width: 150,
+            width: 200,
           },
           {
             field: "multiple_choice",
