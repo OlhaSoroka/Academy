@@ -92,11 +92,14 @@ export default {
     },
     confirmAdding({ id, course }) {
       const updatedCourse = JSON.parse(JSON.stringify(course));
-
-      updatedCourse.homework.push({
+      let baseElement = {
         id: `${this.name}  (${this.user.fullName})`,
         name: `${this.name} (${this.user.fullName})`,
         date: this.date,
+        rate: 0,
+        link: ""}
+      updatedCourse.homework_results.forEach(function (element) {
+      element.homework.push(baseElement)
       });
       this.updateCourse({ id, course: updatedCourse })
         .then(async () => {

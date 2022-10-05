@@ -256,15 +256,24 @@
               <h2 class="part__text">
                 Homework
               </h2>
-              <BaseButton
-                class="nav__btn"
-                @click="toggleNewHomeworkModal"
-              >
-                <BasePlus />
-              </BaseButton>
+              <div class="flex">
+                <BaseButton
+                  variant="btn_red"
+                  class="nav__btn"
+                  @click="toggleHomeworkDeleteModal"
+                >
+                  <BaseDeleteIcon />
+                </BaseButton>
+                <BaseButton
+                  class="nav__btn"
+                  @click="toggleNewHomeworkModal"
+                >
+                  <BasePlus />
+                </BaseButton>
+              </div>
             </div>
-
-            <BaseTable
+            <HomeworkWidget :course="courseItem" />
+            <!-- <BaseTable
               class="table"
               :table-data="{
                 headingData: headerHomework,
@@ -274,10 +283,10 @@
               :is-data-loading="loadingStatus"
               :delete-btns="true"
               @delete="deleteHomework"
-            />
+            /> -->
           </div>
           <div 
-            v-if="courseItem.homework_results"
+            v-if="false"
             class="part col-start-1 col-span-4"
           >
             <div class="header">
@@ -362,6 +371,11 @@
       :target-value="targetRow"
       @delete="submitDelete"
     />
+    <HomeworkDeleteModal
+      :course-item="courseItem"
+      :toggle-modal="isHomeworkDeleteModalOpen"
+      @delete="submitDeleteHomework"
+    />
   </div>
 </template>
 
@@ -371,6 +385,8 @@ import BaseButton from "../components/BaseComponents/BaseButton.vue";
 import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import BaseEditIcon from "@/components/BaseComponents/BaseIcons/BaseEditIcon.vue";
+import BaseDeleteIcon from "@/components/BaseComponents/BaseIcons/BaseDeleteIcon.vue";
+import { updateCourseById } from '@/api/course';
 
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
@@ -391,6 +407,9 @@ import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
 import HomeworkResaltsModal from "../components/Modals/CourseDetailsModals/HomeworkResaltsModal.vue";
 import GroupWidget from '../components/GroupWidget.vue';
 import ResultWidget from '../components/ResultWidget.vue';
+import HomeworkWidget from '../components/HomeworkWidget.vue';
+import HomeworkDeleteModal from "../components/Modals/CourseDetailsModals/HomeworkDeleteModal.vue";
+
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -409,10 +428,12 @@ export default {
     NewMaterialModal,
     BasePlus,
     BaseEditIcon,
+    BaseDeleteIcon,
     BaseDeleteModal,
     GroupWidget,
     ResultWidget,
-
+    HomeworkWidget,
+    HomeworkDeleteModal
   },
   data() {
     return {
@@ -430,6 +451,7 @@ export default {
       isDeleteModalOpen: false,
       isEditHomeworkResultModalOpen: false,
       isNewMaterialModal: false,
+      isHomeworkDeleteModalOpen: false,
       headersUser: [
         { name: "Course Name" },
         { date: "Date" },
@@ -529,6 +551,18 @@ export default {
       this.patchCourses(this.payload);
       this.patchCourses(this.homeworkPayload);
     },
+    submitDeleteHomework(param){
+      const updatedCourse = {...this.courseItem}
+      updatedCourse.homework_results.forEach((element) => {
+      element.homework = element.homework.filter((item) => item.name !==param)
+      element.total = element.homework.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)
+      });
+      updateCourseById(this.courseItem.id, updatedCourse)
+       .then(async () => {
+          await this.getCourses();
+        })
+    },
+
     deleteApplicant(id) {
       this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
@@ -688,6 +722,9 @@ export default {
     },
     toggleNewHomeworkModal() {
       this.isNewHomeworkModal = !this.isNewHomeworkModal;
+    },
+    toggleHomeworkDeleteModal() {
+      this.isHomeworkDeleteModalOpen = !this.isHomeworkDeleteModalOpen;
     },
     cutHeaderHomeworkResults() {
     return this.headerHomeworkResults.slice(0, +this.courseItem.homework_quantity + 1).concat(this.headerHomeworkResults.slice(-1))

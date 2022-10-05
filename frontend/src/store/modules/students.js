@@ -81,12 +81,15 @@ export default {
 				const allCourses = await getAllCourses();
 				const studentsCourse = allCourses.find((course) => course.name === student.course);
 				if (studentsCourse) {
+					let homework = [];
+					if (studentsCourse.homework_results[0]) {homework=studentsCourse.homework_results[0].homework}
 					const groupMember = createGroupMember(student);
 					const resultMember = createResultMember(student);
-                    const resultHomeworkMember = createHomeworkResaltsMember(student);
+                    const resultHomeworkMember = createHomeworkResaltsMember(student, homework);
 					studentsCourse.group.push(groupMember);
 					studentsCourse.results.push(resultMember);
 					studentsCourse.homework_results.push(resultHomeworkMember);
+					console.log(groupMember)
 					await updateCourseById(studentsCourse.id, studentsCourse);
 				}
 				store.dispatch('toast/show', { message: 'User successfully created', type: 'success' }, { root: true });
