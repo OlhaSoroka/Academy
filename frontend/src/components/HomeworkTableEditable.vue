@@ -20,21 +20,45 @@
           class="table_header"
         >
           <div
-            class="table_header_cell"
+            @click="onEditableHeaderClick(homework.name, homeworkIndex)"
           >
-            {{ homework.name }}
+            <input
+              v-if="isHeaderActive(homework.name, homeworkIndex)"
+              ref="headerInput"
+              class="table_cell_input"
+              type="text"
+              :value="homework.name"
+              @focusout="onFocusOutHeader($event, homeworkIndex)"
+              @keypress.enter="onEnterPressHeader($event, homeworkIndex)"
+            > 
+            <div
+              v-else
+              class="table_header_cell"
+            >
+              {{ homework.name }}
+            </div>
           </div>
         </th>
-        <th class="table_header table_header--solid">
-          <div
-            class="table_header_cell"
-          >
-            Total
+        <th 
+          class="table_header table_header--solid table_header_cell cursor-pointer"
+          @click="onHeaderClick('total')"
+        >
+          <div class="flex">
+            <div>
+              Total
+            </div>
+            <div v-if="sortBy === 'total'">
+              <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
+              <span
+                v-if="activeSort === 'desc'"
+                class="rotate-180"
+              ><BaseArrowUp /></span>
+            </div>
           </div>
         </th>
       </tr>
       <tr
-        v-for="(row, rowIndex) in rowData"
+        v-for="(row, rowIndex) in rows"
         :key="rowIndex"
         class="table_row"
       >
@@ -50,7 +74,7 @@
         >
           <td
             :key="homeworkIndex.toString() + rowIndex.toString()"
-            class="table_row_item"
+            class="table_row_item cursor-pointer"
           >
             <div
               class="table_cell"
@@ -75,6 +99,7 @@
           </td>
           <td
             :key="homeworkIndex.toString() + rowIndex.toString() + 'link'"
+            class="cursor-pointer"
           >
             <div
               class="table_cell"
@@ -91,7 +116,6 @@
               > 
               <div
                 v-else-if="false"
-              
                 class="table_cell max-w-[100px] overflow-hidden"
               >
                 {{ homework.link }}
@@ -110,8 +134,15 @@
     </table>
   </div>
 </template>
+
 <script>
+import BaseArrowDown from "../components/BaseComponents/BaseIcons/BaseArrowDown.vue";
+import BaseArrowUp from "../components/BaseComponents/BaseIcons/BaseArrowUp.vue";
 export default {
+  components: {
+    BaseArrowDown,
+    BaseArrowUp,
+  },
   props: {
     columnDefs: {
       type: Array,
@@ -125,25 +156,56 @@ export default {
   data() {
     return {
       activeCell: null,
+      activeHeader: null,
       clicks: 0,
-      timer: null
+      timer: null,
+      sortBy: null,
+      activeSort: null,
+      rows: [],
     };
   },
-  computed: {},
+ watch: {
+    rowData() {
+      this.rows = [...this.rowData];
+      this.rows.sort(this.compare);
+    },
+  },
+  beforeMount() {
+    this.rows = [...this.rowData];
+  },
   methods: {
     onCellClick(rowIndex, columnIndex, isEditable) {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
-        setTimeout(() => {
-          // this.$refs.cellInput[0]?.focus();
-        }, 50);
       }
+    },
+    onEditableHeaderClick(homeworkName, homeworkIndex) {
+      this.activeHeader = `${homeworkName}${homeworkIndex}` ;
+      setTimeout(() => {
+          this.$refs.headerInput[0]?.focus();
+        }, 50);
     },
     isCellActive(rowIndex, columnIndex) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
     },
+    isHeaderActive(homeworkName, homeworkIndex){
+      return this.activeHeader === `${homeworkName}${homeworkIndex}`
+    },
     onClickOutside() {
-      this.activeCell = null;
+      this.activeCell = null;/* 
+      this.activeHeader = null; */
+    },
+    onFocusOutHeader(event, homeworkIndex) {
+      this.emitHeaderUpdate(event, homeworkIndex);
+      this.activeHeader = null;
+    },
+    onEnterPressHeader(event, homeworkIndex) {
+      this.emitHeaderUpdate(event, homeworkIndex);
+      this.activeHeader = null;
+    },
+    emitHeaderUpdate(event, homeworkIndex){
+      const newValue = event.target.value;
+      this.$emit("headerValueChanged", {newValue, homeworkIndex});
     },
     onFocusOut(event, rowIndex, homeworkIndex, fildName) {
       this.emitCellUpdate(event, rowIndex, homeworkIndex, fildName);
@@ -156,7 +218,6 @@ export default {
       const newValue = event.target.value;
       const data = this.rowData[rowIndex].homework[homeworkIndex];
       data[fildName] = newValue;
-      console.log(data)
       this.$emit("cellValueChanged", {data, rowIndex, homeworkIndex});
     },
     goToLink(link) {
@@ -176,7 +237,55 @@ export default {
              this.goToLink(link)
              this.clicks = 0;
           }      
+        },
+    onHeaderClick(name) {
+      if (name) {
+        this.setNextSort(name);
+        this.rows.sort(this.compare);
+      }
+    },
+    setNextSort(name) {
+      if (name !== this.sortBy) {
+        this.activeSort = null;
+      }
+      this.sortBy = name;
+      if (this.activeSort === "asc") {
+        this.activeSort = "desc";
+        return;
+      }
+      if (this.activeSort === "desc") {
+        this.activeSort = null;
+        return;
+      }
+      if (this.activeSort === null) {
+        this.activeSort = "asc";
+        return;
+      }
+    },
+    isNumber(value) {
+      return parseInt(value) ? +value : value;
+    },
+    compare(a, b) {
+      if (this.activeSort === "asc") {
+        if (this.isNumber(a[this.sortBy]) > this.isNumber(b[this.sortBy])) {
+          return -1;
         }
+        if (this.isNumber(b[this.sortBy]) > this.isNumber(a[this.sortBy])) {
+          return 1;
+        }
+      }
+      if (this.activeSort === "desc") {
+        if (this.isNumber(a[this.sortBy]) < this.isNumber(b[this.sortBy])) {
+          return -1;
+        }
+        if (this.isNumber(b[this.sortBy]) < this.isNumber(a[this.sortBy])) {
+          return 1;
+        }
+      }
+      if (this.activeSort === null) {
+        this.rows = [...this.rowData];
+      }
+    },
   },
 };
 </script>
@@ -203,7 +312,7 @@ export default {
   @apply min-h-[50px] flex justify-center items-center;
 }
 .table_cell_input {
-  @apply min-h-[50px] w-full block py-1 px-2 shadow border-2 rounded border-primary-400 focus-visible:outline-none;
+  @apply min-w-[100px] w-full block py-1 px-2 shadow border-2 rounded border-primary-400 focus-visible:outline-none;
 }
 .text-wrap {
   overflow-wrap: break-word;

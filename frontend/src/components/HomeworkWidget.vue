@@ -11,6 +11,7 @@
         :column-defs="columnDefs"
         :row-data="rowData"
         @cellValueChanged="onCellEdit($event)"
+        @headerValueChanged="onHeaderEdit($event)"
       />
     </div>
   </div>
@@ -95,22 +96,19 @@ export default {
   },
   methods: {
     async onCellEdit(event) {
-      console.log(this.course)
       let newCourseData = {...this.course}
       let homeworkResult = newCourseData.homework_results[event.rowIndex];
       let homeworks = homeworkResult.homework;
       homeworks[event.homeworkIndex] = event.data;
       homeworkResult.total = homeworks.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)
-      /* .find(
-        (_, index) => index === event.rowIndex
-      ); */
-      /* console.log(updatedMember)
-      updatedMember[event.field] = event.newValue; */
-      /* updatedMember.start_total = +updatedMember.multiple_choice + +updatedMember.tech_task;
-      updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test; */
-
-      /* this.homework_results.splice(event.rowIndex, 1, updatedMember);
-      this.rowData =  this.homework_results;  */
+      await updateCourseById(this.course.id, newCourseData); 
+    },
+    async onHeaderEdit(event) {
+      let newCourseData = {...this.course}
+      let homeworkResult = newCourseData.homework_results;
+      homeworkResult.forEach(element => {
+        element.homework[event.homeworkIndex].name = event.newValue
+      });
       await updateCourseById(this.course.id, newCourseData); 
     }
   },
