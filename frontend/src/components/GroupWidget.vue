@@ -12,6 +12,7 @@
         :row-data="rowData"
         uniq-identifier="email"
         @cellValueChanged="onCellEdit($event)"
+        @headerNameChanged="onHeaderEdit($event)"
       />
     </div>
   </div> 
@@ -63,18 +64,18 @@ export default {
     if (this.isStudent) {
       this.columnDefs = [
       { field: "fullName",  headerName: "Name", sortable: true, editable: this.isAdmin ,width:200 },
-      { field: "email" ,headerName: "Email", sortable: true, editable: false ,minWidth: 150, width:200 }
+      { field: "email" ,headerName: "Email", sortable: true, editable: false ,minWidth: 150, width:20 }
     ]
     }
     if (this.isAdmin ||this.isMentor) {
       this.columnDefs=[
-      { field: "fullName",  headerName: "Name", sortable: true, editable: this.isAdmin , width:200},
-      { field: "email" ,headerName: "Email", sortable: true, editable: false , width:200 },
-      { field: "phone" ,headerName: "Phone", sortable: false, editable: this.isAdmin , width:200 },
-      { field: "city" ,headerName: "City", sortable: true, editable: this.isAdmin , width:200 },
-      { field: "age" ,headerName: "Age", sortable: true, editable: this.isAdmin , width:200 },
-      { field: "education" ,headerName: "Education",  sortable: false, editable: this.isAdmin , width:250 },
-      { field: "eng_level" ,headerName: "English level", sortable: true, editable: this.isAdmin , width:250 },
+      { field: "fullName",  headerName: "Name", headerEditable: false, sortable: true, editable: this.isAdmin , width:200},
+      { field: "email" ,headerName: "Email", headerEditable: false, sortable: true, editable: false , width:250 },
+      { field: "phone" ,headerName: "Phone", headerEditable: false, sortable: false, editable: this.isAdmin , width:200 },
+      { field: "city" ,headerName: "City",headerEditable: false, sortable: true, editable: this.isAdmin , width:200 },
+      { field: "age" ,headerName: "Age", headerEditable: false, sortable: true, editable: this.isAdmin , width:100 },
+      { field: "education" ,headerName: "Education", headerEditable: true, sortable: false, editable: this.isAdmin , width:250 },
+      { field: "eng_level" ,headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin , width:250 },
       ]
     } 
     this.rowData = this.course.group;
@@ -87,6 +88,17 @@ export default {
       this.group.splice(updateIndex, 1, updatedMember);
       this.rowData = this.group;
       await updateCourseById(this.course.id, {...this.course, group: this.group});
+    },
+    async onHeaderEdit(event) {
+      // Handle header edit logic here
+      // Remove after demo:
+      this.columnDefs = this.columnDefs.map(column => { 
+          if (column.field === event.field) {
+            column.headerName = event.newHeaderName;
+            return column
+          }
+          return column
+        })
     }
   }
 };
