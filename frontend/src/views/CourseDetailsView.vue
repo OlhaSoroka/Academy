@@ -286,7 +286,7 @@
             /> -->
           </div>
           <div 
-            v-if="courseItem.homework_results"
+            v-if="false"
             class="part col-start-1 col-span-4"
           >
             <div class="header">
