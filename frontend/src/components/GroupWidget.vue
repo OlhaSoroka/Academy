@@ -71,11 +71,11 @@ export default {
       this.columnDefs=[
       { field: "fullName",  headerName: "Name", headerEditable: false, sortable: true, editable: this.isAdmin , width:200},
       { field: "email" ,headerName: "Email", headerEditable: false, sortable: true, editable: false , width:250 },
-      { field: "phone" ,headerName: "Phone", headerEditable: true, sortable: false, editable: this.isAdmin , width:200 },
-      { field: "city" ,headerName: "City",headerEditable: true, sortable: true, editable: this.isAdmin , width:200 },
-      { field: "age" ,headerName: "Age", headerEditable: true, sortable: true, editable: this.isAdmin , width:100 },
+      { field: "phone" ,headerName: "Phone", headerEditable: false, sortable: false, editable: this.isAdmin , width:200 },
+      { field: "city" ,headerName: "City",headerEditable: false, sortable: true, editable: this.isAdmin , width:200 },
+      { field: "age" ,headerName: "Age", headerEditable: false, sortable: true, editable: this.isAdmin , width:100 },
       { field: "education" ,headerName: "Education", headerEditable: true, sortable: false, editable: this.isAdmin , width:250 },
-      { field: "eng_level" ,headerName: "English level", headerEditable: true, sortable: true, editable: this.isAdmin , width:250 },
+      { field: "eng_level" ,headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin , width:250 },
       ]
     } 
     this.rowData = this.course.group;
@@ -90,8 +90,15 @@ export default {
       await updateCourseById(this.course.id, {...this.course, group: this.group});
     },
     async onHeaderEdit(event) {
-      console.log(event);
-      // Handle header edit logic here <=
+      // Handle header edit logic here
+      // Remove after demo:
+      this.columnDefs = this.columnDefs.map(column => { 
+          if (column.field === event.field) {
+            column.headerName = event.newHeaderName;
+            return column
+          }
+          return column
+        })
     }
   }
 };
