@@ -81,7 +81,7 @@ export default {
       currentItem.comments.push({
         id: Date.now(),
         message: this.comments,
-        createdAt: new Date().toLocaleString(),
+        createdAt: new Date().toLocaleDateString(),
         author: this.user.fullName,
         author_id: this.user.id,
         author_email: this.user.email,

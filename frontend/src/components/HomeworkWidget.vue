@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div class="flex justify-between">
-      <!--       <div class="text-xl text-gray-700 mb-5">
-        Homework
-      </div> -->
-    </div>
     <div>
       <HomeworkTableEditable
         style="min-height: 400px"
@@ -95,7 +90,7 @@ export default {
   methods: {
     async onCellEdit(event) {
       let newCourseData = {...this.course}
-      let homeworkResult = newCourseData.homework_results[event.rowIndex];
+      let homeworkResult = newCourseData.homework_results[event.correctRowIndex];
       let homeworks = homeworkResult.homework;
       homeworks[event.homeworkIndex] = event.data;
       homeworkResult.total = homeworks.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)

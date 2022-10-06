@@ -258,6 +258,7 @@
               </h2>
               <div class="flex">
                 <BaseButton
+                  v-if="courseItem.homework_results && courseItem.homework_results.length && courseItem.homework_results[0].homework.length"
                   variant="btn_red"
                   class="nav__btn"
                   @click="toggleHomeworkDeleteModal"
@@ -265,6 +266,7 @@
                   <BaseDeleteIcon />
                 </BaseButton>
                 <BaseButton
+                  v-if="courseItem.group.length"
                   class="nav__btn"
                   @click="toggleNewHomeworkModal"
                 >
@@ -272,7 +274,10 @@
                 </BaseButton>
               </div>
             </div>
-            <HomeworkWidget :course="courseItem" />
+            <HomeworkWidget 
+              v-if="courseItem.homework_results"
+              :course="courseItem" 
+            />
             <!-- <BaseTable
               class="table"
               :table-data="{
