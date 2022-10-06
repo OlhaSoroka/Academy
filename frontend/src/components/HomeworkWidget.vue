@@ -128,11 +128,3 @@ export default {
   },
 };
 </script>
-  
-  <style lang="scss">
-.total-col {
-  background-color: #aecde9 !important;
-  color: white !important;
-}
-</style>
-  
