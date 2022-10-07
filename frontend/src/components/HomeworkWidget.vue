@@ -90,7 +90,7 @@ export default {
   methods: {
     async onCellEdit(event) {
       let newCourseData = { ...this.course };
-      let homeworkResult = newCourseData.homework_results[event.rowIndex];
+      let homeworkResult = newCourseData.homework_results[event.correctRowIndex];
       let homeworks = homeworkResult.homework;
       homeworks[event.homeworkIndex] = event.data;
       homeworkResult.total = homeworks.reduce(
