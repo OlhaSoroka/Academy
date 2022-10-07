@@ -1,6 +1,7 @@
 <template>
   <div style="overflow-x: auto">
     <table
+      v-if="rows.length"
       v-click-outside-table
       style="width: 100%"
       class="table"
@@ -14,7 +15,7 @@
           </div>
         </th>
         <th 
-          v-for="(homework, homeworkIndex) in rowData[0].homework"
+          v-for="(homework, homeworkIndex) in rows[0].homework"
           :key="homeworkIndex"
           colspan="2"
           class="table_header"
@@ -86,8 +87,8 @@
                 class="table_cell_input"
                 type="text"
                 :value="homework.rate"
-                @focusout="onFocusOut($event, rowIndex, homeworkIndex, `rate`)"
-                @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `rate`)"
+                @focusout="onFocusOut($event, row.id, homeworkIndex, `rate`)"
+                @keypress.enter="onEnterPress($event, row.id, homeworkIndex, `rate`)"
               > 
               <div
                 v-else
@@ -111,8 +112,8 @@
                 class="table_cell_input"
                 type="text"
                 :value="homework.link"
-                @focusout="onFocusOut($event, rowIndex, homeworkIndex, `link`)"
-                @keypress.enter="onEnterPress($event, rowIndex, homeworkIndex, `link`)"
+                @focusout="onFocusOut($event, row.id, homeworkIndex, `link`)"
+                @keypress.enter="onEnterPress($event, row.id, homeworkIndex, `link`)"
               > 
               <div
                 v-else-if="false"
@@ -150,6 +151,10 @@ export default {
     },
     rowData: {
       type: Array,
+      default: null,
+    },
+    uniqIdentifier: {
+      type: String,
       default: null,
     },
   },
@@ -207,18 +212,19 @@ export default {
       const newValue = event.target.value;
       this.$emit("headerValueChanged", {newValue, homeworkIndex});
     },
-    onFocusOut(event, rowIndex, homeworkIndex, fildName) {
-      this.emitCellUpdate(event, rowIndex, homeworkIndex, fildName);
+    onFocusOut(event, id, homeworkIndex, fildName) {
+      this.emitCellUpdate(event, id, homeworkIndex, fildName);
     },
-    onEnterPress(event, rowIndex, homeworkIndex, fildName) {
-      this.emitCellUpdate(event, rowIndex, homeworkIndex, fildName);
+    onEnterPress(event, id, homeworkIndex, fildName) {
+      this.emitCellUpdate(event, id, homeworkIndex, fildName);
       this.activeCell = null;
     },
-    emitCellUpdate(event, rowIndex, homeworkIndex, fildName) {
+     emitCellUpdate(event, id, homeworkIndex, fildName) {
       const newValue = event.target.value;
-      const data = this.rowData[rowIndex].homework[homeworkIndex];
+      const correctRowIndex = this.rowData.findIndex((item) => item.id === id)
+      const data = this.rowData[correctRowIndex].homework[homeworkIndex];
       data[fildName] = newValue;
-      this.$emit("cellValueChanged", {data, rowIndex, homeworkIndex});
+      this.$emit("cellValueChanged", {data, correctRowIndex, homeworkIndex});
     },
     goToLink(link) {
       if (link) {

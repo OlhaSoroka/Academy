@@ -94,7 +94,7 @@ export default {
       const updatedCourse = JSON.parse(JSON.stringify(course));
       let baseElement = {
         id: `${this.name}  (${this.user.fullName})`,
-        name: `${this.name} (${this.user.fullName})`,
+        name: `${this.name}`,
         date: this.date,
         rate: 0,
         link: ""}

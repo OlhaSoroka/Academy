@@ -89,7 +89,6 @@ export default {
 					studentsCourse.group.push(groupMember);
 					studentsCourse.results.push(resultMember);
 					studentsCourse.homework_results.push(resultHomeworkMember);
-					console.log(groupMember)
 					await updateCourseById(studentsCourse.id, studentsCourse);
 				}
 				store.dispatch('toast/show', { message: 'User successfully created', type: 'success' }, { root: true });
