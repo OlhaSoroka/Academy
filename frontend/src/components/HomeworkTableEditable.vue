@@ -7,18 +7,28 @@
       class="table"
     >
       <tr>
-        <th class="table_header">
-          <div
-            class="table_header_cell"
-          >
-            Name
+        <th 
+          class="table_header table_header--solid table_header_cell cursor-pointer"
+          @click="onHeaderClick('students_name')"
+        >
+          <div class="flex">
+            <div>
+              Name
+            </div>
+            <div v-if="sortBy === 'students_name'">
+              <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
+              <span
+                v-if="activeSort === 'desc'"
+                class="rotate-180"
+              ><BaseArrowUp /></span>
+            </div>
           </div>
         </th>
         <th 
           v-for="(homework, homeworkIndex) in rows[0].homework"
           :key="homeworkIndex"
           colspan="2"
-          class="table_header"
+          class="table_header cursor-pointer"
         >
           <div
             @click="onEditableHeaderClick(homework.name, homeworkIndex)"
@@ -45,9 +55,7 @@
           @click="onHeaderClick('total')"
         >
           <div class="flex">
-            <div>
-              Total
-            </div>
+            <div>Total</div>
             <div v-if="sortBy === 'total'">
               <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
               <span
@@ -63,7 +71,7 @@
         :key="rowIndex"
         class="table_row"
       >
-        <td>
+        <td class="table_row_item">
           <div
             class="p-2 text-ellipsis over"
           >
@@ -100,7 +108,7 @@
           </td>
           <td
             :key="homeworkIndex.toString() + rowIndex.toString() + 'link'"
-            class="cursor-pointer"
+            class="cursor-pointer table_row_item"
           >
             <div
               class="table_cell"
@@ -124,7 +132,7 @@
             </div>
           </td>
         </template>
-        <td>
+        <td class="table_row_item">
           <div
             class="p-2 text-ellipsis over"
           >
