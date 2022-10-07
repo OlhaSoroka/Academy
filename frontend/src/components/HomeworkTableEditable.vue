@@ -6,12 +6,12 @@
       style="width: 100%"
       class="table"
     >
-      <tr>
+      <tr class="table_row">
         <th 
-          class="table_header table_header--solid table_header_cell cursor-pointer"
+          class="table_header cursor-pointer"
           @click="onHeaderClick('students_name')"
         >
-          <div class="flex">
+          <div class="table_header_cell">
             <div>
               Name
             </div>
@@ -51,10 +51,10 @@
           </div>
         </th>
         <th 
-          class="table_header table_header--solid table_header_cell cursor-pointer"
+          class="table_header cursor-pointer"
           @click="onHeaderClick('total')"
         >
-          <div class="flex">
+          <div class="table_header_cell table_header--solid">
             <div>Total</div>
             <div v-if="sortBy === 'total'">
               <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
