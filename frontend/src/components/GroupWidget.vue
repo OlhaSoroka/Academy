@@ -74,7 +74,7 @@ export default {
       { field: "phone" ,headerName: "Phone", headerEditable: false, sortable: false, editable: this.isAdmin , width:200 },
       { field: "city" ,headerName: "City",headerEditable: false, sortable: true, editable: this.isAdmin , width:200 },
       { field: "age" ,headerName: "Age", headerEditable: false, sortable: true, editable: this.isAdmin , width:100 },
-      { field: "education" ,headerName: "Education", headerEditable: true, sortable: false, editable: this.isAdmin , width:250 },
+      { field: "education" ,headerName: "Education", headerEditable: false, sortable: false, editable: this.isAdmin , width:250 },
       { field: "eng_level" ,headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin , width:250 },
       ]
     } 
