@@ -33,7 +33,7 @@
         >
           <div
             
-            @click="onEditableHeaderClick(homework.name, homeworkIndex)"
+            @click="onEditableHeaderClick(homework.name, homeworkIndex, true)"
           >
             <input
               v-if="isHeaderActive(homework.name, homeworkIndex)"
@@ -198,40 +198,18 @@ export default {
   beforeMount() {
     this.rows = [...this.rowData];
   },
-  /* mounted() {
-    document.body.addEventListener('click', (e) => {   
-      console.log(e, document.querySelector('#header'))
-  if (document.querySelector('#header') === e.target || document.querySelector('header').contains(e.target)){
-    this.onEditableHeaderClick()
-  } else{
-    this.onFocusOutHeader()
-  }
-});
-  },
-  destroyed() {
-    document.body.removeEventListener('click', this.onClick);
-  }, */
   methods: {
     onCellClick(rowIndex, columnIndex, isEditable) {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
+        this.activeHeader = null;
       }
     },
-    onEditableHeaderClick(homeworkName, homeworkIndex) {
-      this.activeHeader = `${homeworkName}${homeworkIndex}` ;
-/*     this.fun1() */
-
+    onEditableHeaderClick(homeworkName, homeworkIndex, isEditable) {
+      if (isEditable) {
+      this.activeHeader = `${homeworkName}${homeworkIndex}`} 
+      this.activeCell = null;
     },
-/*     fun1 (){
-                if (!this.functionDone) {
-                    this.functionDone = true;
-                    console.log(this.functionDone)
-                          setTimeout(() => {
-          this.$refs.headerInput[0]?.focus();
-          console.log(this.$refs.headerInput[0])
-        }, 50);
-                }
-        }, */
     isCellActive(rowIndex, columnIndex) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
     },
@@ -239,8 +217,8 @@ export default {
       return this.activeHeader === `${homeworkName}${homeworkIndex}`
     },
     onClickOutside() {
-      this.activeCell = null;/* 
-      this.activeHeader = null; */
+      this.activeCell = null;
+      this.activeHeader = null;
     },
     onFocusOutHeader(event, homeworkIndex, fildName) {
       this.emitHeaderUpdate(event, homeworkIndex, fildName);

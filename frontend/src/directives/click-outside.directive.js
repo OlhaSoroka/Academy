@@ -1,7 +1,9 @@
 export default {
 	bind: function (table, _, vnode) {
 		table.clickOutsideEvent = function (event) {
-			if (!(table === event.target || table.contains(event.target))) {
+			const isTable = table === event.target;
+			const isTableChild = table.querySelector(`.${event.target._prevClass}`) !== null;
+			if (!(isTable || isTableChild)) {
 				vnode.context.onClickOutside();
 			}
 		};
