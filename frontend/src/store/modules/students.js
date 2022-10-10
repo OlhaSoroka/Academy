@@ -83,6 +83,10 @@ export default {
 				if (studentsCourse) {
 					let homework = [];
 					if (studentsCourse.homework_results[0]) {homework=studentsCourse.homework_results[0].homework}
+					homework.forEach(element => {
+						element.rate = 0;
+						element.link = '';
+					});
 					const groupMember = createGroupMember(student);
 					const resultMember = createResultMember(student);
                     const resultHomeworkMember = createHomeworkResaltsMember(student, homework);
