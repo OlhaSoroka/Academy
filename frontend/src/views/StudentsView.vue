@@ -211,13 +211,7 @@ export default {
       } else {
         return false;
       }
-    },
-/*     studentListForStudent() {
-      if (this.user.course) {
-    return this.students.filter((e) => e.course === this.user.course);
-      }
-      else {console.log(this.user.course); return false}
-    } */
+    }
   },
   async mounted() {
     await this.fetchStudents();
