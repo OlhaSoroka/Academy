@@ -152,6 +152,11 @@
         </td>
       </tr>
     </table>
+    <div v-else>
+      <h2 class="text-xl opacity-80">
+        First, add student to this course.
+      </h2>
+    </div>
   </div>
 </template>
 
