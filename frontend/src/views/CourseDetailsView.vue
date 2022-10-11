@@ -302,7 +302,6 @@
     </div>
     <div v-else>
       <h3>No courses</h3>
-
       <BaseButton
         variant="btn_black"
         @click="getBackCourseDetailsView"
@@ -427,23 +426,6 @@ export default {
         { date_project_demo: "Date of demo" },
         { date_final_interview: "Date of final interview" },
       ],
-      // headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
-      // headerHomeworkResults: [
-      //   { students_name: "Students Name" },
-      //   { hw1: "HW 1" },
-      //   { hw2: "HW 2" },
-      //   { hw3: "HW 3" },
-      //   { hw4: "HW 4" },
-      //   { hw5: "HW 5" },
-      //   { hw6: "HW 6" },
-      //   { hw7: "HW 7" },
-      //   { hw8: "HW 8" },
-      //   { hw9: "HW 9" },
-      //   { hw10: "HW 10" },
-      //   { hw11: "HW 11" },
-      //   { total: "Total" },
-      // ],
-      // headerResults: [{ fullName: "Name" }, { score: "Results" }],
       headerMaterials: [{ name: "Material name" }, { link: "Link" }],
       headerComments: [
         { message: "Message" },
@@ -557,31 +539,6 @@ export default {
         value: filteredComments,
       };
     },
-    // deleteGroupMember(id) {
-    //   this.openDeleteModal();
-    //   const currentCourse = this.getCourseById(this.$route.params.id);
-    //   const { group } = currentCourse;
-    //   const filteredGroup = group.filter(
-    //     (groupMember) => groupMember.id !== id
-    //   );
-    //   const { homework_results } = currentCourse;
-    //   const filteredHomeworkResalts = homework_results.filter(
-    //     (groupMember) => groupMember.id !== id
-    //   );
-    //   this.targetRow = group.filter(
-    //     (groupMember) => groupMember.id === id
-    //   )[0].fullName;
-    //   this.homeworkPayload = {
-    //     id: this.$route.params.id,
-    //     field: "homework_results",
-    //     value: filteredHomeworkResalts,
-    //   };
-    //   this.payload = {
-    //     id: this.$route.params.id,
-    //     field: "group",
-    //     value: filteredGroup,
-    //   };
-    // },
     deleteResultRow(id) {
       this.openDeleteModal();
       const currentCourse = this.getCourseById(this.$route.params.id);
@@ -668,11 +625,6 @@ export default {
     toggleHomeworkDeleteModal() {
       this.isHomeworkDeleteModalOpen = !this.isHomeworkDeleteModalOpen;
     },
-    // cutHeaderHomeworkResults() {
-    //   return this.headerHomeworkResults
-    //     .slice(0, +this.courseItem.homework_quantity + 1)
-    //     .concat(this.headerHomeworkResults.slice(-1));
-    // },
   },
 };
 </script>

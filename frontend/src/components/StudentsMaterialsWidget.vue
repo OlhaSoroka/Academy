@@ -50,7 +50,6 @@ export default {
         width: 150,
       },
     ];
-    console.log(this.course);
     this.rowData = this.course.materials
   },
 };
