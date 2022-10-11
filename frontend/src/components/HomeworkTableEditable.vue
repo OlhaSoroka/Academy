@@ -29,9 +29,11 @@
           :key="homeworkIndex"
           colspan="2"
           class="table_header cursor-pointer"
+          id="header"
         >
           <div
-            @click="onEditableHeaderClick(homework.name, homeworkIndex)"
+            
+            @click="onEditableHeaderClick(homework.name, homeworkIndex, true)"
           >
             <input
               v-if="isHeaderActive(homework.name, homeworkIndex)"
@@ -39,8 +41,17 @@
               class="table_cell_input"
               type="text"
               :value="homework.name"
-              @focusout="onFocusOutHeader($event, homeworkIndex)"
-              @keypress.enter="onEnterPressHeader($event, homeworkIndex)"
+              @focusout="onFocusOutHeader($event, homeworkIndex, 'name')"
+              @keypress.enter="onEnterPressHeader($event, homeworkIndex, 'name')"
+            > 
+            <input
+              v-if="isHeaderActive(homework.name, homeworkIndex)"
+              ref="headerInput"
+              class="table_cell_input"
+              type="date"
+              :value="homework.date"
+              @focusout="onFocusOutHeader($event, homeworkIndex, 'date')"
+              @keypress.enter="onEnterPressHeader($event, homeworkIndex, 'date')"
             > 
             <div
               v-else
@@ -175,6 +186,7 @@ export default {
       sortBy: null,
       activeSort: null,
       rows: [],
+      functionDone: false
     };
   },
  watch: {
@@ -190,13 +202,13 @@ export default {
     onCellClick(rowIndex, columnIndex, isEditable) {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
+        this.activeHeader = null;
       }
     },
-    onEditableHeaderClick(homeworkName, homeworkIndex) {
-      this.activeHeader = `${homeworkName}${homeworkIndex}` ;
-      setTimeout(() => {
-          this.$refs.headerInput[0]?.focus();
-        }, 50);
+    onEditableHeaderClick(homeworkName, homeworkIndex, isEditable) {
+      if (isEditable) {
+      this.activeHeader = `${homeworkName}${homeworkIndex}`} 
+      this.activeCell = null;
     },
     isCellActive(rowIndex, columnIndex) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
@@ -205,20 +217,20 @@ export default {
       return this.activeHeader === `${homeworkName}${homeworkIndex}`
     },
     onClickOutside() {
-      this.activeCell = null;/* 
-      this.activeHeader = null; */
-    },
-    onFocusOutHeader(event, homeworkIndex) {
-      this.emitHeaderUpdate(event, homeworkIndex);
+      this.activeCell = null;
       this.activeHeader = null;
     },
-    onEnterPressHeader(event, homeworkIndex) {
-      this.emitHeaderUpdate(event, homeworkIndex);
+    onFocusOutHeader(event, homeworkIndex, fildName) {
+      this.emitHeaderUpdate(event, homeworkIndex, fildName);
       this.activeHeader = null;
     },
-    emitHeaderUpdate(event, homeworkIndex){
+    onEnterPressHeader(event, homeworkIndex, fildName) {
+      this.emitHeaderUpdate(event, homeworkIndex, fildName);
+      this.activeHeader = null;
+    },
+    emitHeaderUpdate(event, homeworkIndex, fildName){
       const newValue = event.target.value;
-      this.$emit("headerValueChanged", {newValue, homeworkIndex});
+      this.$emit("headerValueChanged", {newValue, homeworkIndex, fildName});
     },
     onFocusOut(event, id, homeworkIndex, fildName) {
       this.emitCellUpdate(event, id, homeworkIndex, fildName);

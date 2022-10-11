@@ -104,7 +104,7 @@ export default {
       let newCourseData = { ...this.course };
       let homeworkResult = newCourseData.homework_results;
       homeworkResult.forEach((element) => {
-        element.homework[event.homeworkIndex].name = event.newValue;
+        element.homework[event.homeworkIndex][event.fildName] = event.newValue
       });
       await updateCourseById(this.course.id, newCourseData);
     },
