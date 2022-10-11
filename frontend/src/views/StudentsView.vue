@@ -24,7 +24,7 @@
           <BaseTable
             :table-data="{
               headingData: headersStudent,
-              bodyData: students,
+              bodyData: studentListForStudent(),
             }"
             :edit-btns="false"
             :is-data-loading="studentsLoadingStatus"
@@ -211,7 +211,7 @@ export default {
       } else {
         return false;
       }
-    },
+    }
   },
   async mounted() {
     await this.fetchStudents();
@@ -234,6 +234,9 @@ export default {
     submitDelete() {
       this.deleteStudent(this.targetStudent.id);
     },
+    studentListForStudent() {
+    return this.students.filter((e) => e.course === this.user.course);
+    }
   },
 };
 </script>
