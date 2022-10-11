@@ -84,10 +84,17 @@
             >
             <div
               v-else
-              class="pointer-events-none p-2 text-ellipsis over"
+              class="p-2 text-ellipsis over"
+              :class="!column.link && 'pointer-events-none'" 
               :style="{ width: column.width + 'px' }"
             >
-              {{ row[column.field] }}
+              <a
+                v-if="column.link"
+                :href="row[column.field]"
+              >{{ row[column.field] }}</a>
+              <div v-else>
+                {{ row[column.field] }}
+              </div>
             </div>
           </div>
         </td>
@@ -246,13 +253,13 @@ export default {
   @apply border-2 border-slate-200 text-sm;
 }
 .table_header {
-  @apply border-2 border-slate-200 text-primary-700;
+  @apply border-2 border-slate-200 text-primary-700 text-center;
 }
 .table_header--solid {
   @apply bg-primary-300 text-white;
 }
 .table_header_cell {
-  @apply min-w-[120px] min-h-[50px] flex justify-center items-center;
+  @apply min-w-[120px] min-h-[50px] flex justify-center items-center m-auto;
 }
 .table_row {
   @apply hover:bg-primary-200;
@@ -261,7 +268,7 @@ export default {
   @apply border-b-2 border-slate-200;
 }
 .table_cell {
-  @apply min-h-[50px] flex justify-center items-center;
+  @apply min-h-[50px] flex justify-center items-center text-center;
 }
 .table_cell_input {
   @apply min-h-[50px] w-full block py-1 px-2 shadow border-2 rounded border-primary-400 focus-visible:outline-none;

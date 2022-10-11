@@ -13,10 +13,10 @@
       <nav class="nav my-3">
         <BaseButton
           class="nav__btn"
-          variant="btn_black"
+          variant="btn_blue"
           @click="getBackCourseDetailsView"
         >
-          Back
+          <BaseArrowUp class="-rotate-90" />
         </BaseButton>
       </nav>
       <div v-if="courseItem">
@@ -74,54 +74,24 @@
             </div>
           </div>
           <div class="part col-span-1 col-start-2 row-start-2 row-span-1">
-            <h2 class="part__text">
-              Homework
-            </h2>
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headerHomework,
-                bodyData: courseItem.homework,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="false"
+            <StudentsHomeworkWidget
+              v-if="isUser"
+              :course="courseItem"
             />
           </div>
           <div class="part col-span-1 col-start-1">
-            <h2 class="part__text">
-              Group
-            </h2>
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headersGroup,
-                bodyData: courseItem.group,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="false"
+            <StudentsGroupWidget
+              v-if="isUser"
+              :course="courseItem" 
             />
           </div>
           <div 
             v-if="courseItem.materials"
             class="part col-start-2 row-start-1 col-span-1"
           >
-            <div class="header">
-              <h2 class="part__text">
-                Materials
-              </h2>
-            </div>
-            <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headerMaterials,
-                bodyData: courseItem.materials,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="false"
-              @delete="deleteMaterialRow"
+            <StudentsMaterialsWidget
+              v-if="isUser"
+              :course="courseItem" 
             />
           </div>
         </div>
@@ -135,10 +105,10 @@
         <nav class="nav flex-wrap my-3">
           <BaseButton
             class="nav__btn"
-            variant="btn_black"
+            variant="btn_blue"
             @click="getBackCourseDetailsView"
           >
-            Back
+            <BaseArrowUp class="-rotate-90" />
           </BaseButton>
 
           <div class="nav__courses">
@@ -148,14 +118,14 @@
                 class="nav__btn"
                 @click="previousPage"
               >
-                Prev
+                <BaseArrowPrev />
               </BaseButton>
               <BaseButton
                 :disabled="isLatsCourse"
                 class="nav__btn"
                 @click="nextPage"
               >
-                Next
+                <BaseArrowNext />
               </BaseButton>
             </div>
           </div>
@@ -278,17 +248,6 @@
               v-if="courseItem.homework_results"
               :course="courseItem" 
             />
-            <!-- <BaseTable
-              class="table"
-              :table-data="{
-                headingData: headerHomework,
-                bodyData: courseItem.homework,
-              }"
-              :edit-btns="false"
-              :is-data-loading="loadingStatus"
-              :delete-btns="true"
-              @delete="deleteHomework"
-            /> -->
           </div>
           <div 
             v-if="false"
@@ -343,7 +302,6 @@
     </div>
     <div v-else>
       <h3>No courses</h3>
-
       <BaseButton
         variant="btn_black"
         @click="getBackCourseDetailsView"
@@ -354,14 +312,6 @@
     <CourseDetailsUpdateModal 
       :id="+$route.params.id" 
       :toggle-modal="isUpdateModalOpened"
-    />
-    <NewApplicantModal 
-      :id="+$route.params.id" 
-      :toggle-modal="isModalOpened" 
-    />
-    <NewGroupMember 
-      :id="+$route.params.id" 
-      :toggle-modal="isNewGroupMemberModal" 
     />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
     <HomeworkResaltsModal 
@@ -391,7 +341,10 @@ import BaseTable from "../components/BaseComponents/BaseTable/BaseTable.vue";
 import { COURSE_DETAILS, COURSE_DASHBOARD } from "../constants/routes.constant";
 import BaseEditIcon from "@/components/BaseComponents/BaseIcons/BaseEditIcon.vue";
 import BaseDeleteIcon from "@/components/BaseComponents/BaseIcons/BaseDeleteIcon.vue";
-import { updateCourseById } from '@/api/course';
+import BaseArrowUp from "@/components/BaseComponents/BaseIcons/BaseArrowUp.vue";
+import BaseArrowNext from "@/components/BaseComponents/BaseIcons/BaseArrowNext.vue";
+import BaseArrowPrev from "@/components/BaseComponents/BaseIcons/BaseArrowPrev.vue";
+import { updateCourseById } from "@/api/course";
 
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
@@ -402,19 +355,19 @@ import {
 } from "@/constants/roles.constant";
 import BasePlus from "@/components/BaseComponents/BaseIcons/BasePlus.vue";
 
-import NewApplicantModal from "@/components/Modals/CourseDetailsModals/NewApplicantModal.vue";
 import NewCommentModal from "../components/Modals/CourseDetailsModals/NewCommentModal.vue";
 import CourseDetailsUpdateModal from "@/components/Modals/CourseDetailsModals/CourseDetailsUpdateModal.vue";
-import NewGroupMember from "../components/Modals/CourseDetailsModals/NewGroupMemberModal.vue";
 import NewHomeWorkModal from "../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue";
 import NewMaterialModal from "../components/Modals/CourseDetailsModals/NewMaterialModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
 import HomeworkResaltsModal from "../components/Modals/CourseDetailsModals/HomeworkResaltsModal.vue";
-import GroupWidget from '../components/GroupWidget.vue';
-import ResultWidget from '../components/ResultWidget.vue';
-import HomeworkWidget from '../components/HomeworkWidget.vue';
+import GroupWidget from "../components/GroupWidget.vue";
+import ResultWidget from "../components/ResultWidget.vue";
+import HomeworkWidget from "../components/HomeworkWidget.vue";
+import StudentsHomeworkWidget from "@/components/StudentsHomeworkWidget.vue";
+import StudentsGroupWidget from "@/components/StudentsGroupWidget.vue";
+import StudentsMaterialsWidget from "@/components/StudentsMaterialsWidget.vue";
 import HomeworkDeleteModal from "../components/Modals/CourseDetailsModals/HomeworkDeleteModal.vue";
-
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -424,10 +377,8 @@ export default {
   components: {
     BaseTable,
     BaseButton,
-    NewApplicantModal,
     NewCommentModal,
     CourseDetailsUpdateModal,
-    NewGroupMember,
     NewHomeWorkModal,
     HomeworkResaltsModal,
     NewMaterialModal,
@@ -438,7 +389,13 @@ export default {
     GroupWidget,
     ResultWidget,
     HomeworkWidget,
-    HomeworkDeleteModal
+    HomeworkDeleteModal,
+    BaseArrowUp,
+    BaseArrowNext,
+    BaseArrowPrev,
+    StudentsHomeworkWidget,
+    StudentsGroupWidget,
+    StudentsMaterialsWidget,
   },
   data() {
     return {
@@ -450,7 +407,6 @@ export default {
       isAddCommentModalOpen: false,
       isModalOpened: false,
       isUpdateModalOpened: false,
-      isNewGroupMemberModal: false,
       isNewResultModal: false,
       isNewHomeworkModal: false,
       isDeleteModalOpen: false,
@@ -466,31 +422,10 @@ export default {
       headerMainInfo: [
         { name: "Course Name" },
         { date: "Date of starting" },
-        { date_project_start: "Date of starting project"},
-        { date_project_demo: "Date of demo"},
-        { date_final_interview: "Date of final interview"},
+        { date_project_start: "Date of starting project" },
+        { date_project_demo: "Date of demo" },
+        { date_final_interview: "Date of final interview" },
       ],
-      headerApplicants: [
-        { fullName: "Full Name" },
-        { initialScore: "Initial Score" },
-      ],
-      headerHomework: [{ name: "Homework Name" }, { date: "Date" }],
-      headerHomeworkResults: [
-        { students_name: "Students Name" }, 
-        { hw1: "HW 1" },
-        { hw2: "HW 2" },
-        { hw3: "HW 3" },
-        { hw4: "HW 4" },
-        { hw5: "HW 5" },
-        { hw6: "HW 6" },
-        { hw7: "HW 7" },
-        { hw8: "HW 8" },
-        { hw9: "HW 9" },
-        { hw10: "HW 10" },
-        { hw11: "HW 11" },
-        { total: "Total"},
-      ],
-      headerResults: [{ fullName: "Name" }, { score: "Results" }],
       headerMaterials: [{ name: "Material name" }, { link: "Link" }],
       headerComments: [
         { message: "Message" },
@@ -556,33 +491,20 @@ export default {
       this.patchCourses(this.payload);
       this.patchCourses(this.homeworkPayload);
     },
-    submitDeleteHomework(param){
-      const updatedCourse = {...this.courseItem}
+    submitDeleteHomework(param) {
+      const updatedCourse = { ...this.courseItem };
       updatedCourse.homework_results.forEach((element) => {
-      element.homework = element.homework.filter((item) => item.name !==param)
-      element.total = element.homework.reduce((previousValue, currentValue) => +previousValue + +currentValue.rate, 0)
+        element.homework = element.homework.filter(
+          (item) => item.name !== param
+        );
+        element.total = element.homework.reduce(
+          (previousValue, currentValue) => +previousValue + +currentValue.rate,
+          0
+        );
       });
-      updateCourseById(this.courseItem.id, updatedCourse)
-       .then(async () => {
-          await this.getCourses();
-        })
-    },
-
-    deleteApplicant(id) {
-      this.openDeleteModal();
-      const currentCourse = this.getCourseById(this.$route.params.id);
-      const { applicants } = currentCourse;
-      const filteredApplicants = applicants.filter(
-        (applicant) => applicant.id !== id
-      );
-      this.targetRow = applicants.filter(
-        (applicant) => applicant.id === id
-      )[0].fullName;
-      this.payload = {
-        id: this.$route.params.id,
-        field: "applicants",
-        value: filteredApplicants,
-      };
+      updateCourseById(this.courseItem.id, updatedCourse).then(async () => {
+        await this.getCourses();
+      });
     },
     deleteHomework(id) {
       this.openDeleteModal();
@@ -596,9 +518,9 @@ export default {
         value: filteredHomework,
       };
     },
-    openEditHomeworkResultModal(id){
+    openEditHomeworkResultModal(id) {
       /* const currentCourse = this.getCourseById(this.$route.params.id); */
-      this.studentId = id;/* 
+      this.studentId = id; /* 
       this.targetStudent = currentCourse.homework_results.find((e) => e.id === id);
       console.log(currentCourse.homework_results, this.studentId , this.targetStudent) */
       this.isEditHomeworkResultModalOpen = !this.isEditHomeworkResultModalOpen;
@@ -615,31 +537,6 @@ export default {
         id: this.$route.params.id,
         field: "comments",
         value: filteredComments,
-      };
-    },
-    deleteGroupMember(id) {
-      this.openDeleteModal();
-      const currentCourse = this.getCourseById(this.$route.params.id);
-      const { group } = currentCourse;
-      const filteredGroup = group.filter(
-        (groupMember) => groupMember.id !== id
-      );
-      const { homework_results } = currentCourse;
-      const filteredHomeworkResalts = homework_results.filter(
-        (groupMember) => groupMember.id !== id
-      );
-      this.targetRow = group.filter(
-        (groupMember) => groupMember.id === id
-      )[0].fullName;
-      this.homeworkPayload = {
-        id: this.$route.params.id,
-        field: "homework_results",
-        value: filteredHomeworkResalts,
-      };
-      this.payload = {
-        id: this.$route.params.id,
-        field: "group",
-        value: filteredGroup,
       };
     },
     deleteResultRow(id) {
@@ -716,9 +613,6 @@ export default {
     toggleUpdateModal() {
       this.isUpdateModalOpened = !this.isUpdateModalOpened;
     },
-    toggleNewGroupMemberModal() {
-      this.isNewGroupMemberModal = !this.isNewGroupMemberModal;
-    },
     toggleNewResultModal() {
       this.isNewResultModal = !this.isNewResultModal;
     },
@@ -731,9 +625,6 @@ export default {
     toggleHomeworkDeleteModal() {
       this.isHomeworkDeleteModalOpen = !this.isHomeworkDeleteModalOpen;
     },
-    cutHeaderHomeworkResults() {
-    return this.headerHomeworkResults.slice(0, +this.courseItem.homework_quantity + 1).concat(this.headerHomeworkResults.slice(-1))
-    }
   },
 };
 </script>

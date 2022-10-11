@@ -96,7 +96,7 @@ export default {
 
       updatedCourse.materials.push({
         id: `${this.name}  (${this.user.fullName})`,
-        name: `${this.name} (${this.user.fullName})`,
+        name: `${this.name}`,
         link: this.link,
       });
       this.updateCourse({ id, course: updatedCourse })
