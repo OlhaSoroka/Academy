@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="text-xl text-gray-700 mb-5">Homework</div>
     </div>
-    <div>
+    <div v-if="course.homework_results[0].homework.length">
       <BaseTableEditable
         style="min-height: 400px"
         :column-defs="columnDefs"
@@ -11,6 +11,11 @@
         uniq-identifier="email"
         @cellValueChanged="onCellEdit($event)"
       />
+    </div>
+    <div v-else>
+      <h2 class="text-xl text-center opacity-80">
+        No homework yet...
+      </h2>
     </div>
   </div>
 </template>
