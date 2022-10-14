@@ -1,10 +1,15 @@
-import axios from "../../api/index"
+/* import axios from "../../api/index"; */
+import {db} from "../../main";
 import {
 	getAllCourses,
-	COURSES_URL,
+	deleteCourse,
 	updateCourseById,
-	patchCourse,
 } from "../../api/course/index"
+import {
+	setDoc,
+	doc,
+	updateDoc
+  } from "firebase/firestore";
 
 export default {
 	namespaced: true,
@@ -82,7 +87,38 @@ export default {
 				})
 				.finally(() => commit("changeLoadingStatus"))
 		},
-		createNewCourse({ dispatch }, data) {
+		async createNewCourse( { dispatch }, data) {
+			/* axios */
+			try {await setDoc(doc(db, "courses", `${data.id}`), data)
+			.then(dispatch("getCourses"),
+			dispatch(
+				"toast/show",
+				{ message: "Course succesfully created", type: "success" },
+				{ root: true }
+			))
+		} 
+			/* const dbRef = collection(db, "courses");
+			addDoc(dbRef, data) */
+			/* .then((response) => {
+					if (response.status >= 200 && response.status <= 204) {
+						dispatch("getCourses")
+						dispatch(
+							"toast/show",
+							{ message: "Course succesfully created", type: "success" },
+							{ root: true }
+						)
+					}
+				}) */
+			catch (error) {
+					dispatch("getCourses")
+					const errorMessage = error.response?.data?.error || error.message
+					dispatch(
+						"toast/show",
+						{ message: errorMessage, type: "error" },
+						{ root: true }
+					)
+				}
+		},/* createNewCourse({ dispatch }, data) {
 			axios
 				.post(`${COURSES_URL}/posts`, data)
 				.then((response) => {
@@ -104,21 +140,20 @@ export default {
 						{ root: true }
 					)
 				})
-		},
-		addNewComment({ dispatch }, payload) {
-			axios
-				.put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate)
-				.then((response) => {
-					if (response.status >= 200 && response.status <= 204) {
-						dispatch("getCourses")
-						dispatch(
+		}, */
+		async addNewComment({ dispatch }, payload) {
+			/* axios */
+			try { const courseRef = doc(db, "courses", `${payload.id}`);
+            await updateDoc(courseRef, payload.currentItemUpdate)
+				/* .put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate) */
+				.then(() => {dispatch("getCourses"),
+					dispatch(
 							"toast/show",
 							{ message: "Comment sent!", type: "success" },
 							{ root: true }
 						)
-					}
-				})
-				.catch((error) => {
+			})}
+			catch (error) {
 					dispatch("getCourses")
 					const errorMessage = error.response?.data?.error || error.message
 					dispatch(
@@ -126,10 +161,10 @@ export default {
 						{ message: errorMessage, type: "error" },
 						{ root: true }
 					)
-				})
+				}
 		},
-		updateCourse({ dispatch }, payload) {
-			updateCourseById(payload.id, payload.course)
+		async updateCourse({ dispatch }, payload) {
+			try {await updateCourseById(payload.id, payload.course)
 				.then(() => {
 					dispatch("getCourses")
 					dispatch(
@@ -137,8 +172,8 @@ export default {
 						{ message: "Course succesfully updated", type: "success" },
 						{ root: true }
 					)
-				})
-				.catch((error) => {
+				})}
+			catch (error) {
 					dispatch("getCourses")
 					const errorMessage = error.response?.data?.error || error.message
 					dispatch(
@@ -146,12 +181,12 @@ export default {
 						{ message: errorMessage, type: "error" },
 						{ root: true }
 					)
-				})
+				}
 		},
 		deleteCourseFromState({ commit, dispatch }, id) {
 			commit("changeLoadingStatus")
-			axios
-				.delete(`${COURSES_URL}/posts/${id}`)
+			/* axios */
+			deleteCourse(id)
 				.then(() => {
 					dispatch(
 						"toast/show",
@@ -174,7 +209,9 @@ export default {
 				})
 		},
 		patchCourses({ dispatch }, payload) {
-			patchCourse(payload.id, payload.field, payload.value)
+			try {
+				console.log(payload.course)/* 
+				updateCourseById(payload.id) */
 				.then(() => {
 					dispatch("getCourses")
 					dispatch(
@@ -182,8 +219,8 @@ export default {
 						{ message: "Succesfully deleted", type: "success" },
 						{ root: true }
 					)
-				})
-				.catch((error) => {
+				})}
+			catch (error)  {
 					dispatch("getCourses")
 					const errorMessage = error.response?.data?.error || error.message
 					dispatch(
@@ -191,7 +228,7 @@ export default {
 						{ message: errorMessage, type: "error" },
 						{ root: true }
 					)
-				})
+				}
 		},
 	},
 }
