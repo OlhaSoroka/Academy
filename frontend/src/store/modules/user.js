@@ -1,6 +1,7 @@
 import { gethUserByID, updateUserByID } from "@/api/user";
 import { LOGIN } from "@/constants/routes.constant";
-import { getAuth, signOut } from "firebase/auth";
+import { firebaseAuth } from "@/main";
+import { signOut } from "firebase/auth";
 import router from "../../router";
 
 export default {
@@ -11,9 +12,6 @@ export default {
   getters: {
     user: (state) => state.user,
     isImageLoading: (state) => state.isImageLoading,
-    accessToken() {
-      return localStorage.getItem("accessToken");
-    },
   },
   actions: {
     setUser({ commit }, user) {
@@ -21,7 +19,7 @@ export default {
     },
     async fetchUser(store, id) {
       try {
-        const user = await gethUserByID(id, store.getters.accessToken);
+        const user = await gethUserByID(id);
         localStorage.setItem("user", JSON.stringify(user));
         store.commit("SET_USER", user);
       } catch (error) {
@@ -90,11 +88,8 @@ export default {
     },
     async logoutUser(store) {
       try {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("email");
-        localStorage.removeItem("user");
-        const auth = getAuth();
-        await signOut(auth);
+        await signOut(firebaseAuth);
+        localStorage.removeItem('currentUser');
         store.dispatch("setUser", null);
         router.push({ name: LOGIN });
       } catch (error) {

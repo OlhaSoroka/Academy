@@ -50,7 +50,6 @@ import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import CreateUpdateAdminModal from "@/components/Modals/CreateUpdateAdminModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
 import { mapActions, mapGetters } from "vuex";
-
 export default {
   components: {
     BaseTable,

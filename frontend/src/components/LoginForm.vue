@@ -55,15 +55,15 @@
 
 <script>
 import { ValidationObserver } from "vee-validate";
+import { firebaseAuth } from "@/main";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import BaseInput from "@/components/BaseComponents/BaseInput";
 import { mapGetters, mapActions } from "vuex";
 import {
-  getAuth,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { getAllUsers } from "@/api/user";
+import { gethUserByID } from "@/api/user";
 
 export default {
   name: "LoginForm",
@@ -94,23 +94,17 @@ export default {
   methods: {
     ...mapActions("user", ["setUser", "logoutUser"]),
     async onSubmit() {
-      const auth = getAuth();
       this.isDataLoading = true;
       try {
         const { user } = await signInWithEmailAndPassword(
-          auth,
+          firebaseAuth,
           this.formData.email,
           this.formData.password
         );
-        const { accessToken, email } = user;
-        const users = await getAllUsers(accessToken);
-        const currentUser = users.find(
-          (userOfArray) => userOfArray.email === email
-        );
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("email", email);
-        localStorage.setItem("user", JSON.stringify(currentUser));
+        const currentUser = await gethUserByID(user.uid);
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
         this.setUser(currentUser);
+
         this.errorHandler.isError = false;
         this.errorHandler.message = "";
         this.isDataLoading = false;
@@ -146,8 +140,7 @@ export default {
       this.isLoginPage = false;
       this.errorResetHandler.message = "";
       this.errorResetHandler.isError = false;
-      const auth = getAuth();
-      sendPasswordResetEmail(auth, this.formData.email)
+      sendPasswordResetEmail(firebaseAuth, this.formData.email)
         .then((response) => {
           this.isLoginPage = true;
           this.$store.dispatch(

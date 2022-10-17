@@ -18,11 +18,9 @@ export default {
   },
   actions: {
     fetchMentors: async (store) => {
-      const token = localStorage.getItem("accessToken");
-
       try {
         store.commit("TOGGLE_MENTORS_LOADING");
-        const users = await getAllUsers(token);
+        const users = await getAllUsers();
         const mentors = users.filter((user) => user.role === MENTOR_ROLE);
         store.commit("SET_MENTORS", mentors);
       } catch (error) {
@@ -38,11 +36,9 @@ export default {
       }
     },
     createMentor: async (store, mentor) => {
-      const token = localStorage.getItem("accessToken");
-
       try {
         store.commit("TOGGLE_MENTORS_LOADING");
-        await registerUser(mentor, token);
+        await registerUser(mentor);
         store.dispatch(
           "toast/show",
           { message: "User succesfully created", type: "success" },
@@ -62,11 +58,9 @@ export default {
       }
     },
     deleteMentor: async (store, id) => {
-      const token = localStorage.getItem("accessToken");
-
       try {
         store.commit("TOGGLE_MENTORS_LOADING");
-        await deleteUserById(id, token);
+        await deleteUserById(id);
         store.dispatch(
           "toast/show",
           { message: "User succesfully deleted", type: "success" },
@@ -86,11 +80,10 @@ export default {
       }
     },
     updateMentor: async (store, mentorData) => {
-      const token = localStorage.getItem("accessToken");
 
       try {
         store.commit("TOGGLE_MENTORS_LOADING");
-        await updateUserByID(mentorData.id, mentorData, token);
+        await updateUserByID(mentorData.id, mentorData);
         store.dispatch(
           "toast/show",
           { message: "User succesfully updated", type: "success" },
