@@ -1,51 +1,81 @@
-import axios from "../index";
-const USER_URL = "https://inventorsoft-vue-2022-users.herokuapp.com/";
-const useToken = (token) => ({
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    authorization: `Bearer ${token}`,
-  },
-});
+import { firebaseAuth, firestore } from '@/main';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
+import { USER_COLLECTION } from '../collections.const';
 
-//functions with tokens
-export const deleteUserById = async (id, token) => {
-  const response = await axios.delete(
-    `${USER_URL}firebase/delete-user/${id}`,
-    useToken(token)
-  );
-  return await response.data;
+export const deleteUserById = async (id) => {
+	try {
+		const documentReference = doc(firestore, USER_COLLECTION, id);
+		await deleteDoc(documentReference);
+		return 'User deleted';
+	} catch (error) {
+		console.log({ error });
+	}
 };
 
-export const getAllUsers = async (token) => {
-  const response = await axios.get(
-    `${USER_URL}firebase/get-all-users`,
-    useToken(token)
-  );
-  return await response.data;
+export const getAllUsers = async () => {
+	try {
+		const collectionReference = collection(firestore, USER_COLLECTION);
+		const documents = await getDocs(collectionReference);
+		const users = [];
+		documents.forEach((document) => {
+			const user = document.data();
+			users.push(user);
+		});
+		return users;
+	} catch (error) {
+		console.log({ error });
+	}
 };
 
-export const gethUserByID = async (id, token) => {
-  const response = await axios.get(
-    `${USER_URL}firebase/get-user/${id}`,
-    useToken(token)
-  );
-  return await response.data;
+export const gethUserByID = async (id) => {
+	try {
+		const documentReference = doc(firestore, USER_COLLECTION, id);
+		const document = await getDoc(documentReference);
+		const user = document.data();
+		return user;
+	} catch (error) {
+		console.log({ error });
+	}
 };
 
-export const updateUserByID = async (id, data, token) => {
-  const response = await axios.post(
-    `${USER_URL}firebase/update-user/${id}`,
-    data,
-    useToken(token)
-  );
-  return await response.data;
+export const updateUserByID = async (id, data) => {
+	try {
+		const documentReference = doc(firestore, USER_COLLECTION, id);
+		const document = await getDoc(documentReference);
+		const user = document.data();
+
+		const userToUpdate = { ...user, ...data };
+
+		await updateDoc(documentReference, userToUpdate);
+
+		return userToUpdate;
+	} catch (error) {
+		console.log({ error });
+	}
 };
 
-export const registerUser = async (data, token) => {
-  const response = await axios.post(
-    `${USER_URL}firebase/register`,
-    data,
-    useToken(token)
-  );
-  return await response.data;
+export const registerUser = async (data) => {
+	try {
+		const credentials = await createUserWithEmailAndPassword(firebaseAuth, data.email, data.password);
+		const uid = credentials.user.uid;
+
+		const newUser = {
+			avatarUrl: {
+				filename: null,
+				path: data.avatarUrl || '',
+			},
+			course: data.course || '',
+			email: data.email,
+			fullName: data.fullName,
+			role: data.role,
+			id: uid,
+		};
+
+		const documentReference = doc(firestore, USER_COLLECTION, uid);
+		await setDoc(documentReference, newUser);
+		return newUser;
+	} catch (error) {
+		console.log({ error });
+	}
 };

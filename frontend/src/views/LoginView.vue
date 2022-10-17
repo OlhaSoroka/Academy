@@ -27,11 +27,7 @@
 </template>
 
 <script>
-import { getAllUsers } from '@/api/user';
 import LoginForm from '@/components/LoginForm';
-// import BaseSpinner from "../components/BaseComponents/BaseSpinner/BaseSpinner.vue";
-import { mapActions, mapGetters } from 'vuex';
-import { COURSE_DASHBOARD } from '@/constants/routes.constant';
 
 export default {
 	name: 'LoginView',
@@ -44,34 +40,8 @@ export default {
 			initialLoading: true,
 		};
 	},
-	computed: {
-		...mapGetters('user', ['user']),
-	},
 	async mounted() {
-		const token = localStorage.getItem('accessToken');
-		if (token) {
-			const result = await this.isTokenAlive(token);
-			if (result) {
-				const thisEmail = localStorage.getItem('email');
-				const users = await getAllUsers(token);
-				const currentAcc = users.find((acc) => acc.email === thisEmail);
-				this.setUser(currentAcc);
-				localStorage.setItem('user', JSON.stringify(currentAcc));
-				this.$router.push({ name: COURSE_DASHBOARD });
-			}
-		}
 		this.initialLoading = false;
-	},
-	methods: {
-		...mapActions('user', ['setUser']),
-		async isTokenAlive(token) {
-			try {
-				await getAllUsers(token);
-				return true;
-			} catch (err) {
-				return false;
-			}
-		},
 	},
 };
 </script>

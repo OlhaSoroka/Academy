@@ -16,10 +16,9 @@ export default {
 	},
 	actions: {
 		fetchStudents: async (store) => {
-			const token = localStorage.getItem('accessToken');
 			try {
 				store.commit('TOGGLE_LOADING_STATUS');
-				const allUsers = await getAllUsers(token);
+				const allUsers = await getAllUsers();
 				const students = allUsers.filter((user) => user.role === STUDENTS_ROLE);
 				store.commit('SET_STUDENTS', students);
 			} catch (error) {
@@ -30,11 +29,10 @@ export default {
 			}
 		},
 		updateStudent: async (store, data) => {
-			const token = localStorage.getItem('accessToken');
 			try {
 				store.commit('TOGGLE_LOADING_STATUS');
-				const email = await updateUserByID(data.id, data, token);
-				const allUsers = await getAllUsers(token);
+				const email = await updateUserByID(data.id, data);
+				const allUsers = await getAllUsers();
 				const student = allUsers.find((user) => user.email === email);
 				const allCourses = await getAllCourses();
 				const studentsCourse = allCourses.find((course) => course.name === student.course);
@@ -72,12 +70,9 @@ export default {
 			}
 		},
 		createNewStudent: async (store, data) => {
-			const token = localStorage.getItem('accessToken');
 			try {
 				store.commit('TOGGLE_LOADING_STATUS');
-				const response = await registerUser(data, token);
-				const allUsers = await getAllUsers(token);
-				const student = allUsers.find((user) => user.email === response.email);
+				const student =  await registerUser(data);
 				const allCourses = await getAllCourses();
 				const studentsCourse = allCourses.find((course) => course.name === student.course);
 				if (studentsCourse) {
@@ -106,7 +101,6 @@ export default {
 			}
 		},
 		deleteStudent: async (store, id) => {
-			const token = localStorage.getItem('accessToken');
 			try {
 				store.commit('TOGGLE_LOADING_STATUS');
 				const student = store.state.students.find((student) => student.id === id);
@@ -121,9 +115,10 @@ export default {
                     studentsCourse.homework_results.splice(indexToUpdateResultHomeworkMember, 1);
 					await updateCourseById(studentsCourse.id, studentsCourse);
 				}
-				await deleteUserById(id, token);
+				await deleteUserById(id);
 				store.dispatch('toast/show', { message: 'User successfully deleted', type: 'success' }, { root: true });
 			} catch (error) {
+				console.log({error});
 				const errorMessage = error.response?.data?.error || error.response.data.message;
 				store.dispatch('toast/show', { message: errorMessage, type: 'error' }, { root: true });
 			} finally {

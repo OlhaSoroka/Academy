@@ -6,7 +6,9 @@ import './index.css';
 import { initializeApp } from 'firebase/app';
 import clickOutsideDirective from './directives/click-outside.directive';
 
-import { getFirestore } from 'firebase/firestore';
+
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: process.env.VUE_APP_API_KEY,
@@ -20,6 +22,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app)
+export const firestore = getFirestore(app);
+export const firebaseAuth = getAuth(app);
+
 
 Vue.config.productionTip = false;
 
