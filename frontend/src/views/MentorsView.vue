@@ -89,7 +89,6 @@ export default {
       this.selectedMentorId = id;
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
       this.fullName = this.selectedMentor.fullName;
-      console.log(this.selectedMentor.fullName, "selectedMentor");
     },
     submitDelete() {
       this.deleteMentor(this.selectedMentorId);

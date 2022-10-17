@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-xl text-gray-700 mb-5">Group</div>
+      <div class="text-xl text-gray-700 mb-5">
+        Group
+      </div>
     </div>
     <div>
       <BaseTableEditable
