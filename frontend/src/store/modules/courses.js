@@ -1,4 +1,3 @@
-/* import axios from "../../api/index"; */
 import {db} from "../../main";
 import {
 	getAllCourses,
@@ -88,7 +87,6 @@ export default {
 				.finally(() => commit("changeLoadingStatus"))
 		},
 		async createNewCourse( { dispatch }, data) {
-			/* axios */
 			try {await setDoc(doc(db, "courses", `${data.id}`), data)
 			.then(dispatch("getCourses"),
 			dispatch(
@@ -97,18 +95,6 @@ export default {
 				{ root: true }
 			))
 		} 
-			/* const dbRef = collection(db, "courses");
-			addDoc(dbRef, data) */
-			/* .then((response) => {
-					if (response.status >= 200 && response.status <= 204) {
-						dispatch("getCourses")
-						dispatch(
-							"toast/show",
-							{ message: "Course succesfully created", type: "success" },
-							{ root: true }
-						)
-					}
-				}) */
 			catch (error) {
 					dispatch("getCourses")
 					const errorMessage = error.response?.data?.error || error.message
@@ -118,34 +104,10 @@ export default {
 						{ root: true }
 					)
 				}
-		},/* createNewCourse({ dispatch }, data) {
-			axios
-				.post(`${COURSES_URL}/posts`, data)
-				.then((response) => {
-					if (response.status >= 200 && response.status <= 204) {
-						dispatch("getCourses")
-						dispatch(
-							"toast/show",
-							{ message: "Course succesfully created", type: "success" },
-							{ root: true }
-						)
-					}
-				})
-				.catch((error) => {
-					dispatch("getCourses")
-					const errorMessage = error.response?.data?.error || error.message
-					dispatch(
-						"toast/show",
-						{ message: errorMessage, type: "error" },
-						{ root: true }
-					)
-				})
-		}, */
+		},
 		async addNewComment({ dispatch }, payload) {
-			/* axios */
 			try { const courseRef = doc(db, "courses", `${payload.id}`);
             await updateDoc(courseRef, payload.currentItemUpdate)
-				/* .put(`${COURSES_URL}/posts/${payload.id}`, payload.currentItemUpdate) */
 				.then(() => {dispatch("getCourses"),
 					dispatch(
 							"toast/show",
@@ -185,7 +147,6 @@ export default {
 		},
 		deleteCourseFromState({ commit, dispatch }, id) {
 			commit("changeLoadingStatus")
-			/* axios */
 			deleteCourse(id)
 				.then(() => {
 					dispatch(
@@ -210,8 +171,7 @@ export default {
 		},
 		patchCourses({ dispatch }, payload) {
 			try {
-				console.log(payload.course)/* 
-				updateCourseById(payload.id) */
+				console.log(payload.course)
 				.then(() => {
 					dispatch("getCourses")
 					dispatch(

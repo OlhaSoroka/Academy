@@ -1,8 +1,4 @@
-/* import axios from "../index"
-export const COURSES_URL = `https://fake-server-vue-js-app.herokuapp.com` */
-
-import { db } from "@/main"; /* 
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; */
+import { db } from "@/main"; 
 import {
   collection,
   getDocs,
@@ -38,8 +34,6 @@ export const patchCourse = async (id, field, value) => {
     const docSnap = await getDoc(courseRef);
     docSnap[field] = value;
     console.log(docSnap)
-    /* console.log(id, field, value) */
-    /* await updateDoc(courseRef, {field: value} ) */
   } catch (error) {
     console.log({ error });
   }
