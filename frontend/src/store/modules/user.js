@@ -1,3 +1,4 @@
+import { createImageRef, createImageUrl, uploadImage } from "@/api/storage";
 import { gethUserByID, updateUserByID } from "@/api/user";
 import { LOGIN } from "@/constants/routes.constant";
 import { firebaseAuth } from "@/main";
@@ -20,7 +21,7 @@ export default {
     async fetchUser(store, id) {
       try {
         const user = await gethUserByID(id);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("currentUser", JSON.stringify(user));
         store.commit("SET_USER", user);
       } catch (error) {
         const errorMessage =
@@ -62,21 +63,22 @@ export default {
     },
     async changeProfileImage(store, image) {
       try {
-        store.commit("TOGGLE_IMAGE_LOADING");
-        const formData = new FormData();
-        formData.append("avatar", image);
-        await updateUserByID(
-          store.state.user.id,
-          formData,
-          store.getters.accessToken
-        );
+				store.commit('TOGGLE_IMAGE_LOADING');
+				const imageRef = createImageRef(store.state.user.email);
+				await uploadImage(imageRef, image);
+
+				const imageUrl = await createImageUrl(imageRef);
+
+				await updateUserByID(store.state.user.id, { avatarUrl: imageUrl });
+
         store.dispatch("fetchUser", store.state.user.id);
         store.dispatch(
           "toast/show",
-          { message: "Profile image succesfully changed", type: "success" },
+          { message: "Profile image successfully changed", type: "success" },
           { root: true }
         );
       } catch (error) {
+        console.log(error);
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
         store.dispatch(

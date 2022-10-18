@@ -1,7 +1,9 @@
-import { firebaseAuth, firestore } from '@/main';
+import { firebaseAuth, firestore, storage } from '@/main';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
+import { ref } from 'firebase/storage';
 import { USER_COLLECTION } from '../collections.const';
+import { createImageUrl } from '../storage';
 
 export const deleteUserById = async (id) => {
 	try {
@@ -49,6 +51,8 @@ export const updateUserByID = async (id, data) => {
 
 		await updateDoc(documentReference, userToUpdate);
 
+		localStorage.setItem('currentUser', JSON.stringify(userToUpdate));
+
 		return userToUpdate;
 	} catch (error) {
 		console.log({ error });
@@ -59,12 +63,8 @@ export const registerUser = async (data) => {
 	try {
 		const credentials = await createUserWithEmailAndPassword(firebaseAuth, data.email, data.password);
 		const uid = credentials.user.uid;
-
 		const newUser = {
-			avatarUrl: {
-				filename: null,
-				path: data.avatarUrl || '',
-			},
+			avatarUrl: await createImageUrl(ref(storage, 'images/default-avatar.jpg')),
 			course: data.course || '',
 			email: data.email,
 			fullName: data.fullName,
