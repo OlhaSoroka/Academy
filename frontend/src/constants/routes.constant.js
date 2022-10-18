@@ -1,5 +1,4 @@
 export const LOGIN = "login";
-export const RESET = "reset";
 
 export const PROFILE = "profile";
 export const STUDENTS = "users";
