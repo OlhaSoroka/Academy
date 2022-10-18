@@ -16,17 +16,6 @@
               v-model="newName"
               rules="required"
             />
-            <label 
-              v-if="getCourseById(id).homework_quantity"
-              for="homework_quantity"
-            >Homework quantity
-            </label>
-            <BaseInput
-              v-if="getCourseById(id).homework_quantity"
-              id="homework_quantity"
-              v-model="newHomework_quantity"
-              type="number"
-            />
             <BaseInput
               v-model="newDate"
               type="date"
@@ -114,7 +103,6 @@ export default {
       newDate_project_start: "",
       newDate_project_demo: "",
       newDate_final_interview: "",
-      newHomework_quantity: 0,
     };
   },
   computed: {
@@ -127,14 +115,13 @@ export default {
    id() {
       this.getCourses().then(() => {
       this.currentItem = this.getCourseById(this.id)
-      const { status, name, date, date_project_start, date_project_demo, date_final_interview, homework_quantity } = this.currentItem
+      const { status, name, date, date_project_start, date_project_demo, date_final_interview} = this.currentItem
       this.newStatus = status
       this.newName = name
       this.newDate = this.makeDate(date)
       this.newDate_project_start = this.makeDate(date_project_start)
       this.newDate_project_demo = this.makeDate(date_project_demo)
       this.newDate_final_interview = this.makeDate(date_final_interview)
-      this.newHomework_quantity = homework_quantity
        }
        )
     }
@@ -142,14 +129,13 @@ export default {
   async mounted() {
     this.getCourses().then(() => {
       this.currentItem = this.getCourseById(this.id)
-      const { status, name, homework_quantity, date, date_project_start, date_project_demo, date_final_interview  } = this.currentItem
+      const { status, name, date, date_project_start, date_project_demo, date_final_interview  } = this.currentItem
       this.newStatus = status
       this.newName = name
       this.newDate = this.makeDate(date)
       this.newDate_project_start = this.makeDate(date_project_start)
       this.newDate_project_demo = this.makeDate(date_project_demo)
       this.newDate_final_interview = this.makeDate(date_final_interview)
-      this.newHomework_quantity = homework_quantity
     })
   },
   methods: {
@@ -158,7 +144,6 @@ export default {
       this.newStatus = ""
       this.newName = ""
       this.newDate = ""
-      this.newHomework_quantity = 0
       this.newDate_project_start = ""
       this.newDate_project_demo = ""
       this.newDate_final_interview = ""
@@ -183,8 +168,7 @@ export default {
         date: this.newDate,
         date_project_start: this.newDate_project_start,
         date_project_demo: this.newDate_project_demo,
-        date_final_interview: this.newDate_final_interview,
-        homework_quantity: this.newHomework_quantity
+        date_final_interview: this.newDate_final_interview
       }
 
       await this.updateCourse({ id: itemCopy.id, course: itemCopy })

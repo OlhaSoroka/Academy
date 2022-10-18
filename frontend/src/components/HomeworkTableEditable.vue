@@ -26,10 +26,10 @@
         </th>
         <th 
           v-for="(homework, homeworkIndex) in rows[0].homework"
+          id="header"
           :key="homeworkIndex"
           colspan="2"
           class="table_header cursor-pointer"
-          id="header"
         >
           <div
             

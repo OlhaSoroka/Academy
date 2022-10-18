@@ -480,7 +480,7 @@ export default {
     this.getCourses();
   },
   methods: {
-    ...mapActions("courses", ["getCourses", "addNewComment", "patchCourses"]),
+    ...mapActions("courses", ["getCourses", "addNewComment", "patchCourses", "updateCourse"]),
     openModal() {
       this.isModalOpened = !this.isModalOpened;
     },
@@ -488,8 +488,9 @@ export default {
       this.isDeleteModalOpen = !this.isDeleteModalOpen;
     },
     submitDelete() {
-      this.patchCourses(this.payload);
-      this.patchCourses(this.homeworkPayload);
+      this.updateCourse(this.payload)
+      /* this.patchCourses(this.payload);
+      this.patchCourses(this.homeworkPayload); */
     },
     submitDeleteHomework(param) {
       const updatedCourse = { ...this.courseItem };
@@ -508,7 +509,7 @@ export default {
     },
     deleteHomework(id) {
       this.openDeleteModal();
-      const currentCourse = this.getCourseById(this.$route.params.id);
+      const currentCourse = {...this.getCourseById(this.$route.params.id)};
       const { homework } = currentCourse;
       const filteredHomework = homework.filter((task) => task.id !== id);
       this.targetRow = homework.filter((task) => task.id === id)[0].name;
@@ -516,6 +517,7 @@ export default {
         id: this.$route.params.id,
         field: "homework",
         value: filteredHomework,
+        course: currentCourse
       };
     },
     openEditHomeworkResultModal(id) {
@@ -527,21 +529,24 @@ export default {
     },
     deleteComment(id) {
       this.openDeleteModal();
-      const currentCourse = this.getCourseById(this.$route.params.id);
+      const currentCourse = {...this.getCourseById(this.$route.params.id)};
       const { comments } = currentCourse;
       const filteredComments = comments.filter((comment) => comment.id !== id);
       this.targetRow = comments.filter(
         (comment) => comment.id === id
       )[0].message;
+      currentCourse.comments = filteredComments;
+     /*  this.payload = currentCourse; */
       this.payload = {
         id: this.$route.params.id,
         field: "comments",
         value: filteredComments,
+        course: currentCourse
       };
     },
     deleteResultRow(id) {
       this.openDeleteModal();
-      const currentCourse = this.getCourseById(this.$route.params.id);
+      const currentCourse = {...this.getCourseById(this.$route.params.id)};
       const { results } = currentCourse;
       const filteredResults = results.filter(
         (resultRow) => resultRow.id !== id
@@ -553,22 +558,25 @@ export default {
         id: this.$route.params.id,
         field: "results",
         value: filteredResults,
+        course: currentCourse
       };
     },
     deleteMaterialRow(id) {
       this.openDeleteModal();
-      const currentCourse = this.getCourseById(this.$route.params.id);
+      const currentCourse = {...this.getCourseById(this.$route.params.id)};
       const { materials } = currentCourse;
-      const filteredResults = materials.filter(
+      const filteredMaterials = materials.filter(
         (materialRow) => materialRow.id !== id
       );
       this.targetRow = materials.filter(
         (materialRow) => materialRow.id === id
       )[0].name;
+      currentCourse.materials = filteredMaterials;
       this.payload = {
         id: this.$route.params.id,
         field: "materials",
-        value: filteredResults,
+        value: filteredMaterials,
+        course: currentCourse
       };
     },
     previousPage() {

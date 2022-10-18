@@ -34,7 +34,7 @@
       <div class="flex justify-center">
         <div class="rounded-full shadow-md w-24 h-24 block relative overflow-hidden">
           <img
-            :src="user.avatarUrl.path"
+            :src="user.avatarUrl?.path"
             class="w-full h-full object-cover"
           >
         </div>

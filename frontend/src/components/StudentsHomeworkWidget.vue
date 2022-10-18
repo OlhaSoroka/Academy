@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="text-xl text-gray-700 mb-5">Homework</div>
+      <div class="text-xl text-gray-700 mb-5">
+        Homework
+      </div>
     </div>
     <div v-if="course.homework_results[0].homework.length">
       <BaseTableEditable

@@ -134,7 +134,7 @@ export default {
   },
   async mounted() {
     await this.getCourses();
-    this.sortCourses()
+    this.sortCourses();
   },
   methods: {
     ...mapActions("courses", ["getCourses", "deleteCourseFromState", 'sortCourses']),

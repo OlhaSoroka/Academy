@@ -18,11 +18,9 @@ export default {
   },
   actions: {
     fetchAdmins: async (store) => {
-      const token = localStorage.getItem("accessToken");
-
       try {
         store.commit("TOGGLE_ADMINS_LOADING");
-        const users = await getAllUsers(token);
+        const users = await getAllUsers();
         const admins = users.filter((user) => user.role === ADMIN_ROLE);
         store.commit("SET_ADMINS", admins);
       } catch (error) {
@@ -38,11 +36,9 @@ export default {
       }
     },
     createAdmin: async (store, admin) => {
-      const token = localStorage.getItem("accessToken");
-
       try {
         store.commit("TOGGLE_ADMINS_LOADING");
-        await registerUser(admin, token);
+        await registerUser(admin);
         store.dispatch(
           "toast/show",
           { message: "User succesfully created", type: "success" },
@@ -62,11 +58,9 @@ export default {
       }
     },
     deleteAdmin: async (store, id) => {
-      const token = localStorage.getItem("accessToken");
-
       try {
         store.commit("TOGGLE_ADMINS_LOADING");
-        await deleteUserById(id, token);
+        await deleteUserById(id);
         store.dispatch(
           "toast/show",
           { message: "User succesfully deleted", type: "success" },
@@ -86,11 +80,10 @@ export default {
       }
     },
     updateAdmin: async (store, adminData) => {
-      const token = localStorage.getItem("accessToken");
 
       try {
         store.commit("TOGGLE_ADMINS_LOADING");
-        await updateUserByID(adminData.id, adminData, token);
+        await updateUserByID(adminData.id, adminData);
         store.dispatch(
           "toast/show",
           { message: "User succesfully updated", type: "success" },
