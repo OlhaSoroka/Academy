@@ -3,11 +3,14 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
 import { ref } from 'firebase/storage';
 import { USER_COLLECTION } from '../collections.const';
-import { createImageUrl } from '../storage';
+import { createImageUrl, deleteImage } from '../storage';
 
 export const deleteUserById = async (id) => {
 	try {
 		const documentReference = doc(firestore, USER_COLLECTION, id);
+		const document = await getDoc(documentReference);
+		const email = document.data().email;
+		await deleteImage(email);
 		await deleteDoc(documentReference);
 		return 'User deleted';
 	} catch (error) {

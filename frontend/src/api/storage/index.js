@@ -1,5 +1,5 @@
 import { storage } from '@/main';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes, deleteObject } from 'firebase/storage';
 
 export const createImageUrl = async (imageRef) => {
 	return await getDownloadURL(imageRef);
@@ -18,3 +18,14 @@ export const uploadImage = async (imageRef, image) => {
 		return 'Uploaded failed';
 	}
 };
+export const deleteImage = async (userEmail) => {
+	try {
+		const imageRef = ref(storage , `/images/${userEmail}.jpg`)
+		await deleteObject(imageRef)
+		return "Image deleted"
+	} catch (error) {
+		return ""
+	}
+} 
+
+
