@@ -108,8 +108,7 @@ export default {
         email: "",
         course: "",
         role: "user",
-        avatarUrl:
-          "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
+        avatarUrl: null
       },
     };
   },
@@ -137,9 +136,7 @@ export default {
         email: "",
         course: "",
         role: "user",
-        avatarUrl:
-          "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png",
-      };
+        avatarUrl: null };
     },
     submitUserCreateButton() {
       this.createNewStudent(this.createModel);

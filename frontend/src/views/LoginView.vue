@@ -47,7 +47,7 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .login-page-container {
-	background: center / cover no-repeat url("https://img.freepik.com/free-photo/the-abstract-office-desktop_155003-4104.jpg?w=1380&t=st=1663421755~exp=1663422355~hmac=b28676ff949959534e5a221079d206021d07ac4cfa0e7acc16c48573842f91ec");
+	background: center / cover no-repeat url("../assets/login_page_bg.jpg");
 }
 .login-page-shader {
 	@apply w-full h-full bg-gradient-to-b from-white to-transparent flex justify-center items-center;

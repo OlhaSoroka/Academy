@@ -39,7 +39,7 @@
               </div>
             </div>
             <img
-              :src="user.avatarUrl.path"
+              :src="user.avatarUrl"
               @load="profileImageLoaded"
             >
           </div>

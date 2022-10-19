@@ -21,8 +21,8 @@
         class="flex m-auto p-4"
       >
         <img
-          class="w-7 h-7"
-          src="https://office.inventorsoft.co/images/logo_star_mini.jpg"
+          class="h-8"
+          src="../assets/logo_small.png"
           alt="small_logo"
         >
       </div>
@@ -34,7 +34,7 @@
       <div class="flex justify-center">
         <div class="rounded-full shadow-md w-24 h-24 block relative overflow-hidden">
           <img
-            :src="user.avatarUrl?.path"
+            :src="user.avatarUrl"
             class="w-full h-full object-cover"
           >
         </div>

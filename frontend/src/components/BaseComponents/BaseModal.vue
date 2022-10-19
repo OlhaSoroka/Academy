@@ -68,7 +68,7 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .modal {
-  @apply overflow-x-hidden overflow-y-auto fixed top-0 right-0 bottom-0 left-0  z-20 flex justify-center mt-10;
+  @apply overflow-x-hidden overflow-y-auto fixed top-0 right-0 bottom-0 left-0  z-20 flex justify-center items-center mt-10;
 }
 .modal__backdrop {
   @apply bg-black opacity-30 fixed top-0 right-0 bottom-0 left-0 z-10 p-2;
