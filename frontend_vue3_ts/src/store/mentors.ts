@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
+import { deleteUserById, getAllUsers, gethUserByID, updateUserByID, registerUser} from "../api/user/index";
+import { RegisterUserBody } from "../api/models/user.model";
 
 class MentorInfo {
   avatarUrl!: string;
@@ -52,7 +54,7 @@ export const useMentorStore = defineStore("mentor", {
         this.TOGGLE_MENTORS_LOADING;
       }
     },
-    async createMentor(mentor: MentorInfo) {
+    async createMentor(mentor: RegisterUserBody) {
       try {
         this.TOGGLE_MENTORS_LOADING;
         await registerUser(mentor);

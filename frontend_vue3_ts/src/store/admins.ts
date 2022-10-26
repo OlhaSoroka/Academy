@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
-
+import { deleteUserById, getAllUsers, gethUserByID, updateUserByID, registerUser} from "../api/user/index";
+import { RegisterUserBody } from "../api/models/user.model";
 class AdminInfo {
   avatarUrl!: string;
   email!: string;
@@ -52,7 +53,7 @@ export const useAdminStore = defineStore("admin", {
         this.TOGGLE_ADMINS_LOADING;
       }
     },
-    async createAdmin(admin: AdminInfo) {
+    async createAdmin(admin: RegisterUserBody) {
       try {
         this.TOGGLE_ADMINS_LOADING;
         await registerUser(admin);

@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
 import router from "../router";
+import { deleteUserById, getAllUsers, gethUserByID, updateUserByID, registerUser} from "../api/user/index";
+import { createImageUrl, createImageRef, uploadImage, deleteImage } from "../api/storage/index";
+import { signOut } from "firebase/auth";
+import { firebaseAuth } from "../main";
+import { ROUTE_NAMES } from "../models/router.model";
 
 class UserInfo {
   avatarUrl!: string;
@@ -31,11 +36,11 @@ export const useUserStore = defineStore("user", {
     toggle_image_loading() {
       this.isImageLoading = !this.isImageLoading;
     },
-    async fetchUser(id: string) {
+    async fetchUser(id: string){
       try {
         const user = await gethUserByID(id);
         localStorage.setItem("currentUser", JSON.stringify(user));
-        this.setUser(user);
+        if (user) {this.setUser(user)};
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
@@ -50,11 +55,9 @@ export const useUserStore = defineStore("user", {
         }
       }
     },
-    async changePassword(password: string) {
+    async changePassword(password:any) {
       try {
-        await updateUserByID(
-          this.user.id, {password}
-        );
+        await updateUserByID(this.user.id, password);
         store.dispatch(
           "toast/show",
           { message: "Password succesfully changed", type: "success" },
@@ -99,7 +102,7 @@ export const useUserStore = defineStore("user", {
         await signOut(firebaseAuth);
         localStorage.removeItem('currentUser');
         this.user = new UserInfo;
-        router.push({ name: LOGIN });
+        router.push({ name: ROUTE_NAMES.LOGIN });
       } catch (error:any) {
         store.dispatch(
           "toast/show",

@@ -9,12 +9,13 @@ import {
 import { db } from "../../main";
 import { Collection } from "../models/collection.enum";
 import { Course } from "../models/course.model";
+import { ICourse } from "../../models/courses.models";
 
-export const getAllCourses = async (): Promise<Course[] | undefined> => {
+export const getAllCourses = async ()/* : Promise<Course[] | undefined> */ => {
   try {
     const coursesData = await getDocs(collection(db, Collection.COURSES));
-    const courses: Course[] = [];
-    coursesData.forEach((course) => courses.push(course.data() as Course));
+    const courses: ICourse[] = [];
+    coursesData.forEach((course) => courses.push(course.data() as ICourse));
     return courses;
   } catch (error) {
     console.log({ error });

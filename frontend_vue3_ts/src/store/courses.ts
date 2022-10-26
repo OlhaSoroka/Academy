@@ -1,6 +1,15 @@
 import { defineStore } from "pinia";
 import { ICourse } from "../models/courses.models";
-import router from "../router";
+import {
+    setDoc,
+    getDocs,
+    getDoc,
+    doc,
+    updateDoc,
+    deleteDoc,
+  } from "firebase/firestore";
+import { db } from "../main";
+import { getAllCourses, updateCourseById, patchCourse, deleteCourse} from "../api/course"
 
 interface ICoursesStoreState {
   courses: ICourse[];
@@ -65,8 +74,8 @@ export const useCoursesStore = defineStore("courses", {
     async getCourses() {
       this.changeLoadingStatus;
       try {
-        const courses = getAllCourses();
-        this.setCourses(courses);
+        const courses = await getAllCourses();
+        if (courses) {this.setCourses(courses)};
       } catch (error: any) {
         const errorMessage = error.response?.data?.error || error.message;
         dispatch(
