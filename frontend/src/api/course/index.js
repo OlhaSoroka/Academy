@@ -13,6 +13,7 @@ export const getAllCourses = async () => {
     const coursesData = await getDocs(collection(db, "courses"));
     const courses = [];
     coursesData.forEach((course) => courses.push(course.data()));
+    console.log(JSON.stringify(courses[courses.length - 1]));
 	return courses;
   } catch (error) {
     console.log({ error });

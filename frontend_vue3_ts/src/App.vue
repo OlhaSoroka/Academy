@@ -23,6 +23,6 @@ import { Vue, Options } from 'vue-class-component'
 })
 export default class Counter extends Vue {
   // The behavior in class is the same as the current
-
+  
 }
 </script>
