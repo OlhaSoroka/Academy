@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
-import store from "./store";
+import { createPinia } from 'pinia'
 import router from "./router";
 
 import { initializeApp } from "firebase/app";
@@ -18,6 +18,8 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_APP_ID,
 };
 
+const pinia = createPinia()
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -25,4 +27,4 @@ export const firestore = getFirestore(app);
 export const firebaseAuth = getAuth(app);
 export const storage = getStorage(app);
 
-createApp(App).use(store).use(router).mount("#app");
+createApp(App).use(pinia).use(router).mount("#app");
