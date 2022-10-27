@@ -39,6 +39,10 @@ export class CourseMember {
   eng_level: string = "";
   city: string = "";
   phone: string = "";
+
+  asObject() {
+    return { ...this };
+  }
 }
 
 export class CourseHomeworkResult {
@@ -51,6 +55,10 @@ export class CourseHomeworkResult {
   students_name: string;
   total: string = "0";
   homework: Homework[] = [];
+
+  asObject() {
+    return { ...this };
+  }
 }
 
 export interface Homework {
@@ -91,4 +99,8 @@ export class CourseResult {
   final_english_interviewer_comments: string = "";
   fullName: string;
   email: string;
+
+  asObject() {
+    return { ...this };
+  }
 }

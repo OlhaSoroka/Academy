@@ -89,12 +89,14 @@ export const useStudentStore = defineStore("students", {
 						}
 					}
 
-					studentCourse.group.push(new CourseMember(student));
-					studentCourse.results.push(new CourseResult(student));
+					studentCourse.group.push(new CourseMember(student).asObject());
+					studentCourse.results.push(new CourseResult(student).asObject());
 					studentCourse.homework_results.push(
-						new CourseHomeworkResult(student, homework),
+						new CourseHomeworkResult(student, homework).asObject(),
 					);
 
+					console.log({studentCourse});
+					
 					await updateCourseById(studentCourse.id, studentCourse);
 
 					const toastStore = useToastStore();
@@ -118,7 +120,7 @@ export const useStudentStore = defineStore("students", {
 				this.isStudentLoading = true;
 				const student = this.studentById(id);
 				let studentCourse: Course | null = null;
-
+		
 				if (student && student.course) {
 					studentCourse = await getCourseByName(student.course);
 				}
