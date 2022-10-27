@@ -12,6 +12,7 @@ class UserInfo {
   fullName!: string;
   id!: string;
   role!: string;
+  class!: string;
 }
 
 interface IUserStoreState {
@@ -25,7 +26,7 @@ export const useUserStore = defineStore("user", {
     isImageLoading: false,
   }},
   getters: {
-    user: (state)=> state.user,
+    user: (state) => state.user,
     isImageLoading: (state) => state.isImageLoading,
     isUser: (state) => state.user.id !== null,
   },

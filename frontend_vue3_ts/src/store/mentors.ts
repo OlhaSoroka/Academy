@@ -3,7 +3,7 @@ import { ROLES } from "../models/router.model";
 import { deleteUserById, getAllUsers, gethUserByID, updateUserByID, registerUser} from "../api/user/index";
 import { RegisterUserBody } from "../api/models/user.model";
 
-class MentorInfo {
+export class MentorAdminInfo {
   avatarUrl!: string;
   email!: string;
   fullName!: string;
@@ -12,7 +12,7 @@ class MentorInfo {
 }
 
 interface IMentorStoreState {
-  mentors: MentorInfo[];
+  mentors: MentorAdminInfo[];
   isMentorsLoading: boolean;
 }
 
@@ -28,7 +28,7 @@ export const useMentorStore = defineStore("mentor", {
     isMentorsLoading: (state) => state.isMentorsLoading,
   },
   actions: {
-    SET_MENTORS(mentors: MentorInfo[]) {
+    SET_MENTORS(mentors: MentorAdminInfo[]) {
       this.mentors = mentors;
     },
     TOGGLE_MENTORS_LOADING() {
@@ -39,7 +39,7 @@ export const useMentorStore = defineStore("mentor", {
         this.TOGGLE_MENTORS_LOADING;
         const users = await getAllUsers();
         const mentors = users.filter(
-          (user: MentorInfo) => user.role === ROLES.MENTOR_ROLE,
+          (user: MentorAdminInfo) => user.role === ROLES.MENTOR_ROLE,
         );
         this.SET_MENTORS(mentors);
       } catch (error: any) {

@@ -2,16 +2,10 @@ import { defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
 import { deleteUserById, getAllUsers, gethUserByID, updateUserByID, registerUser} from "../api/user/index";
 import { RegisterUserBody } from "../api/models/user.model";
-class AdminInfo {
-  avatarUrl!: string;
-  email!: string;
-  fullName!: string;
-  id!: string;
-  role!: string;
-}
+import { MentorAdminInfo } from "./mentors";
 
 interface IAdminsStoreState {
-  admins: AdminInfo[];
+  admins: MentorAdminInfo[];
   isAdminsLoading: boolean;
 }
 
@@ -27,7 +21,7 @@ export const useAdminStore = defineStore("admin", {
     isAdminsLoading: (state) => state.isAdminsLoading,
   },
   actions: {
-    SET_ADMINS(admins: AdminInfo[]) {
+    SET_ADMINS(admins: MentorAdminInfo[]) {
       this.admins = admins;
     },
     TOGGLE_ADMINS_LOADING() {
@@ -38,7 +32,7 @@ export const useAdminStore = defineStore("admin", {
         this.TOGGLE_ADMINS_LOADING;
         const users = await getAllUsers();
         const admins = users.filter(
-          (user: AdminInfo) => user.role === ROLES.ADMIN_ROLE,
+          (user: MentorAdminInfo) => user.role === ROLES.ADMIN_ROLE,
         );
         this.SET_ADMINS(admins);
       } catch (error: any) {
