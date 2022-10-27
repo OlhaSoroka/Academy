@@ -1,7 +1,7 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import "./style.css";
 import App from "./App.vue";
-import store from "./store";
 import router from "./router";
 
 import { initializeApp } from "firebase/app";
@@ -20,6 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const store = createPinia();
 export const db = getFirestore(app);
 export const firestore = getFirestore(app);
 export const firebaseAuth = getAuth(app);
