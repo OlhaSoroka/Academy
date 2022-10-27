@@ -22,5 +22,5 @@ export enum ROUTE_PATH {
 export enum ROLES {
   ADMIN_ROLE = "admin",
   MENTOR_ROLE = "manager",
-  STUDENTS_ROLE = "user",
+  STUDENTS_ROLE = "student",
 }

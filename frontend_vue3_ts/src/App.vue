@@ -5,7 +5,7 @@
       <div class="bg-sky-400 ">TopBar
         <div class="m-3">
           <button class="bg-red-500 text-white" @click="showFailureToast">fail</button>
-          <button class="bg-green-500 text-white" @click="getCourses">Get courses</button>
+          <button class="bg-green-500 text-white" @click="">Get courses</button>
         </div>
       </div>
       <RouterView class="h-full overflow-auto bg-primary-100" />
@@ -21,10 +21,13 @@ import { ToastType, useToastStore } from './store/toast.store';
 import ToastMessage from './components/ToastMessage.vue';
 import { useCoursesStore } from './store/courses';
 import { defineComponent } from 'vue';
+import { getUsersByRole } from './api/user';
+import { ROLES } from './models/router.model';
 
 export default defineComponent({
   mounted() {
     this.coursesStore.getCourses()
+    getUsersByRole(ROLES.STUDENTS_ROLE).then(res => console.log({res}))
   },
     computed: {
         ...mapStores(useToastStore, useCoursesStore),

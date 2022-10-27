@@ -1,7 +1,9 @@
+import { AppUser } from "./user.model";
+
 export interface Course {
   status: CourseStatus;
   name: string;
-  id: number;
+  id: string;
   date_final_interview: string;
   date: string;
   materials: CourseMaterial[];
@@ -25,21 +27,30 @@ export interface CourseMaterial {
   link: string;
 }
 
-export interface CourseMember {
+export class CourseMember {
+  constructor(student: AppUser) {
+    this.fullName = student.fullName;
+    this.email = student.email;
+  }
   fullName: string;
   email: string;
-  age: string;
-  education: string;
-  eng_level: string;
-  city: string;
-  phone: string;
+  age: string = "";
+  education: string = "";
+  eng_level: string = "";
+  city: string = "";
+  phone: string = "";
 }
 
-export interface CourseHomeworkResult {
+export class CourseHomeworkResult {
+  constructor(student: AppUser, homework: Homework[]) {
+    this.id = student.id;
+    this.students_name = student.fullName;
+    this.homework = homework;
+  }
   id: string;
   students_name: string;
-  total: string;
-  homework: Homework[];
+  total: string = "0";
+  homework: Homework[] = [];
 }
 
 export interface Homework {
@@ -59,21 +70,25 @@ export interface CourseComment {
   createdAt: string;
 }
 
-export interface CourseResult {
-  average_homework_score: string;
-  middle_total: string;
-  final_hr_interviewer_comments: string;
-  interview_result: string;
-  exit_tech_interview: string;
-  start_total: string;
-  hr_interviewer_comments: string;
-  mentors_feedback: string;
-  tech_task: string;
-  multiple_choice: string;
-  eng_test: string;
-  email: string;
-  final_interviewer_comments: string;
-  interviewer_comments: string;
-  final_english_interviewer_comments: string;
+export class CourseResult {
+  constructor(student: AppUser) {
+    this.fullName = student.fullName;
+    this.email = student.email;
+  }
+  average_homework_score: string = "0";
+  middle_total: string = "0";
+  final_hr_interviewer_comments: string = "";
+  interview_result: string = "0";
+  exit_tech_interview: string = "0";
+  start_total: string = "0";
+  hr_interviewer_comments: string = "";
+  mentors_feedback: string = "";
+  tech_task: string = "0";
+  multiple_choice: string = "0";
+  eng_test: string = "0";
+  final_interviewer_comments: string = "";
+  interviewer_comments: string = "";
+  final_english_interviewer_comments: string = "";
   fullName: string;
+  email: string;
 }
