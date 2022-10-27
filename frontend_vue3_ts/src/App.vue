@@ -20,8 +20,12 @@ import { mapStores } from 'pinia';
 import { ToastType, useToastStore } from './store/toast.store';
 import ToastMessage from './components/ToastMessage.vue';
 import { useCoursesStore } from './store/courses';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
+  mounted() {
+    this.coursesStore.getCourses()
+  },
     computed: {
         ...mapStores(useToastStore, useCoursesStore),
     },
@@ -32,10 +36,10 @@ export default {
         showSuccessToast() {
             this.toastStore.showToastMessage({ message: "User successfully updated.", type: ToastType.SUCCESS });
         },
-        getCourses() {
+/*         getCourses() {
           this.coursesStore.getCourses()
-        }
+        } */
     },
     components: { ToastMessage }
-}
+})
 </script>
