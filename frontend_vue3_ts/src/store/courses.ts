@@ -1,15 +1,9 @@
 import { defineStore } from "pinia";
 import { ICourse } from "../models/courses.models";
-import {
-    setDoc,
-    getDocs,
-    getDoc,
-    doc,
-    updateDoc,
-    deleteDoc,
-  } from "firebase/firestore";
+import { setDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../main";
-import { getAllCourses, updateCourseById, patchCourse, deleteCourse} from "../api/course"
+import { getAllCourses, updateCourseById, deleteCourse } from "../api/course";
+import { ToastType, useToastStore } from "../store/toast.store";
 
 interface ICoursesStoreState {
   courses: ICourse[];
@@ -75,35 +69,38 @@ export const useCoursesStore = defineStore("courses", {
       this.changeLoadingStatus;
       try {
         const courses = await getAllCourses();
-        if (courses) {this.setCourses(courses)};
+        if (courses) {
+          this.setCourses(courses);
+        }
       } catch (error: any) {
         const errorMessage = error.response?.data?.error || error.message;
-        dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.changeLoadingStatus;
       }
     },
     async createNewCourse(data: ICourse) {
       try {
-        await setDoc(doc(db, "courses", `${data.id}`), data);
-        this.getCourses;
-        dispatch(
-          "toast/show",
-          { message: "Course succesfully created", type: "success" },
-          { root: true },
-        );
+        await setDoc(doc(db, "courses", `${data.id}`), data).then(() => {
+          this.getCourses;
+          const toastStore = useToastStore();
+          toastStore.showToastMessage({
+            message: "Course succesfully created!",
+            type: ToastType.SUCCESS,
+          });
+        });
       } catch (error: any) {
         this.getCourses;
         const errorMessage = error.response?.data?.error || error.message;
-        dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       }
     },
     async addNewComment(payload: any) {
@@ -111,60 +108,60 @@ export const useCoursesStore = defineStore("courses", {
         const courseRef = doc(db, "courses", `${payload.id}`);
         await updateDoc(courseRef, payload.currentItemUpdate).then(() => {
           this.getCourses;
-          dispatch(
-            "toast/show",
-            { message: "Comment sent!", type: "success" },
-            { root: true },
-          );
+          const toastStore = useToastStore();
+          toastStore.showToastMessage({
+            message: "Comment sent!",
+            type: ToastType.SUCCESS,
+          });
         });
       } catch (error: any) {
         this.getCourses;
         const errorMessage = error.response?.data?.error || error.message;
-        dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       }
     },
     async updateCourse(payload: any) {
       try {
         await updateCourseById(payload.id, payload.course).then(() => {
           this.getCourses;
-          dispatch(
-            "toast/show",
-            { message: "Course succesfully updated", type: "success" },
-            { root: true },
-          );
+          const toastStore = useToastStore();
+          toastStore.showToastMessage({
+            message: "Course succesfully updated!",
+            type: ToastType.SUCCESS,
+          });
         });
       } catch (error: any) {
         this.getCourses;
         const errorMessage = error.response?.data?.error || error.message;
-        dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       }
     },
     deleteCourseFromState(id: string) {
       this.changeLoadingStatus;
       deleteCourse(id)
         .then(() => {
-          dispatch(
-            "toast/show",
-            { message: "Course succesfully deleted", type: "success" },
-            { root: true },
-          );
+          const toastStore = useToastStore();
+          toastStore.showToastMessage({
+            message: "Course succesfully deleted!",
+            type: ToastType.SUCCESS,
+          });
         })
         .catch((error: any) => {
           const errorMessage =
             error.response?.data?.error || error.response.data.message;
-          dispatch(
-            "toast/show",
-            { message: errorMessage, type: "error" },
-            { root: true },
-          );
+          const toastStore = useToastStore();
+          toastStore.showToastMessage({
+            message: errorMessage,
+            type: ToastType.FAILURE,
+          });
         })
         .finally(() => {
           this.changeLoadingStatus;
@@ -174,19 +171,19 @@ export const useCoursesStore = defineStore("courses", {
     patchCourses(payload: any) {
       try {
         this.getCourses;
-        dispatch(
-          "toast/show",
-          { message: "Succesfully deleted", type: "success" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Succesfully deleted!",
+          type: ToastType.SUCCESS,
+        });
       } catch (error: any) {
         this.getCourses;
         const errorMessage = error.response?.data?.error || error.message;
-        dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       }
     },
   },

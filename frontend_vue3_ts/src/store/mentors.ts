@@ -1,7 +1,14 @@
 import { defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
-import { deleteUserById, getAllUsers, gethUserByID, updateUserByID, registerUser} from "../api/user/index";
+import {
+  deleteUserById,
+  getAllUsers,
+  gethUserByID,
+  updateUserByID,
+  registerUser,
+} from "../api/user/index";
 import { RegisterUserBody } from "../api/models/user.model";
+import { ToastType, useToastStore } from "../store/toast.store";
 
 export class MentorAdminInfo {
   avatarUrl!: string;
@@ -45,11 +52,11 @@ export const useMentorStore = defineStore("mentor", {
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_MENTORS_LOADING;
       }
@@ -58,19 +65,19 @@ export const useMentorStore = defineStore("mentor", {
       try {
         this.TOGGLE_MENTORS_LOADING;
         await registerUser(mentor);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully created", type: "success" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "User succesfully created!",
+          type: ToastType.SUCCESS,
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_MENTORS_LOADING;
         this.fetchMentors;
@@ -80,19 +87,19 @@ export const useMentorStore = defineStore("mentor", {
       try {
         this.TOGGLE_MENTORS_LOADING;
         await deleteUserById(id);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully deleted", type: "success" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "User succesfully deleted!",
+          type: ToastType.SUCCESS,
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_MENTORS_LOADING;
         this.fetchMentors;
@@ -102,19 +109,19 @@ export const useMentorStore = defineStore("mentor", {
       try {
         this.TOGGLE_MENTORS_LOADING;
         await updateUserByID(mentorData.id, mentorData);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully updated", type: "success" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "User succesfully updated!",
+          type: ToastType.SUCCESS,
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_MENTORS_LOADING;
         this.fetchMentors;

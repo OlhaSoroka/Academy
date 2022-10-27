@@ -1,8 +1,15 @@
 import { defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
-import { deleteUserById, getAllUsers, gethUserByID, updateUserByID, registerUser} from "../api/user/index";
+import {
+  deleteUserById,
+  getAllUsers,
+  gethUserByID,
+  updateUserByID,
+  registerUser,
+} from "../api/user/index";
 import { RegisterUserBody } from "../api/models/user.model";
 import { MentorAdminInfo } from "./mentors";
+import { ToastType, useToastStore } from "../store/toast.store";
 
 interface IAdminsStoreState {
   admins: MentorAdminInfo[];
@@ -38,11 +45,11 @@ export const useAdminStore = defineStore("admin", {
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_ADMINS_LOADING;
       }
@@ -51,19 +58,19 @@ export const useAdminStore = defineStore("admin", {
       try {
         this.TOGGLE_ADMINS_LOADING;
         await registerUser(admin);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully created", type: "success" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "User succesfully created!",
+          type: ToastType.SUCCESS,
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_ADMINS_LOADING;
         this.fetchAdmins;
@@ -73,19 +80,19 @@ export const useAdminStore = defineStore("admin", {
       try {
         this.TOGGLE_ADMINS_LOADING;
         await deleteUserById(id);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully deleted", type: "success" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "User succesfully deleted!",
+          type: ToastType.SUCCESS,
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_ADMINS_LOADING;
         this.fetchAdmins;
@@ -95,19 +102,19 @@ export const useAdminStore = defineStore("admin", {
       try {
         this.TOGGLE_ADMINS_LOADING;
         await updateUserByID(adminData.id, adminData);
-        store.dispatch(
-          "toast/show",
-          { message: "User succesfully updated", type: "success" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "User succesfully updated!",
+          type: ToastType.SUCCESS,
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
-        store.dispatch(
-          "toast/show",
-          { message: errorMessage, type: "error" },
-          { root: true },
-        );
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: errorMessage,
+          type: ToastType.FAILURE,
+        });
       } finally {
         this.TOGGLE_ADMINS_LOADING;
         this.fetchAdmins;
