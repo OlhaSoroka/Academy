@@ -18,7 +18,7 @@ export const useCoursesStore = defineStore("courses", {
     };
   },
   getters: {
-    courses: (state) => state.courses,
+    coursesGetter: (state) => state.courses,
     lastCourseId(state) {
       return state.courses[state.courses.length - 1].id;
     },
@@ -57,7 +57,7 @@ export const useCoursesStore = defineStore("courses", {
   },
   actions: {
     setCourses(courses: ICourse[]) {
-      this.courses = courses;
+      this.courses = {...courses};
     },
     changeLoadingStatus() {
       this.isLoading = !this.isLoading;

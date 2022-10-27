@@ -31,7 +31,7 @@ export const useMentorStore = defineStore("mentor", {
     };
   },
   getters: {
-    mentors: (state) => state.mentors,
+    mentorsGetter: (state) => state.mentors,
     isMentorsLoading: (state) => state.isMentorsLoading,
   },
   actions: {

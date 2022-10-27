@@ -24,7 +24,7 @@ export const useAdminStore = defineStore("admin", {
     };
   },
   getters: {
-    admins: (state) => state.admins,
+    adminsGetter: (state) => state.admins,
     isAdminsLoading: (state) => state.isAdminsLoading,
   },
   actions: {
