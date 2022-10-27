@@ -5,7 +5,7 @@
       <div class="bg-sky-400 ">TopBar
         <div class="m-3">
           <button class="bg-red-500 text-white" @click="showFailureToast">fail</button>
-          <button class="bg-green-500 text-white" @click="showSuccessToast">success</button>
+          <button class="bg-green-500 text-white" @click="getCourses">Get courses</button>
         </div>
       </div>
       <RouterView class="h-full overflow-auto bg-primary-100" />
@@ -19,10 +19,15 @@
 import { mapStores } from 'pinia';
 import { ToastType, useToastStore } from './store/toast.store';
 import ToastMessage from './components/ToastMessage.vue';
+import { useCoursesStore } from './store/courses';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
+  mounted() {
+    this.coursesStore.getCourses()
+  },
     computed: {
-        ...mapStores(useToastStore)
+        ...mapStores(useToastStore, useCoursesStore),
     },
     methods: {
         showFailureToast() {
@@ -30,8 +35,11 @@ export default {
         },
         showSuccessToast() {
             this.toastStore.showToastMessage({ message: "User successfully updated.", type: ToastType.SUCCESS });
-        }
+        },
+/*         getCourses() {
+          this.coursesStore.getCourses()
+        } */
     },
     components: { ToastMessage }
-}
+})
 </script>
