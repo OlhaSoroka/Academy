@@ -9,8 +9,23 @@
         </div>
       </div>
       <RouterView class="h-full overflow-auto bg-primary-100" />
+     <BaseButton variant='btn_green' @click="consoleHello">Hello</BaseButton>
+     <BaseButton variant='btn_red' @click="consoleBuy">Buy</BaseButton>
+     <BaseInput
+    id="password"
+    type="password"
+    label="password"
+    v-model="password"
+    placeholder="Qwe123"
+  />
+  <BaseInput
+    id="email"
+    type="email"
+    label="email"
+    v-model="email"
+  />
     </div>
-
+   
     <ToastMessage />
   </div>
 </template>
@@ -20,7 +35,11 @@ import { mapStores } from 'pinia';
 import { ToastType, useToastStore } from './store/toast.store';
 import ToastMessage from './components/ToastMessage.vue';
 import { useCoursesStore } from './store/courses';
-import { defineComponent } from 'vue';
+import { defineComponent} from 'vue';
+import BaseButton from "./components/baseComponents/BaseButton.vue";
+import BaseInput from './components/baseComponents/BaseInput.vue';
+
+
 
 export default defineComponent({
   mounted() {
@@ -36,10 +55,23 @@ export default defineComponent({
         showSuccessToast() {
             this.toastStore.showToastMessage({ message: "User successfully updated.", type: ToastType.SUCCESS });
         },
-/*         getCourses() {
+        consoleHello() {
+          console.log(this.email, this.password)
+        },
+        consoleBuy() {
+          console.log("buy")
+        },
+        getCourses() {
           this.coursesStore.getCourses()
-        } */
+        }
     },
-    components: { ToastMessage }
+    data() {
+    return {
+      email: "",
+      name: "",
+      password: ""
+    };
+  },
+    components: { ToastMessage, BaseButton, BaseInput}
 })
 </script>
