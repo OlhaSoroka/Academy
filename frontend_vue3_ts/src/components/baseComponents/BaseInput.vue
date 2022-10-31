@@ -1,20 +1,20 @@
 <template>
-  <Form>
-    <label v-if="label" :for="id" class="ml-1 block text-start">
+  <div>
+    <label v-if="label" :for="name" class="ml-1 block text-start">
       {{ label }}
     </label>
     <Field
-      :id="id"
+      :id="name"
       :type="type"
-      :value="modelValue"
+      :value="value"
       :placeholder="placeholder"
       @input="updateInput"
       class="base-input"
       :rules="allRules"
-      :name="type"
+      :name="name"
     />
     <ErrorMessage :name="type" class="base-input-error-text" />
-  </Form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -34,30 +34,30 @@ export default defineComponent({
     ErrorMessage,
   },
   props: {
-    id: {
-      type: String,
-      default: "",
-    },
-    label: {
-      type: String,
-      default: "",
-    },
-    modelValue: {
-      type: [String, Number],
-      default: "",
-    },
     type: {
-      type: String,
-      default: "text",
-    },
-    rules: {
-      type: String,
-      default: "",
-    },
-    placeholder: {
-      type: String,
-      default: "",
-    },
+    type: String,
+    default: 'text',
+  },
+  value: {
+    type: String,
+    default: '',
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  label: {
+    type: String,
+    required: true,
+  },
+  placeholder: {
+    type: String,
+    default: '',
+  },
+  rules: {
+    type: String,
+    default: '',
+  }
   },
   data() {
     return {
@@ -87,13 +87,13 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .base-input {
-  @apply m-1 ml-1 block w-full max-w-md rounded-md border-2 border-primary-700 p-1 font-mono text-base placeholder:text-slate-400 hover:bg-stone-50 focus:border-primary-700 focus:bg-stone-50 focus:text-cyan-900 focus:outline-none focus:drop-shadow-xl;
+  @apply m-1 ml-1 mb-4 relative block w-full max-w-md rounded-md border-2 border-primary-700 p-1 font-mono text-base placeholder:text-slate-400 hover:bg-stone-50 focus:border-primary-700 focus:bg-stone-50 focus:text-cyan-900 focus:outline-none focus:drop-shadow-xl;
 }
 
 .base-input:disabled {
   @apply border-gray-300 bg-gray-50;
 }
 .base-input-error-text {
-  @apply text-xs text-red-500 ml-1;
+  @apply absolute text-xs mt-[-15px] text-red-500 ml-1;
 }
 </style>

@@ -5,8 +5,10 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
-import { db } from "../../main";
+import { db, firestore } from "../../main";
 import { Collection } from "../models/collection.enum";
 import { Course } from "../models/course.model";
 import { ICourse } from "../../models/courses.models";
@@ -50,3 +52,19 @@ export const deleteCourse = async (id: string): Promise<void> => {
     console.log({ error });
   }
 };
+
+
+export const getCourseByName = async (name: string): Promise<Course | null> => {
+  try {
+    const collectionQuery = query(collection(firestore, Collection.COURSES), where("name", "==", name));
+    const documents = await getDocs(collectionQuery);
+		const courses: Course[] = [];
+		documents.forEach((document) => {
+			const course = document.data();
+			courses.push(course as Course);
+		});
+    return courses[0];
+  } catch  {
+    return null
+  }
+}
