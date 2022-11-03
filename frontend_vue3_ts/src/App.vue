@@ -31,8 +31,23 @@
           placeholder="Qwe123"
         />
         <BaseInput name="email" type="email" label="email" v-model="email" />
+        <BaseSelect
+              v-model="newStatus"
+              :options="['in progress', 'finished', 'not started']"
+            />
         <button>Submit</button>
       </Form>
+      <BaseTable 
+      v-if="courseItem"
+               class="table"
+               :is-data-loading="coursesStore.loadingStatus"
+              :table-data="{
+                headingData: headerComments,
+                bodyData: courseItem.comments,
+              }"
+              :edit-btns="false"
+              :delete-btns="true"
+      />
     </div>
 
     <ToastMessage />
@@ -48,9 +63,10 @@ import { useCoursesStore } from "./store/courses";
 import { Form } from "vee-validate";
 import BaseButton from "./components/baseComponents/BaseButton.vue";
 import BaseInput from "./components/baseComponents/BaseInput.vue";
+import BaseSelect from "./components/baseComponents/BaseSelect/BaseSelect.vue";
+import BaseTable from "./components/baseComponents/BaseTable/BaseTable.vue";
 
 import { defineComponent } from "vue";
-import { getUsersByRole } from "./api/user";
 import { ROLES } from "./models/router.model";
 
 export default defineComponent({
@@ -59,6 +75,9 @@ export default defineComponent({
   },
   computed: {
     ...mapStores(useToastStore, useCoursesStore, useStudentStore),
+    /* courseItem() {
+     return this.coursesStore.getCourseById(2);
+    }, */
   },
   methods: {
     showFailureToast() {
@@ -108,7 +127,7 @@ export default defineComponent({
       this.studentsStore.deleteStudent("lFrIJv0scpci8flGl7hqyS4y3mz2");
     },
     submit() {
-      console.log(this.email, this.password);
+      if (this.newStatus !== "") {console.log(this.email, this.password);}
     },
   },
   data() {
@@ -116,8 +135,48 @@ export default defineComponent({
       email: "",
       name: "",
       password: "",
+      newStatus: "",
+      courseItem: {
+    "id": 2,
+    "name": "Java",
+    "date": "2022-08-28",
+    "status": "not started",
+    "docs_link": "",
+    "applicants": [
+      {
+        "id": "c7abc7ec-e88f-4dfa-ae49-e061ea4f641f",
+        "email": "allen@test.com",
+        "fullName": "Allen Barrey",
+        "initialScore": 50
+      }
+    ],
+    "group": [],
+    "homework": [],
+    "results": [],
+    "comments": [
+      {
+        "message": "Interviewing applicants for course",
+        "createdAt": "06.08.2022, 12:14:03",
+        "author": "Stepan Smith",
+        "author_id": "ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef",
+        "author_email": "s_smith@mail.com"
+      },
+      {
+        "message": "asdfasdfasdfsafsafsadfsadf",
+        "createdAt": "06.08.2022, 12:14:03",
+        "author": "asdfasdfsa",
+        "author_id": "ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef",
+        "author_email": "s_smith@mail.com"
+      }
+    ]
+  },
+      headerComments: [
+        { message: "Message" },
+        { createdAt: "Date" },
+        { author: "Author" },
+      ],
     };
   },
-  components: { ToastMessage, BaseButton, BaseInput, Form },
+  components: { ToastMessage, BaseButton, BaseInput, Form, BaseSelect, BaseTable },
 });
 </script>
