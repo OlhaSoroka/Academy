@@ -1,17 +1,22 @@
 import { defineStore } from "pinia";
-import { ICourse } from "../models/courses.models";
-import { setDoc, doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../main";
-import { getAllCourses, updateCourseById, deleteCourse } from "../api/course";
+import {
+  getAllCourses,
+  updateCourseById,
+  deleteCourse,
+  createCourse,
+} from "../api/course";
 import { ToastType, useToastStore } from "../store/toast.store";
+import { Course } from "../api/models/course.model";
 
-interface ICoursesStoreState {
-  courses: ICourse[];
+interface CoursesStoreState {
+  courses: Course[];
   isLoading: boolean;
 }
 
 export const useCoursesStore = defineStore("courses", {
-  state: (): ICoursesStoreState => {
+  state: (): CoursesStoreState => {
     return {
       courses: [],
       isLoading: false,
@@ -19,8 +24,9 @@ export const useCoursesStore = defineStore("courses", {
   },
   getters: {
     coursesGetter: (state) => state.courses,
+    coursesLength: (state) => state.courses.length,
     lastCourseId(state) {
-     return /* state.courses[ */state.courses.length /* - 1].id */
+      return state.courses[state.courses.length - 1].id;
     },
     firstCourseId(state) {
       return state.courses[0].id;
@@ -28,13 +34,13 @@ export const useCoursesStore = defineStore("courses", {
     loadingStatus(state) {
       return state.isLoading;
     },
-    getCourseById(state) {
+    getCourseById(state: CoursesStoreState) {
       return (id: string) => {
-        return state.courses.find((course) => course.id === +id);
+        return state.courses.find((course) => course.id === id);
       };
     },
     courseIndex(state) {
-      return (courseItem: ICourse) => state.courses.indexOf(courseItem);
+      return (courseItem: Course) => state.courses.indexOf(courseItem);
     },
     nextCourseId(state) {
       return (id: string) => {
@@ -56,7 +62,7 @@ export const useCoursesStore = defineStore("courses", {
     },
   },
   actions: {
-    setCourses(courses: ICourse[]) {
+    setCourses(courses: Course[]) {
       this.courses = courses;
     },
     changeLoadingStatus() {
@@ -83,18 +89,17 @@ export const useCoursesStore = defineStore("courses", {
         this.changeLoadingStatus;
       }
     },
-    async createNewCourse(data: ICourse) {
+    async createNewCourse(data: Course) {
       try {
-        await setDoc(doc(db, "courses", `${data.id}`), data).then(() => {
-          this.getCourses;
-          const toastStore = useToastStore();
-          toastStore.showToastMessage({
-            message: "Course succesfully created!",
-            type: ToastType.SUCCESS,
-          });
+        await createCourse(data);
+        this.getCourses();
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Course succesfully created!",
+          type: ToastType.SUCCESS,
         });
       } catch (error: any) {
-        this.getCourses;
+        this.getCourses();
         const errorMessage = error.response?.data?.error || error.message;
         const toastStore = useToastStore();
         toastStore.showToastMessage({
@@ -107,7 +112,7 @@ export const useCoursesStore = defineStore("courses", {
       try {
         const courseRef = doc(db, "courses", `${payload.id}`);
         await updateDoc(courseRef, payload.currentItemUpdate).then(() => {
-          this.getCourses;
+          this.getCourses();
           const toastStore = useToastStore();
           toastStore.showToastMessage({
             message: "Comment sent!",
@@ -115,7 +120,7 @@ export const useCoursesStore = defineStore("courses", {
           });
         });
       } catch (error: any) {
-        this.getCourses;
+        this.getCourses();
         const errorMessage = error.response?.data?.error || error.message;
         const toastStore = useToastStore();
         toastStore.showToastMessage({
@@ -127,7 +132,7 @@ export const useCoursesStore = defineStore("courses", {
     async updateCourse(payload: any) {
       try {
         await updateCourseById(payload.id, payload.course).then(() => {
-          this.getCourses;
+          this.getCourses();
           const toastStore = useToastStore();
           toastStore.showToastMessage({
             message: "Course succesfully updated!",
@@ -135,7 +140,7 @@ export const useCoursesStore = defineStore("courses", {
           });
         });
       } catch (error: any) {
-        this.getCourses;
+        this.getCourses();
         const errorMessage = error.response?.data?.error || error.message;
         const toastStore = useToastStore();
         toastStore.showToastMessage({
@@ -165,19 +170,19 @@ export const useCoursesStore = defineStore("courses", {
         })
         .finally(() => {
           this.changeLoadingStatus;
-          this.getCourses;
+          this.getCourses();
         });
     },
     patchCourses(payload: any) {
       try {
-        this.getCourses;
+        this.getCourses();
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Succesfully deleted!",
           type: ToastType.SUCCESS,
         });
       } catch (error: any) {
-        this.getCourses;
+        this.getCourses();
         const errorMessage = error.response?.data?.error || error.message;
         const toastStore = useToastStore();
         toastStore.showToastMessage({

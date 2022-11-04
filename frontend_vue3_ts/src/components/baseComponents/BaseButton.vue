@@ -31,12 +31,22 @@
         type: Boolean,
         default: false,
       },
+      submit: {
+        type: Boolean,
+        default: false,
+      },
     },
     computed: {
       classes() {
         return `btn ${this.variant}`;
       },
     },
+    methods: {
+      hello() {
+        console.log("Hello from button");
+        
+      }
+    }
   });
   </script>
   

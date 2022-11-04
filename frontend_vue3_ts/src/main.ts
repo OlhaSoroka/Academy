@@ -18,7 +18,7 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_APP_ID,
 };
 
-const pinia = createPinia()
+const pinia = createPinia();
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -28,4 +28,7 @@ export const firestore = getFirestore(app);
 export const firebaseAuth = getAuth(app);
 export const storage = getStorage(app);
 
-createApp(App).use(pinia).use(router).mount("#app");
+const vue = createApp(App);
+vue.use(pinia);
+vue.use(router);
+vue.mount("#app");

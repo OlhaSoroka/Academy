@@ -97,7 +97,7 @@ export const useStudentStore = defineStore("students", {
 
 					console.log({studentCourse});
 					
-					await updateCourseById(studentCourse.id, studentCourse);
+					await updateCourseById(`${studentCourse.id}`, studentCourse);
 
 					const toastStore = useToastStore();
 					toastStore.showToastMessage({
@@ -141,7 +141,7 @@ export const useStudentStore = defineStore("students", {
 					studentCourse.results.splice(courseResultIndex, 1);
 					studentCourse.homework_results.splice(courseHomeworkResultIndex, 1);
 
-					await updateCourseById(studentCourse.id, studentCourse);
+					await updateCourseById(`${studentCourse.id}`, studentCourse);
 					await deleteUserById(student.id);
 
 					const toastStore = useToastStore();

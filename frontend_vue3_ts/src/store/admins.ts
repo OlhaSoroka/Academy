@@ -58,6 +58,7 @@ export const useAdminStore = defineStore("admin", {
       try {
         this.TOGGLE_ADMINS_LOADING;
         await registerUser(admin);
+     
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "User succesfully created!",

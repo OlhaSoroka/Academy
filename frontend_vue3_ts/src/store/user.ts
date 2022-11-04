@@ -34,7 +34,7 @@ export const useUserStore = defineStore("user", {
     };
   },
   getters: {
-    user: (state) => state.user,
+    user: (state: IUserStoreState) => state.user,
     isImageLoading: (state) => state.isImageLoading,
     isUser: (state) => state.user!.id !== null,
   },
@@ -96,7 +96,6 @@ export const useUserStore = defineStore("user", {
           type: ToastType.SUCCESS,
         });
       } catch (error: any) {
-        console.log(error);
         const errorMessage =
           error.response?.data?.error || error.response.data.message;
         const toastStore = useToastStore();
