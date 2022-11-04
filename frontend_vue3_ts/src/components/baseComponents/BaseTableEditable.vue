@@ -104,8 +104,6 @@ interface IRowData {
     [key: string]: string
 }
 
-const cellInput = ref<Array<HTMLInputElement> | null>(null)
-
 export default defineComponent({
   components: {
     BaseArrowDown,
@@ -153,12 +151,6 @@ export default defineComponent({
     onCellClick(rowIndex:number, columnIndex:number, isEditable:boolean) {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
-       /*  const cellInputs = ref();
-        const focusInput = () => {
-           return cellInputs.focus()
-        }
-        setTimeout(() => {
-          focusInput}, 50); */
       }
     },
     isCellActive(rowIndex:number, columnIndex:number) {
@@ -188,9 +180,6 @@ export default defineComponent({
     },
     onHeaderEdit(column:IColumnDefs) {
       this.activeHeader = column.field;
-      /* setTimeout(() => {
-          this.$refs.headerInput[0]?.focus();
-        }, 50); */
     },
     isHederActive(column:IColumnDefs) {
       return this.activeHeader === column.field;
