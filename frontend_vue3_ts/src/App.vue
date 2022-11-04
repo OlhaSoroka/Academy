@@ -33,7 +33,14 @@
         <BaseInput name="email" type="email" label="email" v-model="email" />
         <button>Submit</button>
       </Form>
+      <BaseTableEditable
+        style="height: 400px;"
+        :column-defs="columnDefs"
+        :row-data="rowData"
+        uniq-identifier="email"
+      />
     </div>
+    
 
     <ToastMessage />
   </div>
@@ -48,6 +55,7 @@ import { useCoursesStore } from "./store/courses";
 import { Form } from "vee-validate";
 import BaseButton from "./components/baseComponents/BaseButton.vue";
 import BaseInput from "./components/baseComponents/BaseInput.vue";
+import BaseTableEditable from "./components/baseComponents/BaseTableEditable.vue";
 
 import { defineComponent } from "vue";
 import { getUsersByRole } from "./api/user";
@@ -116,8 +124,37 @@ export default defineComponent({
       email: "",
       name: "",
       password: "",
+      columnDefs: [
+      { field: "fullName",  headerName: "Name", headerEditable: false, sortable: true, editable: true , width:200},
+      { field: "email" ,headerName: "Email", headerEditable: false, sortable: true, editable: false , width:250 },
+      { field: "phone" ,headerName: "Phone", headerEditable: false, sortable: false, editable: this.isAdmin , width:200 },
+      { field: "city" ,headerName: "City",headerEditable: false, sortable: true, editable: this.isAdmin , width:200 },
+      { field: "age" ,headerName: "Age", headerEditable: false, sortable: true, editable: this.isAdmin , width:100 },
+      { field: "education" ,headerName: "Education", headerEditable: false, sortable: false, editable: this.isAdmin , width:250 },
+      { field: "eng_level" ,headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin , width:250 },
+      ],
+    rowData: [
+      {
+        "fullName": "st1",
+        "email": "asdf@fasdf.asd",
+        "phone": "",
+        "city": "",
+        "age": "",
+        "education": "",
+        "eng_level": ""
+      },
+      {
+        "fullName": "st2",
+        "email": "asdf@fasd.asdf",
+        "phone": "",
+        "city": "",
+        "age": "",
+        "education": "",
+        "eng_level": ""
+      }
+    ],
     };
   },
-  components: { ToastMessage, BaseButton, BaseInput, Form },
+  components: { ToastMessage, BaseButton, BaseInput, Form, BaseTableEditable },
 });
 </script>
