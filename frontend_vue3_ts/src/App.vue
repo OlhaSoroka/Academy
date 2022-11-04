@@ -31,16 +31,29 @@
           placeholder="Qwe123"
         />
         <BaseInput name="email" type="email" label="email" v-model="email" />
+        <BaseSelect
+          v-model="newStatus"
+          :options="['in progress', 'finished', 'not started']"
+        />
         <button>Submit</button>
       </Form>
       <BaseTableEditable
-        style="height: 400px;"
         :column-defs="columnDefs"
         :row-data="rowData"
         uniq-identifier="email"
       />
+      <BaseTable
+        v-if="courseItem"
+        class="table"
+        :is-data-loading="coursesStore.loadingStatus"
+        :table-data="{
+          headingData: headerComments,
+          bodyData: courseItem.comments,
+        }"
+        :edit-btns="false"
+        :delete-btns="true"
+      />
     </div>
-    
 
     <ToastMessage />
   </div>
@@ -56,17 +69,22 @@ import { Form } from "vee-validate";
 import BaseButton from "./components/baseComponents/BaseButton.vue";
 import BaseInput from "./components/baseComponents/BaseInput.vue";
 import BaseTableEditable from "./components/baseComponents/BaseTableEditable.vue";
+import BaseSelect from "./components/baseComponents/BaseSelect/BaseSelect.vue";
+import BaseTable from "./components/baseComponents/BaseTable/BaseTable.vue";
 
 import { defineComponent } from "vue";
-import { getUsersByRole } from "./api/user";
 import { ROLES } from "./models/router.model";
 
 export default defineComponent({
   mounted() {
     this.coursesStore.getCourses();
+    
   },
   computed: {
     ...mapStores(useToastStore, useCoursesStore, useStudentStore),
+    /* courseItem() {
+     return this.coursesStore.getCourseById(2);
+    }, */
   },
   methods: {
     showFailureToast() {
@@ -74,6 +92,9 @@ export default defineComponent({
         message: "Oops! Something goes wrong...",
         type: ToastType.FAILURE,
       });
+    },
+    isAdmin():boolean {
+      return true
     },
     consoleHello() {
       console.log(this.email, this.password);
@@ -116,7 +137,9 @@ export default defineComponent({
       this.studentsStore.deleteStudent("lFrIJv0scpci8flGl7hqyS4y3mz2");
     },
     submit() {
-      console.log(this.email, this.password);
+      if (this.newStatus !== "") {
+        console.log(this.email, this.password);
+      }
     },
   },
   data() {
@@ -124,37 +147,144 @@ export default defineComponent({
       email: "",
       name: "",
       password: "",
+      admin: false,
       columnDefs: [
-      { field: "fullName",  headerName: "Name", headerEditable: false, sortable: true, editable: true , width:200},
-      { field: "email" ,headerName: "Email", headerEditable: false, sortable: true, editable: false , width:250 },
-      { field: "phone" ,headerName: "Phone", headerEditable: false, sortable: false, editable: this.isAdmin , width:200 },
-      { field: "city" ,headerName: "City",headerEditable: false, sortable: true, editable: this.isAdmin , width:200 },
-      { field: "age" ,headerName: "Age", headerEditable: false, sortable: true, editable: this.isAdmin , width:100 },
-      { field: "education" ,headerName: "Education", headerEditable: false, sortable: false, editable: this.isAdmin , width:250 },
-      { field: "eng_level" ,headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin , width:250 },
+        {
+          field: "fullName",
+          headerName: "Name",
+          headerEditable: true,
+          sortable: true,
+          editable: true,
+          width: 200,
+        },
+        {
+          field: "email",
+          headerName: "Email",
+          headerEditable: false,
+          sortable: true,
+          editable: true,
+          width: 250,
+        },
+        {
+          field: "phone",
+          headerName: "Phone",
+          headerEditable: false,
+          sortable: false,
+          editable: this.isAdmin,
+          width: 200,
+        },
+        {
+          field: "city",
+          headerName: "City",
+          headerEditable: false,
+          sortable: true,
+          editable: this.isAdmin,
+          width: 200,
+        },
+        {
+          field: "age",
+          headerName: "Age",
+          headerEditable: false,
+          sortable: true,
+          editable: this.isAdmin,
+          width: 100,
+        },
+        {
+          field: "education",
+          headerName: "Education",
+          headerEditable: false,
+          sortable: false,
+          editable: this.isAdmin,
+          width: 250,
+        },
+        {
+          field: "eng_level",
+          headerName: "English level",
+          headerEditable: false,
+          sortable: true,
+          editable: this.isAdmin,
+          width: 250,
+        },
       ],
-    rowData: [
-      {
-        "fullName": "st1",
-        "email": "asdf@fasdf.asd",
-        "phone": "",
-        "city": "",
-        "age": "",
-        "education": "",
-        "eng_level": ""
+      rowData: [
+        {
+          fullName: "at1",
+          email: "asdf@fasdf.asd",
+          phone: "",
+          city: "",
+          age: "880",
+          education: "",
+          eng_level: "",
+        },
+        {
+          fullName: "bt2",
+          email: "asdf@fasd.asdf",
+          phone: "",
+          city: "",
+          age: "88",
+          education: "",
+          eng_level: "",
+        },
+        {
+          fullName: "st3",
+          email: "asdf@fasdf.asd",
+          phone: "",
+          city: "",
+          age: "200",
+          education: "",
+          eng_level: "",
+        },
+      ],
+      newStatus: "",
+      courseItem: {
+        id: 2,
+        name: "Java",
+        date: "2022-08-28",
+        status: "not started",
+        docs_link: "",
+        applicants: [
+          {
+            id: "c7abc7ec-e88f-4dfa-ae49-e061ea4f641f",
+            email: "allen@test.com",
+            fullName: "Allen Barrey",
+            initialScore: 50,
+          },
+        ],
+        group: [],
+        homework: [],
+        results: [],
+        comments: [
+          {
+            message: "Interviewing applicants for course",
+            createdAt: "06.08.2022, 12:14:03",
+            author: "Stepan Smith",
+            author_id: "ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef",
+            author_email: "s_smith@mail.com",
+          },
+          {
+            message: "asdfasdfasdfsafsafsadfsadf",
+            createdAt: "06.08.2022, 12:14:03",
+            author: "asdfasdfsa",
+            author_id: "ce2d8df5-0d99-4bfc-a921-81ff6a0e66ef",
+            author_email: "s_smith@mail.com",
+          },
+        ],
       },
-      {
-        "fullName": "st2",
-        "email": "asdf@fasd.asdf",
-        "phone": "",
-        "city": "",
-        "age": "",
-        "education": "",
-        "eng_level": ""
-      }
-    ],
+      headerComments: [
+        { message: "Message" },
+        { createdAt: "Date" },
+        { author: "Author" },
+      ],
     };
   },
-  components: { ToastMessage, BaseButton, BaseInput, Form, BaseTableEditable },
+  components: {
+    ToastMessage,
+    BaseButton,
+    BaseInput,
+    Form,
+    BaseSelect,
+    BaseTable,
+    BaseTableEditable,
+  },
 });
 </script>

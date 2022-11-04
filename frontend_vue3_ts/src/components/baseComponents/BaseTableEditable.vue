@@ -14,7 +14,7 @@
           >
             <input
               v-if="isHederActive(column)"
-              ref="headerInput"
+              v-focus
               type="text"
               class="table_cell_input"
               :value="column.headerName"
@@ -55,7 +55,7 @@
           >
             <input
               v-if="isCellActive(rowIndex, columnIndex)"
-              ref="cellInput"
+              v-focus
               class="table_cell_input"
               type="text"
               :value="row[column.field]"
@@ -83,9 +83,9 @@
 </template>
 
 <script lang="ts">
-/* import BaseArrowDown from "../components/BaseComponents/BaseIcons/BaseArrowDown.vue";
-import BaseArrowUp from "../components/BaseComponents/BaseIcons/BaseArrowUp.vue";
-import BaseEditIcon from "../components/BaseComponents/BaseIcons/BaseEditIcon.vue"; */
+import BaseArrowDown from "../baseComponents/BaseIcons/BaseArrowDown.vue";
+import BaseArrowUp from "../baseComponents/BaseIcons/BaseArrowUp.vue";
+import BaseEditIcon from "../baseComponents/BaseIcons/BaseEditIcon.vue";
 import { defineComponent, ref } from "vue";
 import { PropType } from "vue";
 
@@ -108,9 +108,9 @@ const cellInput = ref<Array<HTMLInputElement> | null>(null)
 
 export default defineComponent({
   components: {
-/*     BaseArrowDown,
+    BaseArrowDown,
     BaseArrowUp,
-    BaseEditIcon, */
+    BaseEditIcon,
   },
   props: {
     columnDefs: {
@@ -144,16 +144,21 @@ export default defineComponent({
   beforeMount() {
     this.rows = [...this.rowData];
   },
+  directives: {
+    focus : {
+    mounted: (el) => el.focus()
+  }
+  },
   methods: {
     onCellClick(rowIndex:number, columnIndex:number, isEditable:boolean) {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
-        const cellInput = ref();
+       /*  const cellInputs = ref();
         const focusInput = () => {
-           return cellInput.value.focus()
+           return cellInputs.focus()
         }
         setTimeout(() => {
-          focusInput}, 50);
+          focusInput}, 50); */
       }
     },
     isCellActive(rowIndex:number, columnIndex:number) {
@@ -183,9 +188,9 @@ export default defineComponent({
     },
     onHeaderEdit(column:IColumnDefs) {
       this.activeHeader = column.field;
-      setTimeout(() => {
+      /* setTimeout(() => {
           this.$refs.headerInput[0]?.focus();
-        }, 50);
+        }, 50); */
     },
     isHederActive(column:IColumnDefs) {
       return this.activeHeader === column.field;
@@ -224,8 +229,13 @@ export default defineComponent({
         return;
       }
     },
+/*     isNumber(value:string) {
+      return parseInt(value, 10) ? +value : value;
+    }, */
     isNumber(value:string | number) {
-      return typeof value === 'number';
+     if (+value == value) {
+      return +value
+    } else return value;
     },
     compare(a:IRowData, b:IRowData):number {
       if (this.activeSort === "asc") {
@@ -244,6 +254,7 @@ export default defineComponent({
           return 1;
         }
       }
+      if (typeof this.isNumber(a[`${this.sortBy}`]) === 'string') return a[`${this.sortBy}`].localeCompare(b[`${this.sortBy}`]);
       if (this.activeSort === null) {
         this.rows = [...this.rowData];
       }

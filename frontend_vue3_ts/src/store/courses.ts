@@ -29,7 +29,8 @@ export const useCoursesStore = defineStore("courses", {
       return state.isLoading;
     },
     getCourseById(state) {
-      return (id: string) => {
+      return (id: number) => {
+        console.log(state.courses, id)
         return state.courses.find((course) => course.id === +id);
       };
     },
@@ -37,7 +38,7 @@ export const useCoursesStore = defineStore("courses", {
       return (courseItem: ICourse) => state.courses.indexOf(courseItem);
     },
     nextCourseId(state) {
-      return (id: string) => {
+      return (id: number) => {
         const currentCurse = this.getCourseById(id);
         let currentIndex = this.courseIndex(currentCurse!);
         if (currentIndex < state.courses.length - 1) {
@@ -46,7 +47,7 @@ export const useCoursesStore = defineStore("courses", {
       };
     },
     previousCourseId(state) {
-      return (id: string) => {
+      return (id: number) => {
         const currentCurse = this.getCourseById(id);
         let currentIndex = this.courseIndex(currentCurse!);
         if (currentIndex > 0) {
