@@ -20,12 +20,12 @@
 					</select>
 					<div class="flex justify-evenly mt-5">
 						<div class="mx-2">
-							<BaseButton :disabled="false" variant="btn_red" @click="cancelCourseCreateButton">
+							<BaseButton button-type="reset" :disabled="false" variant="btn_red" @click="cancelCourseCreateButton">
 								Cancel
 							</BaseButton>
 						</div>
 						<div class="mx-2">
-							<BaseButton type="submit" :disabled="!isFormValid(errors)"
+							<BaseButton button-type="submit" :disabled="!isFormValid(errors)"
 								@click="submitCourseCreateButton">
 								Create
 							</BaseButton>

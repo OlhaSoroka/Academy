@@ -34,7 +34,7 @@ export const useUserStore = defineStore("user", {
     };
   },
   getters: {
-    user: (state: IUserStoreState) => state.user,
+    currentUser: (state: IUserStoreState) => state.user,
     isImageLoading: (state) => state.isImageLoading,
     isUser: (state) => state.user!.id !== null,
   },
@@ -48,6 +48,8 @@ export const useUserStore = defineStore("user", {
     async fetchUser(id: string) {
       try {
         const user = await gethUserByID(id);
+        console.log({user});
+        
         localStorage.setItem("currentUser", JSON.stringify(user));
         this.setUser(user);
       } catch (error: any) {

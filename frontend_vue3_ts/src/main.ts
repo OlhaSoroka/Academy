@@ -20,9 +20,8 @@ const firebaseConfig = {
 
 const pinia = createPinia();
 
-// Initialize Firebase
+// // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const store = createPinia();
 export const db = getFirestore(app);
 export const firestore = getFirestore(app);
 export const firebaseAuth = getAuth(app);

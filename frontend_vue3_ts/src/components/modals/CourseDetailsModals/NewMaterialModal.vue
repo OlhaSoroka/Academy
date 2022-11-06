@@ -1,22 +1,24 @@
 <template>
 	<BaseModal ref="newMaterial" :header="'Add new material'" @isClosed="clearInputs()">
 		<template #body>
-			<div class="flex justify-center flex-col mt-7 gap-10">
-				<div class="mx-1">
-					<BaseInput v-model="name" label="Material Name" rules="required" name="material_name" />
-					<BaseInput v-model="link" type="Link" label="Material Link" rules="required" name="material_link" />
+			<Form @submit.prevent="confirmAdding({ id: currentRouteName, course: currentCourse })">
+				<div class="flex justify-center flex-col mt-7 gap-10">
+					<div class="mx-1">
+						<BaseInput v-model="name" label="Material Name" rules="required" name="material_name" />
+						<BaseInput v-model="link" type="Link" label="Material Link" rules="required"
+							name="material_link" />
+					</div>
+					<div class="mx-1 flex justify-around">
+						<BaseButton variant="btn_red" @click="cancelModal" buttonType="reset">
+							Cancel
+						</BaseButton>
+						<BaseButton :disabled="!(name.length && link.length)" buttonType="submit">
+							Add
+						</BaseButton>
+					</div>
 				</div>
-				<div class="mx-1 flex justify-around">
-					<BaseButton variant="btn_red" @click="cancelModal">
-						Cancel
-					</BaseButton>
-					<BaseButton :disabled="!(name.length && link.length)" @click="
-	confirmAdding({ id: currentRouteName, course: currentCourse })
-					">
-						Add
-					</BaseButton>
-				</div>
-			</div>
+			</Form>
+
 		</template>
 	</BaseModal>
 </template>
@@ -38,10 +40,6 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
-		mentor: {
-			type: Object,
-			default: null,
-		},
 	},
 	data() {
 		return {
@@ -53,7 +51,6 @@ export default defineComponent({
 		...mapStores(useUserStore, useCoursesStore),
 		currentRouteName() {
 			const fullPath = this.$router.currentRoute.value.path;
-			console.log(this.$router);
 			const pathArray = fullPath.split("/");
 			const id = pathArray[pathArray.length - 1];
 			return id;

@@ -37,10 +37,6 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
-		mentor: {
-			type: Object,
-			default: null,
-		},
 	},
 	data() {
 		return {
@@ -52,9 +48,9 @@ export default defineComponent({
 		...mapStores(useUserStore, useCoursesStore),
 		currentRouteName() {
 			const fullPath = this.$router.currentRoute.value.path;
-			console.log(this.$router);
 			const pathArray = fullPath.split("/");
-			const id = pathArray[pathArray.length - 1];
+			// const id = pathArray[pathArray.length - 1];
+			const id = "a1464c30-881e-4209-a4e6-30919b1af7f8"
 			return id;
 		},
 		currentCourse() {
@@ -77,19 +73,20 @@ export default defineComponent({
 			(this.$refs.newHomework as typeof BaseModal).closeModal();
 			this.clearInputs();
 		},
-		async confirmAdding({ id, course }: { id: string, course?: Course }) {
+		confirmAdding({ id, course }: { id: string, course?: Course }) {
 			if (course) {
 				const homework: Homework = {
 					id: `${this.name}  (${this.userStore.user?.fullName})`,
 					name: `${this.name}`,
 					date: this.date,
 					rate: 0,
+
 					link: ""
 				};
 				course.homework_results.forEach((result) => result.homework.push(homework));
-				await this.coursesStore.updateCourse({ id, course });
+				this.coursesStore.updateCourse({ id, course });
 				(this.$refs.newHomework as typeof BaseModal).closeModal();
-				await this.coursesStore.getCourses();
+				this.coursesStore.getCourses();
 				this.clearInputs()
 			}
 

@@ -2,7 +2,7 @@
 	<BaseModal ref="cdUpdateModal" :header="'Update course details'">
 		<template #body>
 			<div class="w-72">
-				<Form>
+				<Form @submit="submit()" v-slot="{ errors }">
 					<div class="text-left">
 						<!-- <BaseInput v-model="courseToUpdate.name" type="text" label="Course Name" placeholder="Course Name" /> -->
 						<BaseInput v-model="courseToUpdate.date" type="date" label="Date of starting"
@@ -24,12 +24,12 @@
 					</div>
 					<div class="flex justify-evenly mt-5">
 						<div class="mx-2">
-							<BaseButton variant="btn_red" @click="cancel">
+							<BaseButton button-type="reset" variant="btn_red" @click="cancel">
 								Cancel
-							</BaseButton>
+							</BaseButton> 
 						</div>
 						<div class="mx-2">
-							<BaseButton :disabled="false" @click="submit">
+							<BaseButton button-type="submit" :disabled="!isFormValid(errors)">
 								Update
 							</BaseButton>
 						</div>
@@ -71,37 +71,31 @@ export default {
 	},
 	watch: {
 		toggleModal() {
-			console.log("toggleModal: ", this.toggleModal);
 			(this.$refs.cdUpdateModal as typeof BaseModal).openModal();
 		},
 		id() {
 			const course = this.coursesStore.getCourseById(this.id)
-			console.log({course});
-			
 			if (course) {
 				this.courseToUpdate = course
-				console.log(this.courseToUpdate.date);
-				
 				this.courseToUpdate.date = this.makeDate(course.date)
-				console.log(this.makeDate(course.date));
-				
 				this.courseToUpdate.date_final_interview = this.makeDate(course.date_final_interview)
 				this.courseToUpdate.date_project_demo = this.makeDate(course.date_project_demo)
 				this.courseToUpdate.date_project_start = this.makeDate(course.date_project_start)
+				this.courseToUpdate.status = course.status
 			}
-
 		}
 	},
 	mounted() {
 		this.coursesStore.getCourses()
 	},
 	methods: {
+		isFormValid(errors: Partial<Record<string, string | undefined>>) {
+			return Object.keys(errors).length === 0;
+		},
 		clearInputs() {
 			this.courseToUpdate = new Course()
 		},
 		makeDate(propsDate: string) {
-			console.log({propsDate});
-			
 			if (!propsDate)
 				return "";
 			// case dd/mm/yyyy -> yyyy-mm--dd
@@ -110,20 +104,22 @@ export default {
 				return `${date[2]}-${date[1]}-${date[0]}`;
 			return propsDate;
 		},
-		async submit() {
-			const currentCourse = this.coursesStore.getCourseById(`${this.id}`);
+		submit() {
+			const currentCourse = this.coursesStore.getCourseById(this.id);
 			if (currentCourse) {
-				await this.coursesStore.updateCourse({
+				this.coursesStore.updateCourse({
 					id: currentCourse.id, course: {
 						...currentCourse,
-						...this.courseToUpdate
+						date: this.courseToUpdate.date,
+						date_final_interview: this.courseToUpdate.date_final_interview,
+						date_project_demo: this.courseToUpdate.date_project_demo,
+						date_project_start: this.courseToUpdate.date_project_start,
+						status: this.courseToUpdate.status,
 					}
 				});
-				await this.coursesStore.getCourses();
+				this.coursesStore.getCourses();
 				(this.$refs.cdUpdateModal as typeof BaseModal).closeModal();
 			}
-
-
 		},
 		cancel() {
 			(this.$refs.cdUpdateModal as typeof BaseModal).closeModal();
