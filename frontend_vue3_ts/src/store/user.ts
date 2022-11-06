@@ -34,7 +34,7 @@ export const useUserStore = defineStore("user", {
     };
   },
   getters: {
-    user: (state) => state.user,
+    currentUser: (state) => state.user,
     isImageLoading: (state) => state.isImageLoading,
     isUser: (state) => state.user!.id !== null,
   },
@@ -48,11 +48,13 @@ export const useUserStore = defineStore("user", {
     async fetchUser(id: string) {
       try {
         const user = await gethUserByID(id);
+        console.log({user});
+        
         localStorage.setItem("currentUser", JSON.stringify(user));
         this.setUser(user);
       } catch (error: any) {
         const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+          error.response?.data?.error || error.response?.data?.message;
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: errorMessage,
@@ -105,7 +107,7 @@ export const useUserStore = defineStore("user", {
           type: ToastType.FAILURE,
         });
       }
-    },
+    }, 
     async logoutUser() {
       try {
         await signOut(firebaseAuth);
