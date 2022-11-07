@@ -1,19 +1,11 @@
 <template>
   <div>
-    <label v-if="label" :for="name" class="ml-1 block text-start">
+    <label v-if="label" class="ml-1 block text-start">
       {{ label }}
     </label>
-    <Field
-      :id="name"
-      :type="type"
-      :value="value"
-      :placeholder="placeholder"
-      @input="updateInput"
-      class="base-input"
-      :rules="allRules"
-      :name="name"
-    />
-    <ErrorMessage :name="type" class="base-input-error-text" />
+    <Field v-bind="$attrs" :type="type" :value="value" :placeholder="placeholder" @input="updateInput"
+      class="base-input" :rules="allRules" :name="label" :validate-on-input="true" />
+    <ErrorMessage :name="label" class="base-input-error-text" />
   </div>
 </template>
 
@@ -35,29 +27,25 @@ export default defineComponent({
   },
   props: {
     type: {
-    type: String,
-    default: 'text',
-  },
-  value: {
-    type: String,
-    default: '',
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  label: {
-    type: String,
-    required: true,
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  rules: {
-    type: String,
-    default: '',
-  }
+      type: String,
+      default: 'text',
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+    placeholder: {
+      type: String,
+      default: '',
+    },
+    rules: {
+      type: String,
+      default: '',
+    }
   },
   data() {
     return {
@@ -93,6 +81,7 @@ export default defineComponent({
 .base-input:disabled {
   @apply border-gray-300 bg-gray-50;
 }
+
 .base-input-error-text {
   @apply absolute text-xs mt-[-15px] text-red-500 ml-1;
 }

@@ -2,10 +2,10 @@
 	<div v-if="userStore.currentUser" class="navigation-container transition-all" :class="isOpen ? ['w-60', 'p-4'] : ['w-16', 'p-0']">
 		<router-link :to="{ name: COURSE_DASHBOARD }">
 			<div v-if="isOpen" class="navigation-main-logo">
-				<img src="../../../assets/logo-h.svg" alt="main_logo">
+				<img src="../assets/logo-h.svg" alt="main_logo">
 			</div>
 			<div v-else class="flex m-auto p-4">
-				<img class="h-8" src="../assets/logo_small.png" alt="small_logo">
+				<img class="h-8" src="../assets/logo-small.png" alt="small_logo">
 			</div>
 		</router-link>
 		<div v-if="isOpen" class="mt-7">
@@ -25,7 +25,7 @@
 			<div>
 				<router-link class="navigation-link" :to="{ name: COURSE_DASHBOARD }">
 					<svg width="16" height="16">
-						<use href="../../../icons/spite-navigation.svg#icon-courses" />
+						<use href="../icons/spite-navigation.svg#icon-courses" />
 					</svg>
 					<span v-if="isOpen" class="navigation-text">Courses</span>
 				</router-link>
@@ -33,7 +33,7 @@
 			<div>
 				<router-link class="navigation-link" :to="{ name: STUDENTS }">
 					<svg class="navigation-menu-icon" width="16" height="16">
-						<use href="../../../icons/spite-navigation.svg#icon-members" />
+						<use href="../icons/spite-navigation.svg#icon-members" />
 					</svg>
 					<span v-if="isOpen" class="navigation-text">Students</span>
 				</router-link>
@@ -41,7 +41,7 @@
 			<div>
 				<router-link v-if="isAdmin" class="navigation-link" :to="{ name: MENTORS }">
 					<svg class="navigation-menu-icon" width="16" height="16">
-						<use href="../../../icons/spite-navigation.svg#icon-mentors" />
+						<use href="../icons/spite-navigation.svg#icon-mentors" />
 					</svg>
 					<span v-if="isOpen" class="navigation-text">Mentors</span>
 				</router-link>
@@ -49,7 +49,7 @@
 			<div>
 				<router-link v-if="isAdmin" class="navigation-link" :to="{ name: ADMINS }">
 					<svg class="navigation-menu-icon" width="16" height="16">
-						<use href="../../../icons/spite-navigation.svg#icon-admin" />
+						<use href="../icons/spite-navigation.svg#icon-admin" />
 					</svg>
 					<span v-if="isOpen" class="navigation-text">Admins</span>
 				</router-link>
@@ -57,7 +57,7 @@
 			<div>
 				<div class="navigation-link" @click="logout">
 					<svg id="logout" width="16" height="16">
-						<use href="../../../icons/spite-navigation.svg#icon-exit" />
+						<use href="../icons/spite-navigation.svg#icon-exit" />
 					</svg>
 					<span v-if="isOpen" class="navigation-text">Log out</span>
 				</div>
@@ -66,10 +66,10 @@
 	</div>
 </template>
 <script lang="ts">
-import { ROUTE_NAMES } from '../../../models/router.model';
-import { ROLES } from '../../../models/router.model';
+import { ROUTE_NAMES } from '../models/router.model'
+import { ROLES } from '../models/router.model';
 import { mapStores } from "pinia";
-import { useUserStore } from '../../../store/user';
+import { useUserStore } from '../store/user';
 export default {
 	name: 'NavigationMenu',
 	props: {

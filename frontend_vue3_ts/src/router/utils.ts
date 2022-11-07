@@ -1,11 +1,13 @@
 import { NavigationGuard } from "vue-router";
 import { ROLES, ROUTE_NAMES } from "../models/router.model";
+import { useCoursesStore } from "../store/courses";
+import { useUserStore } from "../store/user";
 
 export const roleGuard: NavigationGuard = (to, _, next): void => {
-  // TODO: rewrite after store
-  // const role = store.getters['user/user'] ? store.getters['user/user'].role : null;
-  const role = ROLES.ADMIN_ROLE;
+  const userStore = useUserStore();
+  const role = userStore.currentUser?.role;
   if (
+    role &&
     to.matched.some((route) =>
       (route.meta.requiredRoles as ROLES[]).includes(role),
     )
@@ -21,24 +23,16 @@ export const authGuard: NavigationGuard = async (
   _,
   next,
 ): Promise<void> => {
-  // TODO: rewrite after user store
-  // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const currentUser = {
-    fullName: "InventorSoft Admin",
-    role: "admin",
-    id: "91KxMu6LrEgEPNdX1lKxaMvHHQM2",
-    avatarUrl:
-      "https://firebasestorage.googleapis.com/v0/b/inventorsoft-vue-2022-d566c.appspot.com/o/images%2Fwebportaladmin%40inventorsoft.co.jpg?alt=media&token=7ba6a36f-578b-412e-88fa-82ba88ef377b",
-    email: "webportaladmin@inventorsoft.co",
-  };
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
+  const userStore = useUserStore();
   if (to.matched.some((route) => route.meta.requiresAuth)) {
     if (!currentUser) {
-      //   store.dispatch("user/setUser", null, { root: true });
+      userStore.setUser(null);
       next({
         name: ROUTE_NAMES.LOGIN,
       });
     } else {
-      //   store.dispatch("user/setUser", currentUser, { root: true });
+      userStore.setUser(currentUser);
       next();
     }
   } else {
@@ -51,12 +45,12 @@ export const isCourseExist: NavigationGuard = async (
   _,
   next,
 ): Promise<void> => {
-  // TODO: rewrite after api
-  //   const courses = await getAllCourses();
-  //   const validIds = courses.map((course) => course.id);
-  if (true) {
+  const courseStore = useCoursesStore();
+  const courses = courseStore.coursesGetter;
+  const validIds = courses.map((course) => `${course.id}`);
+  if (validIds.includes(to.params.id as string)) {
     next();
   } else {
-    next({ name: ROUTE_NAMES.NOT_FOUND });
+    next({ path: "*" });
   }
 };

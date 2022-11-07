@@ -48,7 +48,6 @@ export const useUserStore = defineStore("user", {
     async fetchUser(id: string) {
       try {
         const user = await gethUserByID(id);
-        console.log({user});
         
         localStorage.setItem("currentUser", JSON.stringify(user));
         this.setUser(user);
