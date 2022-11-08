@@ -1,10 +1,10 @@
 <template>
   <div>
-    <label v-if="label" :for="label" class="ml-1 block text-start">
+    <label v-if="label" class="ml-1 block text-start">
       {{ label }}
     </label>
-    <Field v-bind="$attrs" :type="type" :value="value" :placeholder="placeholder" @input="updateInput" class="base-input"
-      :rules="allRules" :name="label" :validate-on-input="true" />
+    <Field v-bind="$attrs" :type="type" :value="value" :placeholder="placeholder" @input="updateInput"
+      class="base-input" :rules="allRules" :name="label" :validate-on-input="true" />
     <ErrorMessage :name="label" class="base-input-error-text" />
   </div>
 </template>

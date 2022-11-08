@@ -1,8 +1,9 @@
 import { createApp } from "vue";
-import { createPinia } from "pinia";
-import "./style.css";
+import { createPinia } from "pinia"; // Import
+
 import App from "./App.vue";
 import router from "./router";
+import "./style.css";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -18,16 +19,16 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_APP_ID,
 };
 
-const pinia = createPinia();
+// Initialize Firebase
+const firebase = initializeApp(firebaseConfig);
+export const db = getFirestore(firebase);
+export const firestore = getFirestore(firebase);
+export const firebaseAuth = getAuth(firebase);
+export const storage = getStorage(firebase);
 
-// // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const firestore = getFirestore(app);
-export const firebaseAuth = getAuth(app);
-export const storage = getStorage(app);
+const app = createApp(App);
 
-const vue = createApp(App);
-vue.use(pinia);
-vue.use(router);
-vue.mount("#app");
+app.use(createPinia()); // Create the root store
+app.use(router);
+
+app.mount("#app");
