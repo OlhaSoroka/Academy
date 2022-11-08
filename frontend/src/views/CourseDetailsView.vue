@@ -314,11 +314,11 @@
       :toggle-modal="isUpdateModalOpened"
     />
     <NewHomeWorkModal :toggle-modal="isNewHomeworkModal" />
-    <HomeworkResaltsModal 
+    <!-- <HomeworkResaltsModal 
       :id="+$route.params.id" 
       :toggle-modal="isEditHomeworkResultModalOpen"
       :student-id="studentId"
-    />
+    /> -->
     <NewCommentModal :toggle-modal="isAddCommentModalOpen" />
     <NewMaterialModal :toggle-modal="isNewMaterialModal" />
     <BaseDeleteModal
@@ -360,7 +360,7 @@ import CourseDetailsUpdateModal from "@/components/Modals/CourseDetailsModals/Co
 import NewHomeWorkModal from "../components/Modals/CourseDetailsModals/NewHomeWorkModal.vue";
 import NewMaterialModal from "../components/Modals/CourseDetailsModals/NewMaterialModal.vue";
 import BaseDeleteModal from "../components/BaseComponents/BaseDeleteModal";
-import HomeworkResaltsModal from "../components/Modals/CourseDetailsModals/HomeworkResaltsModal.vue";
+// import HomeworkResaltsModal from "../components/Modals/CourseDetailsModals/HomeworkResaltsModal.vue";
 import GroupWidget from "../components/GroupWidget.vue";
 import ResultWidget from "../components/ResultWidget.vue";
 import HomeworkWidget from "../components/HomeworkWidget.vue";
@@ -380,7 +380,7 @@ export default {
     NewCommentModal,
     CourseDetailsUpdateModal,
     NewHomeWorkModal,
-    HomeworkResaltsModal,
+    // HomeworkResaltsModal,
     NewMaterialModal,
     BasePlus,
     BaseEditIcon,

@@ -1,18 +1,22 @@
 import { AppUser } from "./user.model";
 
-export interface Course {
-  status: CourseStatus;
-  name: string;
-  id: string;
-  date_final_interview: string;
-  date: string;
-  materials: CourseMaterial[];
-  group: CourseMember[];
-  homework_results: CourseHomeworkResult[];
-  date_project_demo: string;
-  date_project_start: string;
-  comments: CourseComment[];
-  results: CourseResult[];
+export class Course {
+  status: CourseStatus = CourseStatus.NOT_STARTED;
+  name: string = "";
+  id: string = "";
+  date_final_interview: string = "";
+  date: string = "";
+  materials: CourseMaterial[] = [];
+  group: CourseMember[] = [];
+  homework_results: CourseHomeworkResult[] = [];
+  date_project_demo: string = "";
+  date_project_start: string = "";
+  comments: CourseComment[] = [];
+  results: CourseResult[] = [];
+
+  asObject() {
+    return { ...this };
+  }
 }
 
 export enum CourseStatus {

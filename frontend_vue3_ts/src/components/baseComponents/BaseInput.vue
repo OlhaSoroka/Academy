@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import AllRules from "@vee-validate/rules";
-import { Form, Field, defineRule, ErrorMessage } from "vee-validate";
+import { Field, defineRule, ErrorMessage } from "vee-validate";
 import { defineComponent } from "vue";
 
 Object.keys(AllRules).forEach((rule) => {
@@ -21,7 +21,6 @@ Object.keys(AllRules).forEach((rule) => {
 export default defineComponent({
   name: "BaseInput",
   components: {
-    Form,
     Field,
     ErrorMessage,
   },
@@ -49,20 +48,23 @@ export default defineComponent({
   },
   data() {
     return {
-      emailRules: "required|email",
-      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+",
+      emailRules: "email",
+      passwordRules: "min:6|regex:[A-Za-z]+[0-9]+",
       numberRules: "min_value:0",
     };
   },
   computed: {
     allRules() {
-      if (this.type === "email") {
-        return `${this.emailRules}|${this.rules}`;
-      } else if (this.type === "password") {
-        return `${this.passwordRules}|${this.rules}`;
-      } else if (this.type === "number") {
-        return `${this.numberRules}|${this.rules}`;
-      } else return `${this.rules}`;
+      switch (this.type) {
+        case "email":
+          return `${this.emailRules}|${this.rules}`;
+        case "password":
+          return `${this.passwordRules}|${this.rules}`;
+        case "number":
+          return `${this.numberRules}|${this.rules}`;
+        default:
+          return `${this.rules}`;
+      }
     },
   },
   methods: {

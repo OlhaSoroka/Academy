@@ -7,17 +7,17 @@ import {
   deleteDoc,
   query,
   where,
+  setDoc,
 } from "firebase/firestore";
 import { db, firestore } from "../../main";
 import { Collection } from "../models/collection.enum";
 import { Course } from "../models/course.model";
-import { ICourse } from "../../models/courses.models";
 
 export const getAllCourses = async ()/* : Promise<Course[] | undefined> */ => {
   try {
     const coursesData = await getDocs(collection(db, Collection.COURSES));
-    const courses: ICourse[] = [];
-    coursesData.forEach((course) => courses.push(course.data() as ICourse));
+    const courses: Course[] = [];
+    coursesData.forEach((course) => courses.push(course.data() as Course));
     return courses;
   } catch (error) {
     console.log({ error });
@@ -68,3 +68,15 @@ export const getCourseByName = async (name: string): Promise<Course | null> => {
     return null
   }
 }
+
+
+export const createCourse = async (data: Course): Promise<Course | null> => {
+	try {
+		const documentReference = doc(firestore, Collection.COURSES, `${data.id}`);
+		await setDoc(documentReference, data.asObject());
+		return data;
+	} catch (error) {
+		console.log({ error });
+		return null;
+	}
+};
