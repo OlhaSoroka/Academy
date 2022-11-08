@@ -43,7 +43,7 @@ export const useCoursesStore = defineStore("courses", {
       return (courseItem: Course) => state.courses.indexOf(courseItem);
     },
     nextCourseId(state) {
-      return (id: string) => {
+      return (id: number) => {
         const currentCurse = this.getCourseById(id);
         let currentIndex = this.courseIndex(currentCurse!);
         if (currentIndex < state.courses.length - 1) {
@@ -52,7 +52,7 @@ export const useCoursesStore = defineStore("courses", {
       };
     },
     previousCourseId(state) {
-      return (id: string) => {
+      return (id: number) => {
         const currentCurse = this.getCourseById(id);
         let currentIndex = this.courseIndex(currentCurse!);
         if (currentIndex > 0) {
