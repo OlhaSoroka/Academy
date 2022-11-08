@@ -1,25 +1,17 @@
 <template>
   <div>
-    <label v-if="label" :for="name" class="ml-1 block text-start">
+    <label v-if="label" :for="label" class="ml-1 block text-start">
       {{ label }}
     </label>
-    <Field
-      :id="name"
-      :type="type"
-      :value="value"
-      :placeholder="placeholder"
-      @input="updateInput"
-      class="base-input"
-      :rules="allRules"
-      :name="name"
-    />
-    <ErrorMessage :name="type" class="base-input-error-text" />
+    <Field v-bind="$attrs" :type="type" :value="value" :placeholder="placeholder" @input="updateInput" class="base-input"
+      :rules="allRules" :name="label" :validate-on-input="true" />
+    <ErrorMessage :name="label" class="base-input-error-text" />
   </div>
 </template>
 
 <script lang="ts">
 import AllRules from "@vee-validate/rules";
-import { Form, Field, defineRule, ErrorMessage } from "vee-validate";
+import { Field, defineRule, ErrorMessage } from "vee-validate";
 import { defineComponent } from "vue";
 
 Object.keys(AllRules).forEach((rule) => {
@@ -29,52 +21,50 @@ Object.keys(AllRules).forEach((rule) => {
 export default defineComponent({
   name: "BaseInput",
   components: {
-    Form,
     Field,
     ErrorMessage,
   },
   props: {
     type: {
-    type: String,
-    default: 'text',
-  },
-  value: {
-    type: String,
-    default: '',
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  label: {
-    type: String,
-    required: true,
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  rules: {
-    type: String,
-    default: '',
-  }
+      type: String,
+      default: 'text',
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+    placeholder: {
+      type: String,
+      default: '',
+    },
+    rules: {
+      type: String,
+      default: '',
+    }
   },
   data() {
     return {
-      emailRules: "required|email",
-      passwordRules: "required|min:6|regex:[A-Za-z]+[0-9]+",
+      emailRules: "email",
+      passwordRules: "min:6|regex:[A-Za-z]+[0-9]+",
       numberRules: "min_value:0",
     };
   },
   computed: {
     allRules() {
-      if (this.type === "email") {
-        return `${this.emailRules}|${this.rules}`;
-      } else if (this.type === "password") {
-        return `${this.passwordRules}|${this.rules}`;
-      } else if (this.type === "number") {
-        return `${this.numberRules}|${this.rules}`;
-      } else return `${this.rules}`;
+      switch (this.type) {
+        case "email":
+          return `${this.emailRules}|${this.rules}`;
+        case "password":
+          return `${this.passwordRules}|${this.rules}`;
+        case "number":
+          return `${this.numberRules}|${this.rules}`;
+        default:
+          return `${this.rules}`;
+      }
     },
   },
   methods: {
@@ -93,6 +83,7 @@ export default defineComponent({
 .base-input:disabled {
   @apply border-gray-300 bg-gray-50;
 }
+
 .base-input-error-text {
   @apply absolute text-xs mt-[-15px] text-red-500 ml-1;
 }
