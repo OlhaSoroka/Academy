@@ -1,13 +1,13 @@
 <template>
-	<div>
+	<div class="w-full overflow-x-auto  shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14">
 		<div class="flex justify-between">
 			<div class="text-xl text-gray-700 mb-5">
 				Results
-			</div>
+			</div> 
 		</div>
 		<div>
-			<BaseTableEditable style="min-height: 400px" :column-defs="columnDefs" :row-data="rowData"
-				uniq-identifier="email" @cellValueChanged="onCellEdit($event)" />
+			<BaseTableEditable :column-defs="columnDefs" :row-data="rowData"
+			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
 	</div>
 </template>

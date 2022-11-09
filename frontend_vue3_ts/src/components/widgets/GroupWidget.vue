@@ -1,13 +1,13 @@
-<template>
-	<div>
+<template> 
+	<div class="w-full overflow-x-auto  shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14">
 		<div class="flex justify-between">
 			<div class="text-xl text-gray-700 mb-5">
 				Group
 			</div>
 		</div>
 		<div>
-			<BaseTableEditable style="height: 400px;" :column-defs="columnDefs" :row-data="rowData"
-				uniq-identifier="email" @cellValueChanged="onCellEdit($event)"
+			<BaseTableEditable :column-defs="columnDefs" :row-data="rowData"
+				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
 				@headerNameChanged="onHeaderEdit($event)" />
 		</div>
 	</div>
@@ -18,15 +18,17 @@ import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
+import { getStudentsByCourse } from "../../api/user";
+import { PropType } from "vue";
+import { Course } from "../../api/models/course.model";
 export default {
 	components: {
 		BaseTableEditable
 	},
 	props: {
-		course: {
-			type: Object,
-			default: null,
-		},
+		currentCourse:{
+			type: Object as PropType<Course>
+		}
 	},
 	data(): {
 		columnDefs: any,
@@ -41,9 +43,6 @@ export default {
 	},
 	computed: {
 		...mapStores(useUserStore),
-		group() {
-			return this.course.group;
-		},
 		isAdmin() {
 			if (this.userStore.user) {
 				return this.userStore.user.role === ROLES.ADMIN_ROLE
@@ -58,11 +57,6 @@ export default {
 			if (this.userStore.user) {
 				return this.userStore.user.role === ROLES.STUDENTS_ROLE
 			}
-		}
-	},
-	watch: {
-		course() {
-			this.rowData = this.course.group;
 		}
 	},
 	beforeMount() {
@@ -83,7 +77,10 @@ export default {
 				{ field: "eng_level", headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin, width: 250 },
 			]
 		}
-		this.rowData = this.course.group;
+	},
+	async mounted() {
+		const students = await getStudentsByCourse(this.currentCourse!.id);
+		this.rowData = students;
 	},
 	methods: {
 		async onCellEdit(event: any) {
@@ -105,6 +102,7 @@ export default {
 			//     return column
 			//   })
 		}
+
 	}
 };
 </script>
