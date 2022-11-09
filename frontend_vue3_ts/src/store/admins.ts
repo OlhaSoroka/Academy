@@ -2,123 +2,107 @@ import { defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
 import {
   deleteUserById,
-  getAllUsers,
-  gethUserByID,
   updateUserByID,
   registerUser,
+  getUsersByRole,
 } from "../api/user/index";
-import { RegisterUserBody } from "../api/models/user.model";
-import { MentorAdminInfo } from "./mentors";
+import { AppUser, RegisterUserBody } from "../api/models/user.model";
 import { ToastType, useToastStore } from "../store/toast.store";
 
-interface IAdminsStoreState {
-  admins: MentorAdminInfo[];
-  isAdminsLoading: boolean;
+interface AdminStoreState {
+  users: AppUser[];
+  adminLoading: boolean;
 }
 
 export const useAdminStore = defineStore("admin", {
-  state: (): IAdminsStoreState => {
+  state: (): AdminStoreState => {
     return {
-      admins: [],
-      isAdminsLoading: false,
+      users: [],
+      adminLoading: false,
     };
   },
   getters: {
-    adminsGetter: (state) => state.admins,
-    isAdminsLoading: (state) => state.isAdminsLoading,
+    admins: (state) => state.users,
+    isAdminsLoading: (state) => state.adminLoading,
   },
   actions: {
-    SET_ADMINS(admins: MentorAdminInfo[]) {
-      this.admins = admins;
-    },
-    TOGGLE_ADMINS_LOADING() {
-      this.isAdminsLoading = !this.isAdminsLoading;
-    },
     async fetchAdmins() {
       try {
-        this.TOGGLE_ADMINS_LOADING;
-        const users = await getAllUsers();
-        const admins = users.filter(
-          (user: MentorAdminInfo) => user.role === ROLES.ADMIN_ROLE,
-        );
-        this.SET_ADMINS(admins);
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+        this.adminLoading = true;
+        const admins = await getUsersByRole(ROLES.ADMIN_ROLE);
+        this.users = admins;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't load admins",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_ADMINS_LOADING;
+        this.adminLoading = false;
       }
     },
     async createAdmin(admin: RegisterUserBody) {
       try {
-        this.TOGGLE_ADMINS_LOADING;
+        this.adminLoading = true;
         await registerUser(admin);
-     
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "User succesfully created!",
+          message: "Admin successfully created!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't create admin",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_ADMINS_LOADING;
-        this.fetchAdmins;
+        this.adminLoading = false;
+        this.fetchAdmins();
       }
     },
     async deleteAdmin(id: string) {
       try {
-        this.TOGGLE_ADMINS_LOADING;
+        this.adminLoading = true;
         await deleteUserById(id);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "User succesfully deleted!",
+          message: "Admin successfully deleted!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't delete admin",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_ADMINS_LOADING;
-        this.fetchAdmins;
+        this.adminLoading = false;
+        this.fetchAdmins();
       }
     },
-    async updateAdmin(adminData: any) {
+    async updateAdmin(adminData: AppUser) {
       try {
-        this.TOGGLE_ADMINS_LOADING;
+        this.adminLoading = true;
         await updateUserByID(adminData.id, adminData);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "User succesfully updated!",
+          message: "Admin successfully updated!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't update admin",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_ADMINS_LOADING;
-        this.fetchAdmins;
+        this.adminLoading = false;
+        this.fetchAdmins();
       }
     },
   },

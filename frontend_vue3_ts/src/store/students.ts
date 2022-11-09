@@ -1,164 +1,131 @@
 import { defineStore } from "pinia";
-import { getCourseByName, updateCourseById } from "../api/course";
-import {
-	Course,
-	CourseHomeworkResult,
-	CourseMember,
-	CourseResult,
-	Homework,
-} from "../api/models/course.model";
+import { uuidv4 } from "@firebase/util";
+import { getCourseById } from "../api/course";
+import { createHomework, deleteStudentHomeworks } from "../api/homework";
+import { Course } from "../api/models/course.model";
+import { Homework } from "../api/models/homework.model";
 import { AppUser, RegisterUserBody } from "../api/models/user.model";
 import {
-	deleteUserById,
-	getUsersByRole,
-	registerUser,
-	updateUserByID,
+  deleteUserById,
+  getUsersByRole,
+  registerUser,
+  updateUserByID,
 } from "../api/user";
 import { ROLES } from "../models/router.model";
 import { ToastType, useToastStore } from "./toast.store";
+import { Result } from "../api/models/result.model";
+import { createResult, deleteStudentResults } from "../api/results";
 
-interface StudentState {
-	students: AppUser[];
-	isStudentLoading: boolean;
+interface StudentStoreState {
+  students: AppUser[];
+  studentLoading: boolean;
 }
 
-export const useStudentStore = defineStore("students", {
-	state: (): StudentState => ({
-		students: [],
-		isStudentLoading: false,
-	}),
-	getters: {
-		allStudents: (state) => state.students,
-		studentsLoadingStatus: (state) => state.isStudentLoading,
-		studentById: (state) => {
-			return (studentId: string) =>
-				state.students.find((student) => student.id === studentId);
-		},
-	},
-	actions: {
-		async fetchStudents() {
-			try {
-				this.isStudentLoading = true;
-				this.students = await getUsersByRole(ROLES.STUDENTS_ROLE);
-			} catch {
-				const toastStore = useToastStore();
-				toastStore.showToastMessage({
-					message: "Error: Can't get students",
-					type: ToastType.FAILURE,
-				});
-			} finally {
-				this.isStudentLoading = false;
-			}
-		},
-		async updateStudent(payload: AppUser) {
-			try {
-				this.isStudentLoading = true;
-				await updateUserByID(payload.id, payload);
-				const toastStore = useToastStore();
-				toastStore.showToastMessage({
-					message: "Student successfully updated",
-					type: ToastType.SUCCESS,
-				});
-			} catch {
-				const toastStore = useToastStore();
-				toastStore.showToastMessage({
-					message: "Error: Can't updated student",
-					type: ToastType.FAILURE,
-				});
-			} finally {
-				this.isStudentLoading = false;
-			}
-		},
-		async createStudent(payload: RegisterUserBody) {
-			try {
-				this.isStudentLoading = true;
-				const student = await registerUser(payload);
-				let studentCourse: Course | null = null;
+export const useStudentStore = defineStore("student", {
+  state: (): StudentStoreState => ({
+    students: [],
+    studentLoading: false,
+  }),
+  getters: {
+    allStudents: (state: StudentStoreState) => state.students,
+    isStudentLoading: (state: StudentStoreState) => state.studentLoading,
+    studentById: (state: StudentStoreState) => {
+      return (studentId: string) =>
+        state.students.find((student) => student.id === studentId);
+    },
+  },
+  actions: {
+    async fetchStudents() {
+      try {
+        this.studentLoading = true;
+        this.students = await getUsersByRole(ROLES.STUDENTS_ROLE);
+      } catch {
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Error: Can't get students",
+          type: ToastType.FAILURE,
+        });
+      } finally {
+        this.studentLoading = false;
+      }
+    },
+    async updateStudent(payload: AppUser) {
+      try {
+        this.studentLoading = true;
+        await updateUserByID(payload.id, payload);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Student successfully updated",
+          type: ToastType.SUCCESS,
+        });
+      } catch {
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Error: Can't updated student",
+          type: ToastType.FAILURE,
+        });
+      } finally {
+        this.fetchStudents();
+      }
+    },
+    async createStudent(payload: RegisterUserBody) {
+      try {
+        this.studentLoading = true;
+        const student = await registerUser(payload);
+        let studentCourse: Course | null = null;
 
-				if (student && student.course) {
-					studentCourse = await getCourseByName(student.course);
-				}
+        if (student && student.courseId) {
+          studentCourse = await getCourseById(student.courseId);
+          if (studentCourse && student) {
+            await createHomework(
+              new Homework(uuidv4(), student.id, studentCourse.id),
+            );
+            await createResult(
+              new Result(uuidv4(), student.id, studentCourse.id),
+            );
 
-				if (studentCourse && student) {
-					let homework: Homework[] = [];
-					if (!!studentCourse.homework_results.length) {
-						homework = [...studentCourse.homework_results[0].homework];
-						for (const hw of homework) {
-							hw.rate = 0;
-							hw.link = "";
-						}
-					}
-
-					studentCourse.group.push(new CourseMember(student).asObject());
-					studentCourse.results.push(new CourseResult(student).asObject());
-					studentCourse.homework_results.push(
-						new CourseHomeworkResult(student, homework).asObject(),
-					);
-
-					console.log({studentCourse});
-					
-					await updateCourseById(`${studentCourse.id}`, studentCourse);
-
-					const toastStore = useToastStore();
-					toastStore.showToastMessage({
-						message: "Student successfully created",
-						type: ToastType.SUCCESS,
-					});
-				}
-			} catch {
-				const toastStore = useToastStore();
-				toastStore.showToastMessage({
-					message: "Error: Can't create student",
-					type: ToastType.SUCCESS,
-				});
-			} finally {
-				this.isStudentLoading = false;
-			}
-		},
-		async deleteStudent(id: string) {
-			try {
-				this.isStudentLoading = true;
-				const student = this.studentById(id);
-				let studentCourse: Course | null = null;
-		
-				if (student && student.course) {
-					studentCourse = await getCourseByName(student.course);
-				}
-
-				if (studentCourse && student) {
-					const courseMemberIndex = studentCourse.group.findIndex(
-						(member) => member.email === student.email,
-					);
-					const courseResultIndex = studentCourse.results.findIndex(
-						(member) => member.email === student.email,
-					);
-					const courseHomeworkResultIndex =
-						studentCourse.homework_results.findIndex(
-							(member) => member.id === student.id,
-						);
-
-					studentCourse.group.splice(courseMemberIndex, 1);
-					studentCourse.results.splice(courseResultIndex, 1);
-					studentCourse.homework_results.splice(courseHomeworkResultIndex, 1);
-
-					await updateCourseById(`${studentCourse.id}`, studentCourse);
-					await deleteUserById(student.id);
-
-					const toastStore = useToastStore();
-					toastStore.showToastMessage({
-						message: "Student successfully deleted",
-						type: ToastType.SUCCESS,
-					});
-				}
-			} catch {
-				const toastStore = useToastStore();
-				toastStore.showToastMessage({
-					message: "Error: Can't delete student",
-					type: ToastType.SUCCESS,
-				});
-			} finally {
-				this.isStudentLoading = false;
-			}
-		},
-	},
+            const toastStore = useToastStore();
+            toastStore.showToastMessage({
+              message: "Student successfully created",
+              type: ToastType.SUCCESS,
+            });
+          }
+        }
+      } catch (error) {
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Error: Can't create student",
+          type: ToastType.FAILURE,
+        });
+      } finally {
+        this.fetchStudents();
+      }
+    },
+    async deleteStudent(studentId: string) {
+      try {
+        this.studentLoading = true;
+        const student = this.students.find(
+          (student) => student.id === studentId,
+        );
+        if (student) {
+          await deleteUserById(studentId);
+          await deleteStudentHomeworks(studentId);
+          await deleteStudentResults(studentId);
+          const toastStore = useToastStore();
+          toastStore.showToastMessage({
+            message: "Student successfully created",
+            type: ToastType.SUCCESS,
+          });
+        }
+      } catch {
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Error: Can't delete student",
+          type: ToastType.SUCCESS,
+        });
+      } finally {
+        this.fetchStudents();
+      }
+    },
+  },
 });

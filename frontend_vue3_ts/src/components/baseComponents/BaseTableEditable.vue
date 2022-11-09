@@ -2,25 +2,12 @@
   <div style="overflow-x: auto">
     <table style="width: 100%" class="table">
       <tr>
-        <th
-          v-for="column in columnDefs"
-          :key="column.field"
-          class="table_header"
-          :class="{ 'table_header--solid': column.solid }"
-        >
-          <div
-            class="table_header_cell"
-            :style="{ width: column.width + 'px' }"
-          >
-            <input
-              v-if="isHederActive(column)"
-              v-focus
-              type="text"
-              class="table_cell_input"
-              :value="column.headerName"
+        <th v-for="column in columnDefs" :key="column.field" class="table_header"
+          :class="{ 'table_header--solid': column.solid }">
+          <div class="table_header_cell" :style="{ width: column.width + 'px' }">
+            <input v-if="isHederActive(column)" v-focus type="text" class="table_cell_input" :value="column.headerName"
               @focusout="onHeaderFocusOut($event, column.field)"
-              @keypress.enter="onHeaderEnterPress($event, column.field)"
-            />
+              @keypress.enter="onHeaderEnterPress($event, column.field)" />
             <div v-else class="flex">
               <div :class="column.sortable && 'cursor-pointer'" class="flex">
                 <div class="p-1" @click="sortByColumn(column)">
@@ -32,10 +19,12 @@
                   </div>
                 </div>
                 <div v-if="sortBy === column.field">
-                  <span v-if="activeSort === 'asc'"><BaseArrowDown /></span>
-                  <span v-if="activeSort === 'desc'" class="rotate-180"
-                    ><BaseArrowUp
-                  /></span>
+                  <span v-if="activeSort === 'asc'">
+                    <BaseArrowDown />
+                  </span>
+                  <span v-if="activeSort === 'desc'" class="rotate-180">
+                    <BaseArrowUp />
+                  </span>
                 </div>
               </div>
             </div>
@@ -43,33 +32,16 @@
         </th>
       </tr>
       <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="table_row">
-        <td
-          v-for="(column, columnIndex) in columnDefs"
-          :key="column.field"
-          class="table_row_item"
-        >
-          <div
-            class="table_cell"
-            :class="column.editable && 'cursor-pointer'"
-            @click="onCellClick(rowIndex, columnIndex, column.editable)"
-          >
-            <input
-              v-if="isCellActive(rowIndex, columnIndex)"
-              v-focus
-              class="table_cell_input"
-              type="text"
-              :value="row[column.field]"
-              @focusout="onFocusOut($event, row, column.field)"
-              @keypress.enter="onEnterPress($event, row, column.field)"
-            />
-            <div
-              v-else
-              class="over text-ellipsis p-2"
-              :class="!column.link && 'pointer-events-none'"
-              :style="{ width: column.width + 'px' }"
-            >
+        <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
+          <div class="table_cell" :class="column.editable && 'cursor-pointer'"
+            @click="onCellClick(rowIndex, columnIndex, column.editable)">
+            <input v-if="isCellActive(rowIndex, columnIndex)" v-focus class="table_cell_input" type="text"
+              :value="row[column.field]" @focusout="onFocusOut($event, row, column.field)"
+              @keypress.enter="onEnterPress($event, row, column.field)" />
+            <div v-else class="over text-ellipsis p-2" :class="!column.link && 'pointer-events-none'"
+              :style="{ width: column.width + 'px' }">
               <a v-if="column.link" :href="row[column.field]">{{
-                row[column.field]
+                  row[column.field]
               }}</a>
               <div v-else>
                 {{ row[column.field] }}
@@ -89,19 +61,19 @@ import BaseEditIcon from "../baseComponents/BaseIcons/BaseEditIcon.vue";
 import { defineComponent, ref } from "vue";
 import { PropType } from "vue";
 
-interface IColumnDefs{
+interface IColumnDefs {
   field: string,
   headerName: string,
   headerEditable?: boolean,
   sortable: boolean,
   editable: boolean,
-  width:number,
+  width: number,
   solid?: boolean,
   link?: string
 }
 
 interface IRowData {
-    [key: string]: string
+  [key: string]: string
 }
 
 export default defineComponent({
@@ -143,28 +115,29 @@ export default defineComponent({
     this.rows = [...this.rowData];
   },
   directives: {
-    focus : {
-    mounted: (el) => el.focus()
-  }
+    focus: {
+      mounted: (el) => el.focus()
+    }
   },
   methods: {
-    onCellClick(rowIndex:number, columnIndex:number, isEditable:boolean) {
+    onCellClick(rowIndex: number, columnIndex: number, isEditable: boolean) {
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
       }
+      this.$emit('rowClick', this.rows[rowIndex][this.uniqIdentifier])
     },
-    isCellActive(rowIndex:number, columnIndex:number) {
+    isCellActive(rowIndex: number, columnIndex: number) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
     },
-    onFocusOut(event:any, row:IRowData, field:string) {
+    onFocusOut(event: any, row: IRowData, field: string) {
       this.emitCellUpdate(event, row, field);
       this.activeCell = null;
     },
-    onEnterPress(event:any, row:IRowData, field:string) {
+    onEnterPress(event: any, row: IRowData, field: string) {
       this.emitCellUpdate(event, row, field);
       this.activeCell = null;
     },
-    emitCellUpdate(event:any, row:IRowData, field:string) {
+    emitCellUpdate(event: any, row: IRowData, field: string) {
       const newValue = event.target.value;
       this.$emit("cellValueChanged", {
         newValue,
@@ -172,34 +145,34 @@ export default defineComponent({
         colDef: { field },
       });
     },
-    sortByColumn(column:IColumnDefs) {
+    sortByColumn(column: IColumnDefs) {
       if (column.sortable) {
         this.setNextSort(column.field);
         this.rows.sort(this.compare);
       }
     },
-    onHeaderEdit(column:IColumnDefs) {
+    onHeaderEdit(column: IColumnDefs) {
       this.activeHeader = column.field;
     },
-    isHederActive(column:IColumnDefs) {
+    isHederActive(column: IColumnDefs) {
       return this.activeHeader === column.field;
     },
-    onHeaderFocusOut(event:any, field:string) {
+    onHeaderFocusOut(event: any, field: string) {
       this.emitHeaderUpdate(event, field);
       this.activeHeader = null;
     },
-    onHeaderEnterPress(event:any, field:string) {
+    onHeaderEnterPress(event: any, field: string) {
       this.emitHeaderUpdate(event, field);
       this.activeHeader = null;
     },
-    emitHeaderUpdate(event:any, field:string) {
+    emitHeaderUpdate(event: any, field: string) {
       const newHeaderName = event.target.value;
       this.$emit("headerNameChanged", {
         newHeaderName,
         field,
       });
     },
-    setNextSort(field:string) {
+    setNextSort(field: string) {
       if (field !== this.sortBy) {
         this.activeSort = null;
       }
@@ -218,15 +191,15 @@ export default defineComponent({
         return;
       }
     },
-/*     isNumber(value:string) {
-      return parseInt(value, 10) ? +value : value;
-    }, */
-    isNumber(value:string | number) {
-     if (+value == value) {
-      return +value
-    } else return value;
+    /*     isNumber(value:string) {
+          return parseInt(value, 10) ? +value : value;
+        }, */
+    isNumber(value: string | number) {
+      if (+value == value) {
+        return +value
+      } else return value;
     },
-    compare(a:IRowData, b:IRowData):number {
+    compare(a: IRowData, b: IRowData): number {
       if (this.activeSort === "asc") {
         if (this.isNumber(a[`${this.sortBy}`]) > this.isNumber(b[`${this.sortBy}`])) {
           return -1;
@@ -256,28 +229,36 @@ export default defineComponent({
 .table {
   @apply border-2 border-slate-200 text-sm;
 }
+
 .table_header {
   @apply border-2 border-slate-200 text-center text-primary-700;
 }
+
 .table_header--solid {
   @apply bg-primary-300 text-white;
 }
+
 .table_header_cell {
   @apply m-auto flex min-h-[50px] min-w-[120px] items-center justify-center;
 }
+
 .table_row {
   @apply hover:bg-primary-200;
 }
+
 .table_row_item {
   @apply border-b-2 border-slate-200;
 }
+
 .table_cell {
   @apply flex min-h-[50px] items-center justify-center text-center;
 }
+
 .table_cell_input {
   @apply block min-h-[50px] w-full rounded border-2 border-primary-400 py-1 px-2 shadow focus-visible:outline-none;
 }
+
 .text-wrap {
-  overflow-wrap: break-word;
+  overflow-wrap:break-word;
 }
 </style>

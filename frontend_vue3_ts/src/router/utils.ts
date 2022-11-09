@@ -46,7 +46,7 @@ export const isCourseExist: NavigationGuard = async (
   next,
 ): Promise<void> => {
   const courseStore = useCoursesStore();
-  const courses = courseStore.coursesGetter;
+  const courses = courseStore.allCourses;
   const validIds = courses.map((course) => `${course.id}`);
   if (validIds.includes(to.params.id as string)) {
     next();

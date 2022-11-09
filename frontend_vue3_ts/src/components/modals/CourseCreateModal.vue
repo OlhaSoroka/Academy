@@ -1,7 +1,7 @@
 <template>
 	<BaseModal ref="courseCreateModal" :header="'Add new course'" @isClosed="clearInputs()">
 		<template #body>
-			<Form @submit.prevent v-slot="{ errors }">
+			<Form v-slot="{ errors }">
 				<div class="w-72">
 					<BaseInput v-model="courseToAdd.name" type="text" label="Course Name"
 					placeholder="Enter course name" rules="required" />
@@ -25,7 +25,7 @@
 							</BaseButton>
 						</div>
 						<div class="mx-2">
-							<BaseButton button-type="submit" :disabled="!isFormValid(errors)"
+							<BaseButton button-type="button" :disabled="!isFormValid(errors)"
 								@click="submitCourseCreateButton">
 								Create
 							</BaseButton>
@@ -60,7 +60,7 @@ export default defineComponent({
 	},
 	data(): { courseToAdd: Course, statuses: CourseStatus[] } {
 		return {
-			courseToAdd: new Course(),
+			courseToAdd: new Course(uuidv4()),
 			statuses: [CourseStatus.NOT_STARTED, CourseStatus.IN_PROGRESS, CourseStatus.FINISHED],
 		};
 	},
@@ -77,12 +77,11 @@ export default defineComponent({
 			return Object.keys(errors).length === 0 && this.courseToAdd.name && this.courseToAdd.date;
 		},
 		clearInputs() {
-			this.courseToAdd = new Course()
+			this.courseToAdd = new Course(uuidv4())
 		},
 		submitCourseCreateButton() {
 			const { name, date } = this.courseToAdd;
 			if (name && date) {
-				this.courseToAdd.id = uuidv4();
 				this.coursesStore.createNewCourse(this.courseToAdd);
 				(this.$refs.courseCreateModal as typeof BaseModal).closeModal();
 			}

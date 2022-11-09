@@ -1,7 +1,7 @@
 import { AppUser } from "./../api/models/user.model";
 import { defineStore } from "pinia";
 import router from "../router";
-import { gethUserByID, updateUserByID } from "../api/user/index";
+import { changePassword, gethUserByID, updateUserByID } from "../api/user/index";
 import {
   createImageUrl,
   createImageRef,
@@ -12,112 +12,97 @@ import { firebaseAuth } from "../main";
 import { ROUTE_NAMES } from "../models/router.model";
 import { ToastType, useToastStore } from "../store/toast.store";
 
-/* class UserInfo {
-  avatarUrl!: string;
-  email!: string;
-  fullName!: string;
-  id!: string;
-  role!: string;
-  class!: string;
-} */
-
-interface IUserStoreState {
+interface UserStoreState {
   user: AppUser | null;
-  isImageLoading: boolean;
+  imageLoading: boolean;
 }
 
 export const useUserStore = defineStore("user", {
-  state: (): IUserStoreState => {
+  state: (): UserStoreState => {
     return {
       user: null,
-      isImageLoading: false,
+      imageLoading: false,
     };
   },
   getters: {
     currentUser: (state) => state.user,
-    isImageLoading: (state) => state.isImageLoading,
-    isUser: (state) => state.user!.id !== null,
+    isImageLoading: (state) => state.imageLoading,
   },
   actions: {
     setUser(user: AppUser | null) {
       this.user = user;
     },
-    toggle_image_loading() {
-      this.isImageLoading = !this.isImageLoading;
-    },
     async fetchUser(id: string) {
       try {
         const user = await gethUserByID(id);
-        
         localStorage.setItem("currentUser", JSON.stringify(user));
-        this.setUser(user);
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response?.data?.message;
+        this.user = user;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't fetch this user",
           type: ToastType.FAILURE,
         });
       } finally {
         if (this.isImageLoading) {
-          this.toggle_image_loading();
+          this.imageLoading = false;
         }
       }
     },
-    async changePassword(password: any) {
+    async changePassword(password: string) {
       try {
-        await updateUserByID(this.user!.id, password);
+        await changePassword(password);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "Password succesfully changed!",
+          message: "Password successfully changed!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({error});
+        
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't change your password",
           type: ToastType.FAILURE,
         });
       }
     },
     async changeProfileImage(image: any) {
       try {
-        this.toggle_image_loading();
-        const imageRef = createImageRef(this.user!.email);
-        await uploadImage(imageRef, image);
-        const imageUrl = await createImageUrl(imageRef);
-        await updateUserByID(this.user!.id, { avatarUrl: imageUrl });
-        this.fetchUser(this.user!.id);
+        if (this.user) {
+          this.imageLoading = true
+          const imageRef = createImageRef(this.user.email);
+          await uploadImage(imageRef, image);
+          const imageUrl = await createImageUrl(imageRef);
+          await updateUserByID(this.user.id, { avatarUrl: imageUrl });
+          this.fetchUser(this.user.id);
+          const toastStore = useToastStore();
+          toastStore.showToastMessage({
+            message: "Profile image successfully changed",
+            type: ToastType.SUCCESS,
+          });
+        }
+      } catch (error) {
+        console.log({error})
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "Profile image successfully changed",
-          type: ToastType.SUCCESS,
-        });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
-        const toastStore = useToastStore();
-        toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't update profile image",
           type: ToastType.FAILURE,
         });
       }
-    }, 
+    },
     async logoutUser() {
       try {
         await signOut(firebaseAuth);
         localStorage.removeItem("currentUser");
         this.user = null;
         router.push({ name: ROUTE_NAMES.LOGIN });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({error}); 
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Something went wrong",
           type: ToastType.FAILURE,
         });
       }
