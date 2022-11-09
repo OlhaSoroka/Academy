@@ -1,6 +1,4 @@
 import { defineStore } from "pinia";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../main";
 import {
   getAllCourses,
   updateCourseById,
@@ -12,183 +10,120 @@ import { Course } from "../api/models/course.model";
 
 interface CoursesStoreState {
   courses: Course[];
-  isLoading: boolean;
+  selectedCourseIndex: number;
+  courseLoading: boolean;
 }
 
 export const useCoursesStore = defineStore("courses", {
   state: (): CoursesStoreState => {
     return {
       courses: [],
-      isLoading: false,
+      selectedCourseIndex: 0,
+      courseLoading: false,
     };
   },
   getters: {
-    coursesGetter: (state) => state.courses,
+    allCourses: (state: CoursesStoreState) => state.courses,
     coursesLength: (state) => state.courses.length,
-    lastCourseId(state) {
+    lastCourseId(state: CoursesStoreState) {
       return state.courses[state.courses.length - 1].id;
     },
-    firstCourseId(state) {
+    firstCourseId(state: CoursesStoreState) {
       return state.courses[0].id;
     },
-    loadingStatus(state) {
-      return state.isLoading;
+    loadingStatus(state: CoursesStoreState) {
+      return state.courseLoading;
     },
     getCourseById(state: CoursesStoreState) {
       return (id: string) => {
         return state.courses.find((course) => course.id === id);
       };
     },
-    courseIndex(state) {
+    courseIndex(state: CoursesStoreState) {
       return (courseItem: Course) => state.courses.indexOf(courseItem);
     },
-    nextCourseId(state) {
-      return (id: number) => {
-        const currentCurse = this.getCourseById(id);
-        let currentIndex = this.courseIndex(currentCurse!);
-        if (currentIndex < state.courses.length - 1) {
-          return state.courses[currentIndex + 1].id;
-        } else return state.courses[0].id;
-      };
-    },
-    previousCourseId(state) {
-      return (id: number) => {
-        const currentCurse = this.getCourseById(id);
-        let currentIndex = this.courseIndex(currentCurse!);
-        if (currentIndex > 0) {
-          return state.courses[currentIndex - 1].id;
-        } else return state.courses[state.courses.length - 1].id;
-      };
+    currentSelectedCourse(state: CoursesStoreState) {
+      return state.courses[state.selectedCourseIndex];
     },
   },
   actions: {
-    setCourses(courses: Course[]) {
-      this.courses = courses;
-    },
-    changeLoadingStatus() {
-      this.isLoading = !this.isLoading;
-    },
-    sortCourses() {
-      this.courses.sort((a, b) => (a.date > b.date ? -1 : 1));
-    },
-    async getCourses() {
-      this.changeLoadingStatus;
+    async fetchCourses() {
       try {
+        this.courseLoading = true;
         const courses = await getAllCourses();
         if (courses) {
-          this.setCourses(courses);
+          this.courses = courses;
         }
-      } catch (error: any) {
-        const errorMessage = error.response?.data?.error || error.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't load courses",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.changeLoadingStatus;
+        this.courseLoading = false;
       }
     },
     async createNewCourse(data: Course) {
       try {
+        this.courseLoading = true;
         await createCourse(data);
-        this.getCourses();
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "Course succesfully created!",
+          message: "Course successfully created!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        this.getCourses();
-        const errorMessage = error.response?.data?.error || error.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't create a new course",
           type: ToastType.FAILURE,
         });
+      } finally {
+        this.fetchCourses();
       }
     },
-    async addNewComment(payload: any) {
+    async updateCourse(payload: Course) {
       try {
-        const courseRef = doc(db, "courses", `${payload.id}`);
-        await updateDoc(courseRef, payload.currentItemUpdate).then(() => {
-          this.getCourses();
-          const toastStore = useToastStore();
-          toastStore.showToastMessage({
-            message: "Comment sent!",
-            type: ToastType.SUCCESS,
-          });
-        });
-      } catch (error: any) {
-        this.getCourses();
-        const errorMessage = error.response?.data?.error || error.message;
+        this.courseLoading = true;
+        await updateCourseById(payload.id, payload);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
-          type: ToastType.FAILURE,
-        });
-      }
-    },
-    async updateCourse(payload: any) {
-      try {
-        await updateCourseById(payload.id, payload.course).then(() => {
-          this.getCourses();
-          const toastStore = useToastStore();
-          toastStore.showToastMessage({
-            message: "Course succesfully updated!",
-            type: ToastType.SUCCESS,
-          });
-        });
-      } catch (error: any) {
-        this.getCourses();
-        const errorMessage = error.response?.data?.error || error.message;
-        const toastStore = useToastStore();
-        toastStore.showToastMessage({
-          message: errorMessage,
-          type: ToastType.FAILURE,
-        });
-      }
-    },
-    deleteCourseFromState(id: string) {
-      this.changeLoadingStatus;
-      deleteCourse(id)
-        .then(() => {
-          const toastStore = useToastStore();
-          toastStore.showToastMessage({
-            message: "Course succesfully deleted!",
-            type: ToastType.SUCCESS,
-          });
-        })
-        .catch((error: any) => {
-          const errorMessage =
-            error.response?.data?.error || error.response.data.message;
-          const toastStore = useToastStore();
-          toastStore.showToastMessage({
-            message: errorMessage,
-            type: ToastType.FAILURE,
-          });
-        })
-        .finally(() => {
-          this.changeLoadingStatus;
-          this.getCourses();
-        });
-    },
-    patchCourses(payload: any) {
-      try {
-        this.getCourses();
-        const toastStore = useToastStore();
-        toastStore.showToastMessage({
-          message: "Succesfully deleted!",
+          message: "Course successfully updated!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        this.getCourses();
-        const errorMessage = error.response?.data?.error || error.message;
+      } catch (error) {
+        console.log({ error });
+
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't update this course",
           type: ToastType.FAILURE,
         });
+      } finally {
+        this.fetchCourses();
+      }
+    },
+    async deleteCourseFromState(id: string) {
+      try {
+        this.courseLoading = true;
+        await deleteCourse(id);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Course successfully deleted!",
+          type: ToastType.SUCCESS,
+        });
+      } catch (error) {
+        console.log({ error });
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Error: Can't delete this course",
+          type: ToastType.FAILURE,
+        });
+      } finally {
+        this.fetchCourses();
       }
     },
   },

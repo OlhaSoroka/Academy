@@ -2,129 +2,107 @@ import { defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
 import {
   deleteUserById,
-  getAllUsers,
-  gethUserByID,
   updateUserByID,
   registerUser,
+  getUsersByRole,
 } from "../api/user/index";
-import { RegisterUserBody } from "../api/models/user.model";
+import { AppUser, RegisterUserBody } from "../api/models/user.model";
 import { ToastType, useToastStore } from "../store/toast.store";
 
-export class MentorAdminInfo {
-  avatarUrl!: string;
-  email!: string;
-  fullName!: string;
-  id!: string;
-  role!: string;
-}
-
-interface IMentorStoreState {
-  mentors: MentorAdminInfo[];
-  isMentorsLoading: boolean;
+interface MentorStoreState {
+  users: AppUser[];
+  mentorLoading: boolean;
 }
 
 export const useMentorStore = defineStore("mentor", {
-  state: (): IMentorStoreState => {
+  state: (): MentorStoreState => {
     return {
-      mentors: [],
-      isMentorsLoading: false,
+      users: [],
+      mentorLoading: false,
     };
   },
   getters: {
-    mentorsGetter: (state) => state.mentors,
-    isMentorsLoading: (state) => state.isMentorsLoading,
+    mentors: (state) => state.users,
+    isMentorsLoading: (state) => state.mentorLoading,
   },
   actions: {
-    SET_MENTORS(mentors: MentorAdminInfo[]) {
-      this.mentors = mentors;
-    },
-    TOGGLE_MENTORS_LOADING() {
-      this.isMentorsLoading = !this.isMentorsLoading;
-    },
     async fetchMentors() {
       try {
-        this.TOGGLE_MENTORS_LOADING;
-        const users = await getAllUsers();
-        const mentors = users.filter(
-          (user: MentorAdminInfo) => user.role === ROLES.MENTOR_ROLE,
-        );
-        this.SET_MENTORS(mentors);
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+        this.mentorLoading = true;
+        const mentors = await getUsersByRole(ROLES.MENTOR_ROLE);
+        this.users = mentors;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't load mentors",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_MENTORS_LOADING;
+        this.mentorLoading = false;
       }
     },
     async createMentor(mentor: RegisterUserBody) {
       try {
-        this.TOGGLE_MENTORS_LOADING;
+        this.mentorLoading = true;
         await registerUser(mentor);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "User succesfully created!",
+          message: "Mentor successfully created!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't create mentor",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_MENTORS_LOADING;
-        this.fetchMentors;
+        this.mentorLoading = false;
+        this.fetchMentors();
       }
     },
     async deleteMentor(id: string) {
       try {
-        this.TOGGLE_MENTORS_LOADING;
+        this.mentorLoading = true;
         await deleteUserById(id);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "User succesfully deleted!",
+          message: "Mentor successfully deleted!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't delete mentor",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_MENTORS_LOADING;
-        this.fetchMentors;
+        this.mentorLoading = false;
+        this.fetchMentors();
       }
     },
-    async updateMentor(mentorData: any) {
+    async updateMentor(mentorData: AppUser) {
       try {
-        this.TOGGLE_MENTORS_LOADING;
+        this.mentorLoading = true;
         await updateUserByID(mentorData.id, mentorData);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: "User succesfully updated!",
+          message: "Mentor successfully updated!",
           type: ToastType.SUCCESS,
         });
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.error || error.response.data.message;
+      } catch (error) {
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
-          message: errorMessage,
+          message: "Error: Can't update mentor",
           type: ToastType.FAILURE,
         });
       } finally {
-        this.TOGGLE_MENTORS_LOADING;
-        this.fetchMentors;
+        this.mentorLoading = false;
+        this.fetchMentors();
       }
     },
   },

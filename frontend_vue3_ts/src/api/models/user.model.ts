@@ -6,13 +6,18 @@ export interface AppUser {
   fullName: string;
   id: string;
   role: ROLES;
-  course?: string;
+  courseId?: string;
+  age?: string;
+  education?: string;
+  eng_level?: string;
+  city?: string;
+  phone?: string;
 }
 
 export interface RegisterUserBody {
   email: string;
   password: string;
-  course?: string;
+  courseId?: string;
   fullName: string;
   role: ROLES;
 }

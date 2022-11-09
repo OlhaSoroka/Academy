@@ -54,19 +54,15 @@ export const deleteCourse = async (id: string): Promise<void> => {
 };
 
 
-export const getCourseByName = async (name: string): Promise<Course | null> => {
-  try {
-    const collectionQuery = query(collection(firestore, Collection.COURSES), where("name", "==", name));
-    const documents = await getDocs(collectionQuery);
-		const courses: Course[] = [];
-		documents.forEach((document) => {
-			const course = document.data();
-			courses.push(course as Course);
-		});
-    return courses[0];
-  } catch  {
-    return null
-  }
+export const getCourseById = async (id: string): Promise<Course> => {
+  const collectionQuery = query(collection(firestore, Collection.COURSES), where("id", "==", id));
+  const documents = await getDocs(collectionQuery);
+  const courses: Course[] = [];
+  documents.forEach((document) => {
+    const course = document.data();
+    courses.push(course as Course);
+  });
+  return courses[0];
 }
 
 

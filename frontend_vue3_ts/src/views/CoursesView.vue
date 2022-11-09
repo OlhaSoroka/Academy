@@ -1,5 +1,5 @@
 <template>
-	Courses View
+	<RouterView></RouterView>
 </template>
 <script lang="ts">
 export default {}

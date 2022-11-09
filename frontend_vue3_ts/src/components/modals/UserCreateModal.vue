@@ -22,12 +22,12 @@
 						</div>
 						<div v-if="isStudent">
 							<label for="courses" class="block ml-1 text-start">Select Course</label>
-							<select id="courses" v-model="course" class="select__course">
+							<select id="courses" v-model="courseId" class="select__course">
 								<option value="" disabled selected>
 									Select Course
 								</option>
 								<option v-for="course in coursesStore.coursesGetter" :key="course.id"
-									:value="course.name">
+									:value="course.id">
 									{{ course.name }}
 								</option>
 							</select>
@@ -68,7 +68,7 @@ import { useMentorStore } from '../../store/mentors';
 import { Form } from 'vee-validate';
 
 interface CreateUserData {
-	course?: string;
+	courseId?: string;
 	fullName: string;
 	email: string;
 	password: string;
@@ -93,7 +93,7 @@ export default defineComponent({
 	},
 	data(): CreateUserData {
 		return {
-			course: "",
+			courseId: "",
 			confirmPassword: "",
 			email: "",
 			fullName: "",
@@ -118,12 +118,12 @@ export default defineComponent({
 	methods: {
 		isFormValid(errors: Partial<Record<string, string | undefined>>) {
 			if (this.role === ROLES.STUDENTS_ROLE) {
-				return Object.keys(errors).length === 0 && this.password === this.confirmPassword && this.fullName && this.email && this.course;	
+				return Object.keys(errors).length === 0 && this.password === this.confirmPassword && this.fullName && this.email && this.courseId;	
 			}
 			return Object.keys(errors).length === 0 && this.password === this.confirmPassword && this.fullName && this.email;
 		},
 		clearInputs() {
-			this.course = ""
+			this.courseId = ""
 			this.confirmPassword = ""
 			this.email = ""
 			this.fullName = ""
@@ -137,7 +137,7 @@ export default defineComponent({
 				role: this.role as ROLES,
 			}
 			if (registerBody.role === ROLES.STUDENTS_ROLE) {
-				registerBody.course = this.course;
+				registerBody.courseId = this.courseId;
 			}
 
 			switch (registerBody.role) {

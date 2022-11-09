@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"; 
+import { defineStore } from "pinia";
 
 export enum ToastType {
   SUCCESS = "Success",
@@ -35,17 +35,6 @@ export const useToastStore = defineStore("toast", {
       setTimeout(() => {
         this.show = false;
       }, 3000);
-
-      // Example of usage in another store:
-      //
-      // actions: {
-      //   updateUser() {
-      //      ...
-      //      const toastStore = useToastStore();
-      //      toastStore.showToastMessage({ message: "User successfully updated!", type: ToastType.SUCCESS })
-      //      ...
-      //   }
-      // }
     },
   },
 });

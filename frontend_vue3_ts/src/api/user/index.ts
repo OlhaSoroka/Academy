@@ -66,6 +66,22 @@ export const getUsersByRole = async (role: ROLES): Promise<AppUser[]> => {
   }
 };
 
+export const getStudentsByCourse = async (courseId: string): Promise<AppUser[]> => {
+	try {
+		const collectionQuery = query(collection(firestore, Collection.USERS), where("courseId", "==", courseId));
+		const documents = await getDocs(collectionQuery);
+		const students: AppUser[] = [];
+		documents.forEach((document) => {
+		  const student = document.data();
+		  students.push(student as AppUser);
+		});
+		return students;
+	} catch (error) {
+		console.log({error});
+		return []
+	}
+  }
+
 export const gethUserByID = async (id: string): Promise<AppUser | null> => {
   try {
     const documentReference = doc(firestore, Collection.USERS, id);
@@ -102,30 +118,25 @@ export const updateUserByID = async (
 
 export const registerUser = async (
   data: RegisterUserBody,
-): Promise<AppUser | null> => {
-  try {
-    const credentials = await createUserWithEmailAndPassword(
-      firebaseAuth,
-      data.email,
-      data.password,
-    );
-    const uid = credentials.user.uid;
-    const newUser: AppUser = {
-      avatarUrl: "",
-      course: data.course || "",
-      email: data.email,
-      fullName: data.fullName,
-      role: data.role,
-      id: uid,
-    };
+): Promise<AppUser> => {
+  const credentials = await createUserWithEmailAndPassword(
+    firebaseAuth,
+    data.email,
+    data.password,
+  );
+  const uid = credentials.user.uid;
+  const newUser: AppUser = {
+    id: uid,
+    avatarUrl: "",
+    courseId: data.courseId || "",
+    email: data.email,
+    fullName: data.fullName,
+    role: data.role
+  };
 
-    const documentReference = doc(firestore, Collection.USERS, uid);
-    await setDoc(documentReference, newUser);
-    return newUser;
-  } catch (error) {
-    console.log({ error });
-    return null;
-  }
+  const documentReference = doc(firestore, Collection.USERS, uid);
+  await setDoc(documentReference, newUser);
+  return newUser;
 };
 
 export const changePassword = async (newPassword: string): Promise<boolean> => {
