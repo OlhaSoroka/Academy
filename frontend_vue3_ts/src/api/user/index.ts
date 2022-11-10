@@ -102,13 +102,8 @@ export const updateUserByID = async (
     const documentReference = doc(firestore, Collection.USERS, id);
     const document = await getDoc(documentReference);
     const user = document.data() as AppUser;
-
     const userToUpdate: AppUser = { ...user, ...data };
-
     await updateDoc(documentReference, userToUpdate as any);
-
-    localStorage.setItem("currentUser", JSON.stringify(userToUpdate));
-
     return userToUpdate;
   } catch (error) {
     console.log({ error });

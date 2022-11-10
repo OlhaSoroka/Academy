@@ -35,7 +35,7 @@
         <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
           <div class="table_cell" :class="column.editable && 'cursor-pointer'"
             @click="onCellClick(rowIndex, columnIndex, column.editable)">
-            <input v-if="isCellActive(rowIndex, columnIndex)" v-focus class="table_cell_input" type="text"
+            <input v-if="isCellActive(rowIndex, columnIndex)" v-focus class="table_cell_input" :type="column.date ? 'date' : 'text'"
               :value="row[column.field]" @focusout="onFocusOut($event, row, column.field)"
               @keypress.enter="onEnterPress($event, row, column.field)" />
             <div v-else class="over text-ellipsis p-2" :class="!column.link && 'pointer-events-none'"
@@ -69,7 +69,8 @@ interface IColumnDefs {
   editable: boolean,
   width: number,
   solid?: boolean,
-  link?: string
+  link?: string,
+  date?: boolean
 }
 
 interface IRowData {
@@ -143,6 +144,10 @@ export default defineComponent({
         newValue,
         uniqIdentifier: row[this.uniqIdentifier],
         colDef: { field },
+        data: {
+          ...row,
+          [field]: newValue
+        }
       });
     },
     sortByColumn(column: IColumnDefs) {
