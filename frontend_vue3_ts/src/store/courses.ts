@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
 import {
   getAllCourses,
   updateCourseById,
@@ -14,7 +14,7 @@ interface CoursesStoreState {
   courseLoading: boolean;
 }
 
-export const useCoursesStore = defineStore("courses", {
+const useCoursesStore = defineStore("courses", {
   state: (): CoursesStoreState => {
     return {
       courses: [],
@@ -128,3 +128,9 @@ export const useCoursesStore = defineStore("courses", {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useCoursesStore, import.meta.hot));
+}
+
+export { useCoursesStore };

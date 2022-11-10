@@ -1,7 +1,11 @@
 import { AppUser } from "./../api/models/user.model";
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
 import router from "../router";
-import { changePassword, gethUserByID, updateUserByID } from "../api/user/index";
+import {
+  changePassword,
+  gethUserByID,
+  updateUserByID,
+} from "../api/user/index";
 import {
   createImageUrl,
   createImageRef,
@@ -17,7 +21,7 @@ interface UserStoreState {
   imageLoading: boolean;
 }
 
-export const useUserStore = defineStore("user", {
+const useUserStore = defineStore("user", {
   state: (): UserStoreState => {
     return {
       user: null,
@@ -59,8 +63,8 @@ export const useUserStore = defineStore("user", {
           type: ToastType.SUCCESS,
         });
       } catch (error) {
-        console.log({error});
-        
+        console.log({ error });
+
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Error: Can't change your password",
@@ -71,7 +75,7 @@ export const useUserStore = defineStore("user", {
     async changeProfileImage(image: any) {
       try {
         if (this.user) {
-          this.imageLoading = true
+          this.imageLoading = true;
           const imageRef = createImageRef(this.user.email);
           await uploadImage(imageRef, image);
           const imageUrl = await createImageUrl(imageRef);
@@ -84,7 +88,7 @@ export const useUserStore = defineStore("user", {
           });
         }
       } catch (error) {
-        console.log({error})
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Error: Can't update profile image",
@@ -99,7 +103,7 @@ export const useUserStore = defineStore("user", {
         this.user = null;
         router.push({ name: ROUTE_NAMES.LOGIN });
       } catch (error) {
-        console.log({error}); 
+        console.log({ error });
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Error: Something went wrong",
@@ -109,3 +113,9 @@ export const useUserStore = defineStore("user", {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot));
+}
+
+export { useUserStore };

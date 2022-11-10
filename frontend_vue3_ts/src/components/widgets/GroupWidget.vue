@@ -1,13 +1,11 @@
 <template>
-	<div class="w-full overflow-x-auto  shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14">
-		<div class="flex justify-between">
-			<div class="text-xl text-gray-700 mb-5">
-				Group
-			</div>
+	<div class="group__container ">
+		<div class="group__header">
+			Group
 		</div>
 		<div>
-			<BaseTableEditable :column-defs="columnDefs" :row-data="rowData" :uniq-identifier="uniqIdentifier"
-				@cellValueChanged="onCellEdit($event)" />
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.group"
+				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
 	</div>
 </template>
@@ -17,10 +15,12 @@ import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
-import { getStudentsByCourse, updateUserByID } from "../../api/user";
+import { updateUserByID } from "../../api/user";
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import { AppUser } from "../../api/models/user.model";
+import { useCourseDetailsStore } from "../../store/course-details.store";
+import { getCourseById } from "../../api/course";
 export default {
 	components: {
 		BaseTableEditable
@@ -32,17 +32,15 @@ export default {
 	},
 	data(): {
 		columnDefs: any,
-		rowData: any,
 		uniqIdentifier: any,
 	} {
 		return {
 			columnDefs: [],
-			rowData: [],
 			uniqIdentifier: 'id',
 		};
 	},
 	computed: {
-		...mapStores(useUserStore),
+		...mapStores(useUserStore, useCourseDetailsStore),
 		isAdmin() {
 			if (this.userStore.user) {
 				return this.userStore.user.role === ROLES.ADMIN_ROLE
@@ -78,21 +76,22 @@ export default {
 			]
 		}
 	},
-	async mounted() {
-		const students = await getStudentsByCourse(this.currentCourse!.id);
-		this.rowData = students;
-	},
 	methods: {
 		async onCellEdit(event: { uniqIdentifier: string, data: AppUser }) {
 			await updateUserByID(event.uniqIdentifier, event.data);
-			const students = await getStudentsByCourse(this.currentCourse!.id);
-			this.rowData = students;
+			this.courseDetailsStore.updatedGroupOrResult();
 		},
 	}
 };
 </script>
   
-<style lang="scss">
+<style lang="postcss" scoped>
+.group__container {
+	@apply w-full overflow-x-auto shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14
+}
 
+.group__header {
+	@apply text-xl text-gray-700 mb-5
+}
 </style>
   

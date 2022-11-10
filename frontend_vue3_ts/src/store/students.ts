@@ -1,9 +1,8 @@
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
 import { uuidv4 } from "@firebase/util";
 import { getCourseById } from "../api/course";
 import { createHomework, deleteStudentHomeworks } from "../api/homework";
 import { Course } from "../api/models/course.model";
-import { Homework } from "../api/models/homework.model";
 import { AppUser, RegisterUserBody } from "../api/models/user.model";
 import {
   deleteUserById,
@@ -13,15 +12,16 @@ import {
 } from "../api/user";
 import { ROLES } from "../models/router.model";
 import { ToastType, useToastStore } from "./toast.store";
-import { Result } from "../api/models/result.model";
+import { Homework } from "../api/models/homework.model";
 import { createResult, deleteStudentResults } from "../api/results";
+import { Result } from "../api/models/result.model";
 
 interface StudentStoreState {
   students: AppUser[];
   studentLoading: boolean;
 }
 
-export const useStudentStore = defineStore("student", {
+const useStudentStore = defineStore("student", {
   state: (): StudentStoreState => ({
     students: [],
     studentLoading: false,
@@ -129,3 +129,10 @@ export const useStudentStore = defineStore("student", {
     },
   },
 });
+
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useStudentStore, import.meta.hot));
+}
+
+export { useStudentStore };

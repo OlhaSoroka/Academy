@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
 import { ROLES } from "../models/router.model";
 import {
   deleteUserById,
@@ -14,7 +14,7 @@ interface MentorStoreState {
   mentorLoading: boolean;
 }
 
-export const useMentorStore = defineStore("mentor", {
+const useMentorStore = defineStore("mentor", {
   state: (): MentorStoreState => {
     return {
       users: [],
@@ -107,3 +107,9 @@ export const useMentorStore = defineStore("mentor", {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useMentorStore, import.meta.hot));
+}
+
+export { useMentorStore };
