@@ -3,11 +3,11 @@
 		<div class="flex justify-between">
 			<div class="text-xl text-gray-700 mb-5">
 				Results
-			</div> 
+			</div>
 		</div>
 		<div>
-			<BaseTableEditable :column-defs="columnDefs" :row-data="rowData"
-			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
+			<BaseTableEditable :column-defs="columnDefs" :row-data="rowData" :uniq-identifier="uniqIdentifier"
+				@cellValueChanged="onCellEdit($event)" />
 		</div>
 	</div>
 </template>
@@ -17,8 +17,9 @@ import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
-import { getResultsByCourse } from "../../api/results";
-import {getStudentsByCourse} from "../../api/user"
+import { getResultsByCourse, updateResultById } from "../../api/results";
+import { getStudentsByCourse } from "../../api/user"
+import { Result } from "../../api/models/result.model";
 
 export default {
 	components: {
@@ -32,7 +33,7 @@ export default {
 	data(): {
 		columnDefs: any,
 		rowData: any,
-		uniqIdentifier: any,
+		uniqIdentifier: string,
 	} {
 		return {
 			columnDefs: [],
@@ -166,29 +167,25 @@ export default {
 		];
 	},
 	async mounted() {
-		const results = await getResultsByCourse(this.courseId!);
-		const students = await getStudentsByCourse(this.courseId!);
-		this.rowData = results.map(result => ({
-			...result,
-			fullName: students.find(student => student.id === result.studentId)?.fullName
-		}))
+		await this.fetchResults();
 	},
 	methods: {
-		async onCellEdit(event: any) {
-			// const updatedMember = this.results.find((item) => item[this.uniqIdentifier] === event.uniqIdentifier);
-			// const updatedIndex = this.results.findIndex((item) => item[this.uniqIdentifier] === event.uniqIdentifier);
-			// updatedMember[event.colDef.field] = event.newValue;
-
-			// updatedMember.start_total = +updatedMember.multiple_choice + +updatedMember.tech_task;
-			// updatedMember.middle_total = +updatedMember.start_total + +updatedMember.eng_test;
-
-			// this.results.splice(updatedIndex, 1, updatedMember);
-			// this.rowData =  this.results;
-			// await updateCourseById(this.course.id, {
-			//   ...this.course,
-			//   results: this.results,
-			// });
+		async onCellEdit(event: { uniqIdentifier: string, data: Result }) {
+			await this.updateResult(event);
 		},
+		async fetchResults(): Promise<void> {
+			const results = await getResultsByCourse(this.courseId!);
+			const students = await getStudentsByCourse(this.courseId!);
+			this.rowData = results.map(result => ({
+				...result,
+				fullName: students.find(student => student.id === result.studentId)?.fullName
+			}))
+		},
+		async updateResult(event: { uniqIdentifier: string, data: Result }): Promise<void> {
+			await updateResultById(event.uniqIdentifier, event.data);
+			await this.fetchResults();
+		}
 	},
+
 };
 </script>

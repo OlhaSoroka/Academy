@@ -5,8 +5,8 @@
 				Main info
 			</h2>
 		</div>
-		<BaseTableEditable :column-defs="columnDefs" :row-data="rowData"
-		:uniq-identifier="uniqIdentifier" ></BaseTableEditable>
+		<BaseTableEditable :column-defs="columnDefs" :row-data="rowData" :uniq-identifier="uniqIdentifier"
+			@cellValueChanged="onCellEdit($event)"></BaseTableEditable>
 	</div>
 </template>
 <script lang="ts">
@@ -17,20 +17,21 @@ import { useCoursesStore } from '../../store/courses';
 import BaseButton from '../baseComponents/BaseButton.vue';
 import BaseEditIcon from '../baseComponents/BaseIcons/BaseEditIcon.vue';
 import BaseTableEditable from '../../components/baseComponents/BaseTableEditable.vue'
+import { getCourseById, updateCourseById } from '../../api/course';
 export default {
 	props: {
-		currentCourse:{
+		currentCourse: {
 			type: Object as PropType<Course>
 		}
 	},
 	data(): {
-		isModalOpen:boolean,
+		isModalOpen: boolean,
 		columnDefs: any,
 		rowData: any,
 		uniqIdentifier: any,
 	} {
 		return {
-			isModalOpen:false,
+			isModalOpen: false,
 			columnDefs: [],
 			rowData: [],
 			uniqIdentifier: 'id',
@@ -40,58 +41,67 @@ export default {
 		...mapStores(useCoursesStore),
 	},
 	components: { BaseButton, BaseEditIcon, BaseTableEditable },
-	methods: {
-		toggleModal() {
-			this.isModalOpen = !this.isModalOpen
-		}
-	},
 	beforeMount() {
-		this.columnDefs=[
+		this.columnDefs = [
 			{
 				field: "name",
 				headerName: "Name",
-				sortable: true,
-				editable: false,
+				sortable: false,
+				editable: true,
 				width: 200,
 			},
 			{
 				field: "date",
 				headerName: "Date of starting course",
-				sortable: true,
-				editable: false,
+				sortable: false,
+				editable: true,
 				width: 200,
+				date: true
 			},
 			{
 				field: "date_project_start",
 				headerName: "Date of starting project",
-				sortable: true,
-				editable: false,
+				sortable: false,
+				editable: true,
 				width: 200,
+				date: true
 			},
 			{
 				field: "date_project_demo",
 				headerName: "Date of demo",
-				sortable: true,
-				editable: false,
+				sortable: false,
+				editable: true,
 				width: 200,
+				date: true
 			},
 			{
 				field: "date_final_interview",
 				headerName: "Date of final interview",
-				sortable: true,
-				editable: false,
+				sortable: false,
+				editable: true,
 				width: 200,
+				date: true
 			},
 			{
 				field: "status",
 				headerName: "Status",
-				sortable: true,
+				sortable: false,
 				editable: true,
 				width: 200,
 			}
 		]
-		this.rowData=[this.currentCourse]
-	}
+		this.rowData = [this.currentCourse]
+	},
+	methods: {
+		toggleModal() {
+			this.isModalOpen = !this.isModalOpen
+		},
+		async onCellEdit(event: { uniqIdentifier: string, data: Course }) {
+			await updateCourseById(event.uniqIdentifier, event.data);
+			const updatedCourse = await getCourseById(event.uniqIdentifier)
+			this.rowData = [updatedCourse];
+		},
+	},
 }
 </script>
 
@@ -99,10 +109,12 @@ export default {
 .main__widget_container {
 	@apply shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14 w-full;
 }
+
 .main__header {
 	@apply text-xl text-gray-700 mb-5;
 }
+
 .nav__btn {
-  @apply w-fit mx-1 my-2;
+	@apply w-fit mx-1 my-2;
 }
 </style>
