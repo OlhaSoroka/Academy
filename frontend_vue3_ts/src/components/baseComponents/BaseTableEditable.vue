@@ -35,8 +35,9 @@
         <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
           <div class="table_cell" :class="column.editable && 'cursor-pointer'"
             @click="onCellClick(rowIndex, columnIndex, column.editable)">
-            <input v-if="isCellActive(rowIndex, columnIndex)" v-focus class="table_cell_input" :type="column.date ? 'date' : 'text'"
-              :value="row[column.field]" @focusout="onFocusOut($event, row, column.field)"
+            <input v-if="isCellActive(rowIndex, columnIndex)" v-focus class="table_cell_input"
+              :type="column.date ? 'date' : 'text'" :value="row[column.field]"
+              @focusout="onFocusOut($event, row, column.field)"
               @keypress.enter="onEnterPress($event, row, column.field)" />
             <div v-else class="over text-ellipsis p-2" :class="!column.link && 'pointer-events-none'"
               :style="{ width: column.width + 'px' }">
@@ -73,10 +74,6 @@ interface IColumnDefs {
   date?: boolean
 }
 
-interface IRowData {
-  [key: string]: string
-}
-
 export default defineComponent({
   components: {
     BaseArrowDown,
@@ -89,8 +86,8 @@ export default defineComponent({
       default: null,
     },
     rowData: {
-      type: Array as PropType<IRowData[]> | null,
-      default: null,
+      type: Array as PropType<any[]> | null,
+      default: [],
     },
     uniqIdentifier: {
       type: String || null,
@@ -102,8 +99,9 @@ export default defineComponent({
       activeCell: null as String | null,
       activeSort: null as String | null,
       sortBy: "" as String,
-      rows: [] as IRowData[],
+      rows: [] as any[],
       activeHeader: null as String | null,
+      isUpdateProcessing: false
     };
   },
   watch: {
@@ -130,25 +128,37 @@ export default defineComponent({
     isCellActive(rowIndex: number, columnIndex: number) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
     },
-    onFocusOut(event: any, row: IRowData, field: string) {
+    onFocusOut(event: any, row: any, field: string) {
+      if (this.isUpdateProcessing) {
+        return
+      }
+      this.isUpdateProcessing = true;
       this.emitCellUpdate(event, row, field);
       this.activeCell = null;
     },
-    onEnterPress(event: any, row: IRowData, field: string) {
+    onEnterPress(event: any, row: any, field: string) {
+      if (this.isUpdateProcessing) {
+        return
+      }
+      this.isUpdateProcessing = true;
       this.emitCellUpdate(event, row, field);
       this.activeCell = null;
     },
-    emitCellUpdate(event: any, row: IRowData, field: string) {
+    emitCellUpdate(event: any, row: any, field: string) {
       const newValue = event.target.value;
-      this.$emit("cellValueChanged", {
-        newValue,
-        uniqIdentifier: row[this.uniqIdentifier],
-        colDef: { field },
-        data: {
-          ...row,
-          [field]: newValue
-        }
-      });
+      const oldValue = row[field];
+      if (newValue !== oldValue) {
+        this.$emit("cellValueChanged", {
+          newValue,
+          uniqIdentifier: row[this.uniqIdentifier],
+          colDef: { field },
+          data: {
+            ...row,
+            [field]: newValue
+          }
+        });
+      }
+      setTimeout(() => { this.isUpdateProcessing = false }, 50)
     },
     sortByColumn(column: IColumnDefs) {
       if (column.sortable) {
@@ -204,7 +214,7 @@ export default defineComponent({
         return +value
       } else return value;
     },
-    compare(a: IRowData, b: IRowData): number {
+    compare(a: any, b: any): number {
       if (this.activeSort === "asc") {
         if (this.isNumber(a[`${this.sortBy}`]) > this.isNumber(b[`${this.sortBy}`])) {
           return -1;
@@ -230,7 +240,7 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 .table {
   @apply border-2 border-slate-200 text-sm;
 }
@@ -264,6 +274,6 @@ export default defineComponent({
 }
 
 .text-wrap {
-  overflow-wrap:break-word;
+  overflow-wrap: break-word;
 }
 </style>

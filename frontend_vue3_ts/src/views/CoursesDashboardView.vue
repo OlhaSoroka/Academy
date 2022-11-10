@@ -9,10 +9,12 @@
 </template>
 <script lang="ts">
 import { mapStores } from 'pinia';
+import { getCourseById } from '../api/course';
 import { Course } from '../api/models/course.model';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
 import CourseCreateModal from '../components/modals/CourseCreateModal.vue';
 import { ROUTE_NAMES } from '../models/router.model';
+import { useCourseDetailsStore } from '../store/course-details.store';
 import { useCoursesStore } from '../store/courses';
 
 export default {
@@ -31,7 +33,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapStores(useCoursesStore),
+		...mapStores(useCoursesStore, useCourseDetailsStore),
 		rowData(): any {
 			return this.coursesStore.courses.map((course: Course) => ({
 				id: course.id,
@@ -42,7 +44,9 @@ export default {
 		}
 	},
 	methods: {
-		onRowSelect(courseId: string) {
+		async onRowSelect(courseId: string) {
+			const course = await getCourseById(courseId);
+			this.courseDetailsStore.setCourseDetails(course)
 			this.$router.push({ name: ROUTE_NAMES.COURSE_DETAILS, params: { id: courseId } })
 
 		},

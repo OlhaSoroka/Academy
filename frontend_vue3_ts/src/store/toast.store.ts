@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
 
 export enum ToastType {
   SUCCESS = "Success",
@@ -16,7 +16,7 @@ interface ToastPayload {
   type: ToastType;
 }
 
-export const useToastStore = defineStore("toast", {
+const useToastStore = defineStore("toast", {
   state: (): ToastState => ({
     show: false,
     message: null,
@@ -38,3 +38,9 @@ export const useToastStore = defineStore("toast", {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useToastStore, import.meta.hot));
+}
+
+export { useToastStore };

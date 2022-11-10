@@ -26,7 +26,7 @@
 								<option value="" disabled selected>
 									Select Course
 								</option>
-								<option v-for="course in coursesStore.coursesGetter" :key="course.id"
+								<option v-for="course in coursesStore.courses" :key="course.id"
 									:value="course.id">
 									{{ course.name }}
 								</option>
@@ -113,7 +113,7 @@ export default defineComponent({
 
 	},
 	mounted() {
-		this.coursesStore.getCourses();
+		this.coursesStore.fetchCourses();
 	},
 	methods: {
 		isFormValid(errors: Partial<Record<string, string | undefined>>) {
@@ -142,7 +142,7 @@ export default defineComponent({
 
 			switch (registerBody.role) {
 				case ROLES.STUDENTS_ROLE:
-					await this.studentsStore.createStudent(registerBody)
+					await this.studentStore.createStudent(registerBody)
 					break;
 				case ROLES.MENTOR_ROLE:
 					await this.mentorStore.createMentor(registerBody)

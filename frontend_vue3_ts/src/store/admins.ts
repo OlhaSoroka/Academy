@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, acceptHMRUpdate } from "pinia";
 import { ROLES } from "../models/router.model";
 import {
   deleteUserById,
@@ -14,7 +14,7 @@ interface AdminStoreState {
   adminLoading: boolean;
 }
 
-export const useAdminStore = defineStore("admin", {
+const useAdminStore = defineStore("admin", {
   state: (): AdminStoreState => {
     return {
       users: [],
@@ -107,3 +107,9 @@ export const useAdminStore = defineStore("admin", {
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useAdminStore, import.meta.hot));
+}
+
+export { useAdminStore };

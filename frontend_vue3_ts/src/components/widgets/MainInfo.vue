@@ -1,12 +1,10 @@
 <template>
-	<div v-if="currentCourse" class="main__widget_container">
-		<div class="header">
-			<h2 class="main__header">
-				Main info
-			</h2>
-		</div>
-		<BaseTableEditable :column-defs="columnDefs" :row-data="rowData" :uniq-identifier="uniqIdentifier"
-			@cellValueChanged="onCellEdit($event)"></BaseTableEditable>
+	<div v-if="currentCourse" class="main__container">
+		<h2 class="main__header">
+			Main info
+		</h2>
+		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse"
+			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"></BaseTableEditable>
 	</div>
 </template>
 <script lang="ts">
@@ -18,6 +16,7 @@ import BaseButton from '../baseComponents/BaseButton.vue';
 import BaseEditIcon from '../baseComponents/BaseIcons/BaseEditIcon.vue';
 import BaseTableEditable from '../../components/baseComponents/BaseTableEditable.vue'
 import { getCourseById, updateCourseById } from '../../api/course';
+import { useCourseDetailsStore } from '../../store/course-details.store';
 export default {
 	props: {
 		currentCourse: {
@@ -27,18 +26,16 @@ export default {
 	data(): {
 		isModalOpen: boolean,
 		columnDefs: any,
-		rowData: any,
 		uniqIdentifier: any,
 	} {
 		return {
 			isModalOpen: false,
 			columnDefs: [],
-			rowData: [],
 			uniqIdentifier: 'id',
 		};
 	},
 	computed: {
-		...mapStores(useCoursesStore),
+		...mapStores(useCoursesStore, useCourseDetailsStore),
 	},
 	components: { BaseButton, BaseEditIcon, BaseTableEditable },
 	beforeMount() {
@@ -90,7 +87,6 @@ export default {
 				width: 200,
 			}
 		]
-		this.rowData = [this.currentCourse]
 	},
 	methods: {
 		toggleModal() {
@@ -99,14 +95,14 @@ export default {
 		async onCellEdit(event: { uniqIdentifier: string, data: Course }) {
 			await updateCourseById(event.uniqIdentifier, event.data);
 			const updatedCourse = await getCourseById(event.uniqIdentifier)
-			this.rowData = [updatedCourse];
+			this.courseDetailsStore.updatedCourseInfo()
 		},
 	},
 }
 </script>
 
-<style>
-.main__widget_container {
+<style lang="scss" scoped>
+.main__container {
 	@apply shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14 w-full;
 }
 

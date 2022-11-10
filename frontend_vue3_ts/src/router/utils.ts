@@ -1,6 +1,7 @@
 import { NavigationGuard } from "vue-router";
+import { getCourseById } from "../api/course";
 import { ROLES, ROUTE_NAMES } from "../models/router.model";
-import { useCoursesStore } from "../store/courses";
+import { useCourseDetailsStore } from "../store/course-details.store";
 import { useUserStore } from "../store/user";
 
 export const roleGuard: NavigationGuard = (to, _, next): void => {
@@ -24,14 +25,15 @@ export const authGuard: NavigationGuard = async (
   next,
 ): Promise<void> => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
-  const userStore = useUserStore();
   if (to.matched.some((route) => route.meta.requiresAuth)) {
     if (!currentUser) {
+      const userStore = useUserStore();
       userStore.setUser(null);
       next({
         name: ROUTE_NAMES.LOGIN,
       });
     } else {
+      const userStore = useUserStore();
       userStore.setUser(currentUser);
       next();
     }
@@ -45,10 +47,10 @@ export const isCourseExist: NavigationGuard = async (
   _,
   next,
 ): Promise<void> => {
-  const courseStore = useCoursesStore();
-  const courses = courseStore.allCourses;
-  const validIds = courses.map((course) => `${course.id}`);
-  if (validIds.includes(to.params.id as string)) {
+  const course = await getCourseById(to.params.id as string);
+  if (course) {
+    const courseDetailsStore = useCourseDetailsStore();
+    courseDetailsStore.setCourseDetails(course);
     next();
   } else {
     next({ path: "*" });

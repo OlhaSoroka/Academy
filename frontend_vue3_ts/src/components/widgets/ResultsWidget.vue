@@ -1,13 +1,11 @@
 <template>
-	<div class="w-full overflow-x-auto  shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14">
-		<div class="flex justify-between">
-			<div class="text-xl text-gray-700 mb-5">
-				Results
-			</div>
+	<div class="result__container">
+		<div class="result__header">
+			Results
 		</div>
 		<div>
-			<BaseTableEditable :column-defs="columnDefs" :row-data="rowData" :uniq-identifier="uniqIdentifier"
-				@cellValueChanged="onCellEdit($event)" />
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.results"
+				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
 	</div>
 </template>
@@ -17,9 +15,9 @@ import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
-import { getResultsByCourse, updateResultById } from "../../api/results";
-import { getStudentsByCourse } from "../../api/user"
+import { updateResultById } from "../../api/results";
 import { Result } from "../../api/models/result.model";
+import { useCourseDetailsStore } from "../../store/course-details.store";
 
 export default {
 	components: {
@@ -32,17 +30,15 @@ export default {
 	},
 	data(): {
 		columnDefs: any,
-		rowData: any,
 		uniqIdentifier: string,
 	} {
 		return {
 			columnDefs: [],
-			rowData: [],
 			uniqIdentifier: 'id',
 		};
 	},
 	computed: {
-		...mapStores(useUserStore),
+		...mapStores(useUserStore, useCourseDetailsStore),
 		isAdmin() {
 			if (this.userStore.user) {
 				return this.userStore.user.role === ROLES.ADMIN_ROLE
@@ -166,26 +162,24 @@ export default {
 			},
 		];
 	},
-	async mounted() {
-		await this.fetchResults();
-	},
 	methods: {
 		async onCellEdit(event: { uniqIdentifier: string, data: Result }) {
 			await this.updateResult(event);
 		},
-		async fetchResults(): Promise<void> {
-			const results = await getResultsByCourse(this.courseId!);
-			const students = await getStudentsByCourse(this.courseId!);
-			this.rowData = results.map(result => ({
-				...result,
-				fullName: students.find(student => student.id === result.studentId)?.fullName
-			}))
-		},
 		async updateResult(event: { uniqIdentifier: string, data: Result }): Promise<void> {
 			await updateResultById(event.uniqIdentifier, event.data);
-			await this.fetchResults();
+			this.courseDetailsStore.updatedGroupOrResult();
 		}
 	},
 
 };
 </script>
+<style lang="postcss" scoped>
+.result__container {
+	@apply w-full overflow-x-auto shadow-lg bg-stone-50 border-primary-100 border-2 rounded-md p-14
+}
+
+.result__header {
+	@apply text-xl text-gray-700 mb-5
+}
+</style>
