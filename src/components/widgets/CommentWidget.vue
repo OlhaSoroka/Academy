@@ -1,12 +1,13 @@
 <template>
 	<div class="material__container">
 		<div class="flex align-middle justify-between">
-			<div class="material__header">
-				Comments
+			<div class="material__header flex">
+				<div>Comments</div>
+				<div v-if="courseDetailsStore.commentsWidgetLoading">...Loading...</div>
 			</div>
 			<div>
 				<BaseButton @click="openModal()">
-					<BasePlus />
+					<PlusIcon />
 				</BaseButton>
 			</div>
 		</div>
@@ -16,7 +17,7 @@
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.comments"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
-		<NewCommentModal :toggle-modal="isModalOpen" @commentsAdded="onNewCommentAdded" />
+		<CreateCommentModal :toggle-modal="isModalOpen" @commentsAdded="onNewCommentAdded" />
 	</div>
 </template> 
 
@@ -28,19 +29,17 @@ import { useUserStore } from '../../store/user';
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
-import BasePlus from "../baseComponents/BaseIcons/BasePlus.vue";
-import NewMaterialModal from "../modals/CourseDetailsModals/NewMaterialModal.vue";
+import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
 import { useCourseDetailsStore } from "../../store/course-details.store";
-import NewCommentModal from "../modals/CourseDetailsModals/NewCommentModal.vue";
+import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
 import { Comment } from "../../api/models/comment.model";
 import { updateCommentById } from "../../api/comments";
 export default {
 	components: {
 		BaseTableEditable,
 		BaseButton,
-		BasePlus,
-		NewMaterialModal,
-		NewCommentModal
+		PlusIcon,
+		CreateCommentModal,
 	},
 	props: {
 		currentCourse: {

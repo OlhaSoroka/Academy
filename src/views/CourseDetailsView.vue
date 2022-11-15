@@ -7,17 +7,17 @@
 		<nav class="courses__nav my-3">
 			<div>
 				<BaseButton class="courses__nav__btn" variant="btn_blue" @click="">
-					<BaseArrowUp class="-rotate-90" />
+					<ArrowUpIcon class="-rotate-90" />
 				</BaseButton>
 			</div>
 
 			<div class="nav__courses">
 				<div class="flex">
 					<BaseButton class="nav__btn mr-3" @click="">
-						<BaseArrowPrev />
+						<ArrowPrevIcon />
 					</BaseButton>
 					<BaseButton class="nav__btn" @click="">
-						<BaseArrowNext />
+						<ArrowNextIcon />
 					</BaseButton>
 				</div>
 			</div>
@@ -27,7 +27,7 @@
 		</div>
 		<div v-else>
 			<div>
-				<MainInfo :currentCourse="currentCourse"></MainInfo>
+				<MainInfoWidget :currentCourse="currentCourse"></MainInfoWidget>
 			</div>
 			<div class="mt-10">
 				<GroupWidget :currentCourse="currentCourse" />
@@ -53,11 +53,11 @@
 import { mapStores } from 'pinia';
 import { Course } from '../api/models/course.model';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
-import BaseArrowNext from '../components/baseComponents/BaseIcons/BaseArrowNext.vue';
-import BaseArrowPrev from '../components/baseComponents/BaseIcons/BaseArrowPrev.vue';
-import BaseArrowUp from '../components/baseComponents/BaseIcons/BaseArrowUp.vue';
+import ArrowNextIcon from '../components/baseComponents/icons/ArrowNextIcon.vue';
+import ArrowPrevIcon from '../components/baseComponents/icons/ArrowPrevIcon.vue';
+import ArrowUpIcon from '../components/baseComponents/icons/ArrowUpIcon.vue';
 import GroupWidget from '../components/widgets/GroupWidget.vue';
-import MainInfo from '../components/widgets/MainInfo.vue';
+import MainInfoWidget from '../components/widgets/MainInfoWidget.vue';
 import ResultsWidget from '../components/widgets/ResultsWidget.vue';
 import MaterialWidget from '../components/widgets/MaterialWidget.vue'
 import { useCourseDetailsStore } from '../store/course-details.store';
@@ -74,7 +74,7 @@ export default {
 			return this.courseDetailsStore.selectedCourse[0];
 		}
 	},
-	components: { GroupWidget, ResultsWidget, BaseButton, MainInfo, BaseArrowUp, BaseArrowNext, BaseArrowPrev, MaterialWidget, CommentWidget, LecturesWidget }
+	components: { GroupWidget, ResultsWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget }
 }
 </script>
 
@@ -88,7 +88,7 @@ export default {
 }
 
 .courses__container {
-	@apply p-10 bg-primary-100;
+	@apply p-10 bg-primary-100 min-h-full;
 }
 
 .courses__nav {

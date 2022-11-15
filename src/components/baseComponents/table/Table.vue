@@ -90,7 +90,7 @@
 <script script lang="ts">
 import BaseTableRow from '../BaseTable/BaseTableRow.vue';
 import BaseSpinner from '../BaseSpinner/BaseSpinner.vue';
-import BaseArrowDown from '../BaseIcons/BaseArrowDown.vue';
+import BaseArrowDown from '../BaseIcons/ArrowDownIcon.vue';
 import BaseArrowUp from '../BaseIcons/BaseArrowUp.vue';
 import BaseTooltip from '../BaseTooltip/BaseTooltip.vue';
 import { defineComponent } from "vue";

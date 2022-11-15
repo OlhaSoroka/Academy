@@ -10,13 +10,14 @@ import {
 } from "firebase/firestore";
 import { db, firestore } from "../../main";
 import { Collection } from "../models/collection.enum";
-import { Homework } from "../models/homework.model";
+import { LectureHomework } from "../models/homework.model";
 
 export const updateHomeworkById = async (
   id: string,
-  homework: Homework,
+  homework: LectureHomework,
 ): Promise<boolean> => {
   const homeworkRef = doc(db, Collection.HOMEWORKS, `${id}`);
+  delete homework.asObject;
   await updateDoc(homeworkRef, homework as any);
   return true;
 };
@@ -27,56 +28,39 @@ export const deleteHomework = async (id: string): Promise<boolean> => {
   return true;
 };
 
-export const getHomeworksByCourse = async (
-  courseId: string,
-): Promise<Homework[]> => {
+export const getHomeworksByLecture = async (
+  lectureId: string,
+): Promise<LectureHomework> => {
   const collectionQuery = query(
     collection(firestore, Collection.HOMEWORKS),
-    where("courseId", "==", courseId),
+    where("lectureId", "==", lectureId),
   );
   const documents = await getDocs(collectionQuery);
-  const homeworks: Homework[] = [];
+  const homeworks: LectureHomework[] = [];
   documents.forEach((document) => {
     const homework = document.data();
-    homeworks.push(homework as Homework);
+    homeworks.push(homework as LectureHomework);
   });
-  return homeworks;
+  return homeworks[0];
 };
 
-export const getHomeworksByStudent = async (
-  studentId: string,
-): Promise<Homework[]> => {
-  const collectionQuery = query(
-    collection(firestore, Collection.HOMEWORKS),
-    where("studentId ", "==", studentId),
-  );
-  const documents = await getDocs(collectionQuery);
-  const homeworks: Homework[] = [];
-  documents.forEach((document) => {
-    const homework = document.data();
-    homeworks.push(homework as Homework);
-  });
-  return homeworks;
-};
-
-export const createHomework = async (data: Homework): Promise<Homework> => {
+export const createHomework = async (
+  data: LectureHomework,
+): Promise<LectureHomework> => {
   const documentReference = doc(firestore, Collection.HOMEWORKS, `${data.id}`);
-  await setDoc(documentReference, data.asObject());
+  await setDoc(documentReference, data.asObject!());
   return data;
 };
 
-export const deleteStudentHomeworks = async (
-  studentId: string,
+export const deleteLectureHomeworks = async (
+  lectureId: string,
 ): Promise<void> => {
   const collectionQuery = query(
     collection(firestore, Collection.HOMEWORKS),
-    where("studentId ", "==", studentId),
+    where("lectureId", "==", lectureId),
   );
-
   const documents = await getDocs(collectionQuery);
-  const deletePromises: Promise<void>[] = [];
-  documents.forEach((document) => {
-    deletePromises.push(deleteDoc(document.ref));
+  documents.forEach(async (document) => {
+    await deleteDoc(document.ref);
   });
-  await Promise.all(deletePromises);
 };

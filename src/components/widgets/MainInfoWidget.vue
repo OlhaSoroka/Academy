@@ -1,7 +1,8 @@
 <template>
 	<div v-if="currentCourse" class="main__container">
-		<h2 class="main__header">
-			Main info
+		<h2 class="main__header flex">
+			<div>Main Info</div>
+			<div v-if="courseDetailsStore.mainInfoWidgetLoading">...Loading...</div>
 		</h2>
 		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse"
 			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"></BaseTableEditable>
@@ -13,8 +14,7 @@ import { PropType } from 'vue';
 import { Course, CourseStatus } from '../../api/models/course.model';
 import { useCoursesStore } from '../../store/courses';
 import BaseButton from '../baseComponents/BaseButton.vue';
-import BaseEditIcon from '../baseComponents/BaseIcons/BaseEditIcon.vue';
-import BaseTableEditable from '../../components/baseComponents/BaseTableEditable.vue'
+import BaseTableEditable from '../baseComponents/BaseTableEditable.vue'
 import { getCourseById, updateCourseById } from '../../api/course';
 import { useCourseDetailsStore } from '../../store/course-details.store';
 export default {
@@ -37,7 +37,7 @@ export default {
 	computed: {
 		...mapStores(useCoursesStore, useCourseDetailsStore),
 	},
-	components: { BaseButton, BaseEditIcon, BaseTableEditable },
+	components: { BaseButton, BaseTableEditable },
 	beforeMount() {
 		this.columnDefs = [
 			{

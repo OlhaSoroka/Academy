@@ -20,3 +20,4 @@ export enum CourseStatus {
   IN_PROGRESS = "in progress",
   FINISHED = "finished",
 }
+

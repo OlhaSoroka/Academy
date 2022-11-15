@@ -10,8 +10,10 @@ export class LectureHomework {
   courseId: string;
   students: StudentHomework[] = [];
 
-  asObject() {
-    return { ...this };
+  asObject?() {
+    const lectureHomework = { ...this };
+    delete lectureHomework.lecture;
+    return lectureHomework;
   }
 }
 
@@ -25,4 +27,10 @@ export class StudentHomework {
   link: string = "";
   comment: string = "";
   date: string = "";
+
+  asObject() {
+    const studentHomework = { ...this };
+    delete studentHomework.student;
+    return studentHomework;
+  }
 }

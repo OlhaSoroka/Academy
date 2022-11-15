@@ -1,5 +1,8 @@
 <template>
-  <div style="overflow-x: auto">
+  <div v-if="rows.length === 0" class="w-full flex justify-center">
+    <div>No data...</div>
+  </div>
+  <div v-else style="overflow-x: auto">
     <table style="width: 100%" class="table">
       <tr>
         <th v-for="column in columnDefs" :key="column.field" class="table_header"
@@ -15,15 +18,15 @@
                 </div>
                 <div v-if="column.headerEditable">
                   <div class="p-1" @click="onHeaderEdit(column)">
-                    <BaseEditIcon />
+                    <EditIcon />
                   </div>
                 </div>
                 <div v-if="sortBy === column.field">
                   <span v-if="activeSort === 'asc'">
-                    <BaseArrowDown />
+                    <ArrowDownIcon />
                   </span>
                   <span v-if="activeSort === 'desc'" class="rotate-180">
-                    <BaseArrowUp />
+                    <ArrowUpIcon />
                   </span>
                 </div>
               </div>
@@ -58,12 +61,15 @@
             </div>
           </div>
           <div class="table_cell" v-else>
-            <div v-if="column.delete">
-              <BaseButton @click="onDeleteRow(rowIndex)" variant="btn_blue_outlined">Delete</BaseButton>
-            </div>
             <div v-if="column.homework">
               <BaseButton @click="onCellClick(rowIndex, columnIndex, column.editable)" variant="btn_blue_outlined">
-                Homework</BaseButton>
+                <HomeworkIcon />
+              </BaseButton>
+            </div>
+            <div v-if="column.delete" class="ml-1">
+              <BaseButton @click="onDeleteRow(rowIndex)" variant="btn_blue_outlined">
+                <DeleteIcon />
+              </BaseButton>
             </div>
           </div>
         </td>
@@ -73,13 +79,15 @@
 </template>
 
 <script lang="ts">
-import BaseArrowDown from "../baseComponents/BaseIcons/BaseArrowDown.vue";
-import BaseArrowUp from "../baseComponents/BaseIcons/BaseArrowUp.vue";
-import BaseEditIcon from "../baseComponents/BaseIcons/BaseEditIcon.vue";
+import ArrowDownIcon from "../baseComponents/icons/ArrowDownIcon.vue";
+import ArrowUpIcon from "../baseComponents/icons/ArrowUpIcon.vue";
+import EditIcon from "../baseComponents/icons/EditIcon.vue";
 import { defineComponent } from "vue";
 import { PropType } from "vue";
 import BaseButton from "./BaseButton.vue";
 import { SelectItem } from "../../models/options.model";
+import DeleteIcon from "./icons/DeleteIcon.vue";
+import HomeworkIcon from "./icons/HomeworkIcon.vue"
 
 interface IColumnDefs {
   field: string,
@@ -100,10 +108,12 @@ interface IColumnDefs {
 
 export default defineComponent({
   components: {
-    BaseArrowDown,
-    BaseArrowUp,
-    BaseEditIcon,
+    ArrowDownIcon,
+    ArrowUpIcon,
+    EditIcon,
     BaseButton,
+    DeleteIcon,
+    HomeworkIcon
   },
   props: {
     columnDefs: {
@@ -136,7 +146,6 @@ export default defineComponent({
     },
   },
   mounted() {
-    console.log(this.columnDefs);
     this.rows = [...this.rowData];
   },
   directives: {
@@ -153,6 +162,8 @@ export default defineComponent({
       this.$emit('rowClick', this.rows[rowIndex][this.uniqIdentifier])
     },
     onDeleteRow(rowIndex: number) {
+      console.log({ rowIndex });
+
       this.$emit('deleteRow', this.rows[rowIndex][this.uniqIdentifier])
     },
     isCellActive(rowIndex: number, columnIndex: number) {
@@ -284,7 +295,7 @@ export default defineComponent({
 }
 
 .table_header_cell {
-  @apply m-auto flex min-h-[50px] min-w-[120px] items-center justify-center;
+  @apply m-auto flex min-h-[50px] min-w-[20px] items-center justify-center;
 }
 
 .table_row {

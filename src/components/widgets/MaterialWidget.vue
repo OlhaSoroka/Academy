@@ -1,12 +1,13 @@
 <template>
 	<div class="material__container ">
 		<div class="flex align-middle justify-between">
-			<div class="material__header">
-				Materials
+			<div class="material__header flex">
+				<div>Materials</div>
+				<div v-if="courseDetailsStore.materialsWidgetLoading">...Loading...</div>
 			</div>
 			<div>
 				<BaseButton @click="openModal()">
-					<BasePlus />
+					<PlusIcon />
 				</BaseButton>
 			</div>
 		</div>
@@ -17,7 +18,7 @@
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
 				@deleteRow="onMaterialDelete($event)" />
 		</div>
-		<NewMaterialModal :toggle-modal="isModalOpen" @materialAdded="onNewMaterialAdded" />
+		<CreateMaterialModal :toggle-modal="isModalOpen" @materialAdded="onNewMaterialAdded" />
 	</div>
 
 </template>
@@ -30,8 +31,8 @@ import { useUserStore } from '../../store/user';
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
-import BasePlus from "../baseComponents/BaseIcons/BasePlus.vue";
-import NewMaterialModal from "../modals/CourseDetailsModals/NewMaterialModal.vue";
+import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
+import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialModal.vue";
 import { deleteMaterial, getMaterialsByCourse, updateMaterialById } from "../../api/materials";
 import { Material } from "../../api/models/material.model";
 import { getCourseById } from "../../api/course";
@@ -40,8 +41,8 @@ export default {
 	components: {
 		BaseTableEditable,
 		BaseButton,
-		BasePlus,
-		NewMaterialModal
+		PlusIcon,
+		CreateMaterialModal
 	},
 	props: {
 		currentCourse: {
