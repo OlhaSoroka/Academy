@@ -40,12 +40,6 @@ export default defineComponent({
       return this.buttonType as "button" | "submit" | "reset"
     }
   },
-  methods: {
-    hello() {
-      console.log("Hello from button");
-
-    }
-  }
 });
 </script>
   

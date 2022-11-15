@@ -8,9 +8,13 @@ import {
   where,
   setDoc,
 } from "firebase/firestore";
+import { uuidv4 } from "@firebase/util";
 import { db, firestore } from "../../main";
+import { createHomework, deleteLectureHomeworks } from "../homework";
 import { Collection } from "../models/collection.enum";
+import { LectureHomework, StudentHomework } from "../models/homework.model";
 import { Lecture } from "../models/lecture.model";
+import { getStudentsByCourse } from "../user";
 
 export const updateLectureById = async (
   id: string,
@@ -25,6 +29,7 @@ export const updateLectureById = async (
 export const deleteLecture = async (id: string): Promise<boolean> => {
   const lectureRef = doc(db, Collection.LECTURES, `${id}`);
   await deleteDoc(lectureRef);
+  await deleteLectureHomeworks(id);
   return true;
 };
 
@@ -47,5 +52,11 @@ export const getLectureByCourse = async (
 export const createLecture = async (data: Lecture): Promise<Lecture> => {
   const documentReference = doc(firestore, Collection.LECTURES, `${data.id}`);
   await setDoc(documentReference, data.asObject());
+  const lectureHomework = new LectureHomework(uuidv4(), data.id, data.courseId);
+  const students = await getStudentsByCourse(data.courseId);
+  for (const student of students) {
+    lectureHomework.students.push(new StudentHomework(student.id).asObject());
+  }
+  await createHomework(lectureHomework);
   return data;
 };

@@ -1,12 +1,13 @@
 <template>
 	<div class="material__container">
 		<div class="flex align-middle justify-between">
-			<div class="material__header">
-				Lectures
+			<div class="material__header flex">
+				<div>Lectures</div>
+				<div v-if="courseDetailsStore.lecturesWidgetLoading">...Loading...</div>
 			</div>
 			<div>
 				<BaseButton @click="openModal()">
-					<BasePlus />
+					<PlusIcon />
 				</BaseButton>
 			</div>
 		</div>
@@ -15,10 +16,10 @@
 		<div class="mt-4">
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.lectures"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
-				@rowClick="onLectureSelect($event)" />
+				@deleteRow="onLectureDelete($event)" @rowClick="onLectureSelect($event)" />
 		</div>
 
-		<div>
+		<div v-if="courseDetailsStore.selectedHomework">
 			<HomeworkWidget></HomeworkWidget>
 		</div>
 		<CreateLectureModal @lectureCreated="onLectureCreated()" :toggle-modal="isModalOpen"></CreateLEctureModal>
@@ -33,11 +34,11 @@ import { useUserStore } from '../../store/user';
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
-import BasePlus from "../baseComponents/BaseIcons/BasePlus.vue";
-import NewMaterialModal from "../modals/CourseDetailsModals/NewMaterialModal.vue";
+import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
+import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialModal.vue";
 import { useCourseDetailsStore } from "../../store/course-details.store";
-import NewCommentModal from "../modals/CourseDetailsModals/NewCommentModal.vue";
-import { updateLectureById } from "../../api/lectures";
+import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
+import { deleteLecture, updateLectureById } from "../../api/lectures";
 import { Lecture } from "../../api/models/lecture.model";
 import HomeworkWidget from "./HomeworkWidget.vue";
 import CreateLectureModal from "../modals/CourseDetailsModals/CreateLectureModal.vue";
@@ -45,9 +46,9 @@ export default {
 	components: {
 		BaseTableEditable,
 		BaseButton,
-		BasePlus,
-		NewMaterialModal,
-		NewCommentModal,
+		PlusIcon,
+		CreateMaterialModal,
+		CreateCommentModal,
 		HomeworkWidget,
 		CreateLectureModal
 	},
@@ -99,11 +100,12 @@ export default {
 			{ field: "dateOfLecture", headerName: "Lecture Date", sortable: true, date: true, editable: this.isAdmin || this.isMentor, width: 200 },
 			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.isAdmin || this.isMentor, width: 200, dropdown: true, options: this.mentorsOptions },
 			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.isAdmin || this.isMentor, width: 300 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 20, actionColumn: true, homework: true },
+			{ field: "", headerName: "", sortable: false, editable: false, width: 30, actionColumn: true, homework: true, delete: true },
 		]
 	},
 	methods: {
 		async onCellEdit(event: { uniqIdentifier: string, data: Lecture, colDef: { field: string }, newValue: string }) {
+
 			if (event.colDef.field === 'mentor') {
 				event.data.mentorId = event.newValue;
 			}
@@ -113,13 +115,18 @@ export default {
 
 		},
 		async onLectureSelect(id: string) {
-			console.log(this.mentorsOptions);
+			this.courseDetailsStore.selectLecture(id);
 
 		},
 		openModal() {
 			this.isModalOpen = !this.isModalOpen;
 		},
 		async onLectureCreated() {
+			this.courseDetailsStore.updateLectures();
+		},
+		async onLectureDelete(lectureId: string) {
+			await deleteLecture(lectureId);
+			this.courseDetailsStore.resetLecture();
 			this.courseDetailsStore.updateLectures();
 		}
 	}
@@ -135,4 +142,3 @@ export default {
 	@apply text-xl text-gray-700
 }
 </style>
-  

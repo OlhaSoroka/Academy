@@ -1,7 +1,8 @@
 <template>
 	<div class="result__container">
-		<div class="result__header">
-			Course Results
+		<div class="result__header flex">
+			<div>Results</div>
+			<div v-if="courseDetailsStore.resultWidgetLoading">...Loading...</div>
 		</div>
 		<div>
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.results"

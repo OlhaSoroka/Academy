@@ -1,7 +1,8 @@
 <template>
 	<div class="group__container ">
-		<div class="group__header">
-			Group
+		<div class="group__header flex">
+			<div>Group</div>
+			<div v-if="courseDetailsStore.groupWidgetLoading">...Loading...</div>
 		</div>
 		<div>
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.group"
@@ -21,6 +22,7 @@ import { Course } from "../../api/models/course.model";
 import { AppUser } from "../../api/models/user.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import { getCourseById } from "../../api/course";
+import { EnglishLevel } from "../../models/english-level.enum";
 export default {
 	components: {
 		BaseTableEditable
@@ -72,7 +74,17 @@ export default {
 				{ field: "city", headerName: "City", headerEditable: false, sortable: true, editable: this.isAdmin, width: 200 },
 				{ field: "age", headerName: "Age", headerEditable: false, sortable: true, editable: this.isAdmin, width: 100 },
 				{ field: "education", headerName: "Education", headerEditable: false, sortable: false, editable: this.isAdmin, width: 250 },
-				{ field: "eng_level", headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin, width: 250 },
+				{
+					field: "eng_level", headerName: "English level", headerEditable: false, sortable: true, editable: this.isAdmin, width: 250, dropdown: true,
+					options: [
+						{ label: EnglishLevel.BEGINNER_ELEMENTARY, value: EnglishLevel.BEGINNER_ELEMENTARY },
+						{ label: EnglishLevel.PRE_INTERMEDIATE, value: EnglishLevel.PRE_INTERMEDIATE },
+						{ label: EnglishLevel.INTERMEDIATE, value: EnglishLevel.INTERMEDIATE },
+						{ label: EnglishLevel.UPPER_INTERMEDIATE, value: EnglishLevel.UPPER_INTERMEDIATE },
+						{ label: EnglishLevel.ADVANCED, value: EnglishLevel.ADVANCED },
+						{ label: EnglishLevel.PROFICIENT, value: EnglishLevel.PROFICIENT },
+					]
+				},
 			]
 		}
 	},
