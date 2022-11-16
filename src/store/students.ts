@@ -1,7 +1,6 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { uuidv4 } from "@firebase/util";
-import { getCourseById } from "../api/course";
-import { createHomework, deleteStudentHomeworks } from "../api/homework";
+import { getAllCourses, getCourseById } from "../api/course";
 import { Course } from "../api/models/course.model";
 import { AppUser, RegisterUserBody } from "../api/models/user.model";
 import {
@@ -37,7 +36,14 @@ const useStudentStore = defineStore("student", {
     async fetchStudents() {
       try {
         this.studentLoading = true;
-        this.students = await getUsersByRole(ROLES.STUDENTS_ROLE);
+        const students = await getUsersByRole(ROLES.STUDENTS_ROLE);
+        const courses = await getAllCourses();
+        this.students = students.map((student) => {
+          student.course = courses?.find(
+            (course) => course.id === student.courseId,
+          )?.name;
+          return student;
+        });
       } catch {
         const toastStore = useToastStore();
         toastStore.showToastMessage({
@@ -124,7 +130,6 @@ const useStudentStore = defineStore("student", {
     },
   },
 });
-
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useStudentStore, import.meta.hot));

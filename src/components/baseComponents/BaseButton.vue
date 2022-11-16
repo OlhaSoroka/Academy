@@ -50,7 +50,7 @@ export default defineComponent({
 
 
 .btn_red_outlined {
-  @apply border border-red-500 text-red-500 hover:bg-red-100;
+  @apply border border-red-500 text-red-500 hover:bg-red-500 hover:text-white ;
 }
 
 .btn_disabled {
@@ -65,7 +65,7 @@ export default defineComponent({
   @apply bg-primary-700 hover:bg-primary-900;
 }
 .btn_blue_outlined {
-  @apply border border-primary-700 text-primary-700 hover:bg-primary-200;
+  @apply border border-primary-700 text-primary-700 hover:bg-primary-700 hover:text-white;
 }
 </style>
   

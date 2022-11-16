@@ -1,4 +1,4 @@
-<template>
+<template> 
 	<div class="courses__container" v-if="currentCourse">
 		<h1 class="courses__header">Course Details</h1>
 		<h3 v-if="courseId" class="courses__subheader">
