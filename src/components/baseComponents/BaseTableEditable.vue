@@ -67,7 +67,7 @@
               </BaseButton>
             </div>
             <div v-if="column.delete" class="ml-1">
-              <BaseButton @click="onDeleteRow(rowIndex)" variant="btn_blue_outlined">
+              <BaseButton @click="onDeleteClick(rowIndex)" variant="btn_blue_outlined">
                 <DeleteIcon />
               </BaseButton>
             </div>
@@ -75,6 +75,8 @@
         </td>
       </tr>
     </table>
+    <BaseDeleteModal v-if="rowData[rowToDeleteIndex]" :toggle-modal="isModalOpen" :target-value="rowData[rowToDeleteIndex][columnDefs[0].field]"
+      @delete="onDeleteRow(rowToDeleteIndex)" />
   </div>
 </template>
 
@@ -87,7 +89,8 @@ import { PropType } from "vue";
 import BaseButton from "./BaseButton.vue";
 import { SelectItem } from "../../models/options.model";
 import DeleteIcon from "./icons/DeleteIcon.vue";
-import HomeworkIcon from "./icons/HomeworkIcon.vue"
+import HomeworkIcon from "./icons/HomeworkIcon.vue";
+import BaseDeleteModal from "./BaseDeleteModal.vue"
 
 interface IColumnDefs {
   field: string,
@@ -113,7 +116,8 @@ export default defineComponent({
     EditIcon,
     BaseButton,
     DeleteIcon,
-    HomeworkIcon
+    HomeworkIcon,
+    BaseDeleteModal,
   },
   props: {
     columnDefs: {
@@ -136,7 +140,9 @@ export default defineComponent({
       sortBy: "" as String,
       rows: [] as any[],
       activeHeader: null as String | null,
-      isUpdateProcessing: false
+      isUpdateProcessing: false,
+      isModalOpen: false,
+      rowToDeleteIndex: 0,
     };
   },
   watch: {
@@ -161,10 +167,13 @@ export default defineComponent({
       }
       this.$emit('rowClick', this.rows[rowIndex][this.uniqIdentifier])
     },
+    onDeleteClick(rowIndex: number) {
+      this.rowToDeleteIndex = rowIndex;
+      this.isModalOpen = !this.isModalOpen;
+    },
     onDeleteRow(rowIndex: number) {
-      console.log({ rowIndex });
-
       this.$emit('deleteRow', this.rows[rowIndex][this.uniqIdentifier])
+      this.rowToDeleteIndex = 0;
     },
     isCellActive(rowIndex: number, columnIndex: number) {
       return this.activeCell === `${rowIndex}${columnIndex}`;

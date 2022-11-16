@@ -14,14 +14,14 @@
 		<div class="flex justify-evenly mt-5">
 		  <div class="mx-2">
 			<BaseButton
-			  :variant="'btn_red'"
+			  :variant="'btn_red_outlined'"
 			  @click="submit()"
 			>
 			  Delete
 			</BaseButton>
 		  </div>
 		  <div class="mx-2">
-			<BaseButton @click="cancel">
+			<BaseButton :variant="'btn_blue_outlined'" @click="cancel">
 			  Cancel
 			</BaseButton>
 		  </div>

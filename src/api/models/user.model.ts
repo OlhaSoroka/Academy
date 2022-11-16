@@ -12,6 +12,7 @@ export interface AppUser {
   eng_level?: string;
   city?: string;
   phone?: string;
+  course?: string
 }
 
 export interface RegisterUserBody {

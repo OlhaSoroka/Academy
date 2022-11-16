@@ -11,11 +11,10 @@
 				</BaseButton>
 			</div>
 		</div>
-
-
 		<div class="mt-4">
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.comments"
-				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
+				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
+				@deleteRow="onCommentDelete($event)" />
 		</div>
 		<CreateCommentModal :toggle-modal="isModalOpen" @commentsAdded="onNewCommentAdded" />
 	</div>
@@ -33,7 +32,7 @@ import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
 import { Comment } from "../../api/models/comment.model";
-import { updateCommentById } from "../../api/comments";
+import { deleteComment, updateCommentById } from "../../api/comments";
 export default {
 	components: {
 		BaseTableEditable,
@@ -81,6 +80,7 @@ export default {
 			{ field: "message", headerName: "Message", sortable: true, editable: this.isAdmin || this.isMentor, width: 400 },
 			{ field: "author", headerName: "Author", sortable: true, editable: false, width: 400 },
 			{ field: "createdAt", headerName: "Date", sortable: true, editable: false, width: 400 },
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true }
 		]
 	},
 	methods: {
@@ -88,6 +88,10 @@ export default {
 			await updateCommentById(event.uniqIdentifier, event.data);
 			this.courseDetailsStore.updateComments();
 
+		},
+		async onCommentDelete(commentId: string) {
+			await deleteComment(commentId);
+			this.courseDetailsStore.updateComments();
 		},
 		openModal() {
 			this.isModalOpen = !this.isModalOpen;

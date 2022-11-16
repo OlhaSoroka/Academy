@@ -96,11 +96,12 @@ export default {
 	beforeMount() {
 		this.columnDefs = [
 			{ field: "name", headerName: "Name", sortable: true, editable: this.isAdmin || this.isMentor, width: 300 },
+			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.isAdmin || this.isMentor, width: 200 },
+			{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.isAdmin || this.isMentor, width: 100 },
 			{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.isAdmin || this.isMentor, width: 200 },
-			{ field: "dateOfLecture", headerName: "Lecture Date", sortable: true, date: true, editable: this.isAdmin || this.isMentor, width: 200 },
 			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.isAdmin || this.isMentor, width: 200, dropdown: true, options: this.mentorsOptions },
 			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.isAdmin || this.isMentor, width: 300 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 30, actionColumn: true, homework: true, delete: true },
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true, delete: true },
 		]
 	},
 	methods: {

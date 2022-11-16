@@ -79,11 +79,11 @@ export default {
 			}
 		}
 	},
-	beforeMount() {
+	beforeMount() { 
 		this.columnDefs = [
 			{ field: "name", headerName: "Materials name", sortable: true, editable: this.isAdmin, width: 400 },
 			{ field: "link", headerName: "Materials link", sortable: true, editable: this.isAdmin, width: 400 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 20, actionColumn: true, delete: true },
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
 		]
 	},
 	methods: {
