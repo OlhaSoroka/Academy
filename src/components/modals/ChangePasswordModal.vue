@@ -11,15 +11,15 @@
 						<BaseInput v-model="confirmedPassword" type="password" label="Confirm password"
 							rules="required" placeholder="Confirm new password" />
 					</div>
-					<div class="w-full flex justify-around mt-2">
-						<div class="mx-1">
-							<BaseButton :variant="'btn_red'" @click="cancelPasswordChange">
-								Cancel
+					<div class="flex justify-between mt-5">
+						<div class="mx-2">
+							<BaseButton :variant="'btn_blue_outlined'" :disabled="!isFormValid(errors)" @click="submitPasswordChange">
+								Submit
 							</BaseButton>
 						</div>
-						<div class="mx-1">
-							<BaseButton :disabled="!isFormValid(errors)" @click="submitPasswordChange">
-								Submit
+						<div class="mx-2">
+							<BaseButton :variant="'btn_red_outlined'" @click="cancelPasswordChange">
+								Cancel
 							</BaseButton>
 						</div>
 					</div>

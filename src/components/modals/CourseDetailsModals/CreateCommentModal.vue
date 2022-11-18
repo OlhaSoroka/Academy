@@ -6,13 +6,18 @@
 					<div class="mt-2">
 						<textarea v-model="message" class="border" cols="45" rows="3" />
 					</div>
-					<div class="mx-1 flex gap-20">
-						<BaseButton variant="btn_red" @click="cancel" button-type="reset">
-							Cancel
-						</BaseButton>
-						<BaseButton :disabled="!isFormValid()" button-type="submit" @click="submit(currentRouteName)">
-							Add
-						</BaseButton>
+					<div class="flex justify-between mt-5">
+						<div class="mx-2">
+							<BaseButton :variant="'btn_blue_outlined'" :disabled="!isFormValid()" button-type="submit"
+								@click="submit(currentRouteName)">
+								Add
+							</BaseButton>
+						</div>
+						<div class="mx-2">
+							<BaseButton :variant="'btn_red_outlined'" @click="cancel" button-type="reset">
+								Cancel
+							</BaseButton>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -20,8 +20,9 @@
 							<BaseInput v-model="confirmPassword" type="password" label="Confirm password"
 								placeholder="Confirm password" rules="required" />
 						</div>
-						<div v-if="isStudent">
-							<label for="courses" class="block ml-1 font-semibold">Select Course</label>
+						<!-- WE CAN CHANGE COURSE IN TABLE -->
+						<!-- <div v-if="isStudent">
+							<label for="courses" class="block ml-1 font-semibold mt-2">Select Course</label>
 							<select id="courses" v-model="courseId" class="select__course">
 								<option value="" disabled selected>
 									Select Course
@@ -31,23 +32,22 @@
 									{{ course.name }}
 								</option>
 							</select>
-						</div>
-						<div class="flex justify-evenly mt-5">
+						</div> -->
+						<div class="flex justify-between mt-5">
+							<div class="mx-2">
+								<BaseButton :disabled="!isFormValid(errors)" :variant="'btn_blue_outlined'" @click="submitUserCreateButton">
+									Create
+								</BaseButton>
+							</div>
 							<div class="mx-2">
 								<BaseButton :disabled="false" :variant="'btn_red_outlined'" @click="cancelUserCreateButton">
 									Cancel
 								</BaseButton>
 							</div>
-							<div class="mx-2">
-								<BaseButton :disabled="!isFormValid(errors)" @click="submitUserCreateButton">
-									Create
-								</BaseButton>
-							</div>
+							
 						</div>
 					</div>
 				</Form>
-
-
 			</template>
 		</BaseModal>
 	</div>
@@ -165,6 +165,6 @@ export default defineComponent({
   
 <style lang="postcss" scoped>
 .select__course {
-	@apply block p-1  w-full ml-1 border-2 border-primary-700 rounded-sm text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900;
+	@apply  p-1 w-full border-2 border-primary-600 rounded-sm text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-slate-900;
 }
 </style>

@@ -9,25 +9,25 @@
 					<BaseInput v-model="courseToAdd.date_project_start" type="date" label="Date of starting project" />
 					<BaseInput v-model="courseToAdd.date_project_demo" type="date" label="Date of demo" />
 					<BaseInput v-model="courseToAdd.date_final_interview" type="date" label="Date of final interview" />
-					<div class="w-full text-left ml-1">
-						<label for="status">Status</label>
+					<div>
+						<label for="status" class="block ml-1 font-semibold mt-2">Status</label>
 					</div>
 					<select id="status" v-model="courseToAdd.status"
-						class="block p-1 m-1 w-full ml-1 border-2 border-primary-700 rounded-md text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-cyan-900">
+						class="course__select">
 						<option v-for="status in statuses" :key="status" :value="status">
 							{{ status }}
 						</option>
 					</select>
 					<div class="flex justify-evenly mt-5">
 						<div class="mx-2">
-							<BaseButton button-type="reset" :disabled="false" variant="btn_red" @click="cancelCourseCreateButton">
-								Cancel
+							<BaseButton button-type="button" :disabled="!isFormValid(errors)" :variant="'btn_blue_outlined'"
+								@click="submitCourseCreateButton">
+								Create
 							</BaseButton>
 						</div>
 						<div class="mx-2">
-							<BaseButton button-type="button" :disabled="!isFormValid(errors)"
-								@click="submitCourseCreateButton">
-								Create
+							<BaseButton button-type="reset" :disabled="false" :variant="'btn_red_outlined'" @click="cancelCourseCreateButton">
+								Cancel
 							</BaseButton>
 						</div>
 					</div>
@@ -93,3 +93,9 @@ export default defineComponent({
 	},
 });
 </script>
+  
+<style lang="scss" scoped>
+.course__select {
+	@apply p-1.5 w-full border-2 border-primary-600 rounded-sm text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-neutral-900;
+}
+</style>

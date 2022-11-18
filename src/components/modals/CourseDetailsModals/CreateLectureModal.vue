@@ -6,13 +6,17 @@
 					<div>
 						<BaseInput v-model="name" label="Title:" name="lecture_name" />
 					</div>
-					<div class="mt-4">
-						<BaseButton class="mr-2" variant="btn_blue_outlined" :disabled="!isFormValid" @click="submit()">
-							Add
-						</BaseButton>
-						<BaseButton variant="btn_red_outlined" @click="cancel">
-							Cancel
-						</BaseButton>
+					<div class="flex justify-between mt-5">
+						<div class="mx-2">
+							<BaseButton variant="btn_blue_outlined" :disabled="!isFormValid" @click="submit()">
+								Add
+							</BaseButton>
+						</div>
+						<div class="mx-2">
+							<BaseButton variant="btn_red_outlined" @click="cancel">
+								Cancel
+							</BaseButton>
+						</div>
 					</div>
 				</div>
 			</div>

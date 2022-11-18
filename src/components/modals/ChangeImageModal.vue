@@ -9,20 +9,20 @@
 					Please select image from your PC
 				</div>
 				<input v-show="false" ref="fileInput" type="file" @change="onImageSelected($event)">
-				<div class="mt-5 flex">
-					<div class="w-24 mx-2">
-						<BaseButton :variant="'btn_red'" @click="cancel">
-							Cancel
-						</BaseButton>
-					</div>
-					<div class="w-24 mx-2">
-						<BaseButton @click="selectImage">
+				<div class="flex justify-between mt-5">
+					<div class="mr-3">
+						<BaseButton :variant="'btn_blue_outlined'" @click="selectImage">
 							Select
 						</BaseButton>
 					</div>
-					<div v-if="profileImageSrc" class="w-24 mx-2">
-						<BaseButton @click="submitImage">
+					<div v-if="profileImageSrc" class="mr-3">
+						<BaseButton :variant="'btn_blue_outlined'" @click="submitImage">
 							Submit
+						</BaseButton>
+					</div>
+					<div class="">
+						<BaseButton :variant="'btn_red_outlined'" @click="cancel">
+							Cancel
 						</BaseButton>
 					</div>
 				</div>
