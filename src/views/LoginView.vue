@@ -45,7 +45,7 @@ export default {
 	},
 };
 </script>
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 .login-page-container {
 	background: center / cover no-repeat url("../assets/login_page_bg.jpg"); 
   @apply h-full
@@ -61,9 +61,9 @@ export default {
 	@apply w-1/2;
 }
 .login-title {
-	@apply font-semibold text-3xl p-4 from-neutral-900;
+	@apply font-semibold text-3xl p-4 from-neutral-900 flex justify-center items-center;
 }
 .login-link {
-	@apply font-light text-xs p-4 text-black flex justify-end items-end;
+	@apply font-light text-xs p-4 from-neutral-900 flex justify-end items-end;
 }
 </style>

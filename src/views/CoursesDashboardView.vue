@@ -1,6 +1,6 @@
 <template>
 	<div class="courses__container">
-		<div class="flex justify-between items-center mb-6">
+		<div class="courses__header_container">
 			<h1 class="courses__header">Courses Dashboard</h1>
 			<div>
 				<BaseButton :variant="'btn_blue'" @click="addCourse">Add new course</BaseButton>
@@ -64,6 +64,9 @@ export default {
 <style lang="css" scoped>
 .courses__container {
 	@apply p-10 bg-primary-100 min-h-full;
+}
+.courses__header_container {
+	@apply flex justify-between items-center mb-6;
 }
 .courses__header {
 	@apply font-semibold text-lg text-start text-primary-700;

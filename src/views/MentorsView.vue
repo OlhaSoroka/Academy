@@ -1,16 +1,16 @@
 <template>
     <div class="mentor__container">
-        <div class="flex justify-between items-center mb-6">
+        <div class="mentor__header_container">
             <h1 class="mentor__header">Mentors Dashboard</h1>
             <div>
-                <BaseButton :variant="'btn_blue'" @click="addStudent">Add new mentor</BaseButton>
+                <BaseButton :variant="'btn_blue'" @click="addMentor">Add new mentor</BaseButton>
             </div>
         </div>
         <div class="mentor_widget">
 			<BaseTableEditable :column-defs="columnDefs" :row-data="mentorStore.mentors" uniq-identifier="id"
 				/>
 		</div>
-        <UserCreateModal :toggle-modal="isAddCourseModalOpen" :role="'mentor'" :header="'Add new mentor'">
+        <UserCreateModal :toggle-modal="isAddMentorModalOpen" :role="'mentor'" :header="'Add new mentor'">
         </UserCreateModal>
     </div>
 </template>
@@ -29,7 +29,7 @@ export default {
 	},
     data() {
         return {
-            isAddCourseModalOpen: false,
+            isAddMentorModalOpen: false,
             columnDefs: [
 				{ field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
                 { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 },
@@ -39,8 +39,8 @@ export default {
         };
     },
     methods: {
-        addStudent() {
-            this.isAddCourseModalOpen = !this.isAddCourseModalOpen;
+        addMentor() {
+            this.isAddMentorModalOpen = !this.isAddMentorModalOpen;
         }
     },
     computed: {
@@ -53,7 +53,9 @@ export default {
 .mentor__container {
     @apply p-10 bg-primary-100 min-h-full
 }
-
+.mentor__header_container {
+    @apply flex justify-between items-center mb-6
+}
 .mentor__header {
     @apply font-semibold text-lg text-start text-primary-700;
 }

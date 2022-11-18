@@ -5,7 +5,7 @@
 				<img src="../assets/logo-h.svg" alt="main_logo">
 			</div>
 			<div v-else class="flex m-auto p-4">
-				<img class="h-8" src="../assets/logo-small.png" alt="small_logo">
+				<img class="h-8" src="../assets/logo_small.png" alt="small_logo">
 			</div>
 		</router-link>
 		<div v-if="isOpen" class="mt-7">
@@ -54,14 +54,15 @@
 					<span v-if="isOpen" class="navigation-text">Admins</span>
 				</router-link>
 			</div>
-			<div>
+			<!-- TRANSFER LOGOUT TO DROPDOWN MENU -->
+			<!-- <div>
 				<div class="navigation-link" @click="logout">
 					<svg id="logout" width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-exit" />
 					</svg>
 					<span v-if="isOpen" class="navigation-text">Log out</span>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -99,13 +100,13 @@ export default {
 		},
 	},
 	methods: {
-		async logout() {
-			await this.userStore.logoutUser();
-		},
+		// async logout() {
+		// 	await this.userStore.logoutUser();
+		// },
 	},
 };
 </script>
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 .navigation-container {
 	@apply border-r-2 border-stone-200;
 }

@@ -1,18 +1,18 @@
 <template>
 	<div>
 		<Form>
-			<div class="mb-4">
+			<div class="login__input_container ">
 				<BaseInput type="text" label="Email" v-model="formData.email" placeholder="my_email@gmail.com"
 					rules="required" />
 			</div>
 			<div v-if="isLoginPage">
 				<BaseInput type="text" label="Password" v-model="formData.password" placeholder="qwe123"
 					rules="required" />
-				<p class="link" @click="goToResetPage">
+				<p class="login__link" @click="goToResetPage">
 					Forgot password?
 				</p>
-				<div class="flex justify-center">
-					<BaseButton :loading="isDataLoading" class="my-3" @click="onSubmit()">
+				<div class="login__button_container">
+					<BaseButton :loading="isDataLoading" class="mt-3" @click="onSubmit()">
 						Submit
 					</BaseButton>
 				</div>
@@ -21,11 +21,11 @@
 			</div>
 		</Form>
 		<div v-if="!isLoginPage">
-			<BaseButton @click="resetPasswordOnEmail">
+			<div class="login__button_container "><BaseButton @click="resetPasswordOnEmail">
 				Reset Password
-			</BaseButton>
-			<p class="link" @click="goToLoginPage">
-				Log in page
+			</BaseButton></div>
+			<p class="login__link" @click="goToLoginPage">
+				Back to login
 			</p>
 		</div>
 	</div>
@@ -149,9 +149,15 @@ export default {
 };
 </script>
   
-<style lang="postcss" scoped>
-.link {
+<style lang="scss" scoped>
+.login__link {
 	@apply cursor-pointer hover:opacity-75 transition-opacity underline text-xs text-end;
+}
+.login__input_container {
+	@apply mb-4
+}
+.login__button_container {
+	@apply flex justify-center items-center
 }
 </style>
   

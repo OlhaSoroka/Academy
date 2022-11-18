@@ -316,7 +316,8 @@ export default defineComponent({
 }
 
 .table_cell {
-  @apply flex min-h-[50px] items-center justify-center text-center;
+  @apply flex min-h-[50px] items-center justify-center text-center ;
+  word-break: break-word;
 }
 
 .table_cell_input {

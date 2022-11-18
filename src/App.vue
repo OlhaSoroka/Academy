@@ -1,8 +1,8 @@
-<template> 
+<template>
   <div class="relative flex">
-    <TheNavigationMenu></TheNavigationMenu>
+    <TheNavigationMenu :is-open="isOpen"></TheNavigationMenu>
     <div class="h-screen w-full overflow-auto">
-      <TheTopbarComponent @onMenuToggle="" />
+      <TheTopbarComponent @onNavigationMenuToggle="toggleNavigationMenu" />
       <RouterView />
     </div>
   </div>
@@ -11,15 +11,21 @@
 <script lang="ts">
 
 import { defineComponent } from "vue";
+import DropdownMenu from "./components/baseComponents/DropdownMenu.vue";
 import TheNavigationMenu from "./components/TheNavigationMenu.vue";
 import TheTopbarComponent from "./components/TheTopbarComponent.vue";
 
 export default defineComponent({
-  methods: {},
+  components: { TheNavigationMenu, TheTopbarComponent, DropdownMenu },
   data() {
     return {
+      isOpen: true,
     }
   },
-  components: { TheNavigationMenu, TheTopbarComponent },
+  methods: {
+    toggleNavigationMenu() {
+      this.isOpen = !this.isOpen;
+    },
+  },
 });
 </script>
