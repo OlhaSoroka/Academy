@@ -7,6 +7,11 @@ import {
 } from "../api/course";
 import { ToastType, useToastStore } from "../store/toast.store";
 import { Course } from "../api/models/course.model";
+import { deleteCoursesResults, deleteResult } from "../api/results";
+import { deleteCoursesLectures } from "../api/lectures";
+import { deleteCoursesHomeworks } from "../api/homework";
+import { deleteCoursesComments } from "../api/comments";
+import { deleteCoursesMaterials } from "../api/materials";
 
 interface CoursesStoreState {
   courses: Course[];
@@ -106,10 +111,16 @@ const useCoursesStore = defineStore("courses", {
         this.fetchCourses();
       }
     },
-    async deleteCourseFromState(id: string) {
+    async deleteCourse(courseId: string) {
       try {
         this.courseLoading = true;
-        await deleteCourse(id);
+        await deleteCoursesResults(courseId);
+        await deleteCoursesLectures(courseId);
+        await deleteCoursesHomeworks(courseId);
+        await deleteCoursesComments(courseId);
+        await deleteCoursesMaterials(courseId);
+        // TODO?: update users course id
+        await deleteCourse(courseId);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Course successfully deleted!",

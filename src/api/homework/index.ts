@@ -44,6 +44,23 @@ export const getHomeworksByLecture = async (
   return homeworks[0];
 };
 
+export const getCoursesHomeworks = async (
+  courseId: string,
+): Promise<LectureHomework[]> => {
+  const collectionQuery = query(
+    collection(firestore, Collection.HOMEWORKS),
+    where("courseId", "==", courseId),
+  );
+  const documents = await getDocs(collectionQuery);
+  const homeworks: LectureHomework[] = [];
+  documents.forEach((document) => {
+    const homework = document.data();
+    homeworks.push(homework as LectureHomework);
+  });
+  return homeworks;
+};
+
+
 export const createHomework = async (
   data: LectureHomework,
 ): Promise<LectureHomework> => {
@@ -58,6 +75,19 @@ export const deleteLectureHomeworks = async (
   const collectionQuery = query(
     collection(firestore, Collection.HOMEWORKS),
     where("lectureId", "==", lectureId),
+  );
+  const documents = await getDocs(collectionQuery);
+  documents.forEach(async (document) => {
+    await deleteDoc(document.ref);
+  });
+};
+
+export const deleteCoursesHomeworks = async (
+  courseId: string,
+): Promise<void> => {
+  const collectionQuery = query(
+    collection(firestore, Collection.HOMEWORKS),
+    where("courseId", "==", courseId),
   );
   const documents = await getDocs(collectionQuery);
   documents.forEach(async (document) => {

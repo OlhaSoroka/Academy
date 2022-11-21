@@ -21,7 +21,7 @@
 								placeholder="Confirm password" rules="required" />
 						</div>
 						<!-- WE CAN CHANGE COURSE IN TABLE -->
-						<!-- <div v-if="isStudent">
+						<div v-if="isStudent">
 							<label for="courses" class="block ml-1 font-semibold mt-2">Select Course</label>
 							<select id="courses" v-model="courseId" class="select__course">
 								<option value="" disabled selected>
@@ -32,7 +32,7 @@
 									{{ course.name }}
 								</option>
 							</select>
-						</div> -->
+						</div>
 						<div class="flex justify-between mt-5">
 							<div class="mx-2">
 								<BaseButton :disabled="!isFormValid(errors)" :variant="'btn_blue_outlined'" @click="submitUserCreateButton">

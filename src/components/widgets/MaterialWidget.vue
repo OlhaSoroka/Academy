@@ -6,7 +6,7 @@
 				<div v-if="courseDetailsStore.materialsWidgetLoading">...Loading...</div>
 			</div>
 			<div>
-				<BaseButton @click="openModal()">
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
 					<PlusIcon />
 				</BaseButton>
 			</div>
@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts">
-import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
@@ -35,7 +34,6 @@ import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
 import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialModal.vue";
 import { deleteMaterial, getMaterialsByCourse, updateMaterialById } from "../../api/materials";
 import { Material } from "../../api/models/material.model";
-import { getCourseById } from "../../api/course";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 export default {
 	components: {
@@ -62,35 +60,26 @@ export default {
 	},
 	computed: {
 		...mapStores(useUserStore, useCourseDetailsStore),
-
-		isAdmin() {
-			if (this.userStore.user) {
-				return this.userStore.user.role === ROLES.ADMIN_ROLE
-			}
-		},
-		isMentor() {
-			if (this.userStore.user) {
-				return this.userStore.user.role === ROLES.MENTOR_ROLE
-			}
-		},
-		isStudent() {
-			if (this.userStore.user) {
-				return this.userStore.user.role === ROLES.STUDENTS_ROLE
-			}
-		}
 	},
-	beforeMount() { 
-		this.columnDefs = [
-			{ field: "name", headerName: "Materials name", sortable: true, editable: this.isAdmin, width: 400 },
-			{ field: "link", headerName: "Materials link", sortable: true, editable: this.isAdmin, width: 400 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
-		]
+	beforeMount() {
+		if (this.userStore.isStudent) {
+			this.columnDefs = [
+				{ field: "name", headerName: "Materials name", sortable: true, editable: this.userStore.isAdmin, width: 400 },
+				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin, width: 400 },
+			]
+		}
+		if (this.userStore.isAdmin || this.userStore.isMentor) {
+			this.columnDefs = [
+				{ field: "name", headerName: "Materials name", sortable: true, editable: this.userStore.isAdmin, width: 400 },
+				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin, width: 400 },
+				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
+			]
+		}
 	},
 	methods: {
 		async onCellEdit(event: { uniqIdentifier: string, data: Material }) {
 			await updateMaterialById(event.uniqIdentifier, event.data);
 			this.courseDetailsStore.updatedMaterials();
-
 		},
 		openModal() {
 			this.isModalOpen = !this.isModalOpen;
@@ -106,7 +95,7 @@ export default {
 };
 </script>
   
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 .material__container {
 	@apply shadow-md bg-stone-50 border border-stone-300 rounded-md p-14 w-full;
 }

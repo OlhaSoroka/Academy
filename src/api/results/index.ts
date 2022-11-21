@@ -21,6 +21,22 @@ export const updateResultById = async (
   return true;
 };
 
+export const updateStudentResult = async (
+  studentId: string,
+  result: Partial<Result>,
+): Promise<void> => {
+  const collectionQuery = query(
+    collection(firestore, Collection.RESULTS),
+    where("studentId", "==", studentId),
+  );
+  const documents = await getDocs(collectionQuery);
+
+  documents.forEach(async (document) => {
+    const resultData = document.data();
+    await updateDoc(document.ref, { ...resultData, ...result });
+  });
+};
+
 export const deleteResult = async (id: string): Promise<boolean> => {
   const resultRef = doc(db, Collection.RESULTS, `${id}`);
   await deleteDoc(resultRef);
@@ -75,13 +91,22 @@ export const deleteStudentResults = async (
 ): Promise<void> => {
   const collectionQuery = query(
     collection(firestore, Collection.RESULTS),
-    where("studentId ", "==", studentId),
+    where("studentId", "==", studentId),
   );
 
   const documents = await getDocs(collectionQuery);
-  const deletePromises: Promise<void>[] = [];
-  documents.forEach((document) => {
-    deletePromises.push(deleteDoc(document.ref));
+  documents.forEach(async (document) => {
+    await deleteDoc(document.ref);
   });
-  await Promise.all(deletePromises);
+};
+
+export const deleteCoursesResults = async (courseId: string): Promise<void> => {
+  const collectionQuery = query(
+    collection(firestore, Collection.RESULTS),
+    where("courseId", "==", courseId),
+  );
+  const documents = await getDocs(collectionQuery);
+  documents.forEach(async (document) => {
+    await deleteDoc(document.ref);
+  });
 };

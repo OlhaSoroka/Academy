@@ -13,6 +13,7 @@ import { ROLES } from "../models/router.model";
 import { ToastType, useToastStore } from "./toast.store";
 import { createResult, deleteStudentResults } from "../api/results";
 import { Result } from "../api/models/result.model";
+import { getCoursesHomeworks, updateHomeworkById } from "../api/homework";
 
 interface StudentStoreState {
   students: AppUser[];
@@ -109,12 +110,26 @@ const useStudentStore = defineStore("student", {
         const student = this.students.find(
           (student) => student.id === studentId,
         );
-        if (student) {
-          await deleteUserById(studentId);
+        if (student && student.courseId) {
+          const studentsHomeworks = await getCoursesHomeworks(
+            student.courseId,
+          );
+          const deleteHomeworkPromises: Promise<boolean>[] = [];
+          for (const homework of studentsHomeworks) {
+            homework.students = homework.students.filter(
+              (studentHomework) => studentHomework.studentId !== studentId,
+            );
+            deleteHomeworkPromises.push(
+              updateHomeworkById(homework.id, homework),
+            );
+          }
+          await Promise.all(deleteHomeworkPromises);
           await deleteStudentResults(studentId);
+          await deleteUserById(studentId);
+
           const toastStore = useToastStore();
           toastStore.showToastMessage({
-            message: "Student successfully created",
+            message: "Student successfully deleted",
             type: ToastType.SUCCESS,
           });
         }
