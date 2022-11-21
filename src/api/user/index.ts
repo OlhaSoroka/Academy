@@ -15,14 +15,16 @@ import { ROLES } from "../../models/router.model";
 import { ToastType, useToastStore } from "../../store/toast.store";
 import { Collection } from "../models/collection.enum";
 import { AppUser, RegisterUserBody } from "../models/user.model";
-import { createImageUrl, deleteImage } from "../storage";
+import { createImageRef, createImageUrl, deleteImage } from "../storage";
 
 export const deleteUserById = async (id: string): Promise<boolean> => {
   try {
     const documentReference = doc(firestore, Collection.USERS, id);
     const document = await getDoc(documentReference);
-    const email = (document.data() as AppUser).email as string;
-    await deleteImage(email);
+    const { email, avatarUrl } = document.data() as AppUser;
+    if (!avatarUrl.includes("default-avatar")) {
+      await deleteImage(email);
+    }
     await deleteDoc(documentReference);
     return true;
   } catch (error) {
@@ -66,21 +68,26 @@ export const getUsersByRole = async (role: ROLES): Promise<AppUser[]> => {
   }
 };
 
-export const getStudentsByCourse = async (courseId: string): Promise<AppUser[]> => {
-	try {
-		const collectionQuery = query(collection(firestore, Collection.USERS), where("courseId", "==", courseId));
-		const documents = await getDocs(collectionQuery);
-		const students: AppUser[] = [];
-		documents.forEach((document) => {
-		  const student = document.data();
-		  students.push(student as AppUser);
-		});
-		return students;
-	} catch (error) {
-		console.log({error});
-		return []
-	}
+export const getStudentsByCourse = async (
+  courseId: string,
+): Promise<AppUser[]> => {
+  try {
+    const collectionQuery = query(
+      collection(firestore, Collection.USERS),
+      where("courseId", "==", courseId),
+    );
+    const documents = await getDocs(collectionQuery);
+    const students: AppUser[] = [];
+    documents.forEach((document) => {
+      const student = document.data();
+      students.push(student as AppUser);
+    });
+    return students;
+  } catch (error) {
+    console.log({ error });
+    return [];
   }
+};
 
 export const gethUserByID = async (id: string): Promise<AppUser | null> => {
   try {
@@ -120,13 +127,15 @@ export const registerUser = async (
     data.password,
   );
   const uid = credentials.user.uid;
+  const defaultImageRef = createImageRef("default-avatar");
+  const imageUrl = await createImageUrl(defaultImageRef);
   const newUser: AppUser = {
     id: uid,
-    avatarUrl: "",
+    avatarUrl: imageUrl,
     courseId: data.courseId || "",
     email: data.email,
     fullName: data.fullName,
-    role: data.role
+    role: data.role,
   };
 
   const documentReference = doc(firestore, Collection.USERS, uid);
@@ -161,17 +170,20 @@ export const changePassword = async (newPassword: string): Promise<boolean> => {
 };
 
 export const getMentorsAndAdmins = async (): Promise<AppUser[]> => {
-	try {
-		const collectionQuery = query(collection(firestore, Collection.USERS), where("role", "!=", ROLES.STUDENTS_ROLE));
-		const documents = await getDocs(collectionQuery);
-		const users: AppUser[] = [];
-		documents.forEach((document) => {
-		  const user = document.data();
-		  users.push(user as AppUser);
-		});
-		return users;
-	} catch (error) {
-		console.log({error});
-		return []
-	}
+  try {
+    const collectionQuery = query(
+      collection(firestore, Collection.USERS),
+      where("role", "!=", ROLES.STUDENTS_ROLE),
+    );
+    const documents = await getDocs(collectionQuery);
+    const users: AppUser[] = [];
+    documents.forEach((document) => {
+      const user = document.data();
+      users.push(user as AppUser);
+    });
+    return users;
+  } catch (error) {
+    console.log({ error });
+    return [];
   }
+};

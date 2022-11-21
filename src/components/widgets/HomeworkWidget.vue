@@ -6,8 +6,6 @@
                 <div v-if="courseDetailsStore.homeworkWidgetLoading">...Loading...</div>
             </div>
         </div>
-
-
         <div class="mt-4">
             <BaseTableEditable :column-defs="columnDefs" :row-data="students" :uniq-identifier="uniqIdentifier"
                 @cellValueChanged="onCellEdit($event)" />
@@ -19,7 +17,9 @@
 import { mapStores } from 'pinia';
 import { defineComponent } from 'vue';
 import { updateHomeworkById } from '../../api/homework';
+import { getCoursesHomeworks } from '../../api/homework';
 import { StudentHomework } from '../../api/models/homework.model';
+import { updateStudentResult } from '../../api/results';
 import { useCourseDetailsStore } from '../../store/course-details.store';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue';
 export default defineComponent({
@@ -31,7 +31,7 @@ export default defineComponent({
                 { field: "rate", headerName: "Rate", sortable: true, editable: true, width: 160 },
                 { field: "link", headerName: "Link", sortable: true, editable: true, width: 300 },
                 { field: "comment", headerName: "Comment", sortable: true, editable: true, width: 300 },
-                { field: "date", headerName: "Date", sortable: true, editable: true, width: 300, date: true },
+                { field: "date", headerName: "Completion date", sortable: true, editable: true, width: 300, date: true },
             ]
         };
     },
@@ -50,7 +50,8 @@ export default defineComponent({
             uniqIdentifier: string;
             data: StudentHomework;
         }) {
-            await updateHomeworkById(this.courseDetailsStore.selectedHomework!.id, {
+            // TODO: move this method to store
+            const homeworkToUpdate = {
                 id: this.courseDetailsStore.selectedHomework!.id,
                 courseId: this.courseDetailsStore.selectedHomework!.courseId,
                 lectureId: this.courseDetailsStore.selectedHomework!.lectureId,
@@ -63,8 +64,22 @@ export default defineComponent({
                 asObject() {
                     return { ...this } as any
                 }
-            });
+            }
+            await updateHomeworkById(this.courseDetailsStore.selectedHomework!.id, homeworkToUpdate);
+            const courseHomeworks = await getCoursesHomeworks(this.courseDetailsStore.selectedHomework!.courseId);
+            let studentRateSummary = 0;
+            for (const homework of courseHomeworks) {
+                const studentToUpdate = homework.students.find(student => student.studentId === event.data.studentId);
+                if (studentToUpdate) {
+                    studentRateSummary = studentRateSummary + Number(studentToUpdate.rate);
+                }
+            }
+            const resultToUpdate = {
+                average_homework_score: `${studentRateSummary/courseHomeworks.length}`
+            };
+            await updateStudentResult(event.data.studentId, resultToUpdate);
             this.courseDetailsStore.selectLecture(this.courseDetailsStore.selectedHomework!.lectureId);
+            this.courseDetailsStore.updatedGroupOrResult();
         }
     },
     components: { BaseTableEditable }

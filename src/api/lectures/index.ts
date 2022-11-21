@@ -60,3 +60,15 @@ export const createLecture = async (data: Lecture): Promise<Lecture> => {
   await createHomework(lectureHomework);
   return data;
 };
+
+
+export const deleteCoursesLectures = async (courseId: string): Promise<void> => {
+  const collectionQuery = query(
+    collection(firestore, Collection.LECTURES),
+    where("courseId", "==", courseId),
+  );
+  const documents = await getDocs(collectionQuery);
+  documents.forEach(async (document) => {
+    await deleteDoc(document.ref);
+  });
+};

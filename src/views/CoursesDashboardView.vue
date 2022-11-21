@@ -3,12 +3,13 @@
 		<div class="courses__header_container">
 			<h1 class="courses__header">Courses Dashboard</h1>
 			<div>
-				<BaseButton :variant="'btn_blue'" @click="addCourse">Add new course</BaseButton>
+				<BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addCourse">Add new course
+				</BaseButton>
 			</div>
 		</div>
 		<div class="courses__widget">
 			<BaseTableEditable :column-defs="columnDefs" :row-data="coursesStore.courses" uniq-identifier="id"
-				@rowClick="onRowSelect"/>
+				@deleteRow="onCourseDelete($event)" @rowClick="onRowSelect" />
 		</div>
 		<CourseCreateModal :toggle-modal="isAddCourseModalOpen"></CourseCreateModal>
 	</div>
@@ -23,25 +24,42 @@ import CourseCreateModal from '../components/modals/CourseCreateModal.vue';
 import { ROUTE_NAMES } from '../models/router.model';
 import { useCourseDetailsStore } from '../store/course-details.store';
 import { useCoursesStore } from '../store/courses';
+import { useUserStore } from '../store/user';
+
 
 export default {
 	components: { BaseTableEditable, CourseCreateModal, BaseButton },
 	mounted() {
 		this.coursesStore.fetchCourses();
 	},
-	data() {
+	data(): {
+		columnDefs: any,
+		isAddCourseModalOpen: boolean,
+
+	} {
 		return {
 			isAddCourseModalOpen: false,
-			columnDefs: [
+			columnDefs: []
+		};
+	},
+	beforeMount() {
+		if (this.userStore.isStudent) {
+			this.columnDefs = [
 				{ field: "name", headerName: "Course Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-				{ field: "date", headerName: "Date", sortable: true, editable: false, minWidth: 150, width: 200 },
+				{ field: "date", headerName: "Date of starting course", sortable: true, editable: false, minWidth: 150, width: 200 },
+			]
+		}
+		if (this.userStore.isAdmin || this.userStore.isMentor) {
+			this.columnDefs = [
+				{ field: "name", headerName: "Course Name", sortable: true, editable: false, minWidth: 150, width: 200 },
+				{ field: "date", headerName: "Date of starting course", sortable: true, editable: false, minWidth: 150, width: 200 },
 				{ field: "status", headerName: "Status", sortable: true, editable: false, minWidth: 150, width: 200 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
-			],
+			]
 		}
 	},
 	computed: {
-		...mapStores(useCoursesStore, useCourseDetailsStore),
+		...mapStores(useCoursesStore, useCourseDetailsStore, useUserStore),
 	},
 	methods: {
 		async onRowSelect(courseId: string) {
@@ -53,10 +71,9 @@ export default {
 		addCourse() {
 			this.isAddCourseModalOpen = !this.isAddCourseModalOpen
 		},
-		// async onCourseDelete(courseId: string) {
-		// 	await deleteCourse(courseId);
-		// 	this.courseDetailsStore.updateLectures();
-		// }
+		async onCourseDelete(courseId: string) {
+			this.coursesStore.deleteCourse(courseId);
+		}
 	}
 }
 </script>
@@ -65,9 +82,11 @@ export default {
 .courses__container {
 	@apply p-10 bg-primary-100 min-h-full;
 }
+
 .courses__header_container {
 	@apply flex justify-between items-center mb-6;
 }
+
 .courses__header {
 	@apply font-semibold text-lg text-start text-primary-700;
 }
@@ -77,8 +96,9 @@ export default {
 }
 
 .courses__widget {
-    @apply shadow-md bg-stone-50 border border-stone-300 rounded-md p-14 w-full
+	@apply shadow-md bg-stone-50 border border-stone-300 rounded-md p-14 w-full
 }
+
 .courses__nav {
 	@apply flex justify-between px-0;
 }

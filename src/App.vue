@@ -5,6 +5,7 @@
       <TheTopbarComponent @onNavigationMenuToggle="toggleNavigationMenu" />
       <RouterView />
     </div>
+    <ToastMessage></ToastMessage>
   </div>
 </template>
 
@@ -14,9 +15,10 @@ import { defineComponent } from "vue";
 import DropdownMenu from "./components/baseComponents/DropdownMenu.vue";
 import TheNavigationMenu from "./components/TheNavigationMenu.vue";
 import TheTopbarComponent from "./components/TheTopbarComponent.vue";
+import ToastMessage from "./components/ToastMessage.vue";
 
 export default defineComponent({
-  components: { TheNavigationMenu, TheTopbarComponent, DropdownMenu },
+  components: { TheNavigationMenu, TheTopbarComponent, DropdownMenu, ToastMessage },
   data() {
     return {
       isOpen: true,

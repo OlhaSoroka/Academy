@@ -13,8 +13,9 @@ import {
 } from "../api/storage/index";
 import { signOut } from "firebase/auth";
 import { firebaseAuth } from "../main";
-import { ROUTE_NAMES } from "../models/router.model";
+import { ROLES, ROUTE_NAMES } from "../models/router.model";
 import { ToastType, useToastStore } from "../store/toast.store";
+import { useResetForm } from "vee-validate";
 
 interface UserStoreState {
   user: AppUser | null;
@@ -31,6 +32,9 @@ const useUserStore = defineStore("user", {
   getters: {
     currentUser: (state) => state.user,
     isImageLoading: (state) => state.imageLoading,
+    isAdmin:(state)=> state.user?.role===ROLES.ADMIN_ROLE,
+    isMentor:(state)=> state.user?.role===ROLES.MENTOR_ROLE,
+    isStudent:(state)=>state.user?.role===ROLES.STUDENTS_ROLE,
   },
   actions: {
     setUser(user: AppUser | null) {

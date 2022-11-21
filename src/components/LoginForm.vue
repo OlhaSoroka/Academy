@@ -6,7 +6,7 @@
 					rules="required" />
 			</div>
 			<div v-if="isLoginPage">
-				<BaseInput type="text" label="Password" v-model="formData.password" placeholder="qwe123"
+				<BaseInput type="password" label="Password" v-model="formData.password" placeholder="qwe123"
 					rules="required" />
 				<p class="login__link" @click="goToResetPage">
 					Forgot password?

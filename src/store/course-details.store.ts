@@ -12,7 +12,7 @@ import { Result } from "../api/models/result.model";
 import { getLectureByCourse } from "../api/lectures";
 import { Lecture } from "../api/models/lecture.model";
 import { LectureHomework } from "../api/models/homework.model";
-import { getHomeworksByLecture } from "../api/homework";
+import { getCoursesHomeworks, getHomeworksByLecture } from "../api/homework";
 
 interface CourseDetailsStoreState {
   _mainInfo: Course[];
@@ -170,6 +170,9 @@ const useCourseDetailsStore = defineStore("courseDetails", {
     async selectLecture(lectureId: string) {
       this._homeworkWidgetLoading = true;
       const lectureHomework = await getHomeworksByLecture(lectureId);
+
+      
+
       lectureHomework.lecture = this.lectures.find(
         (lecture) => lecture.id === lectureId,
       )?.name;

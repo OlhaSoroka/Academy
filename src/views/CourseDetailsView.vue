@@ -33,7 +33,7 @@
 				<GroupWidget :currentCourse="currentCourse" />
 			</div>
 			<div class="mt-10">
-				<ResultsWidget :courseId="courseId" />
+				<ResultsWidget v-if="userStore.isAdmin" :courseId="courseId" />
 			</div>
 			<div class="mt-10">
 				<LecturesWidget :currentCourse="currentCourse" />
@@ -42,7 +42,7 @@
 				<MaterialWidget :currentCourse="currentCourse" />
 			</div>
 			<div class="mt-10">
-				<CommentWidget :currentCourse="currentCourse" />
+				<CommentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
 			</div>
 		</div>
 
@@ -63,10 +63,11 @@ import MaterialWidget from '../components/widgets/MaterialWidget.vue'
 import { useCourseDetailsStore } from '../store/course-details.store';
 import CommentWidget from '../components/widgets/CommentWidget.vue';
 import LecturesWidget from '../components/widgets/LecturesWidget.vue';
+import { useUserStore } from '../store/user';
 
 export default {
 	computed: {
-		...mapStores(useCourseDetailsStore),
+		...mapStores(useCourseDetailsStore,useUserStore),
 		courseId(): string {
 			return this.$route.params.id as string;
 		},
@@ -78,7 +79,7 @@ export default {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 .courses__header {
 	@apply font-semibold text-lg text-start text-primary-700;
 }
