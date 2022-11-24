@@ -81,7 +81,7 @@ export default {
 				{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
 				{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100 },
 				{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
-				{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200, dropdown: true, options: this.mentorsOptions },
+				{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin , width: 200, dropdown: true, options: this.mentorsOptions },
 				{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
 			]
 		}
@@ -91,7 +91,7 @@ export default {
 				{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
 				{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100 },
 				{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
-				{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200, dropdown: true, options: this.mentorsOptions },
+				{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin , width: 200, dropdown: true, options: this.mentorsOptions },
 				{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: this.userStore.isAdmin || this.userStore.isMentor, delete: this.userStore.isAdmin || this.userStore.isMentor },
 			]

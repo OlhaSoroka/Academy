@@ -37,7 +37,7 @@
       <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="table_row">
         <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
           <div v-if="!column.actionColumn" class="table_cell" :class="column.editable && 'cursor-pointer'"
-            @click.stop="onCellClick(rowIndex, columnIndex, column.editable)">
+            @click.stop="onCellClick(rowIndex, columnIndex, column)">
             <input v-if="isCellActive(rowIndex, columnIndex) && !column.dropdown" v-focus class="table_cell_input"
               :type="column.date ? 'date' : 'text'" :value="row[column.field]"
               @focusout="onFocusOut($event, row, column.field)"
@@ -61,7 +61,7 @@
           </div>
           <div class="table_cell" v-else>
             <div v-if="column.homework">
-              <BaseButton @click="onCellClick(rowIndex, columnIndex, column.editable)" variant="btn_blue_outlined">
+              <BaseButton @click="onCellClick(rowIndex, columnIndex, column)" variant="btn_blue_outlined">
                 <HomeworkIcon />
               </BaseButton>
             </div>
@@ -107,6 +107,8 @@ interface IColumnDefs {
   homework?: boolean;
   dropdown?: boolean;
   options?: SelectItem[];
+  checkAuthor?: boolean;
+  currentUserId?: string;
 }
 
 export default defineComponent({
@@ -162,12 +164,14 @@ export default defineComponent({
     }
   },
   methods: {
+    isAuthor(column: IColumnDefs, rowIndex: number): boolean {
+      return column.checkAuthor! && this.rows[rowIndex].authorId === column.currentUserId
+    },
     onLinkClick(link: string) {
       window.open(link, '_blank')?.focus();
     },
-    onCellClick(rowIndex: number, columnIndex: number, isEditable: boolean) {
-      console.log("onCellClick: ");
-      if (isEditable) {
+    onCellClick(rowIndex: number, columnIndex: number, column: IColumnDefs) {
+      if (column.editable || this.isAuthor(column, rowIndex)) {
         this.activeCell = `${rowIndex}${columnIndex}`;
         return
       }
