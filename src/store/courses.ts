@@ -15,7 +15,7 @@ import { deleteCoursesMaterials } from "../api/materials";
 
 interface CoursesStoreState {
   courses: Course[];
-  selectedCourseIndex: number;
+  selectedCourseIndex: number; 
   courseLoading: boolean;
 }
 
@@ -70,10 +70,13 @@ const useCoursesStore = defineStore("courses", {
         this.courseLoading = false;
       }
     },
-    async createNewCourse(data: Course) {
+    async createNewCourse(course: Course) {
       try {
         this.courseLoading = true;
-        await createCourse(data);
+        course.createdAt = new Date(Date.now())
+          .toISOString()
+          .split("T")[0] as string;
+        await createCourse(course);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Course successfully created!",

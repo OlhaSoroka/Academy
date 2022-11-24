@@ -1,9 +1,9 @@
 <template>
 	<div class="material__container ">
 		<div class="flex align-middle justify-between">
-			<div class="material__header flex">
-				<div>Materials</div>
-				<div v-if="courseDetailsStore.materialsWidgetLoading">...Loading...</div>
+			<div class="flex items-center">
+				<h2 class="material__header mr-3">Materials</h2>
+				<Spinner v-if="courseDetailsStore.materialsWidgetLoading"/>
 			</div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
@@ -11,16 +11,13 @@
 				</BaseButton>
 			</div>
 		</div>
-
-
-		<div class="mt-4">
+		<div class="mt-5">
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.materials"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
 				@deleteRow="onMaterialDelete($event)" />
 		</div>
 		<CreateMaterialModal :toggle-modal="isModalOpen" @materialAdded="onNewMaterialAdded" />
 	</div>
-
 </template>
 
 <script lang="ts">
@@ -35,13 +32,15 @@ import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialMod
 import { deleteMaterial, getMaterialsByCourse, updateMaterialById } from "../../api/materials";
 import { Material } from "../../api/models/material.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
+import Spinner from "../baseComponents/spinner/Spinner.vue";
 export default {
 	components: {
-		BaseTableEditable,
-		BaseButton,
-		PlusIcon,
-		CreateMaterialModal
-	},
+    BaseTableEditable,
+    BaseButton,
+    PlusIcon,
+    CreateMaterialModal,
+    Spinner
+},
 	props: {
 		currentCourse: {
 			type: Object as PropType<Course>
@@ -65,13 +64,13 @@ export default {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Materials name", sortable: true, editable: this.userStore.isAdmin, width: 400 },
-				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin, width: 400 },
+				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin, link:true,  width: 400 },
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Materials name", sortable: true, editable: this.userStore.isAdmin, width: 400 },
-				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin, width: 400 },
+				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin, link:true,  width: 400 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
 			]
 		}

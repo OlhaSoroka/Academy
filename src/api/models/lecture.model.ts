@@ -16,8 +16,6 @@ export class Lecture {
     const lecture = { ...this };
     // delete unneeded fields
     delete lecture.mentor;
-    console.log({lecture});
-    
     return lecture;
   }
 }

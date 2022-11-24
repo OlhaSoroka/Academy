@@ -1,7 +1,11 @@
 <template>
     <div class="mentor__container">
         <div class="mentor__header_container">
-            <h1 class="mentor__header">Mentors Dashboard</h1>
+            <div class="flex items-center">
+                <h1 class="mentor__header mr-3">Mentors Dashboard
+                </h1>
+                <Spinner v-if="mentorStore.isMentorsLoading" />
+            </div>
             <div>
                 <BaseButton :variant="'btn_blue'" @click="addMentor">Add new mentor</BaseButton>
             </div>
@@ -20,10 +24,11 @@ import UserCreateModal from '../components/modals/UserCreateModal.vue';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useMentorStore } from '../store/mentors';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
+import Spinner from '../components/baseComponents/spinner/Spinner.vue';
 
 
 export default {
-    components: { UserCreateModal, BaseButton, BaseTableEditable },
+    components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
     mounted() {
         this.mentorStore.fetchMentors();
     },

@@ -1,7 +1,11 @@
 <template>
 	<div class="courses__container">
 		<div class="courses__header_container">
-			<h1 class="courses__header">Courses Dashboard</h1>
+			<div class="flex items-center">
+                <h1 class="courses__header mr-3">Courses Dashboard
+                </h1>
+                <Spinner v-if="coursesStore.loadingStatus" />
+            </div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addCourse">Add new course
 				</BaseButton>
@@ -20,6 +24,7 @@ import { mapStores } from 'pinia';
 import { getCourseById } from '../api/course';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
+import Spinner from '../components/baseComponents/spinner/Spinner.vue';
 import CourseCreateModal from '../components/modals/CourseCreateModal.vue';
 import { ROUTE_NAMES } from '../models/router.model';
 import { useCourseDetailsStore } from '../store/course-details.store';
@@ -28,7 +33,7 @@ import { useUserStore } from '../store/user';
 
 
 export default {
-	components: { BaseTableEditable, CourseCreateModal, BaseButton },
+	components: { BaseTableEditable, CourseCreateModal, BaseButton, Spinner },
 	mounted() {
 		this.coursesStore.fetchCourses();
 	},
@@ -46,13 +51,13 @@ export default {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Course Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-				{ field: "date", headerName: "Date of starting course", sortable: true, editable: false, minWidth: 150, width: 200 },
+				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false, minWidth: 150, width: 200 },
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Course Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-				{ field: "date", headerName: "Date of starting course", sortable: true, editable: false, minWidth: 150, width: 200 },
+				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false, minWidth: 150, width: 200 },
 				{ field: "status", headerName: "Status", sortable: true, editable: false, minWidth: 150, width: 200 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
 			]

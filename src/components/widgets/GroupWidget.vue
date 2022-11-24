@@ -1,11 +1,11 @@
 <template>
 	<div class="group__container ">
-		<div class="group__header flex">
-			<div>Group</div>
-			<div v-if="courseDetailsStore.groupWidgetLoading">...Loading...</div>
+		<div class="flex items-center">
+			<h2 class="group__header mr-3">Group</h2>
+			<Spinner v-if="courseDetailsStore.groupWidgetLoading"/>
 		</div>
 		<div>
-			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.group"
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.group" class="mt-5"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
 	</div>
@@ -21,10 +21,12 @@ import { Course } from "../../api/models/course.model";
 import { AppUser } from "../../api/models/user.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import { EnglishLevel } from "../../models/english-level.enum";
+import Spinner from "../baseComponents/spinner/Spinner.vue";
 export default {
 	components: {
-		BaseTableEditable
-	},
+    BaseTableEditable,
+    Spinner
+},
 	props: {
 		currentCourse: {
 			type: Object as PropType<Course>
@@ -86,7 +88,7 @@ export default {
 }
 
 .group__header {
-	@apply text-xl text-gray-700 mb-5
+	@apply text-xl text-gray-700;
 }
 </style>
   

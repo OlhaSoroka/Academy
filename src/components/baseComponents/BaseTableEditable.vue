@@ -37,19 +37,18 @@
       <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="table_row">
         <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
           <div v-if="!column.actionColumn" class="table_cell" :class="column.editable && 'cursor-pointer'"
-            @click="onCellClick(rowIndex, columnIndex, column.editable)">
+            @click.stop="onCellClick(rowIndex, columnIndex, column.editable)">
             <input v-if="isCellActive(rowIndex, columnIndex) && !column.dropdown" v-focus class="table_cell_input"
               :type="column.date ? 'date' : 'text'" :value="row[column.field]"
               @focusout="onFocusOut($event, row, column.field)"
               @keypress.enter="onEnterPress($event, row, column.field)" />
             <div v-if="!isCellActive(rowIndex, columnIndex)" class="over text-ellipsis p-2"
-              :class="!column.link && 'pointer-events-none'" :style="{ width: column.width + 'px' }">
-              <a v-if="column.link" :href="row[column.field]">{{
-                  row[column.field]
-              }}</a>
-              <div v-else>
+              :style="{ width: column.width + 'px' }">
+              <span>
                 {{ row[column.field] }}
-              </div>
+              </span>
+              <button class="border border-primary-500 text-primary-500 rounded p-1 ml-1" v-if="column.link && row[column.field]"
+                @click.stop="onLinkClick(row[column.field])"><LinkIcon></LinkIcon></button>
             </div>
             <div class="w-full h-[50px]" v-if="isCellActive(rowIndex, columnIndex) && column.dropdown">
               <select class="w-full h-full" @focusout="onFocusOut($event, row, column.field)"
@@ -75,8 +74,8 @@
         </td>
       </tr>
     </table>
-    <BaseDeleteModal v-if="rowData[rowToDeleteIndex]" :toggle-modal="isModalOpen" :target-value="rowData[rowToDeleteIndex][columnDefs[0].field]"
-      @delete="onDeleteRow(rowToDeleteIndex)" />
+    <BaseDeleteModal v-if="rowData[rowToDeleteIndex]" :toggle-modal="isModalOpen"
+      :target-value="rowData[rowToDeleteIndex][columnDefs[0].field]" @delete="onDeleteRow(rowToDeleteIndex)" />
   </div>
 </template>
 
@@ -90,7 +89,8 @@ import BaseButton from "./BaseButton.vue";
 import { SelectItem } from "../../models/options.model";
 import DeleteIcon from "./icons/DeleteIcon.vue";
 import HomeworkIcon from "./icons/HomeworkIcon.vue";
-import BaseDeleteModal from "./BaseDeleteModal.vue"
+import BaseDeleteModal from "./BaseDeleteModal.vue";
+import LinkIcon from "././icons/LinkIcon.vue"
 
 interface IColumnDefs {
   field: string,
@@ -100,13 +100,13 @@ interface IColumnDefs {
   editable: boolean,
   width: number,
   solid?: boolean,
-  link?: string,
+  link?: boolean,
   date?: boolean,
   actionColumn?: boolean;
   delete?: boolean;
   homework?: boolean;
   dropdown?: boolean;
-  options?: SelectItem[]
+  options?: SelectItem[];
 }
 
 export default defineComponent({
@@ -118,6 +118,8 @@ export default defineComponent({
     DeleteIcon,
     HomeworkIcon,
     BaseDeleteModal,
+    LinkIcon
+
   },
   props: {
     columnDefs: {
@@ -160,7 +162,11 @@ export default defineComponent({
     }
   },
   methods: {
+    onLinkClick(link: string) {
+      window.open(link, '_blank')?.focus();
+    },
     onCellClick(rowIndex: number, columnIndex: number, isEditable: boolean) {
+      console.log("onCellClick: ");
       if (isEditable) {
         this.activeCell = `${rowIndex}${columnIndex}`;
         return
@@ -308,7 +314,7 @@ export default defineComponent({
 }
 
 .table_row {
-  @apply hover:bg-primary-200;
+  @apply hover:bg-primary-200 cursor-pointer;
 }
 
 .table_row_item {
@@ -316,8 +322,8 @@ export default defineComponent({
 }
 
 .table_cell {
-  @apply flex min-h-[50px] items-center justify-center text-center ;
-  word-break: break-word;
+  @apply flex min-h-[50px] items-center justify-center text-center;
+  overflow-wrap: break-word
 }
 
 .table_cell_input {

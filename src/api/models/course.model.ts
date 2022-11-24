@@ -5,8 +5,9 @@ export class Course {
   id: string;
   status: CourseStatus = CourseStatus.NOT_STARTED;
   name: string = "";
+  createdAt: string = "";
   date_final_interview: string = "";
-  date: string = "";
+  date_course_start: string = ""
   date_project_demo: string = "";
   date_project_start: string = "";
 
