@@ -3,6 +3,7 @@ import { uuidv4 } from "@firebase/util";
 import { getAllCourses, getCourseById } from "../api/course";
 import { Course } from "../api/models/course.model";
 import { AppUser, RegisterUserBody } from "../api/models/user.model";
+import { StudentHomework } from "../api/models/homework.model";
 import {
   deleteUserById,
   getUsersByRole,
@@ -86,7 +87,15 @@ const useStudentStore = defineStore("student", {
             await createResult(
               new Result(uuidv4(), student.id, studentCourse.id),
             );
-
+            const courseHomeworks = await getCoursesHomeworks(studentCourse.id);
+            const promisesArray: Promise<boolean>[] = [];
+            courseHomeworks.forEach((homework) => {
+              homework.students.push(
+                new StudentHomework(student.id).asObject(),
+              );
+              promisesArray.push(updateHomeworkById(homework.id, homework));
+            });
+            Promise.all(promisesArray);
             const toastStore = useToastStore();
             toastStore.showToastMessage({
               message: "Student successfully created",
@@ -104,6 +113,58 @@ const useStudentStore = defineStore("student", {
         this.fetchStudents();
       }
     },
+    async updateStudentCourse(studentToUpdate: AppUser, newCourseId: string) {
+      try {
+        this.studentLoading = true;
+        await updateUserByID(studentToUpdate.id, {
+          ...studentToUpdate,
+          courseId: newCourseId,
+        });
+        await deleteStudentResults(studentToUpdate.id);
+        await createResult(
+          new Result(uuidv4(), studentToUpdate.id, newCourseId),
+        );
+
+        const oldCourseHomeworks = await getCoursesHomeworks(
+          studentToUpdate.courseId!,
+        );
+        const oldHomeworksPromisesArray: Promise<boolean>[] = [];
+        oldCourseHomeworks.forEach((homework) => {
+          homework.students = homework.students.filter(
+            (student) => student.studentId !== studentToUpdate.id,
+          );
+          oldHomeworksPromisesArray.push(
+            updateHomeworkById(homework.id, homework),
+          );
+        });
+        await Promise.all(oldHomeworksPromisesArray);
+
+        const newCourseHomeworks = await getCoursesHomeworks(newCourseId);
+        const newHomeworksPromisesArray: Promise<boolean>[] = [];
+        newCourseHomeworks.forEach((homework) => {
+          homework.students.push(new StudentHomework(studentToUpdate.id).asObject());
+          newHomeworksPromisesArray.push(
+            updateHomeworkById(homework.id, homework),
+          );
+        });
+        await Promise.all(newHomeworksPromisesArray);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Student's course updated",
+          type: ToastType.SUCCESS,
+        });
+      } catch (error) {
+        console.log({ error });
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Can't updated student course",
+          type: ToastType.SUCCESS,
+        });
+      } finally {
+        this.fetchStudents();
+        this.studentLoading = false;
+      }
+    },
     async deleteStudent(studentId: string) {
       try {
         this.studentLoading = true;
@@ -111,9 +172,7 @@ const useStudentStore = defineStore("student", {
           (student) => student.id === studentId,
         );
         if (student && student.courseId) {
-          const studentsHomeworks = await getCoursesHomeworks(
-            student.courseId,
-          );
+          const studentsHomeworks = await getCoursesHomeworks(student.courseId);
           const deleteHomeworkPromises: Promise<boolean>[] = [];
           for (const homework of studentsHomeworks) {
             homework.students = homework.students.filter(

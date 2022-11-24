@@ -1,9 +1,11 @@
 <template>
     <div class="homework__container">
         <div class="flex align-middle justify-between">
-            <div class="homework__header flex">
-                <div>{{ lecture }}</div>
-                <div v-if="courseDetailsStore.homeworkWidgetLoading">...Loading...</div>
+            <div class="flex items-center">
+                <h2 class="homework__header mr-3">
+                    <div>{{ lecture }}</div>
+                </h2>
+                <Spinner v-if="courseDetailsStore.homeworkWidgetLoading" />
             </div>
         </div>
         <div class="mt-4">
@@ -21,6 +23,7 @@ import { getCoursesHomeworks } from '../../api/homework';
 import { StudentHomework } from '../../api/models/homework.model';
 import { updateStudentResult } from '../../api/results';
 import { useCourseDetailsStore } from '../../store/course-details.store';
+import { useUserStore } from '../../store/user';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue';
 export default defineComponent({
     data() {
@@ -29,14 +32,14 @@ export default defineComponent({
             columnDefs: [
                 { field: "student", headerName: "Student", sortable: true, editable: true, width: 300 },
                 { field: "rate", headerName: "Rate", sortable: true, editable: true, width: 160 },
-                { field: "link", headerName: "Link", sortable: true, editable: true, width: 300 },
+                { field: "link", headerName: "Link", sortable: true, editable: true, link: true , width: 300 },
                 { field: "comment", headerName: "Comment", sortable: true, editable: true, width: 300 },
                 { field: "date", headerName: "Completion date", sortable: true, editable: true, width: 300, date: true },
             ]
         };
     },
     computed: {
-        ...mapStores(useCourseDetailsStore),
+        ...mapStores(useCourseDetailsStore, useUserStore),
         students(): StudentHomework[] {
             return this.courseDetailsStore.selectedHomework!.students;
         },
@@ -75,7 +78,7 @@ export default defineComponent({
                 }
             }
             const resultToUpdate = {
-                average_homework_score: `${studentRateSummary/courseHomeworks.length}`
+                average_homework_score: `${studentRateSummary / courseHomeworks.length}`
             };
             await updateStudentResult(event.data.studentId, resultToUpdate);
             this.courseDetailsStore.selectLecture(this.courseDetailsStore.selectedHomework!.lectureId);

@@ -1,73 +1,81 @@
 <template>
-<div class="p-10 bg-primary-100 min-h-full">
-	<div class="p-10 bg-stone-50 shadow-md border border-stone-300 rounded-md w-full ">
-		<div class="profile-title">
-			My profile
-		</div>
-		<div class="flex justify-center">
-			<div v-if="userStore.currentUser" class="profile-container">
-				<div class="profile__image_container">
-					<div v-if="!isImageLoaded" class="profile__image_loading">
-						<BaseSpinner />
+	<div class="p-10 bg-primary-100 min-h-full">
+		<div class="p-10 bg-stone-50 shadow-md border border-stone-300 rounded-md w-full ">
+			<div class="profile-title">
+				My profile
+			</div>
+			<div class="flex justify-center">
+				<div v-if="userStore.currentUser" class="profile-container">
+					<div class="profile__image_container">
+						<div v-if="!isImageLoaded" class="profile__image_loading">
+							<BaseSpinner />
+						</div>
+						<div v-show="isImageLoaded" class="profile__image_block relative">
+							<div class="profile-image-bg profile-image-hover" @click="openProfileImageChangeModal">
+								<div class="text-white">
+									<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+											d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+									</svg>
+								</div>
+							</div>
+							<img :src="userStore.currentUser.avatarUrl" @load="profileImageLoaded">
+						</div>
+						<div class="profile-image-title ">
+							{{ userStore.currentUser.fullName }}
+						</div>
 					</div>
-					<div v-show="isImageLoaded" class="profile__image_block relative">
-						<div class="profile-image-bg profile-image-hover" @click="openProfileImageChangeModal">
-							<div class="text-white">
-								<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-										d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-								</svg>
+					<div class="profile-info-container">
+						<div class="profile-info-subtitle">
+							<div class="profile-info-subtitle">
+								<span class="profile-info-title">Name: </span>{{ userStore.currentUser.fullName }}
+							</div>
+							<div class="profile-info-subtitle">
+								<span class="profile-info-title">Email: </span>{{ userStore.currentUser.email }}
 							</div>
 						</div>
-						<img :src="userStore.currentUser.avatarUrl" @load="profileImageLoaded">
-					</div>
-					<div class="profile-image-title ">
-						{{ userStore.currentUser.fullName }}
+						<div class="profile-info-subtitle">
+							<span class="profile-info-title">Role: </span>{{ userStore.currentUser.role }}
+						</div>
+						<div v-if="isStudent">
+							<div class="profile-info-subtitle">
+								<span class="profile-info-title">Course: </span>{{ courseName ||
+										"--"
+								}}
+							</div>
+							<div class="profile-info-subtitle">
+								<span class="profile-info-title">English level: </span>{{
+										userStore.currentUser.eng_level || "--"
+								}}
+							</div>
+							<div class="profile-info-subtitle">
+								<span class="profile-info-title">City: </span>{{ userStore.currentUser.city || "--" }}
+							</div>
+							<div class="profile-info-subtitle">
+								<span class="profile-info-title">Education: </span>{{ userStore.currentUser.education ||
+										"--"
+								}}
+							</div>
+							<div class="profile-info-subtitle">
+								<span class="profile-info-title">Phone number: </span>{{ userStore.currentUser.phone ||
+										"--"
+								}}
+							</div>
+						</div>
+						<div class="mt-7">
+							<BaseButton @click="openPasswordChangeModal" :variant="'btn_blue_outlined'">
+								Change password
+							</BaseButton>
+						</div>
 					</div>
 				</div>
-				<div class="profile-info-container">
-					<div class="profile-info-subtitle">
-						<div class="profile-info-subtitle">
-						<span class="profile-info-title">Name: </span>{{ userStore.currentUser.fullName }}
-					</div>
-					<div class="profile-info-subtitle">
-						<span class="profile-info-title">Email: </span>{{ userStore.currentUser.email }}
-					</div>
-					</div>
-					<div class="profile-info-subtitle">
-						<span class="profile-info-title">Role: </span>{{ userStore.currentUser.role }}
-					</div>
-					<div v-if="isStudent">
-						<div class="profile-info-subtitle">
-							<span class="profile-info-title">Course: </span>{{ userStore.currentUser.courseId || "--" }}
-						</div>
-						<div class="profile-info-subtitle">
-							<span class="profile-info-title">English level: </span>{{ userStore.currentUser.eng_level|| "--" }}
-						</div>
-						<div class="profile-info-subtitle">
-							<span class="profile-info-title">City: </span>{{ userStore.currentUser.city || "--" }}
-						</div>
-						<div class="profile-info-subtitle">
-							<span class="profile-info-title">Education: </span>{{ userStore.currentUser.education || "--" }}
-						</div>
-						<div class="profile-info-subtitle">
-							<span class="profile-info-title">Phone number: </span>{{ userStore.currentUser.phone || "--" }}
-						</div>
-					</div>
-					<div class="mt-7">
-						<BaseButton @click="openPasswordChangeModal" :variant="'btn_blue_outlined'">
-							Change password
-						</BaseButton>
-					</div>
-				</div>
+				<div />
 			</div>
-			<div />
+			<ChangeImageModal :toggle-modal="isChangeImageModalOpen" @onProfileImageChange="profileImageChanged" />
+			<ChangePasswordModal :toggle-modal="isChangePasswordModalOpen" />
 		</div>
-		<ChangeImageModal :toggle-modal="isChangeImageModalOpen" @onProfileImageChange="profileImageChanged" />
-		<ChangePasswordModal :toggle-modal="isChangePasswordModalOpen" />
 	</div>
-</div>
 </template>
   
 <script lang="ts">
@@ -78,6 +86,7 @@ import ChangePasswordModal from '../components/Modals/ChangePasswordModal.vue';
 import { ROLES } from '../models/router.model';
 import { useUserStore } from '../store/user';
 import { defineComponent } from 'vue';
+import { getCourseById } from '../api/course';
 export default defineComponent({
 	components: {
 		BaseButton,
@@ -89,7 +98,15 @@ export default defineComponent({
 			isChangePasswordModalOpen: false,
 			isChangeImageModalOpen: false,
 			isImageLoaded: false,
+			courseName: ""
 		};
+	},
+	async beforeMount() {
+		if (this.userStore.currentUser?.courseId) {
+			const course = await getCourseById(this.userStore.currentUser.courseId);
+			this.courseName = course.name;
+		}
+
 	},
 	computed: {
 		...mapStores(useUserStore),

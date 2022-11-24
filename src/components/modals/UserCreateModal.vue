@@ -20,7 +20,6 @@
 							<BaseInput v-model="confirmPassword" type="password" label="Confirm password"
 								placeholder="Confirm password" rules="required" />
 						</div>
-						<!-- WE CAN CHANGE COURSE IN TABLE -->
 						<div v-if="isStudent">
 							<label for="courses" class="block ml-1 font-semibold mt-2">Select Course</label>
 							<select id="courses" v-model="courseId" class="select__course">
@@ -139,7 +138,7 @@ export default defineComponent({
 			if (registerBody.role === ROLES.STUDENTS_ROLE) {
 				registerBody.courseId = this.courseId;
 			}
-
+			(this.$refs.userCreateModal as typeof BaseModal).closeModal();
 			switch (registerBody.role) {
 				case ROLES.STUDENTS_ROLE:
 					await this.studentStore.createStudent(registerBody)
@@ -151,8 +150,6 @@ export default defineComponent({
 					await this.adminStore.createAdmin(registerBody)
 					break;
 			}
-
-			(this.$refs.userCreateModal as typeof BaseModal).closeModal();
 		},
 		cancelUserCreateButton() {
 			(this.$refs.userCreateModal as typeof BaseModal).closeModal();

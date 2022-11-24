@@ -1,11 +1,11 @@
 <template>
 	<div class="result__container">
-		<div class="result__header flex">
-			<div>Results</div>
-			<div v-if="courseDetailsStore.resultWidgetLoading">...Loading...</div>
+		<div class="flex items-center">
+			<h2 class="result__header mr-3">Results</h2>
+			<Spinner v-if="courseDetailsStore.resultWidgetLoading"/>
 		</div>
 		<div>
-			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.results"
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.results" class="mt-5"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
 	</div>
@@ -19,11 +19,13 @@ import { useUserStore } from '../../store/user';
 import { updateResultById } from "../../api/results";
 import { Result } from "../../api/models/result.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
+import Spinner from "../baseComponents/spinner/Spinner.vue";
 
 export default {
 	components: {
-		BaseTableEditable,
-	},
+    BaseTableEditable,
+    Spinner
+},
 	props: {
 		courseId: {
 			type: String
@@ -181,6 +183,6 @@ export default {
 }
 
 .result__header {
-	@apply text-xl text-gray-700 mb-5
+	@apply text-xl text-gray-700
 }
 </style>

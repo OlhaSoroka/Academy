@@ -5,19 +5,6 @@
 				<div class="w-72">
 					<BaseInput v-model="courseToAdd.name" type="text" label="Course Name"
 					placeholder="Enter course name" rules="required" />
-					<BaseInput v-model="courseToAdd.date" type="date" label="Date of starting" rules="required" />
-					<BaseInput v-model="courseToAdd.date_project_start" type="date" label="Date of starting project" />
-					<BaseInput v-model="courseToAdd.date_project_demo" type="date" label="Date of demo" />
-					<BaseInput v-model="courseToAdd.date_final_interview" type="date" label="Date of final interview" />
-					<div>
-						<label for="status" class="block ml-1 font-semibold mt-2">Status</label>
-					</div>
-					<select id="status" v-model="courseToAdd.status"
-						class="course__select">
-						<option v-for="status in statuses" :key="status" :value="status">
-							{{ status }}
-						</option>
-					</select>
 					<div class="flex justify-evenly mt-5">
 						<div class="mx-2">
 							<BaseButton button-type="button" :disabled="!isFormValid(errors)" :variant="'btn_blue_outlined'"
@@ -33,7 +20,6 @@
 					</div>
 				</div>
 			</Form>
-
 		</template>
 	</BaseModal>
 </template>
@@ -74,14 +60,14 @@ export default defineComponent({
 	},
 	methods: {
 		isFormValid(errors: Partial<Record<string, string | undefined>>) {
-			return Object.keys(errors).length === 0 && this.courseToAdd.name && this.courseToAdd.date;
+			return Object.keys(errors).length === 0 && this.courseToAdd.name;
 		},
 		clearInputs() {
 			this.courseToAdd = new Course(uuidv4())
 		},
 		submitCourseCreateButton() {
-			const { name, date } = this.courseToAdd;
-			if (name && date) {
+			const { name } = this.courseToAdd;
+			if (name) {
 				this.coursesStore.createNewCourse(this.courseToAdd);
 				(this.$refs.courseCreateModal as typeof BaseModal).closeModal();
 			}

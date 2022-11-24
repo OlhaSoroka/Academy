@@ -1,17 +1,18 @@
-<template> 
+<template>
 	<div class="courses__container" v-if="currentCourse">
 		<h1 class="courses__header">Course Details</h1>
 		<h3 v-if="courseId" class="courses__subheader">
 			Details of {{ currentCourse.name }} course
 		</h3>
 		<nav class="courses__nav my-3">
-			<div>
-				<BaseButton class="courses__nav__btn" variant="btn_blue" @click="">
-					<ArrowUpIcon class="-rotate-90" />
-				</BaseButton>
-			</div>
-
-			<div class="nav__courses">
+			<router-link :to="{ name:COURSE_DASHBOARD }">
+				<div>
+					<BaseButton class="courses__nav__btn" variant="btn_blue">
+						<ArrowUpIcon class="-rotate-90" />
+					</BaseButton>
+				</div>
+			</router-link>
+			<div class="nav__courses" v-if="userStore.isAdmin || userStore.isMentor">
 				<div class="flex">
 					<BaseButton class="nav__btn mr-3" @click="">
 						<ArrowPrevIcon />
@@ -22,9 +23,7 @@
 				</div>
 			</div>
 		</nav>
-		<div v-if="courseDetailsStore.isCourseDetailsLoading">
-			Loading...
-		</div>
+		<Spinner v-if="courseDetailsStore.isCourseDetailsLoading"/>
 		<div v-else>
 			<div>
 				<MainInfoWidget :currentCourse="currentCourse"></MainInfoWidget>
@@ -50,6 +49,7 @@
 	</div>
 </template>
 <script lang="ts">
+import { ROUTE_NAMES } from '../models/router.model'
 import { mapStores } from 'pinia';
 import { Course } from '../api/models/course.model';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
@@ -64,10 +64,16 @@ import { useCourseDetailsStore } from '../store/course-details.store';
 import CommentWidget from '../components/widgets/CommentWidget.vue';
 import LecturesWidget from '../components/widgets/LecturesWidget.vue';
 import { useUserStore } from '../store/user';
+import Spinner from '../components/baseComponents/spinner/Spinner.vue';
 
 export default {
+	data() {
+		return {
+			COURSE_DASHBOARD: ROUTE_NAMES.COURSE_DASHBOARD,
+		};
+	},
 	computed: {
-		...mapStores(useCourseDetailsStore,useUserStore),
+		...mapStores(useCourseDetailsStore, useUserStore),
 		courseId(): string {
 			return this.$route.params.id as string;
 		},
@@ -75,7 +81,7 @@ export default {
 			return this.courseDetailsStore.selectedCourse[0];
 		}
 	},
-	components: { GroupWidget, ResultsWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget }
+	components: { GroupWidget, ResultsWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner }
 }
 </script>
 
@@ -97,6 +103,6 @@ export default {
 }
 
 .courses__nav__btn {
-	@apply w-fit mx-1 my-2;
+	@apply flex justify-center items-center;
 }
 </style>

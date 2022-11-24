@@ -1,10 +1,10 @@
 <template>
 	<div v-if="currentCourse" class="main__container">
-		<h2 class="main__header flex">
-			<div>Main Info</div>
-			<div v-if="courseDetailsStore.mainInfoWidgetLoading">...Loading...</div>
-		</h2>
-		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse"
+		<div class="flex items-center">
+			<h2 class="main__header mr-3">Main Info</h2>
+			<Spinner v-if="courseDetailsStore.mainInfoWidgetLoading"/>
+		</div>
+		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse" class="mt-5"
 			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"></BaseTableEditable>
 	</div>
 </template>
@@ -17,6 +17,8 @@ import BaseButton from '../baseComponents/BaseButton.vue';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue'
 import { getCourseById, updateCourseById } from '../../api/course';
 import { useCourseDetailsStore } from '../../store/course-details.store';
+import Spinner from '../baseComponents/spinner/Spinner.vue';
+import { useUserStore } from '../../store/user';
 export default {
 	props: {
 		currentCourse: {
@@ -35,55 +37,49 @@ export default {
 		};
 	},
 	computed: {
-		...mapStores(useCoursesStore, useCourseDetailsStore),
+		...mapStores(useCoursesStore, useCourseDetailsStore,useUserStore),
 	},
-	components: { BaseButton, BaseTableEditable },
+	components: { BaseButton, BaseTableEditable, Spinner },
 	beforeMount() {
 		this.columnDefs = [
 			{
 				field: "name",
 				headerName: "Name",
-				sortable: false,
-				editable: true,
+				editable: this.userStore.isAdmin,
 				width: 300,
 			},
 			{
-				field: "date",
+				field: "date_course_start",
 				headerName: "Date of starting course",
-				sortable: false,
-				editable: true,
+				editable: this.userStore.isAdmin,
 				width: 200,
 				date: true
 			},
 			{
 				field: "date_project_start",
 				headerName: "Date of starting project",
-				sortable: false,
-				editable: true,
+				editable: this.userStore.isAdmin,
 				width: 200,
 				date: true
 			},
 			{
 				field: "date_project_demo",
 				headerName: "Date of demo",
-				sortable: false,
-				editable: true,
+				editable: this.userStore.isAdmin,
 				width: 200,
 				date: true
 			},
 			{
 				field: "date_final_interview",
 				headerName: "Date of final interview",
-				sortable: false,
-				editable: true,
+				editable: this.userStore.isAdmin,
 				width: 200,
 				date: true
 			},
 			{
 				field: "status",
 				headerName: "Status",
-				sortable: false,
-				editable: true,
+				editable: this.userStore.isAdmin,
 				width: 200,
 				dropdown: true,
 				options: [
@@ -113,7 +109,7 @@ export default {
 }
 
 .main__header {
-	@apply text-xl text-gray-700 mb-5;
+	@apply text-xl text-gray-700 ;
 }
 
 .nav__btn {

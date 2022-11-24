@@ -1,9 +1,9 @@
 <template>
-	<div class="material__container">
+	<div class="comment__container">
 		<div class="flex align-middle justify-between">
-			<div class="material__header flex">
-				<div>Comments</div>
-				<div v-if="courseDetailsStore.commentsWidgetLoading">...Loading...</div>
+			<div class="flex items-center">
+				<h2 class="comment__header mr-3">Comments</h2>
+				<Spinner v-if="courseDetailsStore.commentsWidgetLoading"/>
 			</div>
 			<div>
 				<BaseButton @click="openModal()">
@@ -12,8 +12,8 @@
 			</div>
 		</div>
 		<div class="mt-4">
-			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.comments"
-				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.comments" class="mt-5"			
+			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
 				@deleteRow="onCommentDelete($event)" />
 		</div>
 		<CreateCommentModal :toggle-modal="isModalOpen" @commentsAdded="onNewCommentAdded" />
@@ -33,13 +33,15 @@ import { useCourseDetailsStore } from "../../store/course-details.store";
 import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
 import { Comment } from "../../api/models/comment.model";
 import { deleteComment, updateCommentById } from "../../api/comments";
+import Spinner from "../baseComponents/spinner/Spinner.vue";
 export default {
 	components: {
-		BaseTableEditable,
-		BaseButton,
-		PlusIcon,
-		CreateCommentModal,
-	},
+    BaseTableEditable,
+    BaseButton,
+    PlusIcon,
+    CreateCommentModal,
+    Spinner
+},
 	props: {
 		currentCourse: {
 			type: Object as PropType<Course>
@@ -73,11 +75,11 @@ export default {
 			if (this.userStore.user) {
 				return this.userStore.user.role === ROLES.STUDENTS_ROLE
 			}
-		}
+		},
 	},
 	beforeMount() {
 		this.columnDefs = [
-			{ field: "message", headerName: "Message", sortable: true, editable: this.isAdmin || this.isMentor, width: 400 },
+			{ field: "message", headerName: "Message", sortable: true, editable: false, checkAuthor:true, currentUserId:this.userStore.currentUser?.id , width: 400 },
 			{ field: "author", headerName: "Author", sortable: true, editable: false, width: 400 },
 			{ field: "createdAt", headerName: "Date", sortable: true, editable: false, width: 400 },
 			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true }
@@ -104,11 +106,11 @@ export default {
 </script>
   
 <style lang="postcss" scoped>
-.material__container {
+.comment__container {
 	@apply shadow-md bg-stone-50 border border-stone-300 rounded-md p-14 w-full;
 }
 
-.material__header {
+.comment__header {
 	@apply text-xl text-gray-700
 }
 </style>

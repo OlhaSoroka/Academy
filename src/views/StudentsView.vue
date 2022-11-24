@@ -1,8 +1,11 @@
 <template>
     <div class="students__container">
         <div class="students___header_container">
-            <h1 class="students__header">Students Dashboard <span v-if="studentStore.isStudentLoading">Loading...</span>
-            </h1>
+            <div class="flex items-center">
+                <h1 class="students__header mr-3">Students Dashboard
+                </h1>
+                <Spinner v-if="studentStore.isStudentLoading" />
+            </div>
             <div>
                 <BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addStudent">Add new student
                 </BaseButton>
@@ -10,7 +13,7 @@
         </div>
         <div class="students_widget">
             <BaseTableEditable :column-defs="columnDefs" :row-data="studentStore.allStudents" uniq-identifier="id"
-                @deleteRow="onStudentDelete($event)" />
+                @deleteRow="onStudentDelete($event)" @cellValueChanged="onStudentEdit($event)" />
         </div>
         <UserCreateModal :toggle-modal="isAddStudentModalOpen" :role="'student'" :header="'Add new student'">
         </UserCreateModal>
@@ -23,12 +26,17 @@ import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useStudentStore } from '../store/students';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
 import { useUserStore } from '../store/user';
+import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import { useCoursesStore } from '../store/courses';
+import { SelectItem } from '../models/options.model';
+import { AppUser } from '../api/models/user.model';
 
 export default {
-    components: { UserCreateModal, BaseButton, BaseTableEditable },
+    components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
 
     mounted() {
         this.studentStore.fetchStudents();
+        this.coursesStore.fetchCourses();
     },
     data(): {
         columnDefs: any,
@@ -40,33 +48,45 @@ export default {
             columnDefs: []
         };
     },
-    beforeMount() {
-        if (this.userStore.isStudent) {
-            this.columnDefs = [
-                { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-                { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 },
-                { field: "course", headerName: "Course", sortable: true, editable: false, minWidth: 150, width: 200 },
-            ]
-        }
-        if (this.userStore.isAdmin || this.userStore.isMentor) {
-            this.columnDefs = [
-                { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-                { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 },
-                { field: "course", headerName: "Course", sortable: true, editable: false, minWidth: 150, width: 200 },
-                { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
-            ]
-        }
-    },
     methods: {
         addStudent() {
             this.isAddStudentModalOpen = !this.isAddStudentModalOpen;
         },
         async onStudentDelete(studentId: string) {
             this.studentStore.deleteStudent(studentId);
-        }
+        },
+        async onStudentEdit(event: { uniqIdentifier: string, data: AppUser }) {
+            this.studentStore.updateStudentCourse(event.data, event.data.course!);
+            this.studentStore.fetchStudents();
+        },
     },
     computed: {
-        ...mapStores(useStudentStore, useUserStore),
+        ...mapStores(useStudentStore, useUserStore, useCoursesStore),
+        columnDefs() {
+            const courseDropdownOptions: SelectItem[] = this.coursesStore.allCourses.map(course => {
+                return {
+                    label: course.name,
+                    value: course.id
+                }
+            })
+
+            if (this.userStore.isStudent) {
+                return [
+                    { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
+                    { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 },
+                    { field: "course", headerName: "Course", sortable: true, editable: false, minWidth: 150, width: 200 },
+                ]
+            }
+            if (this.userStore.isAdmin || this.userStore.isMentor) {
+                return [
+                    { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
+                    { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 },
+                    { field: "course", headerName: "Course", sortable: true, editable: true, dropdown: true, options: courseDropdownOptions, minWidth: 150, width: 200 },
+                    { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
+                ]
+            }
+            return []
+        }
     }
 
 }

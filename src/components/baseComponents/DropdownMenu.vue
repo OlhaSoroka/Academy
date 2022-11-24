@@ -1,4 +1,4 @@
-<template>
+<template> 
 	<div class="dropdown__container" @click="onLinkClick" >
 		<router-link :to="{ name: PROFILE }">
 			<div class="dropdown__item">
@@ -38,7 +38,7 @@ export default {
 }
 
 .dropdown__item {
-	@apply h-1/2 flex p-3 hover:bg-primary-200
+	@apply h-1/2 flex p-3 hover:bg-primary-200 cursor-pointer
 }
 </style>
 
