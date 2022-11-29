@@ -12,9 +12,6 @@
 					</BaseButton>
 				</div>
 			</router-link>
-			<!-- <div>
-				<button class="bg-red-500 text-white p-2" @click="scrollToWidget('commentWidget')">Comments</button>
-			</div> -->
 			<div class="nav__courses" v-if="userStore.isAdmin || userStore.isMentor">
 				<div class="flex">
 					<BaseButton class="nav__btn mr-3" @click="">
@@ -26,27 +23,53 @@
 				</div>
 			</div>
 		</nav>
+		<div class="flex justify-center items-center pr-32 pl-32 ">
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('mainInfoWidget')">Main Info</BaseButton>
+			</div>
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('groupWidget')">Group</BaseButton>
+			</div>
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultEntryWidget')">Entry Results</BaseButton>
+			</div>
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultExitWidget')">Exit Results</BaseButton>
+			</div>
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('lectureWidget')">Lectures</BaseButton>
+			</div>
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('materialWidget')">Materials</BaseButton>
+			</div>
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('documentWidget')">Documents</BaseButton>
+			</div>
+			<div>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('commentWidget')">Comments</BaseButton>
+			</div>
+		</div>
 		<Spinner v-if="courseDetailsStore.isCourseDetailsLoading" />
 		<div v-else>
-			<div>
+			<div id="mainInfoWidget" class="mt-10">
 				<MainInfoWidget :currentCourse="currentCourse"></MainInfoWidget>
 			</div>
-			<div class="mt-10">
+			<div id="groupWidget" class="mt-10">
 				<GroupWidget :currentCourse="currentCourse" />
 			</div>
-			<div class="mt-10">
+			<div id="resultEntryWidget" class="mt-10">
 				<ResultsEntryWidget v-if="userStore.isAdmin" :courseId="courseId" />
 			</div>
-			<div class="mt-10">
+			<div id="resultExitWidget" class="mt-10">
 				<ResultsExitWidget v-if="userStore.isAdmin" :courseId="courseId" />
 			</div>
-			<div class="mt-10">
+			<div id="lectureWidget" class="mt-10">
 				<LecturesWidget :currentCourse="currentCourse" />
 			</div>
-			<div class="mt-10">
+			<div id="materialWidget" class="mt-10">
 				<MaterialWidget :currentCourse="currentCourse" />
 			</div>
-			<div id="commentWidget" class="mt-10">
+			<div id="documentWidget" class="mt-10">
 				<DocumentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
 			</div>
 			<div id="commentWidget" class="mt-10">
@@ -101,7 +124,7 @@ export default {
 			}
 		}
 	},
-	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget ,DocumentWidget }
+	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget, DocumentWidget }
 }
 </script>
 
