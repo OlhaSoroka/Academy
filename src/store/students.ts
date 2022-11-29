@@ -12,8 +12,10 @@ import {
 } from "../api/user";
 import { ROLES } from "../models/router.model";
 import { ToastType, useToastStore } from "./toast.store";
-import { createResult, deleteStudentResults } from "../api/results";
-import { Result } from "../api/models/result.model";
+import { createEntryResult, deleteStudentEntryResults } from "../api/entry_results";
+import { createExitResult, deleteStudentExitResults } from "../api/exit_results";
+import { EntryResult } from "../api/models/result.model";
+import { ExitResult } from "../api/models/result.model";
 import { getCoursesHomeworks, updateHomeworkById } from "../api/homework";
 
 interface StudentStoreState {
@@ -84,8 +86,11 @@ const useStudentStore = defineStore("student", {
         if (student && student.courseId) {
           studentCourse = await getCourseById(student.courseId);
           if (studentCourse && student) {
-            await createResult(
-              new Result(uuidv4(), student.id, studentCourse.id),
+            await createEntryResult(
+              new EntryResult(uuidv4(), student.id, studentCourse.id),
+            );
+            await createExitResult(
+              new ExitResult(uuidv4(), student.id, studentCourse.id),
             );
             const courseHomeworks = await getCoursesHomeworks(studentCourse.id);
             const promisesArray: Promise<boolean>[] = [];
@@ -120,9 +125,13 @@ const useStudentStore = defineStore("student", {
           ...studentToUpdate,
           courseId: newCourseId,
         });
-        await deleteStudentResults(studentToUpdate.id);
-        await createResult(
-          new Result(uuidv4(), studentToUpdate.id, newCourseId),
+        await deleteStudentEntryResults(studentToUpdate.id);
+        await deleteStudentExitResults(studentToUpdate.id);
+        await createEntryResult(
+          new EntryResult(uuidv4(), studentToUpdate.id, newCourseId),
+        );
+        await createExitResult(
+          new ExitResult(uuidv4(), studentToUpdate.id, newCourseId),
         );
 
         const oldCourseHomeworks = await getCoursesHomeworks(
@@ -183,7 +192,8 @@ const useStudentStore = defineStore("student", {
             );
           }
           await Promise.all(deleteHomeworkPromises);
-          await deleteStudentResults(studentId);
+          await deleteStudentEntryResults(studentId);
+          await deleteStudentExitResults(studentId);
           await deleteUserById(studentId);
 
           const toastStore = useToastStore();

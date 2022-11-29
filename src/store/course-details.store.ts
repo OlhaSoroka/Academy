@@ -5,10 +5,12 @@ import { Course } from "../api/models/course.model";
 import { Material } from "../api/models/material.model";
 import { Comment } from "../api/models/comment.model";
 import { AppUser } from "../api/models/user.model";
-import { getResultsByCourse } from "../api/results";
+import { getEntryResultsByCourse } from "../api/entry_results";
+import { getExitResultsByCourse } from "../api/exit_results";
 import { getMentorsAndAdmins, getStudentsByCourse } from "../api/user";
 import { getCommentsByCourse } from "../api/comments";
-import { Result } from "../api/models/result.model";
+import { EntryResult } from "../api/models/result.model";
+import { ExitResult } from "../api/models/result.model";
 import { getLectureByCourse } from "../api/lectures";
 import { Lecture } from "../api/models/lecture.model";
 import { LectureHomework } from "../api/models/homework.model";
@@ -17,7 +19,8 @@ import { getCoursesHomeworks, getHomeworksByLecture } from "../api/homework";
 interface CourseDetailsStoreState {
   _mainInfo: Course[];
   _group: AppUser[];
-  _results: Result[];
+  _entryResults: EntryResult[];
+  _exitResults: ExitResult[];
   _materials: Material[];
   _comments: Comment[];
   _lectures: Lecture[];
@@ -39,7 +42,8 @@ const useCourseDetailsStore = defineStore("courseDetails", {
     return {
       _mainInfo: [],
       _group: [],
-      _results: [],
+      _entryResults:[],
+      _exitResults:[],
       _materials: [],
       _comments: [],
       _lectures: [],
@@ -60,7 +64,8 @@ const useCourseDetailsStore = defineStore("courseDetails", {
     selectedCourse: (state) => state._mainInfo,
     selectedCourseId: (state) => state._mainInfo[0].id,
     group: (state) => state._group,
-    results: (state) => state._results,
+    entryResults: (state) =>state._entryResults,
+    exitResults: (state) =>state._exitResults,
     materials: (state) => state._materials,
     comments: (state) => state._comments,
     lectures: (state) => state._lectures,
@@ -84,19 +89,28 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._mainInfo = [course];
       const materials = await getMaterialsByCourse(course.id);
       const group = await getStudentsByCourse(course.id);
-      const results = await getResultsByCourse(course.id);
+      const exitResults= await getExitResultsByCourse(course.id);
+      const entryResults= await getEntryResultsByCourse(course.id);
       const comments = await getCommentsByCourse(course.id);
       const lectures = await getLectureByCourse(course.id);
       const adminAndMentors = await getMentorsAndAdmins();
       this._materials = materials;
       this._group = group;
       this._mentors = adminAndMentors;
-      this._results = results.map((result) => {
-        result.student = group.find(
-          (student) => student.id === result.studentId,
+  
+      this._entryResults = entryResults.map((entryResults) => {
+        entryResults.student = group.find(
+          (student) => student.id === entryResults.studentId,
         )?.fullName;
-        return result;
+        return entryResults;
       });
+      this._exitResults = exitResults.map((exitResults) => {
+        exitResults.student = group.find(
+          (student) => student.id === exitResults.studentId,
+        )?.fullName;
+        return exitResults;
+      });
+
       this._comments = comments.map((comment) => {
         comment.author = adminAndMentors.find(
           (user) => user.id === comment.authorId,
@@ -112,7 +126,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         )?.fullName!;
         return lecture;
       });
-
       this._courseDetailsLoading = false;
     },
     async updatedCourseInfo() {
@@ -145,14 +158,23 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._groupWidgetLoading = true;
       this._resultWidgetLoading = true;
       const group = await getStudentsByCourse(this.selectedCourseId);
-      const results = await getResultsByCourse(this.selectedCourseId);
+      const exitResults= await getExitResultsByCourse(this.selectedCourseId);
+      const entryResults= await getEntryResultsByCourse(this.selectedCourseId);
       this._group = group;
-      this._results = results.map((result) => {
-        result.student = group.find(
-          (student) => student.id === result.studentId,
+      this._entryResults = entryResults.map((entryResults) => {
+        entryResults.student = group.find(
+          (student) => student.id === entryResults.studentId,
         )?.fullName;
-        return result;
+        return entryResults;
       });
+      this._exitResults = exitResults.map((exitResults) => {
+        exitResults.student = group.find(
+          (student) => student.id === exitResults.studentId,
+        )?.fullName;
+        return exitResults;
+      });
+
+
       this._groupWidgetLoading = false;
       this._resultWidgetLoading = false;
     },

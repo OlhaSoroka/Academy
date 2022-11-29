@@ -70,6 +70,8 @@ export default {
 						{ label: EnglishLevel.PROFICIENT, value: EnglishLevel.PROFICIENT },
 					]
 				},
+				{ field: "cv_link", headerName: "CV link", headerEditable: false, sortable: false, editable: this.userStore.isAdmin,link:true, width: 250 },
+
 			]
 		}
 	},

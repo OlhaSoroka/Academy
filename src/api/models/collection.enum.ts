@@ -5,5 +5,7 @@ export enum Collection {
   HOMEWORKS = "homeworks",
   COMMENTS = "comments",
   MATERIALS = "materials",
-  LECTURES= "lectures"
+  LECTURES= "lectures",
+  ENTRY_RESULTS="entry_results",
+  EXIT_RESULTS="exit_results"
 }
