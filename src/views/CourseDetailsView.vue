@@ -47,6 +47,9 @@
 				<MaterialWidget :currentCourse="currentCourse" />
 			</div>
 			<div id="commentWidget" class="mt-10">
+				<DocumentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
+			</div>
+			<div id="commentWidget" class="mt-10">
 				<CommentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
 			</div>
 		</div>
@@ -70,6 +73,7 @@ import { useUserStore } from '../store/user';
 import Spinner from '../components/baseComponents/spinner/Spinner.vue';
 import ResultsEntryWidget from '../components/widgets/ResultsEntryWidget.vue';
 import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
+import DocumentWidget from '../components/widgets/DocumentWidget.vue';
 
 export default {
 	data() {
@@ -97,7 +101,7 @@ export default {
 			}
 		}
 	},
-	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget }
+	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget ,DocumentWidget }
 }
 </script>
 

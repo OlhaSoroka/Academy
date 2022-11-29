@@ -1,9 +1,9 @@
 <template>
-	<div class="material__container ">
+	<div class="document__container ">
 		<div class="flex align-middle justify-between">
 			<div class="flex items-center">
-				<h2 class="material__header mr-3">Materials</h2>
-				<Spinner v-if="courseDetailsStore.materialsWidgetLoading"/>
+				<h2 class="document__header mr-3">Documents</h2>
+				<Spinner v-if="courseDetailsStore.documentsWidgetLoading"/>
 			</div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
@@ -12,11 +12,11 @@
 			</div>
 		</div>
 		<div class="mt-5">
-			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.materials"
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.documents"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
-				@deleteRow="onMaterialDelete($event)" />
+				@deleteRow="onDocumentDelete($event)" />
 		</div>
-		<CreateMaterialModal :toggle-modal="isModalOpen" @materialAdded="onNewMaterialAdded" />
+		<CreateDocumentModal :toggle-modal="isModalOpen" @documentAdded="onNewDocumentAdded" />
 	</div>
 </template>
 
@@ -28,18 +28,18 @@ import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
 import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
-import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialModal.vue";
-import { deleteMaterial,updateMaterialById } from "../../api/materials";
-import { Material } from "../../api/models/material.model";
+import { deleteDocument, updateDocumentById } from "../../api/document";
+import { Document } from "../../api/models/documents.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import Spinner from "../baseComponents/spinner/Spinner.vue";
+import CreateDocumentModal from "../modals/CourseDetailsModals/CreateDocumentModal.vue";
 export default {
 	components: {
     BaseTableEditable,
     BaseButton,
     PlusIcon,
-    CreateMaterialModal,
-    Spinner
+    Spinner,
+    CreateDocumentModal
 },
 	props: {
 		currentCourse: {
@@ -63,43 +63,43 @@ export default {
 	beforeMount() {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Materials name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
-				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
+				{ field: "name", headerName: "Document name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
+				{ field: "link", headerName: "Document link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Materials name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
-				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
+				{ field: "name", headerName: "Document name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
+				{ field: "link", headerName: "Document link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
 			]
 		}
 	},
 	methods: {
-		async onCellEdit(event: { uniqIdentifier: string, data: Material }) {
-			await updateMaterialById(event.uniqIdentifier, event.data);
-			this.courseDetailsStore.updatedMaterials();
+		async onCellEdit(event: { uniqIdentifier: string, data: Document }) {
+			await updateDocumentById(event.uniqIdentifier, event.data);
+			this.courseDetailsStore.updatedDocuments();
 		},
 		openModal() {
 			this.isModalOpen = !this.isModalOpen;
 		},
-		onNewMaterialAdded() {
-			this.courseDetailsStore.updatedMaterials();
+		onNewDocumentAdded() {
+			this.courseDetailsStore.updatedDocuments();
 		},
-		async onMaterialDelete(materialId: string) {
-			await deleteMaterial(materialId);
-			this.courseDetailsStore.updatedMaterials();
+		async onDocumentDelete(materialId: string) {
+			await deleteDocument(materialId);
+			this.courseDetailsStore.updatedDocuments();
 		}
 	}
 };
 </script>
   
 <style lang="scss" scoped>
-.material__container {
+.document__container {
 	@apply shadow-md bg-stone-50 border border-stone-300 rounded-md p-14 w-full;
 }
 
-.material__header {
+.document__header {
 	@apply text-xl text-gray-700
 }
 </style>
