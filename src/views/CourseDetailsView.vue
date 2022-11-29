@@ -5,13 +5,16 @@
 			Details of {{ currentCourse.name }} course
 		</h3>
 		<nav class="courses__nav my-3">
-			<router-link :to="{ name:COURSE_DASHBOARD }">
+			<router-link :to="{ name: COURSE_DASHBOARD }">
 				<div>
 					<BaseButton class="courses__nav__btn" variant="btn_blue">
 						<ArrowUpIcon class="-rotate-90" />
 					</BaseButton>
 				</div>
 			</router-link>
+			<!-- <div>
+				<button class="bg-red-500 text-white p-2" @click="scrollToWidget('commentWidget')">Comments</button>
+			</div> -->
 			<div class="nav__courses" v-if="userStore.isAdmin || userStore.isMentor">
 				<div class="flex">
 					<BaseButton class="nav__btn mr-3" @click="">
@@ -23,7 +26,7 @@
 				</div>
 			</div>
 		</nav>
-		<Spinner v-if="courseDetailsStore.isCourseDetailsLoading"/>
+		<Spinner v-if="courseDetailsStore.isCourseDetailsLoading" />
 		<div v-else>
 			<div>
 				<MainInfoWidget :currentCourse="currentCourse"></MainInfoWidget>
@@ -32,7 +35,10 @@
 				<GroupWidget :currentCourse="currentCourse" />
 			</div>
 			<div class="mt-10">
-				<ResultsWidget v-if="userStore.isAdmin" :courseId="courseId" />
+				<ResultsEntryWidget v-if="userStore.isAdmin" :courseId="courseId" />
+			</div>
+			<div class="mt-10">
+				<ResultsExitWidget v-if="userStore.isAdmin" :courseId="courseId" />
 			</div>
 			<div class="mt-10">
 				<LecturesWidget :currentCourse="currentCourse" />
@@ -40,12 +46,10 @@
 			<div class="mt-10">
 				<MaterialWidget :currentCourse="currentCourse" />
 			</div>
-			<div class="mt-10">
+			<div id="commentWidget" class="mt-10">
 				<CommentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
 			</div>
 		</div>
-
-
 	</div>
 </template>
 <script lang="ts">
@@ -58,13 +62,14 @@ import ArrowPrevIcon from '../components/baseComponents/icons/ArrowPrevIcon.vue'
 import ArrowUpIcon from '../components/baseComponents/icons/ArrowUpIcon.vue';
 import GroupWidget from '../components/widgets/GroupWidget.vue';
 import MainInfoWidget from '../components/widgets/MainInfoWidget.vue';
-import ResultsWidget from '../components/widgets/ResultsWidget.vue';
 import MaterialWidget from '../components/widgets/MaterialWidget.vue'
 import { useCourseDetailsStore } from '../store/course-details.store';
 import CommentWidget from '../components/widgets/CommentWidget.vue';
 import LecturesWidget from '../components/widgets/LecturesWidget.vue';
 import { useUserStore } from '../store/user';
 import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import ResultsEntryWidget from '../components/widgets/ResultsEntryWidget.vue';
+import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
 
 export default {
 	data() {
@@ -81,7 +86,18 @@ export default {
 			return this.courseDetailsStore.selectedCourse[0];
 		}
 	},
-	components: { GroupWidget, ResultsWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner }
+	methods: {
+		scrollToWidget(widgetId: string): void {
+			const widget = document.getElementById(widgetId);
+			if (widget) {
+				widget.scrollIntoView({
+					behavior: "smooth",
+					block: "center"
+				})
+			}
+		}
+	},
+	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget }
 }
 </script>
 

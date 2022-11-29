@@ -1,14 +1,13 @@
 <template>
 	<div class="result__container">
 		<div class="flex items-center">
-			<h2 class="result__header mr-3">Results</h2>
-			<Spinner v-if="courseDetailsStore.resultWidgetLoading"/>
+			<h2 class="result__header mr-3">Entry Results</h2>
+			<Spinner v-if="courseDetailsStore.resultWidgetLoading" />
 		</div>
 		<div>
-			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.results" class="mt-5"
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.entryResults" class="mt-5"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
-		<ResultEntryWidget></ResultEntryWidget>
 	</div>
 </template>
 	
@@ -17,17 +16,16 @@ import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
-import { updateResultById } from "../../api/results";
-import ResultEntryWidget from "../../components/widgets/ResultEntryWidget.vue"
+import { updateEntryResultById } from "../../api/entry_results";
+import { EntryResult } from "../../api/models/result.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import Spinner from "../baseComponents/spinner/Spinner.vue";
 
 export default {
 	components: {
-    BaseTableEditable,
-    Spinner,
-	ResultEntryWidget
-},
+		BaseTableEditable,
+		Spinner
+	},
 	props: {
 		courseId: {
 			type: String
@@ -95,92 +93,60 @@ export default {
 			},
 			{
 				field: "total_with_eng",
-				headerName: "Total",
+				headerName: "Total with English",
 				sortable: true,
 				editable: true,
 				width: 100,
 				solid: true
 			},
 			{
-				field: "interview_result",
-				headerName: "Interview",
+				field: "entry_tech_interview",
+				headerName: "Tech Interview",
 				sortable: true,
 				editable: this.isAdmin || this.isMentor,
 				width: 120,
 			},
 			{
-				field: "interviewer_comments",
+				field: "total_with_interview",
+				headerName: "Total with interview",
+				sortable: true,
+				editable: this.isAdmin || this.isMentor,
+				width: 120,
+				solid: true
+			},
+			{
+				field: "entry_tech_interviewer_comment",
 				headerName: "Interviewer comments",
 				sortable: false,
 				editable: this.isAdmin || this.isMentor,
 				width: 250,
 			},
 			{
-				field: "hr_interviewer_comments",
+				field: "entry_hr_interviewer_comments",
 				headerName: "HR interviewer comments",
 				sortable: false,
 				editable: this.isAdmin,
 				width: 250,
 			},
-			{
-				field: "average_homework_score",
-				headerName: "Average homework score",
-				sortable: true,
-				editable: false,
-				width: 120,
-			},
-			{
-				field: "mentors_feedback",
-				headerName: "Mentor's Feedback",
-				sortable: false,
-				editable: this.isAdmin || this.isMentor,
-				width: 250,
-			},
-			{
-				field: "exit_tech_interview",
-				headerName: "Exit Tech interview",
-				sortable: true,
-				editable: this.isAdmin || this.isMentor,
-				width: 120,
-			},
-			{
-				field: "final_interviewer_comments",
-				headerName: "Interviewer comments",
-				sortable: false,
-				editable: this.isAdmin || this.isMentor,
-				width: 250,
-			},
-			{
-				field: "final_hr_interviewer_comments",
-				headerName: "HR Interviewer comment",
-				sortable: false,
-				editable: this.isAdmin,
-				width: 250,
 
-			},
-			{
-				field: "final_english_interviewer_comments",
-				headerName: "English Interviewer comment",
-				sortable: false,
-				editable: this.isAdmin,
-				width: 250,
-			},
 		];
 	},
 	methods: {
-		async onCellEdit(event: { uniqIdentifier: string, data: Result }) {
-			
+		async onCellEdit(event: { uniqIdentifier: string, data: EntryResult }) {
+event.data.start_total= `${Number(event.data.multiple_choice) + Number(event.data.tech_task)}`;
+event.data.total_with_eng=`${Number(event.data.start_total) + Number(event.data.eng_test)}`;
+event.data.total_with_interview=`${Number(event.data.total_with_eng) + Number(event.data.entry_tech_interview)}`;
 			await this.updateResult(event);
 		},
-		async updateResult(event: { uniqIdentifier: string, data: Result }): Promise<void> {
-			await updateResultById(event.uniqIdentifier, event.data);
+		async updateResult(event: { uniqIdentifier: string, data: EntryResult }): Promise<void> {
+			await updateEntryResultById(event.uniqIdentifier, event.data);
 			this.courseDetailsStore.updatedGroupOrResult();
 		}
 	},
 
 };
 </script>
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 .result__container {
 	@apply shadow-md bg-stone-50 border border-stone-300 rounded-md p-14 w-full;
 }

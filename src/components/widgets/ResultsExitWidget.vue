@@ -1,11 +1,11 @@
 <template>
 	<div class="result__container">
 		<div class="flex items-center">
-			<h2 class="result__header mr-3">Entry</h2>
+			<h2 class="result__header mr-3">Exit Results</h2>
 			<Spinner v-if="courseDetailsStore.resultWidgetLoading" />
 		</div>
 		<div>
-			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.results" class="mt-5"
+			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.exitResults" class="mt-5"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>
 	</div>
@@ -16,8 +16,8 @@ import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
-import { updateResultById } from "../../api/results";
-import { EntryResult } from "../../api/models/result.model";
+import { updateExitResultById } from "../../api/exit_results";
+import { ExitResult } from "../../api/models/result.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import Spinner from "../baseComponents/spinner/Spinner.vue";
 
@@ -63,80 +63,57 @@ export default {
 				width: 300,
 			},
 			{
-				field: "multiple_choice",
-				headerName: "Multiple choice",
+				field: "average_homework_score",
+				headerName: "Average homework score",
 				sortable: true,
-				editable: this.isAdmin,
+				editable: false,
 				width: 120,
 			},
 			{
-				field: "tech_task",
-				headerName: "Tech Task",
-				sortable: true,
-				editable: this.isAdmin,
-				width: 100,
+				field: "mentors_feedback",
+				headerName: "Mentor's Feedback",
+				sortable: false,
+				editable: this.isAdmin || this.isMentor,
+				width: 250,
 			},
 			{
-				field: "start_total",
-				headerName: "Total",
-				sortable: true,
-				editable: true,
-				width: 100,
-				solid: true
-			},
-			{
-				field: "eng_test",
-				headerName: "English Test",
-				sortable: true,
-				editable: this.isAdmin,
-				width: 100,
-			},
-			{
-				field: "total_with_eng",
-				headerName: "Total with eng",
-				sortable: true,
-				editable: true,
-				width: 100,
-				solid: true
-			},
-			{
-				field: "entry_tech_interview",
-				headerName: "Interview",
+				field: "exit_tech_interview",
+				headerName: "Tech interview",
 				sortable: true,
 				editable: this.isAdmin || this.isMentor,
 				width: 120,
 			},
 			{
-				field: "total_with_interview",
-				headerName: "Total with interview",
-				sortable: true,
-				editable: this.isAdmin || this.isMentor,
-				width: 120,
-			},
-			{
-				field: "entry_tech_interviewer_comments",
+				field: "final_interviewer_comments",
 				headerName: "Interviewer comments",
 				sortable: false,
 				editable: this.isAdmin || this.isMentor,
 				width: 250,
 			},
 			{
-				field: "entry_hr_interviewer_comments",
-				headerName: "HR interviewer comments",
+				field: "final_hr_interviewer_comments",
+				headerName: "HR Interviewer comment",
+				sortable: false,
+				editable: this.isAdmin,
+				width: 250,
+
+			},
+			{
+				field: "final_english_interviewer_comments",
+				headerName: "English Interviewer comment",
 				sortable: false,
 				editable: this.isAdmin,
 				width: 250,
 			},
-
 		];
 	},
 	methods: {
-		async onCellEdit(event: { uniqIdentifier: string, data: EntryResult }) {
+		async onCellEdit(event: { uniqIdentifier: string, data: ExitResult }) {
 
 			await this.updateResult(event);
 		},
-		async updateResult(event: { uniqIdentifier: string, data: EntryResult }): Promise<void> {
-			await updateResultById(event.uniqIdentifier, event.data);
+		async updateResult(event: { uniqIdentifier: string, data: ExitResult }): Promise<void> {
+			await updateExitResultById(event.uniqIdentifier, event.data);
 			this.courseDetailsStore.updatedGroupOrResult();
 		}
 	},

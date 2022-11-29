@@ -89,7 +89,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._mainInfo = [course];
       const materials = await getMaterialsByCourse(course.id);
       const group = await getStudentsByCourse(course.id);
-      const results = await getResultsByCourse(course.id);
       const exitResults= await getExitResultsByCourse(course.id);
       const entryResults= await getEntryResultsByCourse(course.id);
       const comments = await getCommentsByCourse(course.id);
@@ -127,7 +126,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         )?.fullName!;
         return lecture;
       });
-
       this._courseDetailsLoading = false;
     },
     async updatedCourseInfo() {
@@ -160,14 +158,23 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._groupWidgetLoading = true;
       this._resultWidgetLoading = true;
       const group = await getStudentsByCourse(this.selectedCourseId);
-      const results = await getResultsByCourse(this.selectedCourseId);
+      const exitResults= await getExitResultsByCourse(this.selectedCourseId);
+      const entryResults= await getEntryResultsByCourse(this.selectedCourseId);
       this._group = group;
-      this._results = results.map((result) => {
-        result.student = group.find(
-          (student) => student.id === result.studentId,
+      this._entryResults = entryResults.map((entryResults) => {
+        entryResults.student = group.find(
+          (student) => student.id === entryResults.studentId,
         )?.fullName;
-        return result;
+        return entryResults;
       });
+      this._exitResults = exitResults.map((exitResults) => {
+        exitResults.student = group.find(
+          (student) => student.id === exitResults.studentId,
+        )?.fullName;
+        return exitResults;
+      });
+
+
       this._groupWidgetLoading = false;
       this._resultWidgetLoading = false;
     },

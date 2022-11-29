@@ -63,10 +63,17 @@
 								}}
 							</div>
 						</div>
-						<div class="mt-7">
-							<BaseButton @click="openPasswordChangeModal" :variant="'btn_blue_outlined'">
-								Change password
-							</BaseButton>
+						<div class="mt-7 flex items-center">
+							<div v-if="shouldCvShow" class="mr-2">
+								<BaseButton @click="openCv(userStore.currentUser?.cv_link)" :variant="'btn_blue_outlined'">
+									CV
+								</BaseButton>
+							</div>
+							<div>
+								<BaseButton @click="openPasswordChangeModal" :variant="'btn_blue_outlined'">
+									Change password
+								</BaseButton>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -113,6 +120,9 @@ export default defineComponent({
 		isStudent() {
 			return this.userStore.currentUser!.role === ROLES.STUDENTS_ROLE;
 		},
+		shouldCvShow(): boolean {
+			return !!this.userStore.currentUser?.cv_link && this.isStudent;
+		}
 	},
 	methods: {
 		profileImageLoaded() {
@@ -127,6 +137,11 @@ export default defineComponent({
 		openPasswordChangeModal() {
 			this.isChangePasswordModalOpen = !this.isChangePasswordModalOpen;
 		},
+		openCv(link?: string): void {
+			if (link) {
+				window.open(link, '_blank')?.focus();
+			}
+		}
 	},
 });
 </script>
@@ -164,7 +179,7 @@ export default defineComponent({
 }
 
 .profile-image-bg {
-	background-color: rgba(36, 35, 35, 0.274);
+	background-color:rgba(36, 35, 35, 0.274);
 }
 
 .profile-image-hover {

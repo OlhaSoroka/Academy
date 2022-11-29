@@ -21,7 +21,7 @@ import { defineComponent } from 'vue';
 import { updateHomeworkById } from '../../api/homework';
 import { getCoursesHomeworks } from '../../api/homework';
 import { StudentHomework } from '../../api/models/homework.model';
-import { updateStudentResult } from '../../api/results';
+import { updateStudentExitResult } from '../../api/exit_results';
 import { useCourseDetailsStore } from '../../store/course-details.store';
 import { useUserStore } from '../../store/user';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue';
@@ -80,7 +80,7 @@ export default defineComponent({
             const resultToUpdate = {
                 average_homework_score: `${studentRateSummary / courseHomeworks.length}`
             };
-            await updateStudentResult(event.data.studentId, resultToUpdate);
+            await updateStudentExitResult(event.data.studentId, resultToUpdate);
             this.courseDetailsStore.selectLecture(this.courseDetailsStore.selectedHomework!.lectureId);
             this.courseDetailsStore.updatedGroupOrResult();
         }

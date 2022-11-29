@@ -7,7 +7,8 @@ import {
 } from "../api/course";
 import { ToastType, useToastStore } from "../store/toast.store";
 import { Course } from "../api/models/course.model";
-import { deleteCoursesResults, deleteResult } from "../api/results";
+import { deleteCoursesEntryResults } from "../api/entry_results";
+import { deleteCoursesExitResults } from "../api/exit_results";
 import { deleteCoursesLectures } from "../api/lectures";
 import { deleteCoursesHomeworks } from "../api/homework";
 import { deleteCoursesComments } from "../api/comments";
@@ -117,7 +118,8 @@ const useCoursesStore = defineStore("courses", {
     async deleteCourse(courseId: string) {
       try {
         this.courseLoading = true;
-        await deleteCoursesResults(courseId);
+        await deleteCoursesEntryResults(courseId);
+        await deleteCoursesExitResults(courseId);
         await deleteCoursesLectures(courseId);
         await deleteCoursesHomeworks(courseId);
         await deleteCoursesComments(courseId);
