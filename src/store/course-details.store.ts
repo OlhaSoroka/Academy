@@ -3,6 +3,7 @@ import { getCourseById } from "../api/course";
 import { getMaterialsByCourse } from "../api/materials";
 import { Course } from "../api/models/course.model";
 import { Material } from "../api/models/material.model";
+import { Document } from "../api/models/documents.model";
 import { Comment } from "../api/models/comment.model";
 import { AppUser } from "../api/models/user.model";
 import { getEntryResultsByCourse } from "../api/entry_results";
@@ -15,6 +16,7 @@ import { getLectureByCourse } from "../api/lectures";
 import { Lecture } from "../api/models/lecture.model";
 import { LectureHomework } from "../api/models/homework.model";
 import { getCoursesHomeworks, getHomeworksByLecture } from "../api/homework";
+import { getDocumentByCourse } from "../api/document";
 
 interface CourseDetailsStoreState {
   _mainInfo: Course[];
@@ -22,6 +24,7 @@ interface CourseDetailsStoreState {
   _entryResults: EntryResult[];
   _exitResults: ExitResult[];
   _materials: Material[];
+  _documents:Document[];
   _comments: Comment[];
   _lectures: Lecture[];
   _mentors: AppUser[];
@@ -35,6 +38,7 @@ interface CourseDetailsStoreState {
   _materialsWidgetLoading: boolean;
   _lecturesWidgetLoading: boolean;
   _homeworkWidgetLoading: boolean;
+  _documentsWidgetLoading: boolean;
 }
 
 const useCourseDetailsStore = defineStore("courseDetails", {
@@ -46,15 +50,17 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       _exitResults:[],
       _materials: [],
       _comments: [],
+      _documents:[],
       _lectures: [],
       _mentors: [],
-      _courseDetailsLoading: false,
       _selectedHomework: null,
 
+      _courseDetailsLoading: false,
       _mainInfoWidgetLoading: false,
       _groupWidgetLoading: false,
       _resultWidgetLoading: false,
       _commentsWidgetLoading: false,
+      _documentsWidgetLoading: false,
       _materialsWidgetLoading: false,
       _lecturesWidgetLoading: false,
       _homeworkWidgetLoading: false,
@@ -68,6 +74,7 @@ const useCourseDetailsStore = defineStore("courseDetails", {
     exitResults: (state) =>state._exitResults,
     materials: (state) => state._materials,
     comments: (state) => state._comments,
+    documents: (state) =>state._documents,
     lectures: (state) => state._lectures,
     mentors: (state) => state._mentors,
     isCourseDetailsLoading: (state) => state._courseDetailsLoading,
@@ -80,6 +87,7 @@ const useCourseDetailsStore = defineStore("courseDetails", {
     materialsWidgetLoading: (state) => state._materialsWidgetLoading,
     lecturesWidgetLoading: (state) => state._lecturesWidgetLoading,
     homeworkWidgetLoading: (state) => state._homeworkWidgetLoading,
+    documentsWidgetLoading: (state) => state._documentsWidgetLoading,
   },
   actions: {
     async setCourseDetails(course: Course) {
@@ -88,6 +96,7 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       
       this._mainInfo = [course];
       const materials = await getMaterialsByCourse(course.id);
+      const documents = await getDocumentByCourse(course.id)
       const group = await getStudentsByCourse(course.id);
       const exitResults= await getExitResultsByCourse(course.id);
       const entryResults= await getEntryResultsByCourse(course.id);
@@ -95,6 +104,7 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       const lectures = await getLectureByCourse(course.id);
       const adminAndMentors = await getMentorsAndAdmins();
       this._materials = materials;
+      this._documents= documents ;
       this._group = group;
       this._mentors = adminAndMentors;
   
@@ -139,6 +149,12 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       const materials = await getMaterialsByCourse(this.selectedCourseId);
       this._materials = materials;
       this._materialsWidgetLoading = false;
+    },
+    async updatedDocuments() {
+      this._documentsWidgetLoading = true;
+      const documents = await getDocumentByCourse(this.selectedCourseId);
+      this._documents = documents;
+      this._documentsWidgetLoading = false;
     },
     async updateComments() {
       this._commentsWidgetLoading = true;

@@ -80,7 +80,6 @@ export default {
 				field: "start_total",
 				headerName: "Total",
 				sortable: true,
-				editable: true,
 				width: 100,
 				solid: true
 			},
@@ -95,7 +94,6 @@ export default {
 				field: "total_with_eng",
 				headerName: "Total with English",
 				sortable: true,
-				editable: true,
 				width: 100,
 				solid: true
 			},
@@ -110,7 +108,6 @@ export default {
 				field: "total_with_interview",
 				headerName: "Total with interview",
 				sortable: true,
-				editable: this.isAdmin || this.isMentor,
 				width: 120,
 				solid: true
 			},
@@ -133,9 +130,9 @@ export default {
 	},
 	methods: {
 		async onCellEdit(event: { uniqIdentifier: string, data: EntryResult }) {
-event.data.start_total= `${Number(event.data.multiple_choice) + Number(event.data.tech_task)}`;
-event.data.total_with_eng=`${Number(event.data.start_total) + Number(event.data.eng_test)}`;
-event.data.total_with_interview=`${Number(event.data.total_with_eng) + Number(event.data.entry_tech_interview)}`;
+			event.data.start_total = `${Number(event.data.multiple_choice) + Number(event.data.tech_task)}`;
+			event.data.total_with_eng = `${Number(event.data.start_total) + Number(event.data.eng_test)}`;
+			event.data.total_with_interview = `${Number(event.data.total_with_eng) + Number(event.data.entry_tech_interview)}`;
 			await this.updateResult(event);
 		},
 		async updateResult(event: { uniqIdentifier: string, data: EntryResult }): Promise<void> {
