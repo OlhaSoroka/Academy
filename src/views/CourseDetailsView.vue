@@ -1,8 +1,8 @@
 <template>
 	<div class="courses__container" v-if="currentCourse">
-		<h1 class="courses__header">Course Details</h1>
+		<h1 class="courses__header" id="course-details-top">{{currentCourse.name}}</h1>
 		<h3 v-if="courseId" class="courses__subheader">
-			Details of {{ currentCourse.name }} course
+			Course details of {{ currentCourse.name }}
 		</h3>
 		<nav class="courses__nav my-3">
 			<router-link :to="{ name: COURSE_DASHBOARD }">
@@ -13,40 +13,41 @@
 				</div>
 			</router-link>
 			<div class="nav__courses" v-if="userStore.isAdmin || userStore.isMentor">
-				<div class="flex">
-					<BaseButton class="nav__btn mr-3" @click="">
-						<ArrowPrevIcon />
-					</BaseButton>
-					<BaseButton class="nav__btn" @click="">
-						<ArrowNextIcon />
-					</BaseButton>
-				</div>
+				<CourseNavigator></CourseNavigator>
 			</div>
 		</nav>
 		<div class="flex justify-center items-center pr-32 pl-32 ">
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('mainInfoWidget')">Main Info</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('mainInfoWidget')">Main Info
+				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('groupWidget')">Group</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('groupWidget')">Group
+				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultEntryWidget')">Entry Results</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultEntryWidget')">Entry
+					Results</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultExitWidget')">Exit Results</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultExitWidget')">Exit
+					Results</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('lectureWidget')">Lectures</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('lectureWidget')">Lectures
+				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('materialWidget')">Materials</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('materialWidget')">Materials
+				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('documentWidget')">Documents</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('documentWidget')">Documents
+				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('commentWidget')">Comments</BaseButton>
+				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('commentWidget')">Comments
+				</BaseButton>
 			</div>
 		</div>
 		<Spinner v-if="courseDetailsStore.isCourseDetailsLoading" />
@@ -76,6 +77,7 @@
 				<CommentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
 			</div>
 		</div>
+		<button class="w-16 h-16 bg-primary-300 shadow font-bold text-white rounded-full p-2 fixed bottom-5 right-5" @click="scrollToTop()"><ArrowUpIcon/></button>
 	</div>
 </template>
 <script lang="ts">
@@ -97,6 +99,7 @@ import Spinner from '../components/baseComponents/spinner/Spinner.vue';
 import ResultsEntryWidget from '../components/widgets/ResultsEntryWidget.vue';
 import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
 import DocumentWidget from '../components/widgets/DocumentWidget.vue';
+import CourseNavigator from '../components/CourseNavigator.vue';
 
 export default {
 	data() {
@@ -122,9 +125,18 @@ export default {
 					block: "center"
 				})
 			}
+		},
+		scrollToTop(): void {
+			const top = document.getElementById('course-details-top');
+			if (top) {
+				top.scrollIntoView({
+					behavior: 'smooth',
+					block: "end",
+				})
+			}
 		}
 	},
-	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget, DocumentWidget }
+	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget, DocumentWidget, CourseNavigator }
 }
 </script>
 

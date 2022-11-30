@@ -26,21 +26,41 @@ import { useCourseDetailsStore } from '../../store/course-details.store';
 import { useUserStore } from '../../store/user';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue';
 export default defineComponent({
-    data() {
+    data(): {
+        columnDefs: any,
+        uniqIdentifier: any,
+
+    } {
         return {
             uniqIdentifier: "id",
-            columnDefs: [
-                { field: "student", headerName: "Student", sortable: true, editable: true, width: 300 },
-                { field: "rate", headerName: "Rate", sortable: true, editable: true, width: 160 },
-                { field: "link", headerName: "Link", sortable: true, editable: true, link: true , width: 300 },
-                { field: "comment", headerName: "Comment", sortable: true, editable: true, width: 300 },
-                { field: "date", headerName: "Completion date", sortable: true, editable: true, width: 300, date: true },
-            ]
+            columnDefs: []
         };
+    },
+    beforeMount() {
+        if (this.userStore.isStudent) {
+            this.columnDefs = [
+                { field: "student", headerName: "Student", sortable: true, editable: false, width: 300 },
+                { field: "rate", headerName: "Rate", sortable: true, editable: false, width: 160 },
+                { field: "link", headerName: "Link", sortable: true, editable: true, link: true, width: 300 },
+                { field: "date", headerName: "Completion date", sortable: true, editable: false, width: 150, date: true }
+            ]
+        }
+        if (this.userStore.isAdmin || this.userStore.isMentor) {
+            this.columnDefs = [
+                { field: "student", headerName: "Student", sortable: true, editable: false, width: 300 },
+                { field: "rate", headerName: "Rate", sortable: true, editable: true, width: 160 },
+                { field: "link", headerName: "Link", sortable: true, editable: true, link: true, width: 300 },
+                { field: "comment", headerName: "Comment", sortable: true, editable: true, width: 300 },
+                { field: "date", headerName: "Completion date", sortable: true, editable: true, width: 150, date: true },
+            ]
+        }
     },
     computed: {
         ...mapStores(useCourseDetailsStore, useUserStore),
         students(): StudentHomework[] {
+            if (this.userStore.isStudent) {
+                return this.courseDetailsStore.selectedHomework!.students.filter(student => student.studentId === this.userStore.currentUser?.id)
+            }
             return this.courseDetailsStore.selectedHomework!.students;
         },
         lecture(): string {
@@ -60,6 +80,11 @@ export default defineComponent({
                 lectureId: this.courseDetailsStore.selectedHomework!.lectureId,
                 students: this.courseDetailsStore.selectedHomework!.students.map((student) => {
                     if (student.studentId === event.data.studentId) {
+                        if (student.link !== event.data.link) {
+                            event.data.date = new Date(Date.now())
+                                .toISOString()
+                                .split("T")[0]
+                        }
                         return event.data
                     }
                     return student
