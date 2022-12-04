@@ -77,7 +77,7 @@
 				<CommentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
 			</div>
 		</div>
-		<button class="w-16 h-16 bg-primary-300 shadow font-bold text-white rounded-full p-2 fixed bottom-5 right-5" @click="scrollToTop()"><ArrowUpIcon/></button>
+		<button class="w-16 h-16 bg-primary-300 shadow font-bold text-white rounded-full p-2 fixed bottom-5 right-5 flex justify-center items-center" @click="scrollToTop()"><ArrowPrevIcon class="rotate-90 "/></button>
 	</div>
 </template>
 <script lang="ts">
@@ -100,6 +100,7 @@ import ResultsEntryWidget from '../components/widgets/ResultsEntryWidget.vue';
 import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
 import DocumentWidget from '../components/widgets/DocumentWidget.vue';
 import CourseNavigator from '../components/CourseNavigator.vue';
+import FilterMenu from '../components/baseComponents/SearchMenu.vue';
 
 export default {
 	data() {
@@ -136,7 +137,7 @@ export default {
 			}
 		}
 	},
-	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget, DocumentWidget, CourseNavigator }
+	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget, DocumentWidget, CourseNavigator, FilterMenu }
 }
 </script>
 

@@ -61,13 +61,7 @@ export default {
 				sortable: true,
 				editable: false,
 				width: 300,
-			},
-			{
-				field: "average_homework_score",
-				headerName: "Average homework score",
-				sortable: true,
-				editable: false,
-				width: 120,
+				filter: true,
 			},
 			{
 				field: "mentors_feedback",
@@ -82,6 +76,13 @@ export default {
 				sortable: true,
 				editable: this.isAdmin || this.isMentor,
 				width: 120,
+			},
+			{
+				field: "average_homework_score",
+				headerName: "Average homework score",
+				sortable: true,
+				editable: false,
+				width: 200,
 			},
 			{
 				field: "final_interviewer_comments",

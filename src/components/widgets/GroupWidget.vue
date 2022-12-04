@@ -47,20 +47,20 @@ export default {
 	beforeMount() {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
-				{ field: "fullName", headerName: "Name", sortable: true, editable: this.userStore.isAdmin, width: 200 },
-				{ field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 }
+				{ field: "fullName", headerName: "Name", sortable: true, editable: this.userStore.isAdmin, width: 200 , filter:true },
+				{ field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 ,filter:true }
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "fullName", headerName: "Name", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, width: 300 },
-				{ field: "email", headerName: "Email", headerEditable: false, sortable: true, editable: false, width: 250 },
-				{ field: "phone", headerName: "Phone", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, width: 200 },
-				{ field: "city", headerName: "City", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, width: 200 },
+				{ field: "fullName", headerName: "Name", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter:true, width: 300 },
+				{ field: "email", headerName: "Email", headerEditable: false, sortable: true, editable: false, filter:true, width: 250 },
+				{ field: "phone", headerName: "Phone", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter:false, width: 200 },
+				{ field: "city", headerName: "City", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter:true, width: 200 },
 				{ field: "age", headerName: "Age", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, width: 100 },
-				{ field: "education", headerName: "Education", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, width: 250 },
+				{ field: "education", headerName: "Education", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter:true, width: 250 },
 				{
-					field: "eng_level", headerName: "English level", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, width: 250, dropdown: true,
+					field: "eng_level", headerName: "English level", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter:true, width: 250, dropdown: true,
 					options: [
 						{ label: EnglishLevel.BEGINNER_ELEMENTARY, value: EnglishLevel.BEGINNER_ELEMENTARY },
 						{ label: EnglishLevel.PRE_INTERMEDIATE, value: EnglishLevel.PRE_INTERMEDIATE },
@@ -70,7 +70,7 @@ export default {
 						{ label: EnglishLevel.PROFICIENT, value: EnglishLevel.PROFICIENT },
 					]
 				},
-				{ field: "cv_link", headerName: "CV link", headerEditable: false, sortable: false, editable: this.userStore.isAdmin,link:true, width: 250 },
+				{ field: "cv_link", headerName: "CV link", headerEditable: false, sortable: false, editable: this.userStore.isAdmin,link:true, filter:false, width: 250 },
 
 			]
 		}

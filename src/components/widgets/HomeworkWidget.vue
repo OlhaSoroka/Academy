@@ -47,7 +47,7 @@ export default defineComponent({
         }
         if (this.userStore.isAdmin || this.userStore.isMentor) {
             this.columnDefs = [
-                { field: "student", headerName: "Student", sortable: true, editable: false, width: 300 },
+                { field: "student", headerName: "Student", sortable: true, editable: false,filter:true, width: 300 },
                 { field: "rate", headerName: "Rate", sortable: true, editable: true, width: 160 },
                 { field: "link", headerName: "Link", sortable: true, editable: true, link: true, width: 300 },
                 { field: "comment", headerName: "Comment", sortable: true, editable: true, width: 300 },

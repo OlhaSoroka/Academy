@@ -7,7 +7,7 @@
 			</div>
 			<div>
 				<BaseButton @click="openModal()">
-					<PlusIcon />
+					Add
 				</BaseButton>
 			</div>
 		</div>
@@ -28,7 +28,6 @@ import { useUserStore } from '../../store/user';
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
-import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
 import { Comment } from "../../api/models/comment.model";
@@ -38,7 +37,6 @@ export default {
 	components: {
     BaseTableEditable,
     BaseButton,
-    PlusIcon,
     CreateCommentModal,
     Spinner
 },
@@ -80,7 +78,7 @@ export default {
 	beforeMount() {
 		this.columnDefs = [
 			{ field: "message", headerName: "Message", sortable: true, editable: false, checkAuthor:true, currentUserId:this.userStore.currentUser?.id , width: 400 },
-			{ field: "author", headerName: "Author", sortable: true, editable: false, width: 400 },
+			{ field: "author", headerName: "Author", sortable: true, editable: false,filter:true, width: 400 },
 			{ field: "createdAt", headerName: "Date", sortable: true, editable: false, width: 400 },
 			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true }
 		]
