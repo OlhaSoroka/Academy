@@ -21,20 +21,28 @@
                     <EditIcon />
                   </div>
                 </div>
-                <div v-if="sortBy === column.field">
-                  <span v-if="activeSort === 'asc'">
-                    <ArrowDownIcon />
-                  </span>
-                  <span v-if="activeSort === 'desc'" class="rotate-180">
-                    <ArrowUpIcon />
-                  </span>
+                <template v-if="!shouldShowSearchedRows">
+                  <div v-if="sortBy === column.field">
+                    <span v-if="activeSort === 'asc'">
+                      <ArrowDownIcon />
+                    </span>
+                    <span v-if="activeSort === 'desc'" class="rotate-180">
+                      <ArrowUpIcon />
+                    </span>
+                  </div>
+                </template>
+                <div v-if="shouldShowSearchIcon(column)" class="flex justify-center items-center relative">
+                  <SearchIcon @click="onSearchClick(column.field)" />
+                  <SearchMenu v-show="isSearchActive(column.field)" @applySearch="applySearch($event)"
+                    @resetSearch="resetSearch" :searchedValue="searchValue" />
                 </div>
+
               </div>
             </div>
           </div>
         </th>
       </tr>
-      <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="table_row">
+      <tr v-for="(row, rowIndex) in (shouldShowSearchedRows ? searchedRows : rows)" :key="rowIndex" class="table_row">
         <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
           <div v-if="!column.actionColumn" class="table_cell" :class="column.editable && 'cursor-pointer'"
             @click.stop="onCellClick(rowIndex, columnIndex, column)">
@@ -47,8 +55,10 @@
               <span>
                 {{ row[column.field] }}
               </span>
-              <button class="border border-primary-500 text-primary-500 rounded p-1 ml-1" v-if="column.link && row[column.field]"
-                @click.stop="onLinkClick(row[column.field])"><LinkIcon></LinkIcon></button>
+              <button class="border border-primary-500 text-primary-500 rounded p-1 ml-1"
+                v-if="column.link && row[column.field]" @click.stop="onLinkClick(row[column.field])">
+                <LinkIcon></LinkIcon>
+              </button>
             </div>
             <div class="w-full h-[50px]" v-if="isCellActive(rowIndex, columnIndex) && column.dropdown">
               <select class="w-full h-full" @focusout="onFocusOut($event, row, column.field)"
@@ -91,6 +101,8 @@ import DeleteIcon from "./icons/DeleteIcon.vue";
 import HomeworkIcon from "./icons/HomeworkIcon.vue";
 import BaseDeleteModal from "./BaseDeleteModal.vue";
 import LinkIcon from "././icons/LinkIcon.vue"
+import SearchIcon from "././icons/SearchIcon.vue"
+import SearchMenu from "./SearchMenu.vue";
 
 interface IColumnDefs {
   field: string,
@@ -104,6 +116,7 @@ interface IColumnDefs {
   date?: boolean,
   actionColumn?: boolean;
   delete?: boolean;
+  filter?: boolean;
   homework?: boolean;
   dropdown?: boolean;
   options?: SelectItem[];
@@ -120,8 +133,9 @@ export default defineComponent({
     DeleteIcon,
     HomeworkIcon,
     BaseDeleteModal,
-    LinkIcon
-
+    LinkIcon,
+    SearchIcon,
+    SearchMenu
   },
   props: {
     columnDefs: {
@@ -139,19 +153,32 @@ export default defineComponent({
   },
   data() {
     return {
-      activeCell: null as String | null,
-      activeSort: null as String | null,
-      sortBy: "" as String,
+      activeCell: null as string | null,
+      activeSort: null as string | null,
+      sortBy: "" as string,
       rows: [] as any[],
-      activeHeader: null as String | null,
+      searchedRows: [] as any[],
+      shouldShowSearchMenu: false,
+      shouldShowSearchedRows: false,
+      searchBy: null as string | null,
+      searchValue: null as string | null,
+      activeHeader: null as string | null,
       isUpdateProcessing: false,
       isModalOpen: false,
       rowToDeleteIndex: 0,
+
     };
   },
   watch: {
     rowData() {
       this.rows = [...this.rowData];
+      this.searchedRows = this.rows.filter((row) => {
+        if (row[this.searchBy as any]) {
+          const rowValue = row[this.searchBy as any].toLowerCase();
+          return rowValue.includes(this.searchValue)
+        }
+        return false
+      });
       this.rows.sort(this.compare);
     },
   },
@@ -187,6 +214,34 @@ export default defineComponent({
     },
     isCellActive(rowIndex: number, columnIndex: number) {
       return this.activeCell === `${rowIndex}${columnIndex}`;
+    },
+    onSearchClick(column: string) {
+      this.shouldShowSearchMenu = true;
+      this.searchBy = column;
+    },
+    isSearchActive(column: string) {
+      return this.shouldShowSearchMenu && this.searchBy === column;
+    },
+    applySearch(value: string) {
+      this.searchValue = value.toLowerCase().trim();
+      this.searchedRows = this.rows.filter((row) => {
+        if (row[this.searchBy as any]) {
+          const rowValue = row[this.searchBy as any].toLowerCase();
+          return rowValue.includes(this.searchValue)
+        }
+        return false
+      });
+      this.shouldShowSearchedRows = true;
+      this.shouldShowSearchMenu = false;
+    },
+    resetSearch() {
+      this.shouldShowSearchedRows = false;
+      this.shouldShowSearchMenu = false;
+      this.searchBy = null;
+      this.searchValue = null;
+    },
+    shouldShowSearchIcon(column: IColumnDefs) {
+      return (!this.searchBy && column.filter) || (this.searchBy && this.searchBy === column.field)
     },
     onFocusOut(event: any, row: any, field: string) {
       if (this.isUpdateProcessing) {

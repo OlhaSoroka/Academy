@@ -7,7 +7,7 @@
 			</div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
-					<PlusIcon />
+					Add
 				</BaseButton>
 			</div>
 		</div>
@@ -27,7 +27,6 @@ import { useUserStore } from '../../store/user';
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
-import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
 import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialModal.vue";
 import { deleteMaterial,updateMaterialById } from "../../api/materials";
 import { Material } from "../../api/models/material.model";
@@ -37,7 +36,6 @@ export default {
 	components: {
     BaseTableEditable,
     BaseButton,
-    PlusIcon,
     CreateMaterialModal,
     Spinner
 },
@@ -63,13 +61,13 @@ export default {
 	beforeMount() {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Materials name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
+				{ field: "name", headerName: "Materials name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400, filter:true },
 				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Materials name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
+				{ field: "name", headerName: "Materials name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true  },
 				{ field: "link", headerName: "Materials link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
 			]

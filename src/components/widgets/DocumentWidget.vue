@@ -7,7 +7,7 @@
 			</div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
-					<PlusIcon />
+					Add
 				</BaseButton>
 			</div>
 		</div>
@@ -27,7 +27,6 @@ import { useUserStore } from '../../store/user';
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
-import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
 import { deleteDocument, updateDocumentById } from "../../api/document";
 import { Document } from "../../api/models/documents.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
@@ -37,7 +36,6 @@ export default {
 	components: {
     BaseTableEditable,
     BaseButton,
-    PlusIcon,
     Spinner,
     CreateDocumentModal
 },
@@ -63,13 +61,13 @@ export default {
 	beforeMount() {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Document name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
+				{ field: "name", headerName: "Document name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true  },
 				{ field: "link", headerName: "Document link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Document name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 },
+				{ field: "name", headerName: "Document name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true },
 				{ field: "link", headerName: "Document link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
 			]

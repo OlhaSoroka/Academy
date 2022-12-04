@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<select class="select__container" @change="onSelectCourse">
-			<option disabled selected >Other courses</option>
-			<option v-for="course in courses" :value="course.id" :key="course.id">{{ course.name }}</option>
+			<option disabled selected>Other courses</option>
+			<option v-for="course in courses" :value="course.id" :key="course.id" >{{ course.name }}</option>
 		</select>
 	</div>
 </template>
@@ -44,7 +44,7 @@ export default defineComponent({
 
 <style lang="scss">
 .select__container {
-	@apply h-10 border-[2px] border-primary-500 rounded font-bold text-primary-500 p-1;
+	@apply h-10 border-[2px] border-primary-500 rounded font-bold text-primary-500 p-1 outline-none;
 }
 .select__container :focus { outline: none; }
 

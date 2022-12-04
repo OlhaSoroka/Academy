@@ -7,7 +7,7 @@
 			</div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
-					<PlusIcon />
+					Add
 				</BaseButton>
 			</div>
 		</div>
@@ -30,7 +30,6 @@ import { useUserStore } from '../../store/user';
 import { PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
-import PlusIcon from "../baseComponents/icons/PlusIcon.vue";
 import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialModal.vue";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
@@ -43,7 +42,6 @@ export default {
 	components: {
 		BaseTableEditable,
 		BaseButton,
-		PlusIcon,
 		CreateMaterialModal,
 		CreateCommentModal,
 		HomeworkWidget,
@@ -76,13 +74,13 @@ export default {
 	},
 	beforeMount() {
 		this.columnDefs = [
-			{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300 },
-			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
-			{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100 },
-			{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
-			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions },
+			{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300 , filter:true },
+			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 , },
+			{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100},
+			{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200},
+			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter:true },
 			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true }
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true, }
 		]
 	},
 	methods: {
