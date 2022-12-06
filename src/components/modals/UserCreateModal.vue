@@ -160,7 +160,7 @@ export default defineComponent({
 })
 </script>
   
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 .select__course {
 	@apply  p-1 w-full border-2 border-primary-600 rounded-sm text-base font-mono placeholder:text-slate-400 hover:bg-stone-50 focus:drop-shadow-xl focus:bg-stone-50 focus:border-primary-700 focus:outline-none focus:text-slate-900;
 }

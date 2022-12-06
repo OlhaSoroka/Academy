@@ -43,6 +43,13 @@ const routes: RouteRecordRaw[] = [
     beforeEnter: roleGuard, 
   },
   {
+    path: ROUTE_PATH.GUIDE,
+    name: ROUTE_NAMES.GUIDE,
+    component: () => import("../views/GuideView.vue"),
+    meta: { requiresAuth: true, requiredRoles: [ROLES.ADMIN_ROLE] },
+    beforeEnter: roleGuard, 
+  },
+  {
     path: ROUTE_PATH.COURSES,
     component: () => import("../views/CoursesView.vue"),
     meta: { requiresAuth: true },
