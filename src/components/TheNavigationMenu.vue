@@ -1,5 +1,6 @@
 <template>
-	<div v-if="userStore.currentUser" class="navigation-container transition-all" :class="isOpen ? ['w-60', 'p-4'] : ['w-16', 'p-0']">
+	<div v-if="userStore.currentUser" class="navigation-container transition-all flex flex-col "
+		:class="isOpen ? ['w-60', 'p-4'] : ['w-16', 'p-0']">
 		<router-link :to="{ name: COURSE_DASHBOARD }">
 			<div v-if="isOpen" class="navigation-main-logo">
 				<img src="../assets/logo-h.svg" alt="main_logo">
@@ -21,7 +22,7 @@
 			</router-link>
 		</div>
 
-		<div class="mt-5">
+		<div class="mt-5 grow">
 			<div>
 				<router-link class="navigation-link" :to="{ name: COURSE_DASHBOARD }">
 					<svg width="16" height="16">
@@ -55,14 +56,20 @@
 				</router-link>
 			</div>
 			<!-- TRANSFER LOGOUT TO DROPDOWN MENU -->
-			<!-- <div>
+			<div>
 				<div class="navigation-link" @click="logout">
 					<svg id="logout" width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-exit" />
 					</svg>
 					<span v-if="isOpen" class="navigation-text">Log out</span>
 				</div>
-			</div> -->
+			</div>
+		</div>
+		<div class="navigation-guide" @click="onGuideClick" >
+			<svg id="icon-guide" width="16" height="16" >
+				<use href="../icons/spite-navigation.svg#icon-guide" />
+			</svg>
+			<span v-if="isOpen" class="navigation-text">Guide</span>
 		</div>
 	</div>
 </template>
@@ -85,12 +92,12 @@ export default {
 	},
 	data() {
 		return {
-			PROFILE:ROUTE_NAMES.PROFILE,
-			STUDENTS:ROUTE_NAMES.STUDENTS,
-			MENTORS:ROUTE_NAMES.MENTORS,
-			ADMINS:ROUTE_NAMES.ADMINS,
-			COURSE_DASHBOARD:ROUTE_NAMES.COURSE_DASHBOARD,
-			LOGIN:ROUTE_NAMES.LOGIN,
+			PROFILE: ROUTE_NAMES.PROFILE,
+			STUDENTS: ROUTE_NAMES.STUDENTS,
+			MENTORS: ROUTE_NAMES.MENTORS,
+			ADMINS: ROUTE_NAMES.ADMINS,
+			COURSE_DASHBOARD: ROUTE_NAMES.COURSE_DASHBOARD,
+			LOGIN: ROUTE_NAMES.LOGIN,
 		};
 	},
 	computed: {
@@ -100,9 +107,15 @@ export default {
 		},
 	},
 	methods: {
-		// async logout() {
-		// 	await this.userStore.logoutUser();
-		// },
+		async logout() {
+			await this.userStore.logoutUser();
+		},
+		onGuideClick() {
+			if (this.userStore.isAdmin) {
+				this.$router.push({name:ROUTE_NAMES.GUIDE})
+			}
+	
+		}
 	},
 };
 </script>
@@ -117,6 +130,10 @@ export default {
 
 .navigation-link {
 	@apply flex justify-center items-center m-auto p-3 cursor-pointer opacity-70 hover:opacity-100;
+}
+
+.navigation-guide {
+	@apply flex justify-center items-center p-3 cursor-pointer opacity-70 hover:opacity-100 mb-5;
 }
 
 .navigation-text {
