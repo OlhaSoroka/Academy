@@ -4,7 +4,7 @@
 			<h2 class="main__header mr-3">Main Info</h2>
 			<Spinner v-if="courseDetailsStore.mainInfoWidgetLoading"/>
 		</div>
-		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse" class="mt-5"
+		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse" class="mt-5 min-h-[200px]"
 			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"></BaseTableEditable>
 	</div>
 </template>

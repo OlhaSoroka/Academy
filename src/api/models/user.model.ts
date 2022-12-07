@@ -13,7 +13,8 @@ export interface AppUser {
   city?: string;
   phone?: string;
   cv_link?:string;
-  course?: string
+  course?: string;
+  archive?: boolean;
 }
 
 export interface RegisterUserBody {

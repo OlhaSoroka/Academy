@@ -1,10 +1,13 @@
 <template>
     <div class="students__container">
         <div class="students___header_container">
-            <div class="flex items-center">
-                <h1 class="students__header mr-3">Students Dashboard
-                </h1>
-                <Spinner v-if="studentStore.isStudentLoading" />
+            <div>
+                <div class="flex items-center h-16">
+                    <h1 class="students__header mr-3">Students Dashboard
+                    </h1>
+                    <Spinner v-if="studentStore.isStudentLoading" />
+                </div>
+                <div class="students__subheader">Current students</div>
             </div>
             <div>
                 <BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addStudent">Add new student
@@ -12,7 +15,19 @@
             </div>
         </div>
         <div class="students_widget">
-            <BaseTableEditable :column-defs="columnDefs" :row-data="studentStore.allStudents" uniq-identifier="id"
+            <div class="flex justify-end mb-4">
+				<div class="flex rounded-lg">
+					<div @click="showActive()"
+						class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-r-none hover:bg-primary-100"
+						:class="!isArchive ? 'bg-primary-200 !text-primary-700 !border-primary-700' : 'border-r-0'">
+						Active</div>
+					<div @click="showArchive()"
+						class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-l-none hover:bg-primary-100"
+						:class="isArchive ? 'bg-primary-200 !text-primary-700 !border-primary-700' : 'border-l-0'">
+						Archive</div>
+				</div>
+			</div>
+            <BaseTableEditable :column-defs="columnDefs" :row-data="isArchive ? studentStore.archiveStudents : studentStore.activeStudents" uniq-identifier="id"
                 @deleteRow="onStudentDelete($event)" @cellValueChanged="onStudentEdit($event)" />
         </div>
         <UserCreateModal :toggle-modal="isAddStudentModalOpen" :role="'student'" :header="'Add new student'">
@@ -41,11 +56,12 @@ export default {
     data(): {
         columnDefs: any,
         isAddStudentModalOpen: boolean,
-
+        isArchive: boolean
     } {
         return {
             isAddStudentModalOpen: false,
-            columnDefs: []
+            columnDefs: [],
+            isArchive: false
         };
     },
     methods: {
@@ -59,6 +75,12 @@ export default {
             this.studentStore.updateStudentCourse(event.data, event.data.course!);
             this.studentStore.fetchStudents();
         },
+        showActive(): void {
+			this.isArchive = false;
+		},
+		showArchive(): void {
+			this.isArchive = true;
+		}
     },
     computed: {
         ...mapStores(useStudentStore, useUserStore, useCoursesStore),
@@ -102,6 +124,10 @@ export default {
 
 .students__header {
     @apply font-semibold text-lg text-start text-primary-700;
+}
+
+.students__subheader {
+    @apply mt-2 font-normal text-stone-400 text-start;
 }
 
 .students_widget {

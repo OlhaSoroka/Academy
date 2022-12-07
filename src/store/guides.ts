@@ -25,15 +25,25 @@ const useGuideStore = defineStore("guide", {
   getters: {
     guides: (state) => state._guides,
     isGuidesLoading: (state) => state._guidesLoading,
+    studentGuide: (state) =>
+      state._guides.find((guide) => {
+        return guide.role === ROLES.STUDENTS_ROLE;
+      }),
+    mentorGuide: (state) =>
+      state._guides.find((guide) => {
+        return guide.role === ROLES.MENTOR_ROLE;
+      }),
   },
   actions: {
     async fetchGuides() {
       try {
         this._guidesLoading = true;
         const guides = await getAllGuides();
-        this._guides = guides.map(guide => {
-          guide.roleLabel = guideRoleOptions.find(option => option.value === guide.role)?.label;
-          return guide
+        this._guides = guides.map((guide) => {
+          guide.roleLabel = guideRoleOptions.find(
+            (option) => option.value === guide.role,
+          )?.label;
+          return guide;
         });
       } catch (error) {
         const toastStore = useToastStore();

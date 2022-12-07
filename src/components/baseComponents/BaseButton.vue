@@ -45,7 +45,7 @@ export default defineComponent({
   
 <style lang="postcss" scoped>
 .btn {
-  @apply min-h-[40px] p-2 px-4 text-white font-semibold rounded-sm shadow-sm focus:outline-none transition-colors
+  @apply min-h-[42px] p-2 px-4 text-white font-semibold rounded-sm shadow-sm focus:outline-none transition-colors
 }
 
 

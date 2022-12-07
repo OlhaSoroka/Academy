@@ -1,7 +1,7 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { uuidv4 } from "@firebase/util";
 import { getAllCourses, getCourseById } from "../api/course";
-import { Course } from "../api/models/course.model";
+import { Course, CourseStatus } from "../api/models/course.model";
 import { AppUser, RegisterUserBody } from "../api/models/user.model";
 import { StudentHomework } from "../api/models/homework.model";
 import {
@@ -30,6 +30,8 @@ const useStudentStore = defineStore("student", {
   }),
   getters: {
     allStudents: (state: StudentStoreState) => state.students,
+    archiveStudents: (state: StudentStoreState) => state.students.filter(student => student.archive),
+    activeStudents: (state: StudentStoreState) => state.students.filter(student => !student.archive),
     isStudentLoading: (state: StudentStoreState) => state.studentLoading,
     studentById: (state: StudentStoreState) => {
       return (studentId: string) =>
@@ -43,9 +45,11 @@ const useStudentStore = defineStore("student", {
         const students = await getUsersByRole(ROLES.STUDENTS_ROLE);
         const courses = await getAllCourses();
         this.students = students.map((student) => {
-          student.course = courses?.find(
+          const studentCourse = courses?.find(
             (course) => course.id === student.courseId,
-          )?.name;
+          );
+          student.course = studentCourse?.name;
+          student.archive = studentCourse?.status === CourseStatus.FINISHED;
           return student;
         });
       } catch {
