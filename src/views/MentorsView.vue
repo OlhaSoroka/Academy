@@ -1,7 +1,7 @@
 <template>
     <div class="mentor__container">
         <div class="mentor__header_container">
-            <div class="flex items-center">
+            <div class="flex items-center h-16">
                 <h1 class="mentor__header mr-3">Mentors Dashboard
                 </h1>
                 <Spinner v-if="mentorStore.isMentorsLoading" />

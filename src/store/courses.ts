@@ -6,7 +6,7 @@ import {
   createCourse,
 } from "../api/course";
 import { ToastType, useToastStore } from "../store/toast.store";
-import { Course } from "../api/models/course.model";
+import { Course, CourseStatus } from "../api/models/course.model";
 import { deleteCoursesEntryResults } from "../api/entry_results";
 import { deleteCoursesExitResults } from "../api/exit_results";
 import { deleteCoursesLectures } from "../api/lectures";
@@ -30,6 +30,8 @@ const useCoursesStore = defineStore("courses", {
   },
   getters: {
     allCourses: (state: CoursesStoreState) => state.courses,
+    activeCourses: (state: CoursesStoreState) => state.courses.filter(course => course.status !== CourseStatus.FINISHED),
+    archiveCourses: (state: CoursesStoreState) => state.courses.filter(course => course.status === CourseStatus.FINISHED),
     coursesLength: (state) => state.courses.length,
     lastCourseId(state: CoursesStoreState) {
       return state.courses[state.courses.length - 1].id;

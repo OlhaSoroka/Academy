@@ -65,8 +65,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="navigation-guide" @click="onGuideClick" >
-			<svg id="icon-guide" width="16" height="16" >
+		<div class="navigation-guide" @click="onGuideClick">
+			<svg id="icon-guide" width="16" height="16">
 				<use href="../icons/spite-navigation.svg#icon-guide" />
 			</svg>
 			<span v-if="isOpen" class="navigation-text">Guide</span>
@@ -78,6 +78,7 @@ import { ROUTE_NAMES } from '../models/router.model'
 import { ROLES } from '../models/router.model';
 import { mapStores } from "pinia";
 import { useUserStore } from '../store/user';
+import { useGuideStore } from '../store/guides'
 export default {
 	name: 'NavigationMenu',
 	props: {
@@ -90,6 +91,9 @@ export default {
 			type: Boolean
 		}
 	},
+	mounted() {
+		this.guideStore.fetchGuides()
+	},
 	data() {
 		return {
 			PROFILE: ROUTE_NAMES.PROFILE,
@@ -101,7 +105,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapStores(useUserStore),
+		...mapStores(useUserStore, useGuideStore),
 		isAdmin() {
 			return this.userStore.currentUser!.role === ROLES.ADMIN_ROLE;
 		},
@@ -112,9 +116,14 @@ export default {
 		},
 		onGuideClick() {
 			if (this.userStore.isAdmin) {
-				this.$router.push({name:ROUTE_NAMES.GUIDE})
+				this.$router.push({ name: ROUTE_NAMES.GUIDE })
 			}
-	
+			if (this.userStore.isMentor) {
+				window.open(this.guideStore.mentorGuide?.link, '_blank')?.focus();
+			}
+			if (this.userStore.isStudent) {
+				window.open(this.guideStore.studentGuide?.link, '_blank')?.focus();
+			}
 		}
 	},
 };

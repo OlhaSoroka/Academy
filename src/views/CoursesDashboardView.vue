@@ -1,18 +1,36 @@
 <template>
 	<div class="courses__container">
 		<div class="courses__header_container">
-			<div class="flex items-center">
-                <h1 class="courses__header mr-3">Courses Dashboard
-                </h1>
-                <Spinner v-if="coursesStore.loadingStatus" />
-            </div>
 			<div>
+				<div class="flex items-center h-16">
+					<h1 class="courses__header mr-3">Courses Dashboard
+					</h1>
+
+					<Spinner v-if="coursesStore.loadingStatus" />
+				</div>
+				<div class="courses__subheader">Current courses</div>
+			</div>
+			<div class="flex">
+
 				<BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addCourse">Add new course
 				</BaseButton>
 			</div>
 		</div>
 		<div class="courses__widget">
-			<BaseTableEditable :column-defs="columnDefs" :row-data="coursesStore.courses" uniq-identifier="id"
+			<div class="flex justify-end mb-4">
+				<div class="flex rounded-lg">
+					<div @click="showActive()"
+						class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-r-none hover:bg-primary-100"
+						:class="!isArchive ? 'bg-primary-200 !text-primary-700 !border-primary-700' : 'border-r-0'">
+						Active</div>
+					<div @click="showArchive()"
+						class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-l-none hover:bg-primary-100"
+						:class="isArchive ? 'bg-primary-200 !text-primary-700 !border-primary-700' : 'border-l-0'">
+						Archive</div>
+				</div>
+			</div>
+			<BaseTableEditable :column-defs="columnDefs"
+				:row-data="isArchive ? coursesStore.archiveCourses : coursesStore.activeCourses" uniq-identifier="id"
 				@deleteRow="onCourseDelete($event)" @rowClick="onRowSelect" />
 		</div>
 		<CourseCreateModal :toggle-modal="isAddCourseModalOpen"></CourseCreateModal>
@@ -40,11 +58,12 @@ export default {
 	data(): {
 		columnDefs: any,
 		isAddCourseModalOpen: boolean,
-
+		isArchive: boolean
 	} {
 		return {
 			isAddCourseModalOpen: false,
-			columnDefs: []
+			columnDefs: [],
+			isArchive: false
 		};
 	},
 	beforeMount() {
@@ -78,6 +97,12 @@ export default {
 		},
 		async onCourseDelete(courseId: string) {
 			this.coursesStore.deleteCourse(courseId);
+		},
+		showActive(): void {
+			this.isArchive = false;
+		},
+		showArchive(): void {
+			this.isArchive = true;
 		}
 	}
 }
@@ -93,7 +118,11 @@ export default {
 }
 
 .courses__header {
-	@apply font-semibold text-lg text-start text-primary-700;
+	@apply font-semibold text-slate-400 text-lg text-start !text-primary-700;
+}
+
+.courses__subheader {
+	@apply mt-2 font-normal text-stone-400 text-start;
 }
 
 .courses__subheader {
