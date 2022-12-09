@@ -15,6 +15,12 @@ export interface AppUser {
   cv_link?:string;
   course?: string;
   archive?: boolean;
+  study_period?:string;
+  company?:string;
+  status?:string;
+  status_date?:string;
+  comments?:string;
+  
 }
 
 export interface RegisterUserBody {

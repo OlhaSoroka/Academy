@@ -7,7 +7,7 @@
                     </h1>
                     <Spinner v-if="studentStore.isStudentLoading" />
                 </div>
-                <div class="students__subheader">Current students</div>
+                <div class="students__subheader">{{!isArchive ? 'Current Academy students': 'All Academy students'}}</div>
             </div>
             <div>
                 <BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addStudent">Add new student
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="students_widget">
-            <div class="flex justify-end mb-4">
+            <div v-if="userStore.isAdmin" class="flex justify-end mb-4">
 				<div class="flex rounded-lg">
 					<div @click="showActive()"
 						class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-r-none hover:bg-primary-100"
@@ -28,7 +28,7 @@
 				</div>
 			</div>
             <BaseTableEditable :column-defs="columnDefs" :row-data="isArchive ? studentStore.archiveStudents : studentStore.activeStudents" uniq-identifier="id"
-                @deleteRow="onStudentDelete($event)" @cellValueChanged="onStudentEdit($event)" />
+                @deleteRow="onStudentDelete($event)" @cellValueChanged="onStudentEdit($event)" class="min-h-[230px]"/>
         </div>
         <UserCreateModal :toggle-modal="isAddStudentModalOpen" :role="'student'" :header="'Add new student'">
         </UserCreateModal>
@@ -94,16 +94,32 @@ export default {
 
             if (this.userStore.isStudent) {
                 return [
-                    { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-                    { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 },
+                    { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter:true, width: 200 },
+                    { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter:true, width: 200 },
                     { field: "course", headerName: "Course", sortable: true, editable: false, minWidth: 150, width: 200 },
                 ]
             }
             if (this.userStore.isAdmin || this.userStore.isMentor) {
+                if (this.isArchive) {
+                    return [
+                        { field: "fullName", headerName: "Name", sortable: true, editable: false, filter:true,width: 250 },
+                        { field: "course", headerName: "Course", sortable: true, editable: true,filter:true, width: 200 },
+                        { field: "email", headerName: "Email", sortable: true, editable: false, width: 250 },
+                        { field: "phone", headerName: "Phone",  sortable: false, editable: true,width: 200 },
+                        { field: "city", headerName: "City",  sortable: true, editable: true, filter:true, width: 200 },
+                        { field: "study_period", headerName: "Period of study", sortable: true, editable: true, filter:true, width: 200 },
+                        { field: "company", headerName: "Company", sortable: true, editable: true, filter:true, width: 200 },
+                        { field: "status", headerName: "Status", sortable: true, editable: true, filter:true, width: 200 },
+                        { field: "status_date", headerName: "Status date", sortable: true, editable: true, filter:true, width: 200 },
+                        { field: "comments", headerName: "Comments", sortable: true, editable: true, filter:true, width: 200 },
+                        { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
+                    
+                    ]
+                }
                 return [
-                    { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-                    { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 },
-                    { field: "course", headerName: "Course", sortable: true, editable: true, dropdown: true, options: courseDropdownOptions, minWidth: 150, width: 200 },
+                    { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter:true, width: 200 },
+                    { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter:true, width: 200 },
+                    { field: "course", headerName: "Course", sortable: true, editable: true, dropdown: true, options: courseDropdownOptions, filter:true, width: 200 },
                     { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
                 ]
             }

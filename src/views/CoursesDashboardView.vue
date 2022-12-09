@@ -5,19 +5,17 @@
 				<div class="flex items-center h-16">
 					<h1 class="courses__header mr-3">Courses Dashboard
 					</h1>
-
 					<Spinner v-if="coursesStore.loadingStatus" />
 				</div>
 				<div class="courses__subheader">Current courses</div>
 			</div>
 			<div class="flex">
-
 				<BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addCourse">Add new course
 				</BaseButton>
 			</div>
 		</div>
 		<div class="courses__widget">
-			<div class="flex justify-end mb-4">
+			<div v-if="userStore.isAdmin" class="flex justify-end mb-4">
 				<div class="flex rounded-lg">
 					<div @click="showActive()"
 						class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-r-none hover:bg-primary-100"
@@ -31,7 +29,7 @@
 			</div>
 			<BaseTableEditable :column-defs="columnDefs"
 				:row-data="isArchive ? coursesStore.archiveCourses : coursesStore.activeCourses" uniq-identifier="id"
-				@deleteRow="onCourseDelete($event)" @rowClick="onRowSelect" />
+				@deleteRow="onCourseDelete($event)" @rowClick="onRowSelect" class="min-h-[230px]"/>
 		</div>
 		<CourseCreateModal :toggle-modal="isAddCourseModalOpen"></CourseCreateModal>
 	</div>
@@ -75,9 +73,9 @@ export default {
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Course Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false, minWidth: 150, width: 200 },
-				{ field: "status", headerName: "Status", sortable: true, editable: false, minWidth: 150, width: 200 },
+				{ field: "name", headerName: "Course Name", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
+				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
+				{ field: "status", headerName: "Status", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
 			]
 		}
