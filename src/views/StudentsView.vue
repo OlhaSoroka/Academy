@@ -46,7 +46,7 @@ import { useUserStore } from '../store/user';
 import Spinner from '../components/baseComponents/spinner/Spinner.vue';
 import { useCoursesStore } from '../store/courses';
 import { SelectItem } from '../models/options.model';
-import { AppUser } from '../api/models/user.model';
+import { AppUser, StudentStatus } from '../api/models/user.model';
 
 export default {
     components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
@@ -117,7 +117,17 @@ export default {
                         { field: "city", headerName: "City", sortable: true, editable: true, filter: true, width: 200 },
                         { field: "study_period", headerName: "Period of study", sortable: true, editable: true, filter: true, width: 200 },
                         { field: "company", headerName: "Company", sortable: true, editable: true, filter: true, width: 200 },
-                        { field: "status", headerName: "Status", sortable: true, editable: true, filter: true, width: 200 },
+                        {
+                            field: "status", headerName: "Status", sortable: true, editable: true, filter: true, width: 200, dropdown: true,
+                            options: [
+                                { label: "Is working in another company", value: StudentStatus.ANOTHER_COMPANY },
+                                { label: "Interested in work", value: StudentStatus.INTERESTED_IN_WORK },
+                                { label: "Left our company", value: StudentStatus.LEFT_OUR_COMPANY },
+                                { label: "Our employee", value: StudentStatus.OUR_EMPLOYEE },
+                                { label: "Sent letter", value: StudentStatus.SENT_LETTER },
+                                { label: "To contact later", value: StudentStatus.TO_CONTACT_LATER },
+                            ]
+                        },
                         { field: "status_date", headerName: "Status date", sortable: true, editable: true, filter: true, width: 200 },
                         { field: "comments", headerName: "Comments", sortable: true, editable: true, filter: true, width: 200 },
                         { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
