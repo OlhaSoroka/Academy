@@ -71,7 +71,7 @@
 				<MaterialWidget :currentCourse="currentCourse" />
 			</div>
 			<div id="documentWidget" class="mt-10">
-				<DocumentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
+				<DocumentWidget  :currentCourse="currentCourse" />
 			</div>
 			<div id="commentWidget" class="mt-10">
 				<CommentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
