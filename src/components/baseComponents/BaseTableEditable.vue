@@ -36,7 +36,6 @@
                   <SearchMenu v-show="isSearchActive(column.field)" @applySearch="applySearch($event)"
                     @resetSearch="resetSearch" :searchedValue="searchValue" />
                 </div>
-
               </div>
             </div>
           </div>
@@ -44,7 +43,7 @@
       </tr>
       <tr v-for="(row, rowIndex) in (shouldShowSearchedRows ? searchedRows : rows)" :key="rowIndex" class="table_row">
         <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
-          <div v-if="!column.actionColumn" class="table_cell" :class="column.editable && 'cursor-pointer'"
+          <div v-if="!column.actionColumn" class="table_cell" :class="column.editable && 'cursor-pointer'" 
             @click.stop="onCellClick(rowIndex, columnIndex, column)">
             <input v-if="isCellActive(rowIndex, columnIndex) && !column.dropdown" v-focus class="table_cell_input"
               :type="column.date ? 'date' : 'text'" :value="row[column.field]"
@@ -52,9 +51,10 @@
               @keypress.enter="onEnterPress($event, row, column.field)" />
             <div v-if="!isCellActive(rowIndex, columnIndex)" class="over text-ellipsis p-2"
               :style="{ width: column.width + 'px' }">
-              <span>
+              <span v-if="!column.image">
                 {{ row[column.field] }}
               </span>
+              <div v-if="column.image"><img :src= "row[column.field]" alt="uer_profile_photo" class="w-12 h-12 flex rounded-full mx-auto"></div>
               <button class="border border-primary-500 text-primary-500 rounded p-1 ml-1"
                 v-if="column.link && row[column.field]" @click.stop="onLinkClick(row[column.field])">
                 <LinkIcon></LinkIcon>
@@ -70,14 +70,14 @@
             </div>
           </div>
           <div class="table_cell" v-else>
-            <div v-if="column.homework">
+            <div v-if="column.homework" >
               <BaseButton @click="onCellClick(rowIndex, columnIndex, column)" variant="btn_blue_outlined">
                 <HomeworkIcon />
               </BaseButton>
             </div>
             <div v-if="column.delete" class="ml-1">
-              <BaseButton @click="onDeleteClick(rowIndex)" variant="btn_blue_outlined">
-                <DeleteIcon />
+              <BaseButton @click="onDeleteClick(rowIndex)" variant="btn_blue_outlined" >
+                <DeleteIcon/>
               </BaseButton>
             </div>
           </div>
@@ -117,6 +117,7 @@ interface IColumnDefs {
   actionColumn?: boolean;
   delete?: boolean;
   filter?: boolean;
+  image? :boolean;
   homework?: boolean;
   dropdown?: boolean;
   options?: SelectItem[];
@@ -361,7 +362,7 @@ export default defineComponent({
 }
 
 .table_header {
-  @apply border-2 border-slate-200 text-center text-primary-700;
+  @apply border-2 border-slate-200 text-start text-primary-700;
 }
 
 .table_header--solid {
@@ -369,7 +370,7 @@ export default defineComponent({
 }
 
 .table_header_cell {
-  @apply m-auto flex min-h-[50px] min-w-[20px] items-center justify-center;
+  @apply m-auto flex min-h-[50px] min-w-[20px] items-center justify-start ml-3;
 }
 
 .table_row {
@@ -381,10 +382,13 @@ export default defineComponent({
 }
 
 .table_cell {
-  @apply flex min-h-[50px] items-center justify-center text-center;
+  @apply flex min-h-[50px] items-center justify-start text-start ml-3;
   overflow-wrap: break-word
 }
-
+.table_cell_centered {
+  @apply flex min-h-[50px] items-center justify-center text-center ml-3;
+  overflow-wrap: break-word
+}
 .table_cell_input {
   @apply block min-h-[50px] w-full rounded border-2 border-primary-400 py-1 px-2 shadow focus-visible:outline-none;
 }
