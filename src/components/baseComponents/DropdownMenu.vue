@@ -1,11 +1,9 @@
-<template> 
-	<div class="dropdown__container" @click="onLinkClick" >
-		<router-link :to="{ name: PROFILE }">
-			<div class="dropdown__item">
-				<span>Profile</span>
-			</div>
-		</router-link>
-		<div class="dropdown__item" @click="logout"><span>Log out</span></div>
+<template>
+	<div class="dropdown__container" v-focus @focusout="closePopup" tabindex="1">
+		<div class="dropdown__item" v-for="link in links" :key="link.name"
+			@click="onLinkClick(link.name, link.isLogout)">
+			<span>{{ link.label }}</span>
+		</div>
 	</div>
 </template>
 <script lang="ts">
@@ -15,26 +13,39 @@ import { useUserStore } from '../../store/user';
 export default {
 	data() {
 		return {
-			PROFILE: ROUTE_NAMES.PROFILE,
+			links: [
+				{ label: 'Profile', name: ROUTE_NAMES.PROFILE, isLogout: false },
+				{ label: 'Log Out', name: ROUTE_NAMES.LOGIN, isLogout: true }
+			]
 		};
 	},
 	computed: {
 		...mapStores(useUserStore),
 	},
+	directives: {
+		focus: {
+			mounted: (el) => el.focus(),
+		}
+	},
 	methods: {
-		async logout() {
-			await this.userStore.logoutUser();
+		async onLinkClick(linkName: string, isLogout: boolean) {
+			if (isLogout) {
+				this.closePopup();
+				await this.userStore.logoutUser();
+			} else {
+				this.closePopup();
+				this.$router.push({ name: linkName })
+			}
+		},
+		closePopup(): void {
 			this.$emit("linkClicked");
 		},
-		onLinkClick() {
-			this.$emit("linkClicked");
-		}
 	},
 }
 </script>
 <style lang="scss">
 .dropdown__container {
-	@apply w-[210px] h-24 border border-primary-700 bg-white
+	@apply w-[210px] border border-primary-700 bg-white focus-within:outline-none
 }
 
 .dropdown__item {

@@ -74,7 +74,6 @@ export default {
             this.studentStore.deleteStudent(studentId);
         },
         async onStudentEdit(event: { uniqIdentifier: string, data: AppUser, colDef: { field: string } }) {
-            console.log(event.colDef.field);
             if (event.colDef.field === 'course') {
                 this.studentStore.updateStudentCourse(event.data, event.data.course!);
             } else {

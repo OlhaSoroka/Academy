@@ -235,11 +235,14 @@ export default defineComponent({
       this.shouldShowSearchedRows = true;
       this.shouldShowSearchMenu = false;
     },
-    resetSearch() {
+    resetSearch(value: string) {
+      this.searchValue = value;
       this.shouldShowSearchedRows = false;
       this.shouldShowSearchMenu = false;
       this.searchBy = null;
-      this.searchValue = null;
+      setTimeout(() => {
+        this.searchValue = null;
+      }, 0)
     },
     shouldShowSearchIcon(column: IColumnDefs) {
       return (!this.searchBy && column.filter) || (this.searchBy && this.searchBy === column.field)
