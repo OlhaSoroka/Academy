@@ -10,7 +10,7 @@
       </div>
       <div class="text-xl">Academy</div>
     </div>
-    <div class="flex justify-evenly items-center cursor-pointer" @click="toggleDropdownMenu">
+    <div class="flex justify-evenly items-center cursor-pointer" @click="openPopup">
       <div class="mr-2 text-sm">Hello,{{ userStore.currentUser?.fullName }}!</div>
       <div class="mr-2"><img class="w-10 h-10 rounded-full" :src=userStore.currentUser?.avatarUrl
           alt="user_profile_photo"></div>
@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <DropdownMenu v-if="isDropdownMenuOpen" @linkClicked="toggleDropdownMenu" class="absolute right-[50px] z-10 top-[60px]" />
+  <DropdownMenu v-if="isDropdownMenuOpen" @linkClicked="closePopup" class="absolute right-[50px] z-10 top-[60px]" />
 </template>
 
 <script lang="ts">
@@ -41,9 +41,12 @@ export default defineComponent({
     toggleNavigationMenu() {
       this.$emit("onNavigationMenuToggle");
     },
-    toggleDropdownMenu() {
-      this.isDropdownMenuOpen = !this.isDropdownMenuOpen;
-    }
+    openPopup(): void {
+      this.isDropdownMenuOpen = true;
+    },
+    closePopup(): void {
+      this.isDropdownMenuOpen = false;
+    },
   },
   components: { ArrowNextIcon, DropdownMenu }
 });
