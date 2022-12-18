@@ -54,7 +54,9 @@ export default {
 		},
 		onFocusOut(event: any): void {
 			if (!event.relatedTarget || !(event.relatedTarget as HTMLElement)?.classList?.contains('search-menu')) {
-				this.resetSearch();
+				setTimeout(() => {
+					this.resetSearch();
+				}, 100)
 			}
 		}
 	},

@@ -38,7 +38,9 @@ export default {
 			}
 		},
 		closePopup(): void {
-			this.$emit("linkClicked");
+			setTimeout(() => {
+				this.$emit("linkClicked");
+			}, 100)
 		},
 	},
 }
