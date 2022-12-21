@@ -102,9 +102,9 @@ const useUserStore = defineStore("user", {
     },
     async logoutUser() {
       try {
+        this.setUser(null);
         await signOut(firebaseAuth);
         localStorage.removeItem("currentUser");
-        this.user = null;
         router.push({ name: ROUTE_NAMES.LOGIN });
       } catch (error) {
         console.log({ error });

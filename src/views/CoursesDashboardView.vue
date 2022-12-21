@@ -1,4 +1,4 @@
-<template>
+<template> 
 	<div class="courses__container">
 		<div class="courses__header_container">
 			<div>
@@ -7,7 +7,7 @@
 					</h1>
 					<Spinner v-if="coursesStore.loadingStatus" />
 				</div>
-				<div class="courses__subheader">Current courses</div>
+				<div class="courses__subheader">{{ !isArchive ? 'Current Academy courses' : 'Finished Academy courses' }}</div>
 			</div>
 			<div class="flex">
 				<BaseButton v-if="userStore.isAdmin" :variant="'btn_blue'" @click="addCourse">Add new course
