@@ -61,7 +61,7 @@ const useStudentStore = defineStore("student", {
       } finally {
         this.studentLoading = false;
       }
-    },
+    }, 
     async updateStudent(payload: AppUser) {
       try {
         this.studentLoading = true;
