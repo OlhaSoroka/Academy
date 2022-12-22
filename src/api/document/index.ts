@@ -11,6 +11,7 @@ import {
   import { db, firestore } from "../../main";
   import { Collection } from "../models/collection.enum";
   import { Document } from "../models/documents.model";
+  import { ToastType,useToastStore } from "../../store/toast.store";
   
   export const updateDocumentById = async (
 	id: string,
@@ -18,12 +19,22 @@ import {
   ): Promise<boolean> => {
 	const materialRef = doc(db, Collection.DOCUMENTS, `${id}`);
 	await updateDoc(materialRef, material as any);
+	const toastStore = useToastStore();
+	toastStore.showToastMessage({
+	  message: "Document successfully updated",
+	  type: ToastType.SUCCESS,
+	});
 	return true;
   };
   
   export const deleteDocument= async (id: string): Promise<boolean> => {
 	const materialRef = doc(db, Collection.DOCUMENTS, `${id}`);
 	await deleteDoc(materialRef);
+	const toastStore = useToastStore();
+	toastStore.showToastMessage({
+	  message: "Document successfully deleted",
+	  type: ToastType.SUCCESS,
+	});
 	return true;
   };
   

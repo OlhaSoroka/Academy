@@ -9,6 +9,7 @@ import {
 	setDoc,
   } from "firebase/firestore";
   import { db, firestore } from "../../main";
+import { ToastType, useToastStore } from "../../store/toast.store";
   import { Collection } from "../models/collection.enum";
   import { ExitResult } from "../models/result.model";
   
@@ -18,6 +19,11 @@ import {
   ): Promise<boolean> => {
 	const resultRef = doc(db, Collection.EXIT_RESULTS, `${id}`);
 	await updateDoc(resultRef, result as any);
+	const toastStore = useToastStore();
+    toastStore.showToastMessage({
+      message: "Exit result successfully updated",
+      type: ToastType.SUCCESS,
+    });
 	return true;
   };
   
@@ -30,11 +36,15 @@ import {
 	  where("studentId", "==", studentId),
 	);
 	const documents = await getDocs(collectionQuery);
-  
 	documents.forEach(async (document) => {
 	  const resultData = document.data();
 	  await updateDoc(document.ref, { ...resultData, ...result });
 	});
+	const toastStore = useToastStore();
+    toastStore.showToastMessage({
+      message: "Exit result successfully updated",
+      type: ToastType.SUCCESS,
+    });
   };
   
   export const deleteExitResult = async (id: string): Promise<boolean> => {

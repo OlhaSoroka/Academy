@@ -17,6 +17,7 @@ import { Lecture } from "../api/models/lecture.model";
 import { LectureHomework } from "../api/models/homework.model";
 import { getCoursesHomeworks, getHomeworksByLecture } from "../api/homework";
 import { getDocumentByCourse } from "../api/document";
+import { ToastType, useToastStore } from "./toast.store";
 
 interface CourseDetailsStoreState {
   _mainInfo: Course[];
@@ -190,9 +191,9 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         return exitResults;
       });
 
-
       this._groupWidgetLoading = false;
       this._resultWidgetLoading = false;
+      
     },
     async updateLectures() {
       this._lecturesWidgetLoading = true;
@@ -208,9 +209,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
     async selectLecture(lectureId: string) {
       this._homeworkWidgetLoading = true;
       const lectureHomework = await getHomeworksByLecture(lectureId);
-
-      
-
       lectureHomework.lecture = this.lectures.find(
         (lecture) => lecture.id === lectureId,
       )?.name;

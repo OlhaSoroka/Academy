@@ -9,6 +9,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db, firestore } from "../../main";
+import { ToastType, useToastStore } from "../../store/toast.store";
 import { Collection } from "../models/collection.enum";
 import { Comment } from "../models/comment.model";
 
@@ -18,12 +19,22 @@ export const updateCommentById = async (
 ): Promise<boolean> => {
   const commentRef = doc(db, Collection.COMMENTS, `${id}`);
   await updateDoc(commentRef, comment as any);
+  const toastStore = useToastStore();
+  toastStore.showToastMessage({
+    message: "Comment successfully updated",
+    type: ToastType.SUCCESS,
+  });
   return true;
 };
 
 export const deleteComment = async (id: string): Promise<boolean> => {
   const commentRef = doc(db, Collection.COMMENTS, `${id}`);
   await deleteDoc(commentRef);
+  const toastStore = useToastStore();
+  toastStore.showToastMessage({
+    message: "Comment successfully deleted",
+    type: ToastType.SUCCESS,
+  });
   return true;
 };
 

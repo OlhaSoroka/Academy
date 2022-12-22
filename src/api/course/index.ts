@@ -12,6 +12,7 @@ import {
 import { db, firestore } from "../../main";
 import { Collection } from "../models/collection.enum";
 import { Course } from "../models/course.model";
+import { ToastType, useToastStore } from "../../store/toast.store";
 
 export const getAllCourses = async ()/* : Promise<Course[] | undefined> */ => {
   try {
@@ -28,8 +29,18 @@ export const updateCourseById = async (id: string, course: Course): Promise<void
   try {
     const courseRef = doc(db, Collection.COURSES, `${id}`);
     await updateDoc(courseRef, course as any);
+    const toastStore = useToastStore();
+    toastStore.showToastMessage({
+      message: "Course info successfully updated",
+      type: ToastType.SUCCESS,
+    });
   } catch (error) {
     console.log({ error });
+    const toastStore = useToastStore();
+    toastStore.showToastMessage({
+      message: "Error: Can't updated course info",
+      type: ToastType.FAILURE,
+    });
   }
 };
 
