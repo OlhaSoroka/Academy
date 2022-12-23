@@ -24,11 +24,11 @@
 
 		<div class="mt-5 grow">
 			<div>
-				<router-link class="navigation-link" :to="{ name: COURSE_DASHBOARD }">
+				<router-link class="navigation-link" :to="userStore.isStudent ? {name:COURSE_DETAILS,params: { id: userStore.currentUser.courseId }} : {name:COURSE_DASHBOARD}">
 					<svg width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-courses" />
 					</svg>
-					<span v-if="isOpen" class="navigation-text">Courses</span>
+					<span v-if="isOpen" class="navigation-text">{{ userStore.isStudent ? 'My Course' : 'Courses' }}</span>
 				</router-link>
 			</div>
 			<div>
@@ -36,7 +36,7 @@
 					<svg class="navigation-menu-icon" width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-members" />
 					</svg>
-					<span v-if="isOpen" class="navigation-text">Students</span>
+					<span v-if="isOpen" class="navigation-text">{{ userStore.isStudent ? 'My Group' : 'Students' }}</span>
 				</router-link>
 			</div>
 			<div>
@@ -101,6 +101,7 @@ export default {
 			MENTORS: ROUTE_NAMES.MENTORS,
 			ADMINS: ROUTE_NAMES.ADMINS,
 			COURSE_DASHBOARD: ROUTE_NAMES.COURSE_DASHBOARD,
+			COURSE_DETAILS:ROUTE_NAMES.COURSE_DETAILS,
 			LOGIN: ROUTE_NAMES.LOGIN,
 		};
 	},

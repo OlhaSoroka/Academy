@@ -15,6 +15,7 @@ import { Collection } from "../models/collection.enum";
 import { LectureHomework, StudentHomework } from "../models/homework.model";
 import { Lecture } from "../models/lecture.model";
 import { getStudentsByCourse } from "../user";
+import { ToastType, useToastStore } from "../../store/toast.store";
 
 export const updateLectureById = async (
   id: string,
@@ -23,6 +24,11 @@ export const updateLectureById = async (
   const lectureRef = doc(db, Collection.LECTURES, `${id}`);
   delete lecture.mentor;
   await updateDoc(lectureRef, lecture as any);
+  const toastStore = useToastStore();
+  toastStore.showToastMessage({
+    message: "Lecture successfully updated",
+    type: ToastType.SUCCESS,
+  });
   return true;
 };
 
@@ -30,6 +36,11 @@ export const deleteLecture = async (id: string): Promise<boolean> => {
   const lectureRef = doc(db, Collection.LECTURES, `${id}`);
   await deleteDoc(lectureRef);
   await deleteLectureHomeworks(id);
+  const toastStore = useToastStore();
+  toastStore.showToastMessage({
+    message: "Lecture successfully deleted",
+    type: ToastType.SUCCESS,
+  });
   return true;
 };
 

@@ -44,7 +44,7 @@ export default defineComponent({
 
 <style lang="scss">
 .select__container {
-	@apply h-10 border-[2px] border-primary-500 rounded font-bold text-primary-500 p-1 outline-none;
+	@apply h-10 border-[1px] border-primary-500 rounded font-semibold text-primary-500 p-[8px] outline-none;
 }
 .select__container :focus { outline: none; }
 

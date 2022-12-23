@@ -22,15 +22,15 @@
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('groupWidget')">Group
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('groupWidget')">Group
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultEntryWidget')">Entry
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor"  variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultEntryWidget')">Entry
 					Results</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultExitWidget')">Exit
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor"  variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultExitWidget')">Exit
 					Results</BaseButton>
 			</div>
 			<div>
@@ -46,7 +46,7 @@
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('commentWidget')">Comments
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('commentWidget')">Comments
 				</BaseButton>
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 			<div id="mainInfoWidget" class="mt-10">
 				<MainInfoWidget :currentCourse="currentCourse"></MainInfoWidget>
 			</div>
-			<div id="groupWidget" class="mt-10">
+			<div id="groupWidget" v-if="userStore.isAdmin || userStore.isMentor" class="mt-10">
 				<GroupWidget :currentCourse="currentCourse" />
 			</div>
 			<div id="resultEntryWidget" class="mt-10">
@@ -73,11 +73,11 @@
 			<div id="documentWidget" class="mt-10">
 				<DocumentWidget  :currentCourse="currentCourse" />
 			</div>
-			<div id="commentWidget" class="mt-10">
-				<CommentWidget v-if="userStore.isAdmin || userStore.isMentor" :currentCourse="currentCourse" />
+			<div id="commentWidget" v-if="userStore.isAdmin || userStore.isMentor" class="mt-10">
+				<CommentWidget  :currentCourse="currentCourse" />
 			</div>
 		</div>
-		<button class="w-16 h-16 bg-primary-300 shadow font-bold text-white rounded-full p-2 fixed bottom-5 right-5 flex justify-center items-center" @click="scrollToTop()"><ArrowPrevIcon class="rotate-90 "/></button>
+		<button class="courses__scroll" @click="scrollToTop()"><ArrowPrevIcon class="rotate-90 "/></button>
 	</div>
 </template>
 <script lang="ts">
@@ -161,4 +161,7 @@ export default {
 .courses__nav__btn {
 	@apply flex justify-center items-center;
 }
+.courses__scroll {
+	@apply w-16 h-16 bg-primary-300 shadow font-bold text-white rounded-full p-2 fixed bottom-5 right-5 flex justify-center items-center
+} 
 </style>

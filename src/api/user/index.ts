@@ -17,6 +17,7 @@ import { Collection } from "../models/collection.enum";
 import { AppUser, RegisterUserBody } from "../models/user.model";
 import { createImageRef, createImageUrl, deleteImage } from "../storage";
 
+
 export const deleteUserById = async (id: string): Promise<boolean> => {
   try {
     const documentReference = doc(firestore, Collection.USERS, id);
@@ -29,6 +30,11 @@ export const deleteUserById = async (id: string): Promise<boolean> => {
     return true;
   } catch (error) {
     console.log({ error });
+    const toastStore = useToastStore();
+    toastStore.showToastMessage({
+      message: "User successfully deleted",
+      type: ToastType.SUCCESS,
+    });
     return false;
   }
 };
@@ -95,6 +101,7 @@ export const gethUserByID = async (id: string): Promise<AppUser | null> => {
     const document = await getDoc(documentReference);
     const user = document.data() as AppUser;
     return user;
+    
   } catch (error) {
     console.log({ error });
     return null;
@@ -110,11 +117,22 @@ export const updateUserByID = async (
     const document = await getDoc(documentReference);
     const user = document.data() as AppUser;
     const userToUpdate: AppUser = { ...user, ...data };
+    const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "User info successfully updated",
+          type: ToastType.SUCCESS,
+        });
     await updateDoc(documentReference, userToUpdate as any);
     return userToUpdate;
   } catch (error) {
     console.log({ error });
+    const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Error: Can't updated user info",
+          type: ToastType.FAILURE,
+        });
     return null;
+    
   }
 };
 

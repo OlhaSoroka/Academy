@@ -85,7 +85,7 @@
       </tr>
     </table>
     <BaseDeleteModal v-if="rowData[rowToDeleteIndex]" :toggle-modal="isModalOpen"
-      :target-value="rowData[rowToDeleteIndex][columnDefs[0].field]" @delete="onDeleteRow(rowToDeleteIndex)" />
+      :target-value="rowData[rowToDeleteIndex]?.[columnDefs[0]?.field]" @delete="onDeleteRow(rowToDeleteIndex)" />
   </div>
 </template>
 
