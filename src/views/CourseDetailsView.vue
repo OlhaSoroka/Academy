@@ -6,7 +6,7 @@
 		</h3>
 		<nav class="courses__nav my-3">
 			<router-link :to="{ name: COURSE_DASHBOARD }">
-				<div>
+				<div v-if="userStore.isAdmin || userStore.isMentor">
 					<BaseButton class="courses__nav__btn" variant="btn_blue">
 						<ArrowUpIcon class="-rotate-90" />
 					</BaseButton>

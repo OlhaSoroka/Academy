@@ -80,7 +80,8 @@ export default {
 			{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200},
 			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter:true },
 			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true, }
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true },
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin}
 		]
 	},
 	methods: {

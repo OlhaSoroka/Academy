@@ -1,4 +1,4 @@
-<template> 
+<template>
     <div class="students__container">
         <div class="students___header_container">
             <div>
@@ -28,9 +28,18 @@
                         Archive</div>
                 </div>
             </div>
-            <BaseTableEditable :column-defs="columnDefs"
-                :row-data="isArchive ? studentStore.archiveStudents : studentStore.activeStudents" uniq-identifier="id"
-                @deleteRow="onStudentDelete($event)" @cellValueChanged="onStudentEdit($event)" class="min-h-[230px]" />
+            <div v-if="(userStore.isAdmin||userStore.isMentor)">
+                <BaseTableEditable :column-defs="columnDefs"
+                    :row-data="isArchive ? studentStore.archiveStudents : studentStore.activeStudents"
+                    uniq-identifier="id" @deleteRow="onStudentDelete($event)" @cellValueChanged="onStudentEdit($event)"
+                    class="min-h-[230px]" />
+            </div>
+            <div v-if="userStore.isStudent">
+                <BaseTableEditable :column-defs="columnDefs"
+                    :row-data="studentStore.studentsFromMyCourse"
+                    uniq-identifier="id" @deleteRow="onStudentDelete($event)" @cellValueChanged="onStudentEdit($event)"
+                    class="min-h-[230px]" />
+            </div>
         </div>
         <UserCreateModal :toggle-modal="isAddStudentModalOpen" :role="'student'" :header="'Add new student'">
         </UserCreateModal>
@@ -102,7 +111,6 @@ export default {
                 return [
                     { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                     { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
-                    { field: "course", headerName: "Course", sortable: true, editable: false, minWidth: 150, width: 200 },
                 ]
             }
             if (this.userStore.isAdmin || this.userStore.isMentor) {

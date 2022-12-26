@@ -19,6 +19,21 @@ export const roleGuard: NavigationGuard = (to, _, next): void => {
   }
 };
 
+export const studentGuard: NavigationGuard = (to, _, next): void => {
+  const userStore = useUserStore();
+  const userRole = userStore.currentUser?.role;
+  if (
+    userRole === ROLES.STUDENTS_ROLE
+  ) {
+    next({
+      name: ROUTE_NAMES.COURSE_DETAILS,params: { id: userStore.currentUser?.courseId } ,
+    });
+  } else {
+    next();
+  }
+};
+
+
 export const authGuard: NavigationGuard = async (
   to,
   _,
