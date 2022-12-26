@@ -17,6 +17,7 @@ import { createExitResult, deleteStudentExitResults } from "../api/exit_results"
 import { EntryResult } from "../api/models/result.model";
 import { ExitResult } from "../api/models/result.model";
 import { getCoursesHomeworks, updateHomeworkById } from "../api/homework";
+import { useUserStore } from "./user";
 
 interface StudentStoreState {
   students: AppUser[];
@@ -32,6 +33,11 @@ const useStudentStore = defineStore("student", {
     allStudents: (state: StudentStoreState) => state.students,
     archiveStudents: (state: StudentStoreState) => state.students.filter(student => student.archive),
     activeStudents: (state: StudentStoreState) => state.students.filter(student => !student.archive),
+    studentsFromMyCourse: (state: StudentStoreState) => {
+      const userStore = useUserStore();
+      const myCourseId = userStore.currentUser?.courseId;
+      return state.students.filter(student => student.courseId === myCourseId)
+    },
     isStudentLoading: (state: StudentStoreState) => state.studentLoading,
     studentById: (state: StudentStoreState) => {
       return (studentId: string) =>

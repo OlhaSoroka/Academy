@@ -1,7 +1,8 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
 import { ROLES, ROUTE_NAMES, ROUTE_PATH } from "../models/router.model";
-import { authGuard, isCourseExist, roleGuard } from "./utils";
+import { authGuard, isCourseExist, roleGuard,studentGuard } from "./utils";
+import { useUserStore } from "../store/user";
 
 
 const routes: RouteRecordRaw[] = [
@@ -57,6 +58,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: "",
         name: ROUTE_NAMES.COURSE_DASHBOARD,
+        beforeEnter: studentGuard,
         component: () => import("../views/CoursesDashboardView.vue"),
       },
       {
