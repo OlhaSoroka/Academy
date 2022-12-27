@@ -75,6 +75,7 @@ export default {
 				headerName: "Tech interview",
 				sortable: true,
 				editable: this.isAdmin || this.isMentor,
+				centered:true,
 				width: 120,
 			},
 			{
@@ -82,6 +83,7 @@ export default {
 				headerName: "Average homework score",
 				sortable: true,
 				editable: false,
+				centered:true,
 				width: 200,
 			},
 			{

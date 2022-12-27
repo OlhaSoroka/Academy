@@ -2,7 +2,7 @@
 	<div class="group__container ">
 		<div class="flex items-center">
 			<h2 class="group__header mr-3">Group</h2>
-			<Spinner v-if="courseDetailsStore.groupWidgetLoading"/>
+			<Spinner v-if="courseDetailsStore.groupWidgetLoading" />
 		</div>
 		<div>
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.group" class="mt-5 min-h-[200px]"
@@ -24,9 +24,9 @@ import { EnglishLevel } from "../../models/english-level.enum";
 import Spinner from "../baseComponents/spinner/Spinner.vue";
 export default {
 	components: {
-    BaseTableEditable,
-    Spinner
-},
+		BaseTableEditable,
+		Spinner
+	},
 	props: {
 		currentCourse: {
 			type: Object as PropType<Course>
@@ -45,22 +45,17 @@ export default {
 		...mapStores(useUserStore, useCourseDetailsStore),
 	},
 	beforeMount() {
-		if (this.userStore.isStudent) {
-			this.columnDefs = [
-				{ field: "fullName", headerName: "Name", sortable: true, editable: this.userStore.isAdmin, width: 200 , filter:true },
-				{ field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, width: 200 ,filter:true }
-			]
-		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "fullName", headerName: "Name", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter:true, width: 300 },
-				{ field: "email", headerName: "Email", headerEditable: false, sortable: true, editable: false, filter:true, width: 250 },
-				{ field: "phone", headerName: "Phone", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter:false, width: 200 },
-				{ field: "city", headerName: "City", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter:true, width: 200 },
-				{ field: "age", headerName: "Age", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, width: 100 },
-				{ field: "education", headerName: "Education", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter:true, width: 250 },
+				{ field: "avatarUrl", headerName: "", width: 80, centered: true, image: true },
+				{ field: "fullName", headerName: "Name", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter: true, width: 300 },
+				{ field: "email", headerName: "Email", headerEditable: false, sortable: true, editable: false, filter: true, width: 250 },
+				{ field: "phone", headerName: "Phone", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter: false, width: 200 },
+				{ field: "city", headerName: "City", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter: true, width: 200 },
+				{ field: "age", headerName: "Age", headerEditable: false, sortable: true, editable: this.userStore.isAdmin,centered:true, width: 100 },
+				{ field: "education", headerName: "Education", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter: true, width: 250 },
 				{
-					field: "eng_level", headerName: "English level", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter:true, width: 250, dropdown: true,
+					field: "eng_level", headerName: "English level", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter: true, width: 250, dropdown: true,
 					options: [
 						{ label: EnglishLevel.BEGINNER_ELEMENTARY, value: EnglishLevel.BEGINNER_ELEMENTARY },
 						{ label: EnglishLevel.PRE_INTERMEDIATE, value: EnglishLevel.PRE_INTERMEDIATE },
@@ -70,7 +65,7 @@ export default {
 						{ label: EnglishLevel.PROFICIENT, value: EnglishLevel.PROFICIENT },
 					]
 				},
-				{ field: "cv_link", headerName: "CV link", headerEditable: false, sortable: false, editable: this.userStore.isAdmin,link:true, filter:false, width: 250 },
+				{ field: "cv_link", headerName: "CV link", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, link: true, filter: false, width: 250 },
 
 			]
 		}

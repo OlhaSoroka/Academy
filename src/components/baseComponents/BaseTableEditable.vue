@@ -43,7 +43,7 @@
       </tr>
       <tr v-for="(row, rowIndex) in (shouldShowSearchedRows ? searchedRows : rows)" :key="rowIndex" class="table_row">
         <td v-for="(column, columnIndex) in columnDefs" :key="column.field" class="table_row_item">
-          <div v-if="!column.actionColumn" class="table_cell" :class="column.editable && 'cursor-pointer'" 
+          <div v-if="!column.actionColumn" class="table_cell" :class="column.editable && 'cursor-pointer', { 'cell_centered': column.centered }" 
             @click.stop="onCellClick(rowIndex, columnIndex, column)">
             <input v-if="isCellActive(rowIndex, columnIndex) && !column.dropdown" v-focus class="table_cell_input"
               :type="column.date ? 'date' : 'text'" :value="row[column.field]"
@@ -69,8 +69,8 @@
               </select>
             </div>
           </div>
-          <div class="table_cell" v-else>
-            <div v-if="column.homework" >
+          <div class="table_cell_icon" v-else>
+            <div v-if="column.homework" :class=" { 'cell_centered': column.centered }" >
               <BaseButton @click="onCellClick(rowIndex, columnIndex, column)" variant="btn_blue_outlined">
                 <HomeworkIcon />
               </BaseButton>
@@ -120,6 +120,7 @@ interface IColumnDefs {
   image? :boolean;
   homework?: boolean;
   dropdown?: boolean;
+  centered?: boolean;
   options?: SelectItem[];
   checkAuthor?: boolean;
   currentUserId?: string;
@@ -388,6 +389,10 @@ export default defineComponent({
   @apply flex min-h-[50px] items-center justify-start text-start ml-3;
   overflow-wrap: break-word
 }
+.table_cell_icon {
+  @apply flex min-h-[50px] items-center justify-center text-start;
+  overflow-wrap: break-word
+}
 .table_cell_centered {
   @apply flex min-h-[50px] items-center justify-center text-center ml-3;
   overflow-wrap: break-word
@@ -398,5 +403,8 @@ export default defineComponent({
 
 .text-wrap {
   overflow-wrap: break-word;
+}
+.cell_centered {
+  @apply justify-center text-center ml-0;
 }
 </style>
