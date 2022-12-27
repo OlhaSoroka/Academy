@@ -68,6 +68,7 @@ export default {
 				headerName: "Multiple choice",
 				sortable: true,
 				editable: this.isAdmin,
+				centered:true,
 				width: 150,
 			},
 			{
@@ -75,6 +76,7 @@ export default {
 				headerName: "Tech Task",
 				sortable: true,
 				editable: this.isAdmin,
+				centered:true,
 				width: 150,
 			},
 			{
@@ -82,6 +84,7 @@ export default {
 				headerName: "Total",
 				sortable: true,
 				width: 150,
+				centered:true,
 				solid: true,
 			},
 			{
@@ -89,6 +92,7 @@ export default {
 				headerName: "English Test",
 				sortable: true,
 				editable: this.isAdmin,
+				centered:true,
 				width: 150,
 			},
 			{
@@ -96,6 +100,7 @@ export default {
 				headerName: "Total with English",
 				sortable: true,
 				width: 150,
+				centered:true,
 				solid: true,
 			},
 			{
@@ -103,12 +108,14 @@ export default {
 				headerName: "Tech Interview",
 				sortable: true,
 				editable: this.isAdmin || this.isMentor,
+				centered:true,
 				width: 150,
 			},
 			{
 				field: "total_with_interview",
 				headerName: "Total with interview",
 				sortable: true,
+				centered:true,
 				width: 200,
 				solid: true,
 			},
