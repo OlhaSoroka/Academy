@@ -55,7 +55,14 @@
 					<span v-if="isOpen" class="navigation-text">Admins</span>
 				</router-link>
 			</div>
-			<!-- TRANSFER LOGOUT TO DROPDOWN MENU -->
+			<div>
+				<router-link class="navigation-link" :to="{ name: NOTIFICATION }">
+					<svg class="navigation-menu-icon" width="16" height="16">
+						<use href="../icons/spite-navigation.svg#icon-notification" />
+					</svg>
+					<span v-if="isOpen" class="navigation-text">Notification</span>
+				</router-link>
+			</div>
 			<div>
 				<div class="navigation-link" @click="logout">
 					<svg id="logout" width="16" height="16">
@@ -103,6 +110,7 @@ export default {
 			COURSE_DASHBOARD: ROUTE_NAMES.COURSE_DASHBOARD,
 			COURSE_DETAILS:ROUTE_NAMES.COURSE_DETAILS,
 			LOGIN: ROUTE_NAMES.LOGIN,
+			NOTIFICATION: ROUTE_NAMES.NOTIFICATION,
 		};
 	},
 	computed: {

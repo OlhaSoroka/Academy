@@ -9,7 +9,8 @@ export enum ROUTE_NAMES {
   COURSE_DASHBOARD = "course-dashboard",
   COURSE_DETAILS = "course-details",
   NOT_FOUND = "not-found",
-  GUIDE ="guide"
+  GUIDE ="guide",
+  NOTIFICATION ="notification"
 }
 
 export enum ROUTE_PATH {
@@ -19,7 +20,8 @@ export enum ROUTE_PATH {
   MENTORS = "/mentors",
   ADMINS = "/admins",
   COURSES = "/courses",
-  GUIDE = "/guide"
+  GUIDE = "/guide",
+  NOTIFICATION ="/notification"
 }
 export enum ROLES {
   ADMIN_ROLE = "admin",
