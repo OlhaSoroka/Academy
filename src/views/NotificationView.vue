@@ -1,6 +1,9 @@
 <template>
-	Notification
+	<NotificationBox></NotificationBox>
 </template>
 <script lang="ts">
-export default {}
+import NotificationBox from "../components/baseComponents/NotificationBox.vue";
+
+export default { components: { NotificationBox } }
+	
 </script>

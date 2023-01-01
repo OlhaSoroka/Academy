@@ -38,10 +38,10 @@ export default {
 			isModalOpen: false,
 			columnDefs: [
 				{
-					field: "roleLabel", headerName: "Name", editable: false, sortable: true, minWidth: 150, width: 200, dropdown: true,
+					field: "roleLabel", headerName: "Name", editable: false, sortable: true, minWidth: 150, width:400, dropdown: true,
 					options: guideRoleOptions
 				},
-				{ field: "link", headerName: "Link", sortable: true, editable: true, minWidth: 150, width: 200, link: true },
+				{ field: "link", headerName: "Link", sortable: true, editable: true, minWidth: 150, link: true },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
 			],
 		};
