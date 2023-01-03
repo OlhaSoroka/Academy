@@ -19,7 +19,7 @@ components: {
 </script>
 <style lang="css" scoped>
 .navigation__container {
-	@apply shadow-md bg-stone-50 border border-primary-700 rounded-md p-5 w-full m-3;
+	@apply shadow-md bg-stone-50 border border-primary-700 rounded-md p-5 m-3 ;
 }
 
 .navigation__text{
