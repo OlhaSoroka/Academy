@@ -2,10 +2,11 @@
 	<div v-if="currentCourse" class="main__container">
 		<div class="flex items-center">
 			<h2 class="main__header mr-3">Main Info</h2>
-			<Spinner v-if="courseDetailsStore.mainInfoWidgetLoading"/>
+			<Spinner v-if="courseDetailsStore.mainInfoWidgetLoading" />
 		</div>
-		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse" class="mt-5 min-h-[130px]"
-			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"></BaseTableEditable>
+		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse"
+			class="mt-5 min-h-[130px]" :uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)">
+		</BaseTableEditable>
 	</div>
 </template>
 <script lang="ts">
@@ -15,7 +16,6 @@ import { Course, CourseStatus } from '../../api/models/course.model';
 import { useCoursesStore } from '../../store/courses';
 import BaseButton from '../baseComponents/BaseButton.vue';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue'
-import { getCourseById, updateCourseById } from '../../api/course';
 import { useCourseDetailsStore } from '../../store/course-details.store';
 import Spinner from '../baseComponents/spinner/Spinner.vue';
 import { useUserStore } from '../../store/user';
@@ -37,7 +37,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapStores(useCoursesStore, useCourseDetailsStore,useUserStore),
+		...mapStores(useCoursesStore, useCourseDetailsStore, useUserStore),
 	},
 	components: { BaseButton, BaseTableEditable, Spinner },
 	beforeMount() {
@@ -94,9 +94,8 @@ export default {
 		toggleModal() {
 			this.isModalOpen = !this.isModalOpen
 		},
-		async onCellEdit(event: { uniqIdentifier: string, data: Course }) {
-			await updateCourseById(event.uniqIdentifier, event.data);
-			const updatedCourse = await getCourseById(event.uniqIdentifier)
+		async onCellEdit(event: { uniqIdentifier: string, data: Course, colDef: { field: string }, oldValue: string, newValue: string }) {
+			this.coursesStore.updateCourse(event.data, { field: event.colDef.field, oldValue: event.oldValue, newValue: event.newValue });
 			this.courseDetailsStore.updatedCourseInfo()
 		},
 	},
@@ -109,7 +108,7 @@ export default {
 }
 
 .main__header {
-	@apply text-xl text-gray-700 ;
+	@apply text-xl text-gray-700;
 }
 
 .nav__btn {

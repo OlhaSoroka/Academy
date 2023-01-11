@@ -26,10 +26,12 @@
 
 <script lang="ts">
 import { uuidv4 } from '@firebase/util';
+import { mapStores } from 'pinia';
 import { Form } from 'vee-validate';
 import { defineComponent } from 'vue';
 import { createLecture } from '../../../api/lectures';
 import { Lecture } from '../../../api/models/lecture.model';
+import { useCourseDetailsStore } from '../../../store/course-details.store';
 import BaseButton from '../../baseComponents/BaseButton.vue';
 import BaseInput from '../../baseComponents/BaseInput.vue';
 import BaseModal from '../../baseComponents/BaseModal.vue';
@@ -48,6 +50,7 @@ export default defineComponent({
 		}
 	},
 	computed: {
+		...mapStores(useCourseDetailsStore),
 		isFormValid() { return !!this.name },
 		courseId() {
 			return this.$route.params.id as string
@@ -69,7 +72,7 @@ export default defineComponent({
 		async submit() {
 			const lecture = new Lecture(uuidv4(), this.courseId);
 			lecture.name = this.name;
-			await createLecture(lecture);
+			this.courseDetailsStore.createLecture(lecture);
 			this.$emit('lectureCreated');
 			(this.$refs.createLectureModal as typeof BaseModal).closeModal();
 			this.clearInputs();

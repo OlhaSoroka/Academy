@@ -16,10 +16,12 @@ import {
 	const resultRef = doc(db, Collection.UPDATES, `${id}`);
 	await deleteDoc(resultRef);
 	return true;
-  };
+  }; 
   
   export const createUpdate = async (data: Update): Promise<Update> => {
 	const documentReference = doc(firestore, Collection.UPDATES, `${data.id}`);
+	console.log({data});
+	
 	await setDoc(documentReference, data.asObject());
 	return data;
   };
