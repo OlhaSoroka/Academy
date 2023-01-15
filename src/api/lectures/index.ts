@@ -24,11 +24,6 @@ export const updateLectureById = async (
   const lectureRef = doc(db, Collection.LECTURES, `${id}`);
   delete lecture.mentor;
   await updateDoc(lectureRef, lecture as any);
-  const toastStore = useToastStore();
-  toastStore.showToastMessage({
-    message: "Lecture successfully updated",
-    type: ToastType.SUCCESS,
-  });
   return true;
 };
 

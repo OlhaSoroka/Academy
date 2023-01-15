@@ -1,15 +1,23 @@
 <template>
 	<div v-if="update">
 		<div class="navigation__container">
+
+			<!-- Create -->
 			<div v-if="isCreateType" class="navigation__text">
-				Create
+				<h1 class="text-primary-700 font-semibold ">{{ notificationHeader }} added</h1>
+				<div>{{ update.authorId }} added a new {{ notificationHeader!.toLowerCase() }} in {{ update.courseId }}
+				</div>
+				<div>Created at: {{ update.createdAt }}</div>
 			</div>
+
+			<!-- Update -->
 			<div v-else class="navigation__text">
 				<h1 class="text-primary-700 font-semibold">{{ notificationHeader }} changed</h1>
 				<div>{{ update.authorId }} made update in {{ update.courseId }} course ({{ notificationHeader }}
 					widget).
 				</div>
-				<div>{{ notificationField }} was changed from {{ update.oldValue }} to {{ update.newValue }}</div>
+				<div>{{ notificationField }} was changed from <span class="font-bold">{{ update.oldValue || 'Empty'
+				}}</span> to <span class="font-bold">{{ update.newValue }}</span></div>
 				<div>Updated at: {{ update.createdAt }}</div>
 			</div>
 		</div>

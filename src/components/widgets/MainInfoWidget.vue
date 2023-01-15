@@ -19,6 +19,7 @@ import BaseTableEditable from '../baseComponents/BaseTableEditable.vue'
 import { useCourseDetailsStore } from '../../store/course-details.store';
 import Spinner from '../baseComponents/spinner/Spinner.vue';
 import { useUserStore } from '../../store/user';
+import { UpdateEvent } from '../../api/models/update.model';
 export default {
 	props: {
 		currentCourse: {
@@ -94,8 +95,8 @@ export default {
 		toggleModal() {
 			this.isModalOpen = !this.isModalOpen
 		},
-		async onCellEdit(event: { uniqIdentifier: string, data: Course, colDef: { field: string }, oldValue: string, newValue: string }) {
-			this.coursesStore.updateCourse(event.data, { field: event.colDef.field, oldValue: event.oldValue, newValue: event.newValue });
+		async onCellEdit(event: UpdateEvent<Course>) {
+			this.coursesStore.updateCourse(event);
 			this.courseDetailsStore.updatedCourseInfo()
 		},
 	},

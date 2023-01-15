@@ -28,6 +28,7 @@
 import { mapStores } from "pinia";
 import { useUserStore } from "../../../store/user";
 import { useCoursesStore } from "../../../store/courses";
+import { useCourseDetailsStore } from "../../../store/course-details.store";
 import { defineComponent } from "vue";
 import BaseModal from "../../baseComponents/BaseModal.vue";
 import BaseButton from "../../baseComponents/BaseButton.vue";
@@ -52,7 +53,7 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		...mapStores(useUserStore, useCoursesStore),
+		...mapStores(useUserStore, useCoursesStore, useCourseDetailsStore ),
 		currentRouteName() {
 			return this.$route.params.id as string
 		},
@@ -76,6 +77,7 @@ export default defineComponent({
 			document.name = this.name;
 			document.link = this.link;
 			await createDocument(document);
+			this.courseDetailsStore.createDocument(document);
 			this.$emit('documentAdded');
 			(this.$refs.newDocument as typeof BaseModal).closeModal();
 			this.clearInputs();

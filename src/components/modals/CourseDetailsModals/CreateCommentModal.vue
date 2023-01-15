@@ -29,6 +29,7 @@
 import { mapStores } from "pinia";
 import { useUserStore } from "../../../store/user";
 import { useCoursesStore } from "../../../store/courses";
+import { useCourseDetailsStore } from "../../../store/course-details.store";
 import BaseButton from "../../baseComponents/BaseButton.vue";
 import BaseModal from "../../baseComponents/BaseModal.vue";
 import { Form } from "vee-validate";
@@ -51,7 +52,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapStores(useUserStore, useCoursesStore),
+		...mapStores(useUserStore, useCoursesStore, useCourseDetailsStore),
 		currentRouteName() {
 			return this.$route.params.id as string
 		},
@@ -76,6 +77,7 @@ export default {
 			comment.message = this.message;
 			comment.createdAt = Date.now()
 			await createComment(comment);
+			this.courseDetailsStore.createComment(comment);
 			this.$emit('commentsAdded');
 			(this.$refs.addCommentModal as typeof BaseModal).closeModal();
 			this.clearInputs();

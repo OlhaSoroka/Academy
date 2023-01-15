@@ -4,31 +4,7 @@
 			<div class="">
 				<div class="">
 					<div class="navigation__header">Updates</div>
-					<!-- <div class="flex justify-center items-center ">
-						<div>
-							<BaseButton variant="btn_blue_outlined" class="mr-1 ">All</BaseButton>
-						</div>
-						<div>
-							<BaseButton variant="btn_blue_outlined" class="mr-1">Main Info</BaseButton>
-						</div>
-						<div>
-							<BaseButton variant="btn_blue_outlined" class="mr-1">Groups</BaseButton>
-						</div>
-						<div>
-							<BaseButton variant="btn_blue_outlined" class="mr-1">Lectures</BaseButton>
-						</div>
-						<div>
-							<BaseButton variant="btn_blue_outlined" class="mr-1">Documents</BaseButton>
-						</div>
-						<div>
-							<BaseButton variant="btn_blue_outlined" class="mr-1">Materials</BaseButton>
-						</div>
-						<div>
-							<BaseButton variant="btn_blue_outlined" class="mr-1">Comments</BaseButton>
-						</div>
-					</div> -->
 					<div>
-						<div>TODAY</div>
 						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update"></NotificationItem>
 					</div>
 				</div>

@@ -25,6 +25,7 @@ import { updateStudentExitResult } from '../../api/exit_results';
 import { useCourseDetailsStore } from '../../store/course-details.store';
 import { useUserStore } from '../../store/user';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue';
+import { UpdateEvent } from '../../api/models/update.model';
 export default defineComponent({
     data(): {
         columnDefs: any,
@@ -69,12 +70,11 @@ export default defineComponent({
 
     },
     methods: {
-        async onCellEdit(event: {
-            uniqIdentifier: string;
-            data: StudentHomework;
-        }) {
+        async onCellEdit(event: UpdateEvent<StudentHomework>) {
+            console.log({event});
+            
             // TODO: move this method to store
-            const homeworkToUpdate = {
+            const lectureHomework = {
                 id: this.courseDetailsStore.selectedHomework!.id,
                 courseId: this.courseDetailsStore.selectedHomework!.courseId,
                 lectureId: this.courseDetailsStore.selectedHomework!.lectureId,
@@ -93,7 +93,7 @@ export default defineComponent({
                     return { ...this } as any
                 }
             }
-            await updateHomeworkById(this.courseDetailsStore.selectedHomework!.id, homeworkToUpdate);
+            await updateHomeworkById(this.courseDetailsStore.selectedHomework!.id, lectureHomework);
             const courseHomeworks = await getCoursesHomeworks(this.courseDetailsStore.selectedHomework!.courseId);
             let studentRateSummary = 0;
             for (const homework of courseHomeworks) {

@@ -15,7 +15,7 @@ import { deleteCoursesHomeworks } from "../api/homework";
 import { deleteCoursesComments } from "../api/comments";
 import { deleteCoursesMaterials } from "../api/materials";
 import { useUpdateStore } from "./update";
-import { Update, UpdateCategory, UpdateType } from "../api/models/update.model";
+import { Update, UpdateCategory, UpdateEvent, UpdateType } from "../api/models/update.model";
 import { ROLES } from "../models/router.model";
 import { useUserStore } from "./user";
 
@@ -101,10 +101,10 @@ const useCoursesStore = defineStore("courses", {
         this.fetchCourses();
       }
     },
-    async updateCourse(course: Course, cellUpdates: {field: string, oldValue: string, newValue: string}) {
+    async updateCourse(event: UpdateEvent<Course>) {
       try {
         this.courseLoading = true;
-        await updateCourseById(course.id, course);
+        await updateCourseById(event.uniqIdentifier, event.data);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Course successfully updated!",
@@ -114,15 +114,15 @@ const useCoursesStore = defineStore("courses", {
         const updateStore = useUpdateStore();
         const update = new Update(
           uuidv4(),
-          course.id,
+          event.uniqIdentifier,
           userStore.currentUser!.id,
           ROLES.STUDENTS_ROLE,
           UpdateType.UPDATE,
           UpdateCategory.MAIN_INFO
         )
-        update.field = cellUpdates.field;
-        update.oldValue = cellUpdates.oldValue;
-        update.newValue = cellUpdates.newValue;
+        update.field = event.colDef.field;
+        update.oldValue = event.oldValue;
+        update.newValue = event.newValue;
 
         updateStore.createUpdate(update)
       } catch (error) {

@@ -1,7 +1,7 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { uuidv4 } from "@firebase/util";
 import { getCourseById } from "../api/course";
-import { getMaterialsByCourse } from "../api/materials";
+import { createMaterial, getMaterialsByCourse } from "../api/materials";
 import { Course } from "../api/models/course.model";
 import { Material } from "../api/models/material.model";
 import { Document } from "../api/models/documents.model";
@@ -10,17 +10,21 @@ import { AppUser } from "../api/models/user.model";
 import { getEntryResultsByCourse } from "../api/entry_results";
 import { getExitResultsByCourse } from "../api/exit_results";
 import { getMentorsAndAdmins, getStudentsByCourse } from "../api/user";
-import { getCommentsByCourse } from "../api/comments";
+import { createComment, getCommentsByCourse } from "../api/comments";
 import { EntryResult } from "../api/models/result.model";
 import { ExitResult } from "../api/models/result.model";
-import { createLecture, getLectureByCourse } from "../api/lectures";
+import {
+  createLecture,
+  getLectureByCourse,
+  updateLectureById,
+} from "../api/lectures";
 import { Lecture } from "../api/models/lecture.model";
 import { LectureHomework } from "../api/models/homework.model";
 import { getCoursesHomeworks, getHomeworksByLecture } from "../api/homework";
-import { getDocumentByCourse } from "../api/document";
+import { createDocument, getDocumentByCourse } from "../api/document";
 import { ToastType, useToastStore } from "./toast.store";
 import { useUpdateStore } from "./update";
-import { Update, UpdateCategory, UpdateType } from "../api/models/update.model";
+import { Update, UpdateCategory, UpdateEvent, UpdateType } from "../api/models/update.model";
 import { useUserStore } from "./user";
 import { ROLES } from "../models/router.model";
 
@@ -150,17 +154,69 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._mainInfo = [course];
       this._mainInfoWidgetLoading = false;
     },
+    async createMaterial(material: Material) {
+      console.log({ createMaterial: material });
+
+      try {
+        await createMaterial(material);
+        const updateStore = useUpdateStore();
+        const userStore = useUserStore();
+        const update = new Update(
+          uuidv4(),
+          material.courseId,
+          userStore.currentUser!.id,
+          ROLES.STUDENTS_ROLE,
+          UpdateType.CREATE,
+          UpdateCategory.MATERIAL,
+        );
+        updateStore.createUpdate(update);
+      } catch (error) {}
+    },
     async updatedMaterials() {
       this._materialsWidgetLoading = true;
       const materials = await getMaterialsByCourse(this.selectedCourseId);
       this._materials = materials;
       this._materialsWidgetLoading = false;
     },
+    async createDocument(document: Document) {
+      console.log({ createDocument: document });
+      try {
+        await createDocument(document);
+        const updateStore = useUpdateStore();
+        const userStore = useUserStore();
+        const update = new Update(
+          uuidv4(),
+          document.courseId,
+          userStore.currentUser!.id,
+          ROLES.STUDENTS_ROLE,
+          UpdateType.CREATE,
+          UpdateCategory.DOCUMENT,
+        );
+        updateStore.createUpdate(update);
+      } catch (error) {}
+    },
     async updatedDocuments() {
       this._documentsWidgetLoading = true;
       const documents = await getDocumentByCourse(this.selectedCourseId);
       this._documents = documents;
       this._documentsWidgetLoading = false;
+    },
+    async createComment(comment: Comment) {
+      console.log({ createComment: comment });
+      try {
+        await createComment(comment);
+        const updateStore = useUpdateStore();
+        const userStore = useUserStore();
+        const update = new Update(
+          uuidv4(),
+          comment.courseId,
+          userStore.currentUser!.id,
+          ROLES.STUDENTS_ROLE,
+          UpdateType.CREATE,
+          UpdateCategory.COMMENT,
+        );
+        updateStore.createUpdate(update);
+      } catch (error) {}
     },
     async updateComments() {
       this._commentsWidgetLoading = true;
@@ -200,8 +256,8 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._resultWidgetLoading = false;
     },
     async createLecture(lecture: Lecture) {
-      console.log({createLecture: lecture});
-      
+      console.log({ createLecture: lecture });
+
       try {
         await createLecture(lecture);
         const updateStore = useUpdateStore();
@@ -217,7 +273,7 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         updateStore.createUpdate(update);
       } catch (error) {}
     },
-    async updateLectures() {
+    async fetchLectures() {
       this._lecturesWidgetLoading = true;
       const lectures = await getLectureByCourse(this.selectedCourseId);
       this._lectures = lectures.map((lecture) => {
@@ -227,6 +283,39 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         return lecture;
       });
       this._lecturesWidgetLoading = false;
+    },
+    async updateLecture(event: UpdateEvent<Lecture>) {
+      try {
+        this._lecturesWidgetLoading = true;
+        await updateLectureById(event.uniqIdentifier, event.data);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Lecture successfully updated",
+          type: ToastType.SUCCESS,
+        });
+        const updateStore = useUpdateStore();
+        const userStore = useUserStore();
+        const update = new Update(
+          uuidv4(),
+          event.data.courseId,
+          userStore.currentUser!.id,
+          ROLES.STUDENTS_ROLE,
+          UpdateType.UPDATE,
+          UpdateCategory.LECTURE,
+        );
+        update.oldValue = event.oldValue;
+        update.newValue = event.newValue;
+        update.field = event.colDef.field;
+        updateStore.createUpdate(update);
+      } catch (error) {
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Error: Can't update lecture",
+          type: ToastType.SUCCESS,
+        });
+      } finally {
+        this._lecturesWidgetLoading = false;
+      }
     },
     async selectLecture(lectureId: string) {
       this._homeworkWidgetLoading = true;

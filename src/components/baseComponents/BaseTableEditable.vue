@@ -269,7 +269,7 @@ export default defineComponent({
       const oldValue = row[field];
       if (newValue !== oldValue) {
         this.$emit("cellValueChanged", {
-          oldValue,
+          oldValue: oldValue || null,
           newValue,
           uniqIdentifier: row[this.uniqIdentifier],
           colDef: { field },

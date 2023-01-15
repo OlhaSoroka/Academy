@@ -46,4 +46,13 @@ export enum UpdateCategory {
   LECTURE = "lecture",
   DOCUMENT = "document",
   COMMENT = "comment",
+  MATERIAL = "material",
+}
+
+export interface UpdateEvent<T> {
+  uniqIdentifier: string;
+  data: T;
+  colDef: { field: string };
+  newValue: string;
+  oldValue: string;
 }
