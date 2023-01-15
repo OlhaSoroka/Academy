@@ -51,6 +51,12 @@ const routes: RouteRecordRaw[] = [
     beforeEnter: roleGuard, 
   },
   {
+    path: ROUTE_PATH.NOTIFICATION,
+    name: ROUTE_NAMES.NOTIFICATION,
+    component: () => import("../views/NotificationView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: ROUTE_PATH.COURSES,
     component: () => import("../views/CoursesView.vue"),
     meta: { requiresAuth: true },

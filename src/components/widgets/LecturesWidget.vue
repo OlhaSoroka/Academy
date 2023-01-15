@@ -35,6 +35,7 @@ import { useCourseDetailsStore } from "../../store/course-details.store";
 import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
 import { deleteLecture, updateLectureById } from "../../api/lectures";
 import { Lecture } from "../../api/models/lecture.model";
+import {UpdateEvent} from "../../api/models/update.model"
 import HomeworkWidget from "./HomeworkWidget.vue";
 import CreateLectureModal from "../modals/CourseDetailsModals/CreateLectureModal.vue";
 import Spinner from "../baseComponents/spinner/Spinner.vue";
@@ -74,23 +75,23 @@ export default {
 	},
 	beforeMount() {
 		this.columnDefs = [
-			{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300 , filter:true },
-			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 , },
-			{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100},
-			{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200},
-			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter:true },
+			{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300, filter: true },
+			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200, },
+			{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100 },
+			{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
+			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter: true },
 			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
 			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin}
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin }
 		]
 	},
 	methods: {
-		async onCellEdit(event: { uniqIdentifier: string, data: Lecture, colDef: { field: string }, newValue: string }) {
+		async onCellEdit(event: UpdateEvent<Lecture>) {
 			if (event.colDef.field === 'mentor') {
 				event.data.mentorId = event.newValue;
 			}
-			await updateLectureById(event.uniqIdentifier, event.data);
-			this.courseDetailsStore.updateLectures();
+			this.courseDetailsStore.updateLecture(event);
+			this.courseDetailsStore.fetchLectures();
 		},
 		onLectureSelect(id: string) {
 			this.courseDetailsStore.selectLecture(id);
@@ -99,12 +100,12 @@ export default {
 			this.isModalOpen = !this.isModalOpen;
 		},
 		async onLectureCreated() {
-			this.courseDetailsStore.updateLectures();
+			this.courseDetailsStore.fetchLectures();
 		},
 		async onLectureDelete(lectureId: string) {
 			await deleteLecture(lectureId);
 			this.courseDetailsStore.resetLecture();
-			this.courseDetailsStore.updateLectures();
+			this.courseDetailsStore.fetchLectures();
 		}
 	}
 };

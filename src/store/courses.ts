@@ -1,4 +1,5 @@
 import { acceptHMRUpdate, defineStore } from "pinia"; 
+import { uuidv4 } from "@firebase/util";
 import {
   getAllCourses,
   updateCourseById,
@@ -13,6 +14,10 @@ import { deleteCoursesLectures } from "../api/lectures";
 import { deleteCoursesHomeworks } from "../api/homework";
 import { deleteCoursesComments } from "../api/comments";
 import { deleteCoursesMaterials } from "../api/materials";
+import { useUpdateStore } from "./update";
+import { Update, UpdateCategory, UpdateEvent, UpdateType } from "../api/models/update.model";
+import { ROLES } from "../models/router.model";
+import { useUserStore } from "./user";
 
 interface CoursesStoreState {
   courses: Course[];
@@ -96,15 +101,30 @@ const useCoursesStore = defineStore("courses", {
         this.fetchCourses();
       }
     },
-    async updateCourse(payload: Course) {
+    async updateCourse(event: UpdateEvent<Course>) {
       try {
         this.courseLoading = true;
-        await updateCourseById(payload.id, payload);
+        await updateCourseById(event.uniqIdentifier, event.data);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Course successfully updated!",
           type: ToastType.SUCCESS,
         });
+        const userStore = useUserStore();
+        const updateStore = useUpdateStore();
+        const update = new Update(
+          uuidv4(),
+          event.uniqIdentifier,
+          userStore.currentUser!.id,
+          ROLES.STUDENTS_ROLE,
+          UpdateType.UPDATE,
+          UpdateCategory.MAIN_INFO
+        )
+        update.field = event.colDef.field;
+        update.oldValue = event.oldValue;
+        update.newValue = event.newValue;
+
+        updateStore.createUpdate(update)
       } catch (error) {
         console.log({ error });
 

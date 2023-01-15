@@ -28,7 +28,7 @@
 					<svg width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-courses" />
 					</svg>
-					<span v-if="isOpen" class="navigation-text">{{ userStore.isStudent ? 'My Course' : 'Courses' }}</span>
+					<span v-if="isOpen" class="navigation-text">{{ userStore.isStudent ? 'Course' : 'Courses' }}</span>
 				</router-link>
 			</div>
 			<div>
@@ -36,7 +36,7 @@
 					<svg class="navigation-menu-icon" width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-members" />
 					</svg>
-					<span v-if="isOpen" class="navigation-text">{{ userStore.isStudent ? 'My Group' : 'Students' }}</span>
+					<span v-if="isOpen" class="navigation-text">{{ userStore.isStudent ? 'Group' : 'Students' }}</span>
 				</router-link>
 			</div>
 			<div>
@@ -55,7 +55,14 @@
 					<span v-if="isOpen" class="navigation-text">Admins</span>
 				</router-link>
 			</div>
-			<!-- TRANSFER LOGOUT TO DROPDOWN MENU -->
+			<div>
+				<router-link class="navigation-link" :to="{ name: NOTIFICATION }">
+					<svg class="navigation-menu-icon" width="16" height="16">
+						<use href="../icons/spite-navigation.svg#icon-notification" />
+					</svg>
+					<span v-if="isOpen" class="navigation-text">Notifications</span>
+				</router-link>
+			</div>
 			<div>
 				<div class="navigation-link" @click="logout">
 					<svg id="logout" width="16" height="16">
@@ -103,6 +110,7 @@ export default {
 			COURSE_DASHBOARD: ROUTE_NAMES.COURSE_DASHBOARD,
 			COURSE_DETAILS:ROUTE_NAMES.COURSE_DETAILS,
 			LOGIN: ROUTE_NAMES.LOGIN,
+			NOTIFICATION: ROUTE_NAMES.NOTIFICATION,
 		};
 	},
 	computed: {

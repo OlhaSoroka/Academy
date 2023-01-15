@@ -36,6 +36,7 @@ import { createMaterial } from "../../../api/materials";
 import { Material } from "../../../api/models/material.model";
 import { uuidv4 } from "@firebase/util";
 import { Form } from 'vee-validate'
+import { useCourseDetailsStore } from "../../../store/course-details.store";
 
 
 export default defineComponent({
@@ -52,7 +53,7 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		...mapStores(useUserStore, useCoursesStore),
+		...mapStores(useUserStore, useCoursesStore,useCourseDetailsStore),
 		currentRouteName() {
 			return this.$route.params.id as string
 		},
@@ -76,6 +77,7 @@ export default defineComponent({
 			material.name = this.name;
 			material.link = this.link;
 			await createMaterial(material);
+			this.courseDetailsStore.createMaterial(material);
 			this.$emit('materialAdded');
 			(this.$refs.newMaterial as typeof BaseModal).closeModal();
 			this.clearInputs();

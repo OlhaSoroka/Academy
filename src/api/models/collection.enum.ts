@@ -10,4 +10,5 @@ export enum Collection {
   ENTRY_RESULTS="entry_results",
   EXIT_RESULTS="exit_results",
   GUIDES="guides",
+  UPDATES="updates",
 }
