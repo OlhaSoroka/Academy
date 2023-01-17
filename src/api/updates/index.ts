@@ -6,6 +6,15 @@ import {
 	where,
 	deleteDoc,
 	setDoc,
+	orderBy,
+	limit,
+	QueryDocumentSnapshot,
+	DocumentData,
+	startAfter,
+	endBefore,
+	limitToLast,
+	collectionGroup,
+	getCountFromServer,
   } from "firebase/firestore";
   import { db, firestore } from "../../main";
   import { Collection } from "../models/collection.enum";
@@ -48,3 +57,56 @@ import {
 	});
 	return updates;
   };
+
+  // first
+  export const getFirstPageUpdates = async () => {
+	const updatesGroup = collectionGroup(firestore, Collection.UPDATES);
+	const snapshot = await getCountFromServer(updatesGroup);
+	const totalUpdates = snapshot.data().count;
+	
+	const firstPageQuery = query(collection(firestore, Collection.UPDATES), orderBy('createdAt', 'desc'), limit(5));
+	const firstPageDocumentSnapshots = await getDocs(firstPageQuery);
+	const updates: Update[] = [];
+	firstPageDocumentSnapshots.forEach((document) => {
+	  const update = document.data();
+	  updates.push(update as Update);
+	});
+	return {
+		firstUpdate: updates[0],
+		lastVisible: firstPageDocumentSnapshots.docs[firstPageDocumentSnapshots.docs.length - 1],
+		total: totalUpdates,
+		updates
+	}
+  }
+
+  // next
+  export const getNextPageUpdates = async (lastVisible: QueryDocumentSnapshot<DocumentData>) => {
+	const nextPageQuery = query(collection(firestore, Collection.UPDATES), orderBy('createdAt', 'desc'), startAfter(lastVisible), limit(5));
+	const nextPageDocumentSnapshots = await getDocs(nextPageQuery);
+	const updates: Update[] = [];
+	nextPageDocumentSnapshots.forEach((document) => {
+	  const update = document.data();
+	  updates.push(update as Update);
+	});
+	return {
+		firstVisible: nextPageDocumentSnapshots.docs[0],
+		lastVisible: nextPageDocumentSnapshots.docs[nextPageDocumentSnapshots.docs.length - 1],
+		updates,
+	}
+  }
+  
+  //prev
+  export const getPrevPageUpdates = async (firstVisible: QueryDocumentSnapshot<DocumentData>) => {
+	const prevPageQuery = query(collection(firestore, Collection.UPDATES), orderBy('createdAt', 'desc'), endBefore(firstVisible), limitToLast(5));
+	const prevPageDocumentSnapshots = await getDocs(prevPageQuery);
+	const updates: Update[] = [];
+	prevPageDocumentSnapshots.forEach((document) => {
+	  const update = document.data();
+	  updates.push(update as Update);
+	});
+	return {
+		firstVisible: prevPageDocumentSnapshots.docs[0],
+		lastVisible: prevPageDocumentSnapshots.docs[prevPageDocumentSnapshots.docs.length - 1],
+		updates,
+	}
+  }

@@ -1,12 +1,19 @@
 <template>
 	<div class="flex-grow notification__container">
-		<div class="">
+		<div class="" v-if="updateStore.updates">
 			<div class="">
 				<div class="">
 					<div class="navigation__header">Updates</div>
 					<div>
-						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update"></NotificationItem>
+						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update">
+						</NotificationItem>
 					</div>
+				</div>
+				<div class="flex justify-center items-center">
+					<button v-if="isNextDisabled"
+						@click="updateStore.fetchPrevPage()" class="bg-red-500 text-white">Prev</button>
+					<button v-if="!isPrevDisabled" @click="updateStore.fetchNextPage()"
+						class="bg-blue-500 text-white">Next</button>
 				</div>
 			</div>
 
@@ -24,7 +31,13 @@ export default {
 		NotificationItem
 	},
 	computed: {
-		...mapStores(useUpdateStore)
+		...mapStores(useUpdateStore),
+		isNextDisabled(): boolean {
+			return this.updateStore.firstUpdate?.id !== this.updateStore.updates[0]?.id
+		},
+		isPrevDisabled(): boolean {
+			return this.updateStore.isLastPage
+		}
 	},
 	beforeMount() {
 		this.updateStore.fetchUpdates()
