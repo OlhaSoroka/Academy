@@ -1,4 +1,4 @@
-<template>
+<template> 
 	<div class="courses__container" v-if="currentCourse">
 		<h1 class="courses__header" id="course-details-top">{{currentCourse.name}}</h1>
 		<h3 v-if="courseId" class="courses__subheader">
@@ -50,7 +50,7 @@
 				</BaseButton>
 			</div>
 		</div>
-		<Spinner v-if="courseDetailsStore.isCourseDetailsLoading" />
+		<Spinner class="mt-7" v-if="courseDetailsStore.isCourseDetailsLoading" />
 		<div v-else>
 			<div id="mainInfoWidget" class="mt-10">
 				<MainInfoWidget :currentCourse="currentCourse"></MainInfoWidget>
