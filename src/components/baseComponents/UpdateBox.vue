@@ -1,15 +1,24 @@
 <template>
-	<div class="flex-grow notification__container">
-		<div class="">
+	<div class="flex-grow update__container ">
+		<div class="" v-if="updateStore.updates">
 			<div class="">
-				<div class="">
-					<div class="navigation__header">Updates</div>
+				<div class="min-h-[800px]">
+					<div class="update__header"><span class="border border-solid border-primary-700 p-4 rounded-md ml-3 bg-primary-100">Updates</span></div>
+					<Spinner v-if="updateStore.updatesLoading" />
 					<div>
-						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update"></NotificationItem>
+						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update">
+						</NotificationItem>
 					</div>
 				</div>
-			</div>
-
+				<div class="flex justify-center items-center">
+					<BaseButton :class="{ update__btn_disabled: isPrevDisabled }" class="mr-5"
+						@click="updateStore.fetchPrevPage()"><ArrowUpIcon class="-rotate-90"></ArrowUpIcon></BaseButton>
+					<BaseButton :class="{ update__btn_disabled: isNextDisabled }" @click="updateStore.fetchNextPage()"
+						><ArrowUpIcon class="rotate-90"></ArrowUpIcon></BaseButton>
+				</div>
+			</div>  
+			
+			
 		</div>
 	</div>
 </template>
@@ -18,13 +27,23 @@ import { useUpdateStore } from '../../store/update';
 import BaseButton from './BaseButton.vue';
 import NotificationItem from './NotificationItem.vue';
 import { mapStores } from 'pinia'
+import ArrowUpIcon from './icons/ArrowUpIcon.vue';
+import Spinner from './spinner/Spinner.vue';
 export default {
 	components: {
-		BaseButton,
-		NotificationItem
-	},
+    BaseButton,
+    NotificationItem,
+    ArrowUpIcon,
+    Spinner
+},
 	computed: {
-		...mapStores(useUpdateStore)
+		...mapStores(useUpdateStore),
+		isPrevDisabled(): boolean {
+			return this.updateStore.firstUpdate?.id === this.updateStore.updates[0]?.id
+		},
+		isNextDisabled(): boolean {
+			return this.updateStore.isLastPage
+		}
 	},
 	beforeMount() {
 		this.updateStore.fetchUpdates()
@@ -33,15 +52,15 @@ export default {
 }
 </script>
 <style lang="css" scoped>
-.notification__container {
+.update__container {
 	@apply border-2 border-stone-300 rounded-md m-8 mr-4 shadow-md bg-stone-50 p-10;
 }
 
-.navigation__header {
+.update__header {
 	@apply font-semibold text-lg text-primary-700 h-14 text-start;
+}
+.update__btn_disabled {
+  @apply opacity-50 pointer-events-none;
 }
 
-.navigation__header {
-	@apply font-semibold text-lg text-primary-700 h-14 text-start;
-}
 </style>

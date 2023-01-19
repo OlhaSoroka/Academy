@@ -4,20 +4,20 @@
 
 			<!-- Create -->
 			<div v-if="isCreateType" class="navigation__text">
-				<h1 class="text-primary-700 font-semibold ">{{ notificationHeader }} added</h1>
-				<div>{{ update.authorId }} added a new {{ notificationHeader!.toLowerCase() }} in {{ update.courseId }}
+				<h1 class="text-primary-700 font-bold ">{{ notificationHeader }} added</h1>
+				<div>{{ update.authorId }} added a <span class="font-semibold">new {{ notificationHeader!.toLowerCase() }}</span> in <span class="font-semibold">{{ update.courseId }}</span>
 				</div>
 				<div>Created at: {{ update.createdAt }}</div>
 			</div>
 
 			<!-- Update -->
 			<div v-else class="navigation__text">
-				<h1 class="text-primary-700 font-semibold">{{ notificationHeader }} changed</h1>
+				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} changed</h1>
 				<div>{{ update.authorId }} made update in {{ update.courseId }} course ({{ notificationHeader }}
 					widget).
 				</div>
-				<div>{{ notificationField }} was changed from <span class="font-bold">{{ update.oldValue || 'Empty'
-				}}</span> to <span class="font-bold">{{ update.newValue }}</span></div>
+				<div>{{ notificationField }} was changed from <span class="font-semibold">{{ update.oldValue || 'Empty'
+				}}</span> to <span class="font-semibold">{{ update.newValue }}</span></div>
 				<div>Updated at: {{ update.createdAt }}</div>
 			</div>
 		</div>
