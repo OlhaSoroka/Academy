@@ -12,6 +12,7 @@ import {
 import { getAllUsers } from "../api/user";
 import { ROLES } from "../models/router.model";
 import { ToastType, useToastStore } from "./toast.store";
+import { useUserStore } from "./user";
 
 interface UpdateStoreState {
   _updates: Update[];
@@ -45,7 +46,8 @@ export const useUpdateStore = defineStore("update", {
     async fetchUpdates() {
       try {
         this._updatesLoading = true;
-        const { updates, lastVisible, firstUpdate, total } = await getFirstPageUpdates();
+        const userStore = useUserStore();
+        const { updates, lastVisible, firstUpdate, total } = await getFirstPageUpdates(userStore.currentUser!.courseId);
         this._totalUpdates = total;
         this._firstUpdate = firstUpdate;
         this._lastVisible = lastVisible;
@@ -72,6 +74,8 @@ export const useUpdateStore = defineStore("update", {
             return update;
           });
       } catch (error) {
+        
+        console.log(error);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: `Can't fetch updates`,
@@ -84,8 +88,9 @@ export const useUpdateStore = defineStore("update", {
     async fetchNextPage() {
       try {
         this._updatesLoading = true;
+        const userStore = useUserStore();
         this._currentPage = this._currentPage + 1;
-        const { updates, lastVisible, firstVisible } = await getNextPageUpdates(this._lastVisible!);
+        const { updates, lastVisible, firstVisible } = await getNextPageUpdates(this._lastVisible!, userStore.currentUser!.courseId);
         this._lastVisible = lastVisible;
         this._firstVisible = firstVisible;
         const users = await getAllUsers();
@@ -123,8 +128,9 @@ export const useUpdateStore = defineStore("update", {
     async fetchPrevPage() {
       try {
         this._updatesLoading = true;
+        const userStore = useUserStore();
         this._currentPage = this._currentPage - 1;
-        const { updates, lastVisible, firstVisible } = await getPrevPageUpdates(this._firstVisible!);
+        const { updates, lastVisible, firstVisible } = await getPrevPageUpdates(this._firstVisible!, userStore.currentUser!.courseId);
         this._lastVisible = lastVisible;
         this._firstVisible = firstVisible;
         const users = await getAllUsers();
