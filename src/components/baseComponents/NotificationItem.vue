@@ -4,7 +4,7 @@
 
 			<!-- Create -->
 			<div v-if="isCreateType" class="navigation__text">
-				<h1 class="text-primary-700 font-bold ">{{ notificationHeader }} added</h1>
+				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} added</h1>
 				<div>{{ update.authorId }} added a <span class="font-semibold">new {{ notificationHeader!.toLowerCase() }}</span> in <span class="font-semibold">{{ update.courseId }}</span>
 				</div>
 				<div>Created at: {{ update.createdAt }}</div>
@@ -56,7 +56,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .navigation__container {
-	@apply shadow-md bg-stone-50 border border-primary-700 rounded-md p-5 m-3;
+	@apply shadow-md bg-stone-50 border border-primary-700 rounded-md p-5 mt-3;
 }
 
 .navigation__text {
