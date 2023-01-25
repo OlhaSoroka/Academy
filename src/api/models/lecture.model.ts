@@ -11,6 +11,7 @@ export class Lecture {
   mentorId: string = "";
   presentation: string = "";
   mentor?: string;
+  timeOfLecture: string = "";
 
   asObject() {
     const lecture = { ...this };

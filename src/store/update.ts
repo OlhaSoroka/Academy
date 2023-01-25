@@ -4,13 +4,13 @@ import { getAllCourses } from "../api/course";
 import { Update } from "../api/models/update.model";
 import {
   createUpdate,
-  getAllUpdates,
+  deleteUpdate,
+  getAllUpdatesByCourseId,
   getFirstPageUpdates,
   getNextPageUpdates,
   getPrevPageUpdates,
 } from "../api/updates";
 import { getAllUsers } from "../api/user";
-import { ROLES } from "../models/router.model";
 import { ToastType, useToastStore } from "./toast.store";
 import { useUserStore } from "./user";
 
@@ -40,14 +40,16 @@ export const useUpdateStore = defineStore("update", {
     updates: (state) => state._updates,
     updatesLoading: (state) => state._updatesLoading,
     firstUpdate: (state) => state._firstUpdate,
-    isLastPage: (state) => state._currentPage === Math.ceil(state._totalUpdates / 5)
+    isLastPage: (state) =>
+      state._currentPage === Math.ceil(state._totalUpdates / 5),
   },
   actions: {
     async fetchUpdates() {
       try {
         this._updatesLoading = true;
         const userStore = useUserStore();
-        const { updates, lastVisible, firstUpdate, total } = await getFirstPageUpdates(userStore.currentUser!.courseId);
+        const { updates, lastVisible, firstUpdate, total } =
+          await getFirstPageUpdates(userStore.currentUser!.courseId);
         this._totalUpdates = total;
         this._firstUpdate = firstUpdate;
         this._lastVisible = lastVisible;
@@ -74,7 +76,6 @@ export const useUpdateStore = defineStore("update", {
             return update;
           });
       } catch (error) {
-        
         console.log(error);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
@@ -90,7 +91,10 @@ export const useUpdateStore = defineStore("update", {
         this._updatesLoading = true;
         const userStore = useUserStore();
         this._currentPage = this._currentPage + 1;
-        const { updates, lastVisible, firstVisible } = await getNextPageUpdates(this._lastVisible!, userStore.currentUser!.courseId);
+        const { updates, lastVisible, firstVisible } = await getNextPageUpdates(
+          this._lastVisible!,
+          userStore.currentUser!.courseId,
+        );
         this._lastVisible = lastVisible;
         this._firstVisible = firstVisible;
         const users = await getAllUsers();
@@ -130,7 +134,10 @@ export const useUpdateStore = defineStore("update", {
         this._updatesLoading = true;
         const userStore = useUserStore();
         this._currentPage = this._currentPage - 1;
-        const { updates, lastVisible, firstVisible } = await getPrevPageUpdates(this._firstVisible!, userStore.currentUser!.courseId);
+        const { updates, lastVisible, firstVisible } = await getPrevPageUpdates(
+          this._firstVisible!,
+          userStore.currentUser!.courseId,
+        );
         this._lastVisible = lastVisible;
         this._firstVisible = firstVisible;
         const users = await getAllUsers();
@@ -179,6 +186,24 @@ export const useUpdateStore = defineStore("update", {
         });
       } finally {
         this.fetchUpdates();
+      }
+    },
+    async deleteUpdatesByCourseId(courseId: string) {
+      try {
+        const updates = await getAllUpdatesByCourseId(courseId);
+        const updatesToDelete: Promise<boolean>[] = [];
+        updates.forEach((update) =>
+          updatesToDelete.push(deleteUpdate(update.id)),
+        );
+        await Promise.all(updatesToDelete);
+        console.log("Course updates deleted");
+      } catch (error) {
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Can't delete updates!",
+          type: ToastType.FAILURE,
+        });
+      } finally {
       }
     },
   },

@@ -1,31 +1,50 @@
 <template>
-	<div class="flex-grow reminders__container">
-		<div class="">
-			<div class="">
-				<div>
-					<div class="reminders__header">Reminders</div>
+	<div class="reminders__container">
+		<div>
+			<div>
+				<span class="reminders__header">Reminders</span>
+				<Spinner v-if="remindersStore.isLoading" />
+				<div v-else class="mt-8">
+					<ReminderItem v-if="remindersStore.isDemoToday"
+						innerText="Project demo is scheduled for today"></ReminderItem>
+					<ReminderItem v-if="remindersStore.isFinalInterviewToday"
+						innerText="Final interview is scheduled for today"></ReminderItem>
+					<ReminderItem v-if="remindersStore.isProjectStartToday"
+						innerText="Academy project start is scheduled for today"></ReminderItem>
+					<ReminderItem v-for="lecture in remindersStore.todaysLectures" :key="lecture.id"
+						:innerText="`${lecture.name} lecture is scheduled for today at ${lecture.timeOfLecture}`">
+					</ReminderItem>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script lang="ts">
-import NotificationItem from "../baseComponents/NotificationItem.vue"
+import { mapStores } from "pinia";
+import { useRemindersStore } from "../../store/reminders";
+import ReminderItem from "./ReminderItem.vue"
+import Spinner from "./spinner/Spinner.vue"
 export default {
 	components: {
-		NotificationItem
+		ReminderItem,
+		Spinner
+	},
+	computed: {
+		...mapStores(useRemindersStore)
+	},
+	beforeMount() {
+		this.remindersStore.calculateCourseEventsDates();
+		this.remindersStore.calculateLecturesStartTime();
 	}
 
 }
 </script>
 <style lang="css" scoped>
-/* .navigation__container {
-	@apply  p-14;
-} */
 .reminders__container {
-	@apply border-2 border-stone-300 rounded-md ml-4 shadow-md bg-stone-50 p-8;
+	@apply border-2 border-stone-300 rounded-md ml-4 shadow-md bg-stone-50 p-8 w-1/2;
 }
+
 .reminders__header {
-	@apply font-semibold text-lg text-primary-700 text-start border border-solid border-primary-700 p-4 rounded-md bg-primary-100 w-32;
+	@apply font-semibold text-lg text-primary-700 text-start border border-solid border-primary-700 p-2 rounded-md bg-primary-100;
 }
 </style>
