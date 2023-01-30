@@ -105,6 +105,12 @@ const useCoursesStore = defineStore("courses", {
       try {
         this.courseLoading = true;
         await updateCourseById(event.uniqIdentifier, event.data);
+        console.log(event);
+        if (event.colDef.field === 'status' && event.newValue === CourseStatus.FINISHED) {
+          // Course becomes finished
+          const updateStore = useUpdateStore();
+          updateStore.deleteUpdatesByCourseId(event.data.id)
+        }
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Course successfully updated!",

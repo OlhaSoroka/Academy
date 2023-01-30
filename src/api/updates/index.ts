@@ -28,16 +28,20 @@ export const deleteUpdate = async (id: string): Promise<boolean> => {
 
 export const createUpdate = async (data: Update): Promise<Update> => {
   const documentReference = doc(firestore, Collection.UPDATES, `${data.id}`);
-  console.log({ data });
-
   await setDoc(documentReference, data.asObject());
   return data;
 };
 
-export const getAllUpdates = async (): Promise<Update[]> => {
-  const updatesData = await getDocs(collection(db, Collection.UPDATES));
+export const getAllUpdatesByCourseId = async (
+  courseId: string,
+): Promise<Update[]> => {
+  const collectionQuery = query(
+    collection(firestore, Collection.UPDATES),
+    where("courseId", "==", courseId),
+  );
+  const documents = await getDocs(collectionQuery);
   const updates: Update[] = [];
-  updatesData.forEach((update) => updates.push(update.data() as Update));
+  documents.forEach((update) => updates.push(update.data() as Update));
   return updates;
 };
 
