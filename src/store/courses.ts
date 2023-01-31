@@ -105,7 +105,6 @@ const useCoursesStore = defineStore("courses", {
       try {
         this.courseLoading = true;
         await updateCourseById(event.uniqIdentifier, event.data);
-        console.log(event);
         if (event.colDef.field === 'status' && event.newValue === CourseStatus.FINISHED) {
           // Course becomes finished
           const updateStore = useUpdateStore();
@@ -152,6 +151,8 @@ const useCoursesStore = defineStore("courses", {
         await deleteCoursesHomeworks(courseId);
         await deleteCoursesComments(courseId);
         await deleteCoursesMaterials(courseId);
+        const updateStore = useUpdateStore();
+          updateStore.deleteUpdatesByCourseId(courseId)
         // TODO?: update users course id
         await deleteCourse(courseId);
         const toastStore = useToastStore();

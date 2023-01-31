@@ -73,8 +73,9 @@ export default {
 			});
 		}
 	},
-	beforeMount() {
-		this.columnDefs = [
+	beforeMount() { 
+		if (this.userStore.isAdmin || this.userStore.isMentor) {
+			this.columnDefs = [
 			{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300, filter: true },
 			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200, },
 			{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100 },
@@ -84,6 +85,19 @@ export default {
 			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true },
 			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin }
 		]
+		}
+		if (this.userStore.isStudent) {
+			this.columnDefs = [
+			{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300, filter: true },
+			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200, },
+			{ field: "timeOfLecture", headerName: "Time", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100 },
+			{ field: "dateOfDeadline", headerName: "Homework Deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
+			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter: true },
+			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
+			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true },
+		]
+		}
+		
 	},
 	methods: {
 		async onCellEdit(event: UpdateEvent<Lecture>) {

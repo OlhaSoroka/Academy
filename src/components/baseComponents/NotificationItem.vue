@@ -39,7 +39,7 @@ export default {
 		},
 		notificationField() {
 			if (this.update) {
-				return FIELD_TO_LABEL_MAPPER[this.update.field!][0].toUpperCase() + FIELD_TO_LABEL_MAPPER[this.update.field!].slice(1, this.update.category.length)
+				return FIELD_TO_LABEL_MAPPER[this.update.field!][0].toUpperCase() + FIELD_TO_LABEL_MAPPER[this.update.field!].slice(1, FIELD_TO_LABEL_MAPPER[this.update.field!].length)
 			}
 		},
 		isCreateType(): boolean {

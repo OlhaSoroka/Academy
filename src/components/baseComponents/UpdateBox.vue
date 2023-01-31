@@ -1,13 +1,13 @@
 <template>
 	<div class="update__container ">
-		<div class="" v-if="updateStore.updates">
+		<div>
 			<div>
 				<span class="update__header">Updates</span>
 				<Spinner v-if="updateStore.updatesLoading" />
 				<div v-else class="mt-8">
 					<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update">
 					</NotificationItem>
-					<div class="flex justify-center items-center mt-5">
+					<div v-if="updateStore.updates.length" class="flex justify-center items-center mt-5">
 						<BaseButton :class="{ update__btn_disabled: isPrevDisabled }" class="mr-5"
 							@click="updateStore.fetchPrevPage()">
 							<ArrowUpIcon class="-rotate-90"></ArrowUpIcon>
@@ -17,6 +17,7 @@
 							<ArrowUpIcon class="rotate-90"></ArrowUpIcon>
 						</BaseButton>
 					</div>
+					<div v-if="updateStore.updates.length<1" class="flex justify-center items-center" >There is no update yet...</div>
 				</div>
 			</div>
 		</div>

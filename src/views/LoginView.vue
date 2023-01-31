@@ -61,9 +61,9 @@ export default {
 	@apply w-1/2;
 }
 .login-title {
-	@apply font-semibold text-3xl p-4 from-neutral-900 flex justify-center items-center;
+	@apply font-semibold text-3xl p-4 text-stone-800 flex justify-center items-center;
 }
 .login-link {
-	@apply font-light text-xs p-4 from-neutral-900 flex justify-end items-end;
+	@apply font-light text-xs p-4 text-neutral-800  flex justify-end items-end;
 }
 </style>
