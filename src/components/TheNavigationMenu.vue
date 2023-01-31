@@ -24,7 +24,8 @@
 
 		<div class="mt-5 grow">
 			<div>
-				<router-link class="navigation-link" :to="userStore.isStudent ? {name:COURSE_DETAILS,params: { id: userStore.currentUser.courseId }} : {name:COURSE_DASHBOARD}">
+				<router-link class="navigation-link"
+					:to="userStore.isStudent ? { name: COURSE_DETAILS, params: { id: userStore.currentUser.courseId } } : { name: COURSE_DASHBOARD }">
 					<svg width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-courses" />
 					</svg>
@@ -60,7 +61,14 @@
 					<svg class="navigation-menu-icon" width="16" height="16">
 						<use href="../icons/spite-navigation.svg#icon-notification" />
 					</svg>
-					<span v-if="isOpen" class="navigation-text">Notifications</span>
+					<span v-if="isOpen" class="navigation-text">
+						<div class="flex  items-center">
+							<div class="mr-3">Updates</div>
+							<div v-if="remindersStore.shouldShowNavMenuReminder">
+								<ExclamationIcon></ExclamationIcon>
+							</div>
+						</div>
+					</span>
 				</router-link>
 			</div>
 			<div>
@@ -86,8 +94,13 @@ import { ROLES } from '../models/router.model';
 import { mapStores } from "pinia";
 import { useUserStore } from '../store/user';
 import { useGuideStore } from '../store/guides'
+import { useRemindersStore } from '../store/reminders';
+import ExclamationIcon from '../components/baseComponents/icons/ExclamationIcon.vue'
 export default {
 	name: 'NavigationMenu',
+	components: {
+		ExclamationIcon,
+	},
 	props: {
 		role: {
 			default: 'user',
@@ -97,6 +110,10 @@ export default {
 			default: true,
 			type: Boolean
 		}
+	},
+	beforeMount() {
+		this.remindersStore.calculateCourseEventsDates();
+		this.remindersStore.calculateLecturesStartTime();
 	},
 	mounted() {
 		this.guideStore.fetchGuides()
@@ -108,13 +125,13 @@ export default {
 			MENTORS: ROUTE_NAMES.MENTORS,
 			ADMINS: ROUTE_NAMES.ADMINS,
 			COURSE_DASHBOARD: ROUTE_NAMES.COURSE_DASHBOARD,
-			COURSE_DETAILS:ROUTE_NAMES.COURSE_DETAILS,
+			COURSE_DETAILS: ROUTE_NAMES.COURSE_DETAILS,
 			LOGIN: ROUTE_NAMES.LOGIN,
 			NOTIFICATION: ROUTE_NAMES.NOTIFICATION,
 		};
 	},
 	computed: {
-		...mapStores(useUserStore, useGuideStore),
+		...mapStores(useUserStore, useGuideStore, useRemindersStore),
 		isAdmin() {
 			return this.userStore.currentUser!.role === ROLES.ADMIN_ROLE;
 		},
@@ -166,4 +183,3 @@ export default {
 	@apply mt-4 text-primary-700 text-base hover:text-primary-900 flex justify-center;
 }
 </style>
-  

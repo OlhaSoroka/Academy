@@ -12,7 +12,7 @@ interface RemindersStoreState {
   _demoRemind: boolean;
   _projectStartRemind: boolean;
   _todaysLectures: Lecture[];
-}
+} 
 
 export const useRemindersStore = defineStore("reminders", {
   state: (): RemindersStoreState => {
@@ -30,7 +30,8 @@ export const useRemindersStore = defineStore("reminders", {
     isDemoToday: (state) => state._demoRemind,
     isProjectStartToday: (state) => state._projectStartRemind,
     todaysLectures: (state) => state._todaysLectures,
-    isLoading: (state) => state._loading
+    isLoading: (state) => state._loading,
+    shouldShowNavMenuReminder: (state) =>state._projectStartRemind || state._demoRemind || state._finalInterviewRemind || state._todaysLectures.length>0
   },
   actions: {
     async calculateCourseEventsDates() {

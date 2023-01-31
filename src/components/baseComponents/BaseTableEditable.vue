@@ -85,7 +85,7 @@
       </tr>
     </table>
     <BaseDeleteModal v-if="rowData[rowToDeleteIndex]" :toggle-modal="isModalOpen"
-      :target-value="rowData[rowToDeleteIndex]?.[columnDefs[0]?.field]" @delete="onDeleteRow(rowToDeleteIndex)" />
+      :target-value="targetValue"  @delete="onDeleteRow(rowToDeleteIndex)" />
   </div>
 </template>
 
@@ -170,6 +170,16 @@ export default defineComponent({
       rowToDeleteIndex: 0,
 
     };
+  },
+  computed: {
+targetValue() {
+  if (this.columnDefs[0].field==="avatarUrl") {
+    return this.rowData[this.rowToDeleteIndex]?.[this.columnDefs[1]?.field]
+  }
+  else {
+    return this.rowData[this.rowToDeleteIndex]?.[this.columnDefs[0]?.field]
+  }
+}
   },
   watch: {
     rowData() {

@@ -159,7 +159,7 @@ export default {
 	@apply cursor-pointer hover:opacity-75 transition-opacity underline text-xs text-end;
 }
 .login__input_container {
-	@apply mb-4
+	@apply mb-4 
 }
 .login__button_container {
 	@apply flex justify-center items-center

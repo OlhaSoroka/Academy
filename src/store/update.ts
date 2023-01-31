@@ -70,6 +70,9 @@ export const useUpdateStore = defineStore("update", {
             if (updatedCourse) {
               update.courseId = updatedCourse.name;
             }
+            if (update.field === 'mentor') {
+              update.newValue = users.find((user) => user.id === update.newValue)!.fullName;
+            }
             update.createdAt = new Date(update.createdAt)
               .toISOString()
               .split("T")[0] as string;
@@ -99,6 +102,8 @@ export const useUpdateStore = defineStore("update", {
         this._firstVisible = firstVisible;
         const users = await getAllUsers();
         const courses = await getAllCourses();
+        console.log({updates});
+        
         this._updates = updates
           .sort((a, b) => b.createdAt - a.createdAt)
           .map((update) => {
@@ -114,6 +119,12 @@ export const useUpdateStore = defineStore("update", {
             if (updatedCourse) {
               update.courseId = updatedCourse.name;
             }
+            if (update.field === 'mentor') {
+              update.newValue = users.find((user) => user.id === update.newValue)!.fullName;
+            }
+            // if (update.field === 'mentor' && update.oldValue) {
+            //   update.oldValue = users.find((user) => user.id === update.oldValue)!.fullName;
+            // }
             update.createdAt = new Date(update.createdAt)
               .toISOString()
               .split("T")[0] as string;
@@ -156,6 +167,9 @@ export const useUpdateStore = defineStore("update", {
             });
             if (updatedCourse) {
               update.courseId = updatedCourse.name;
+            }
+            if (update.field === 'mentor') {
+              update.newValue = users.find((user) => user.id === update.newValue)!.fullName;
             }
             update.createdAt = new Date(update.createdAt)
               .toISOString()
