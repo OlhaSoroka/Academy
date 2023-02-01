@@ -9,5 +9,6 @@ export const FIELD_TO_LABEL_MAPPER: { [key: string]: string } = {
   timeOfLecture: "time of lecture",
   dateOfDeadline: "date of deadline",
   mentor: "mentor",
+  meet_link:"meeting link",
   presentation: "presentation link",
 };

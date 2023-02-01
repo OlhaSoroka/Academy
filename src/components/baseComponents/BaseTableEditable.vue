@@ -103,28 +103,7 @@ import BaseDeleteModal from "./BaseDeleteModal.vue";
 import LinkIcon from "././icons/LinkIcon.vue"
 import SearchIcon from "././icons/SearchIcon.vue"
 import SearchMenu from "./SearchMenu.vue";
-
-interface IColumnDefs {
-  field: string,
-  headerName: string,
-  headerEditable?: boolean,
-  sortable: boolean,
-  editable: boolean,
-  width: number,
-  solid?: boolean,
-  link?: boolean,
-  date?: boolean,
-  actionColumn?: boolean;
-  delete?: boolean;
-  filter?: boolean;
-  image? :boolean;
-  homework?: boolean;
-  dropdown?: boolean;
-  centered?: boolean;
-  options?: SelectItem[];
-  checkAuthor?: boolean;
-  currentUserId?: string;
-}
+import { IColumnDefs } from "../../api/models/base-table.model";
 
 export default defineComponent({
   components: {

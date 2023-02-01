@@ -71,9 +71,6 @@ export default defineComponent({
     },
     methods: {
         async onCellEdit(event: UpdateEvent<StudentHomework>) {
-            console.log({event});
-            
-            // TODO: move this method to store
             const lectureHomework = {
                 id: this.courseDetailsStore.selectedHomework!.id,
                 courseId: this.courseDetailsStore.selectedHomework!.courseId,
@@ -103,7 +100,7 @@ export default defineComponent({
                 }
             }
             const resultToUpdate = {
-                average_homework_score: `${studentRateSummary / courseHomeworks.length}`
+                average_homework_score: `${(studentRateSummary / courseHomeworks.length).toFixed(2)}`
             };
             await updateStudentExitResult(event.data.studentId, resultToUpdate);
             this.courseDetailsStore.selectLecture(this.courseDetailsStore.selectedHomework!.lectureId);
