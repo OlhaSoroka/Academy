@@ -1,6 +1,7 @@
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { defineStore } from "pinia";
 import { getAllCourses } from "../api/course";
+import { getLectureByCourse, getLectureByMentor } from "../api/lectures";
 import { Update } from "../api/models/update.model";
 import {
   createUpdate,
@@ -11,6 +12,7 @@ import {
   getPrevPageUpdates,
 } from "../api/updates";
 import { getAllUsers } from "../api/user";
+import { ROLES } from "../models/router.model";
 import { ToastType, useToastStore } from "./toast.store";
 import { useUserStore } from "./user";
 
@@ -48,11 +50,18 @@ export const useUpdateStore = defineStore("update", {
       try {
         this._updatesLoading = true;
         const userStore = useUserStore();
-        const { updates, lastVisible, firstUpdate, total } =
-          await getFirstPageUpdates(userStore.currentUser!.courseId);
+        const courseIds: string[] = [];
+        if (userStore.currentUser?.role! === ROLES.STUDENTS_ROLE) {
+          courseIds.push(userStore.currentUser!.courseId!)
+        }
+        if (userStore.currentUser?.role! === ROLES.MENTOR_ROLE) {
+          const mentorsLectures = await getLectureByMentor(userStore.currentUser?.id!);
+          mentorsLectures.forEach(lecture => courseIds.push(lecture.courseId));
+        }
+        const { updates, lastVisible, firstUpdate, total } = await getFirstPageUpdates(courseIds, userStore.currentUser?.role!);
         this._totalUpdates = total;
         this._firstUpdate = firstUpdate;
-        this._lastVisible = lastVisible;
+        this._lastVisible = lastVisible as QueryDocumentSnapshot;
         const users = await getAllUsers();
         const courses = await getAllCourses();
         this._updates = updates
@@ -94,9 +103,18 @@ export const useUpdateStore = defineStore("update", {
         this._updatesLoading = true;
         const userStore = useUserStore();
         this._currentPage = this._currentPage + 1;
+        const courseIds: string[] = [];
+        if (userStore.currentUser?.role! === ROLES.STUDENTS_ROLE) {
+          courseIds.push(userStore.currentUser!.courseId!)
+        }
+        if (userStore.currentUser?.role! === ROLES.MENTOR_ROLE) {
+          const mentorsLectures = await getLectureByMentor(userStore.currentUser?.id!);
+          mentorsLectures.forEach(lecture => courseIds.push(lecture.courseId));
+        }
         const { updates, lastVisible, firstVisible } = await getNextPageUpdates(
           this._lastVisible!,
-          userStore.currentUser!.courseId,
+          courseIds,
+          userStore.currentUser!.role
         );
         this._lastVisible = lastVisible;
         this._firstVisible = firstVisible;
@@ -145,9 +163,18 @@ export const useUpdateStore = defineStore("update", {
         this._updatesLoading = true;
         const userStore = useUserStore();
         this._currentPage = this._currentPage - 1;
+        const courseIds: string[] = [];
+        if (userStore.currentUser?.role! === ROLES.STUDENTS_ROLE) {
+          courseIds.push(userStore.currentUser!.courseId!)
+        }
+        if (userStore.currentUser?.role! === ROLES.MENTOR_ROLE) {
+          const mentorsLectures = await getLectureByMentor(userStore.currentUser?.id!);
+          mentorsLectures.forEach(lecture => courseIds.push(lecture.courseId));
+        }
         const { updates, lastVisible, firstVisible } = await getPrevPageUpdates(
           this._firstVisible!,
-          userStore.currentUser!.courseId,
+          courseIds,
+          userStore.currentUser!.role
         );
         this._lastVisible = lastVisible;
         this._firstVisible = firstVisible;

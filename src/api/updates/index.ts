@@ -15,8 +15,10 @@ import {
   limitToLast,
   collectionGroup,
   getCountFromServer,
+  Query,
 } from "firebase/firestore";
 import { db, firestore } from "../../main";
+import { ROLES } from "../../models/router.model";
 import { Collection } from "../models/collection.enum";
 import { Update, UpdateCategory } from "../models/update.model";
 
@@ -62,36 +64,50 @@ export const getUpdatesByCategory = async (
 };
 
 // first
-export const getFirstPageUpdates = async (courseId?: string) => {
+export const getFirstPageUpdates = async (courseIds: string[], role: ROLES) => {
   let firstPageQuery;
   let totalUpdates = 0;
-  if (courseId) {
+  if (role === ROLES.STUDENTS_ROLE) {
     const totalUpdatesQuery = query(
       collection(firestore, Collection.UPDATES),
-      where("courseId", "==", courseId),
+      where("courseId", "==", courseIds[0]),
     );
     const updates = await getDocs(totalUpdatesQuery);
     totalUpdates = updates.docs.length;
-
     firstPageQuery = query(
       collection(firestore, Collection.UPDATES),
-      where("courseId", "==", courseId),
+      where("courseId", "==", courseIds[0]),
       orderBy("createdAt", "desc"),
       limit(5),
     );
-  } else {
+  }
+  if (role === ROLES.ADMIN_ROLE) {
     const updatesGroup = collectionGroup(firestore, Collection.UPDATES);
     const snapshot = await getCountFromServer(updatesGroup);
     totalUpdates = snapshot.data().count;
-
     firstPageQuery = query(
       collection(firestore, Collection.UPDATES),
       orderBy("createdAt", "desc"),
       limit(5),
     );
   }
+  if (role === ROLES.MENTOR_ROLE) {
+    const totalUpdatesQuery = query(
+      collection(firestore, Collection.UPDATES),
+      where("courseId", "in", courseIds),
+    );
+    const updates = await getDocs(totalUpdatesQuery);
+    totalUpdates = updates.docs.length;
 
-  const firstPageDocumentSnapshots = await getDocs(firstPageQuery);
+    firstPageQuery = query(
+      collection(firestore, Collection.UPDATES),
+      where("courseId", "in", courseIds),
+      orderBy("createdAt", "desc"),
+      limit(5),
+    );
+  }
+
+  const firstPageDocumentSnapshots = await getDocs(firstPageQuery as any);
   const updates: Update[] = [];
   firstPageDocumentSnapshots.forEach((document) => {
     const update = document.data();
@@ -111,18 +127,29 @@ export const getFirstPageUpdates = async (courseId?: string) => {
 // next
 export const getNextPageUpdates = async (
   lastVisible: QueryDocumentSnapshot<DocumentData>,
-  courseId?: string,
+  courseIds: string[], role: ROLES
 ) => {
   let nextPageQuery;
-  if (courseId) {
+  if (role === ROLES.STUDENTS_ROLE) {
     nextPageQuery = query(
       collection(firestore, Collection.UPDATES),
-      where("courseId", "==", courseId),
+      where("courseId", "==", courseIds[0]),
       orderBy("createdAt", "desc"),
       startAfter(lastVisible),
       limit(5),
     );
-  } else {
+  } 
+  if (role === ROLES.MENTOR_ROLE) {
+    nextPageQuery = query(
+      collection(firestore, Collection.UPDATES),
+      where("courseId", "in", courseIds),
+      orderBy("createdAt", "desc"),
+      startAfter(lastVisible),
+      limit(5),
+    );
+  }
+  
+  else {
     nextPageQuery = query(
       collection(firestore, Collection.UPDATES),
       orderBy("createdAt", "desc"),
@@ -148,18 +175,29 @@ export const getNextPageUpdates = async (
 //prev
 export const getPrevPageUpdates = async (
   firstVisible: QueryDocumentSnapshot<DocumentData>,
-  courseId?: string,
+  courseIds: string[], role: ROLES
 ) => {
   let prevPageQuery;
-  if (courseId) {
+  if (role === ROLES.STUDENTS_ROLE) {
     prevPageQuery = query(
       collection(firestore, Collection.UPDATES),
-      where("courseId", "==", courseId),
+      where("courseId", "==", courseIds[0]),
       orderBy("createdAt", "desc"),
       endBefore(firstVisible),
       limitToLast(5),
     );
-  } else {
+  }
+  if (role === ROLES.MENTOR_ROLE) {
+    prevPageQuery = query(
+      collection(firestore, Collection.UPDATES),
+      where("courseId", "in", courseIds),
+      orderBy("createdAt", "desc"),
+      endBefore(firstVisible),
+      limitToLast(5),
+    );
+  }
+  
+  else {
     prevPageQuery = query(
       collection(firestore, Collection.UPDATES),
       orderBy("createdAt", "desc"),

@@ -55,6 +55,22 @@ export const getLectureByCourse = async (
   return lectures;
 };
 
+export const getLectureByMentor = async (
+  mentorId: string,
+): Promise<Lecture[]> => {
+  const collectionQuery = query(
+    collection(firestore, Collection.LECTURES),
+    where("mentorId", "==", mentorId),
+  );
+  const documents = await getDocs(collectionQuery);
+  const lectures: Lecture[] = [];
+  documents.forEach((document) => {
+    const lecture = document.data();
+    lectures.push(lecture as Lecture);
+  });
+  return lectures;
+};
+
 export const createLecture = async (data: Lecture): Promise<Lecture> => {
   const documentReference = doc(firestore, Collection.LECTURES, `${data.id}`);
   await setDoc(documentReference, data.asObject());

@@ -190,6 +190,8 @@ const useStudentStore = defineStore("student", {
         const student = this.students.find(
           (student) => student.id === studentId,
         );
+        console.log(student);
+        
         if (student && student.courseId) {
           const studentsHomeworks = await getCoursesHomeworks(student.courseId);
           const deleteHomeworkPromises: Promise<boolean>[] = [];
@@ -212,7 +214,8 @@ const useStudentStore = defineStore("student", {
             type: ToastType.SUCCESS,
           });
         }
-      } catch {
+      } catch(error) {
+        console.log(error);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Error: Can't delete student",

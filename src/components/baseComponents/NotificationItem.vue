@@ -5,19 +5,31 @@
 			<!-- Create -->
 			<div v-if="isCreateType" class="navigation__text">
 				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} added</h1>
-				<div>{{ update.authorId }} added a <span class="font-semibold">new {{ notificationHeader!.toLowerCase() }}</span> in <span class="font-semibold">{{ update.courseId }}</span>
+				<div>{{ update.authorId }} added a <span class="font-semibold">new {{
+					notificationHeader!.toLowerCase()
+				}}</span> in <span class="font-semibold">{{ update.courseId }}</span>
 				</div>
 				<div>Created at: {{ update.createdAt }}</div>
 			</div>
 
-			<!-- Update -->
-			<div v-else class="navigation__text">
+			<!-- Update with oldValue -->
+			<div v-if="isUpdateType && update.oldValue">
 				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} changed</h1>
 				<div>{{ update.authorId }} made update in {{ update.courseId }} course ({{ notificationHeader }}
 					widget).
 				</div>
-				<div>{{ notificationField }} was changed from <span class="font-semibold">{{ update.oldValue || 'Empty'
-				}}</span> to <span class="font-semibold">{{ update.newValue }}</span></div>
+				<div><span class="font-semibold">{{ notificationField }}</span>  was changed from <span class="font-semibold">{{
+					update.oldValue || 'Empty'
+				}}</span> to <span class="font-semibold">{{ update.newValue }}.</span></div>
+				<div>Updated at: {{ update.createdAt }}</div>
+			</div>
+
+			<!-- Update without oldValue -->
+			<div v-if="isUpdateType && !update.oldValue">
+				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} changed</h1>
+				<div>{{ update.authorId }} made update in {{ update.courseId }} course</div>
+				<div><span class="font-semibold">{{ notificationField }}</span> was added to <span class="font-semibold">{{ notificationHeader }}
+						widget</span>. Check it!</div>
 				<div>Updated at: {{ update.createdAt }}</div>
 			</div>
 		</div>
@@ -44,6 +56,9 @@ export default {
 		},
 		isCreateType(): boolean {
 			return this.update!.type === UpdateType.CREATE;
+		},
+		isUpdateType(): boolean {
+			return this.update!.type === UpdateType.UPDATE;
 		}
 	},
 	props: {
