@@ -71,11 +71,13 @@ export const getFirstPageUpdates = async (courseIds: string[], role: ROLES) => {
     const totalUpdatesQuery = query(
       collection(firestore, Collection.UPDATES),
       where("courseId", "==", courseIds[0]),
+      where("category","in",["main info","group","lecture","document","material"])
     );
     const updates = await getDocs(totalUpdatesQuery);
     totalUpdates = updates.docs.length;
     firstPageQuery = query(
       collection(firestore, Collection.UPDATES),
+      where("category","in",["main info","group","lecture","document","material"]),
       where("courseId", "==", courseIds[0]),
       orderBy("createdAt", "desc"),
       limit(5),
@@ -134,6 +136,7 @@ export const getNextPageUpdates = async (
     nextPageQuery = query(
       collection(firestore, Collection.UPDATES),
       where("courseId", "==", courseIds[0]),
+      where("category","in",["main info","group","lecture","document","material"]),
       orderBy("createdAt", "desc"),
       startAfter(lastVisible),
       limit(5),
@@ -182,6 +185,7 @@ export const getPrevPageUpdates = async (
     prevPageQuery = query(
       collection(firestore, Collection.UPDATES),
       where("courseId", "==", courseIds[0]),
+      where("category","in",["main info","group","lecture","document","material"]),
       orderBy("createdAt", "desc"),
       endBefore(firstVisible),
       limitToLast(5),

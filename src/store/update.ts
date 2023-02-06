@@ -59,6 +59,8 @@ export const useUpdateStore = defineStore("update", {
           mentorsLectures.forEach(lecture => courseIds.push(lecture.courseId));
         }
         const { updates, lastVisible, firstUpdate, total } = await getFirstPageUpdates(courseIds, userStore.currentUser?.role!);
+        console.log({updates});
+        
         this._totalUpdates = total;
         this._firstUpdate = firstUpdate;
         this._lastVisible = lastVisible as QueryDocumentSnapshot;

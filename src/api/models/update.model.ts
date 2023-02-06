@@ -47,6 +47,7 @@ export enum UpdateCategory {
   DOCUMENT = "document",
   COMMENT = "comment",
   MATERIAL = "material",
+  HOMEWORK = "homework"
 }
 
 export interface UpdateEvent<T> {

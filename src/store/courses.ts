@@ -129,7 +129,6 @@ const useCoursesStore = defineStore("courses", {
         update.field = event.colDef.field;
         update.oldValue = event.oldValue;
         update.newValue = event.newValue;
-
         updateStore.createUpdate(update)
       } catch (error) {
         console.log({ error });

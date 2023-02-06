@@ -7,7 +7,7 @@
 				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} added</h1>
 				<div>{{ update.authorId }} added a <span class="font-semibold">new {{
 					notificationHeader!.toLowerCase()
-				}}</span> in <span class="font-semibold">{{ update.courseId }}</span>
+				}}</span> in <span class="font-semibold">{{ update.courseId }}.</span> Check it!
 				</div>
 				<div>Created at: {{ update.createdAt }}</div>
 			</div>
