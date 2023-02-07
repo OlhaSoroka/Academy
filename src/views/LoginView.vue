@@ -48,7 +48,7 @@ export default {
 <style lang="scss" scoped>
 .login-page-container {
 	background: center / cover no-repeat url("../assets/login_page_bg.jpg"); 
-  @apply h-full
+  height: 100vh;
 }
 .login-page-shader {
 	@apply w-full h-full bg-gradient-to-b from-white to-transparent flex justify-center items-center;
