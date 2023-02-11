@@ -38,7 +38,7 @@ import { Lecture } from "../../api/models/lecture.model";
 import {UpdateEvent} from "../../api/models/update.model"
 import HomeworkWidget from "./HomeworkWidget.vue";
 import CreateLectureModal from "../modals/CourseDetailsModals/CreateLectureModal.vue";
-import Spinner from "../baseComponents/spinner/Spinner.vue";
+import Spinner from "../Spinner.vue";
 export default {
 	components: {
 		BaseTableEditable,

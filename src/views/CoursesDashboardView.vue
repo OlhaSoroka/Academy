@@ -40,7 +40,7 @@ import { mapStores } from 'pinia';
 import { getCourseById } from '../api/course';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
-import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import Spinner from '../components/Spinner.vue';
 import CourseCreateModal from '../components/modals/CourseCreateModal.vue';
 import { ROUTE_NAMES } from '../models/router.model';
 import { useCourseDetailsStore } from '../store/course-details.store';

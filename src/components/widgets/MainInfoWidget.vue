@@ -17,7 +17,7 @@ import { useCoursesStore } from '../../store/courses';
 import BaseButton from '../baseComponents/BaseButton.vue';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue'
 import { useCourseDetailsStore } from '../../store/course-details.store';
-import Spinner from '../baseComponents/spinner/Spinner.vue';
+import Spinner from '../Spinner.vue';
 import { useUserStore } from '../../store/user';
 import { UpdateEvent } from '../../api/models/update.model';
 export default {

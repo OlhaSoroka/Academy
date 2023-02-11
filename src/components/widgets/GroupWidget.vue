@@ -21,7 +21,7 @@ import { Course } from "../../api/models/course.model";
 import { AppUser } from "../../api/models/user.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import { EnglishLevel } from "../../models/english-level.enum";
-import Spinner from "../baseComponents/spinner/Spinner.vue";
+import Spinner from "../Spinner.vue";
 export default {
 	components: {
 		BaseTableEditable,

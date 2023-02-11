@@ -19,7 +19,7 @@ import { useUserStore } from '../../store/user';
 import { updateEntryResultById } from "../../api/entry_results";
 import { EntryResult } from "../../api/models/result.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
-import Spinner from "../baseComponents/spinner/Spinner.vue";
+import Spinner from "../Spinner.vue";
 
 export default {
 	components: {

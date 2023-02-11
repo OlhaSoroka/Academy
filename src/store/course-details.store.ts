@@ -24,7 +24,12 @@ import { getCoursesHomeworks, getHomeworksByLecture } from "../api/homework";
 import { createDocument, getDocumentByCourse } from "../api/document";
 import { ToastType, useToastStore } from "./toast.store";
 import { useUpdateStore } from "./update";
-import { Update, UpdateCategory, UpdateEvent, UpdateType } from "../api/models/update.model";
+import {
+  Update,
+  UpdateCategory,
+  UpdateEvent,
+  UpdateType,
+} from "../api/models/update.model";
 import { useUserStore } from "./user";
 import { ROLES } from "../models/router.model";
 
@@ -130,11 +135,12 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         )?.fullName;
         return exitResults;
       });
-
+      comments.sort((a, b) => b.createdAt - a.createdAt);
       this._comments = comments.map((comment) => {
         comment.author = adminAndMentors.find(
           (user) => user.id === comment.authorId,
         )?.fullName!;
+      
         comment.createdAt = new Date(comment.createdAt)
           .toISOString()
           .split("T")[0] as any;

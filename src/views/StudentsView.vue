@@ -51,7 +51,7 @@ import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useStudentStore } from '../store/students';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
 import { useUserStore } from '../store/user';
-import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import Spinner from '../components/Spinner.vue';
 import { useCoursesStore } from '../store/courses';
 import { SelectItem } from '../models/options.model';
 import { AppUser, StudentStatus } from '../api/models/user.model';

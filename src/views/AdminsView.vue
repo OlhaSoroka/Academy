@@ -23,7 +23,7 @@ import UserCreateModal from '../components/modals/UserCreateModal.vue';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useAdminStore } from '../store/admins';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
-import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import Spinner from '../components/Spinner.vue';
 
 
 export default {

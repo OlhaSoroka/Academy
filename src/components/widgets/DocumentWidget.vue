@@ -30,7 +30,7 @@ import BaseButton from "../baseComponents/BaseButton.vue";
 import { deleteDocument, updateDocumentById } from "../../api/document";
 import { Document } from "../../api/models/documents.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
-import Spinner from "../baseComponents/spinner/Spinner.vue";
+import Spinner from "../Spinner.vue";
 import CreateDocumentModal from "../modals/CourseDetailsModals/CreateDocumentModal.vue";
 export default {
 	components: {

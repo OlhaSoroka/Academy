@@ -95,7 +95,7 @@ import { useCourseDetailsStore } from '../store/course-details.store';
 import CommentWidget from '../components/widgets/CommentWidget.vue';
 import LecturesWidget from '../components/widgets/LecturesWidget.vue';
 import { useUserStore } from '../store/user';
-import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import Spinner from '../components/Spinner.vue';
 import ResultsEntryWidget from '../components/widgets/ResultsEntryWidget.vue';
 import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
 import DocumentWidget from '../components/widgets/DocumentWidget.vue';

@@ -1,6 +1,6 @@
 <template>
   <div v-if="rows.length === 0" class="w-full flex justify-center">
-    <div>No data...</div>
+    <div class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10 w-full">There is no added data yet</div>
   </div>
   <div v-else style="overflow-x: auto">
     <table style="width: 100%" class="table">
@@ -96,7 +96,6 @@ import EditIcon from "../baseComponents/icons/EditIcon.vue";
 import { defineComponent } from "vue";
 import { PropType } from "vue";
 import BaseButton from "./BaseButton.vue";
-import { SelectItem } from "../../models/options.model";
 import DeleteIcon from "./icons/DeleteIcon.vue";
 import HomeworkIcon from "./icons/HomeworkIcon.vue";
 import BaseDeleteModal from "./BaseDeleteModal.vue";

@@ -32,7 +32,7 @@ import { useCourseDetailsStore } from "../../store/course-details.store";
 import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
 import { Comment } from "../../api/models/comment.model";
 import { deleteComment, updateCommentById } from "../../api/comments";
-import Spinner from "../baseComponents/spinner/Spinner.vue";
+import Spinner from "../Spinner.vue";
 export default {
 	components: {
     BaseTableEditable,
