@@ -27,7 +27,7 @@ import { mapStores } from "pinia";
 import { useUserStore } from "../store/user"
 import { defineComponent } from "vue";
 import ArrowNextIcon from "./baseComponents/icons/ArrowNextIcon.vue";
-import DropdownMenu from "./baseComponents/DropdownMenu.vue";
+import DropdownMenu from "./DropdownMenu.vue";
 export default defineComponent({
   data() {
     return {

@@ -101,7 +101,7 @@ import HomeworkIcon from "./icons/HomeworkIcon.vue";
 import BaseDeleteModal from "./BaseDeleteModal.vue";
 import LinkIcon from "././icons/LinkIcon.vue"
 import SearchIcon from "././icons/SearchIcon.vue"
-import SearchMenu from "./SearchMenu.vue";
+import SearchMenu from "../SearchMenu.vue";
 import { IColumnDefs } from "../../api/models/base-table.model";
 
 export default defineComponent({
@@ -153,6 +153,9 @@ export default defineComponent({
 targetValue() {
   if (this.columnDefs[0].field==="avatarUrl") {
     return this.rowData[this.rowToDeleteIndex]?.[this.columnDefs[1]?.field]
+  }
+  if(this.columnDefs[0].field==="message") {
+    return 'this comment'
   }
   else {
     return this.rowData[this.rowToDeleteIndex]?.[this.columnDefs[0]?.field]

@@ -24,12 +24,12 @@
 	</div>
 </template>
 <script lang="ts">
-import { useUpdateStore } from '../../store/update';
-import BaseButton from './BaseButton.vue';
-import NotificationItem from './NotificationItem.vue';
+import { useUpdateStore } from '../store/update';
+import BaseButton from './baseComponents/BaseButton.vue';
+import NotificationItem from './UpdateNotificationItem.vue';
 import { mapStores } from 'pinia'
-import ArrowUpIcon from './icons/ArrowUpIcon.vue';
-import Spinner from '../Spinner.vue'
+import ArrowUpIcon from './baseComponents/icons/ArrowUpIcon.vue';
+import Spinner from './Spinner.vue'
 export default {
 	components: {
 		BaseButton,

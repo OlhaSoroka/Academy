@@ -11,8 +11,8 @@
 	</div>
 </template>
 <script lang="ts">
-import UpdateBox from "../components/baseComponents/UpdateBox.vue";
-import ReminderBox from "../components/baseComponents/ReminderBox.vue";
+import UpdateBox from "../components/UpdateBox.vue";
+import ReminderBox from "../components/ReminderBox.vue";
 import { mapStores } from "pinia";
 import { useUserStore } from "../store/user";
 

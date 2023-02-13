@@ -12,8 +12,7 @@
 import { defineComponent } from 'vue';
 import TheNavigationMenu from "../components/TheNavigationMenu.vue";
 import TheTopbarComponent from "../components/TheTopbarComponent.vue";
-import DropdownMenu from "../components/baseComponents/DropdownMenu.vue";
-import { ROUTE_NAMES } from '../models/router.model';
+import DropdownMenu from "../components/DropdownMenu.vue";
 
 export default defineComponent({
 	components: { TheNavigationMenu, TheTopbarComponent, DropdownMenu },

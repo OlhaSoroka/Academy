@@ -6,15 +6,15 @@
 				<Spinner v-if="remindersStore.isLoading" />
 				<div v-if="!remindersStore.shouldShowNavMenuReminder" class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10">There is no reminders for today</div>
 				<div v-else class="mt-8">
-					<ReminderItem v-if="remindersStore.isDemoToday"
-						innerText="Project demo is scheduled for today"></ReminderItem>
-					<ReminderItem v-if="remindersStore.isFinalInterviewToday"
-						innerText="Final interview is scheduled for today"></ReminderItem>
-					<ReminderItem v-if="remindersStore.isProjectStartToday"
-						innerText="Academy project start is scheduled for today"></ReminderItem>
-					<ReminderItem v-for="lecture in remindersStore.todaysLectures" :key="lecture.id"
+					<ReminderNotificationItem v-if="remindersStore.isDemoToday"
+						innerText="Project demo is scheduled for today"></ReminderNotificationItem>
+					<ReminderNotificationItem v-if="remindersStore.isFinalInterviewToday"
+						innerText="Final interview is scheduled for today"></ReminderNotificationItem>
+					<ReminderNotificationItem v-if="remindersStore.isProjectStartToday"
+						innerText="Academy project start is scheduled for today"></ReminderNotificationItem>
+					<ReminderNotificationItem v-for="lecture in remindersStore.todaysLectures" :key="lecture.id"
 						:innerText="`${lecture.name} lecture is scheduled for today at ${lecture.timeOfLecture}`">
-					</ReminderItem>
+					</ReminderNotificationItem>
 				</div>
 			</div>
 		</div>
@@ -22,12 +22,12 @@
 </template>
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useRemindersStore } from "../../store/reminders";
-import ReminderItem from "./ReminderItem.vue"
-import Spinner from "../Spinner.vue"
+import { useRemindersStore } from "../store/reminders";
+import ReminderNotificationItem from "./ReminderNotificationItem.vue"
+import Spinner from "./Spinner.vue"
 export default {
 	components: {
-		ReminderItem,
+		ReminderNotificationItem,
 		Spinner
 	},
 	computed: {

@@ -38,8 +38,8 @@
 <script lang="ts">
 
 import { PropType } from 'vue';
-import { Update, UpdateType } from '../../api/models/update.model';
-import { FIELD_TO_LABEL_MAPPER } from '../widgets/update-widget/fieldToLabelMapper';
+import { Update, UpdateType } from '../api/models/update.model';
+import { FIELD_TO_LABEL_MAPPER } from './widgets/update-widget/fieldToLabelMapper';
 export default {
 	components: {
 	},

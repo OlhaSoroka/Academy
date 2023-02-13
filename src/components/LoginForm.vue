@@ -86,7 +86,10 @@ export default {
 				const currentUser = await gethUserByID(user.uid);
 				if (!currentUser) {
 					this.toastStore.showToastMessage({ message: "The user has been deleted", type: ToastType.FAILURE })
-				} else {
+				}
+				if (currentUser?.archive) {
+					this.toastStore.showToastMessage({ message: "You can't enter.Your course already finished", type: ToastType.FAILURE })
+				}else {
 					localStorage.setItem("currentUser", JSON.stringify(currentUser));
 				
 				this.$router.push({ name: ROUTE_NAMES.COURSE_DASHBOARD });

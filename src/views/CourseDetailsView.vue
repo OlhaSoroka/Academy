@@ -100,7 +100,7 @@ import ResultsEntryWidget from '../components/widgets/ResultsEntryWidget.vue';
 import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
 import DocumentWidget from '../components/widgets/DocumentWidget.vue';
 import CourseNavigator from '../components/CourseNavigator.vue';
-import FilterMenu from '../components/baseComponents/SearchMenu.vue';
+import FilterMenu from '../components/SearchMenu.vue';
 
 export default {
 	data() {
