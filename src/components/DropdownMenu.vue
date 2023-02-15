@@ -19,6 +19,7 @@ export default {
 			]
 		};
 	},
+	emits: ['linkClicked'],
 	computed: {
 		...mapStores(useUserStore),
 	},

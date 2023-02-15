@@ -52,6 +52,7 @@ export default defineComponent({
 			link: "",
 		};
 	},
+	emits:['documentAdded'],
 	computed: {
 		...mapStores(useUserStore, useCoursesStore, useCourseDetailsStore ),
 		currentRouteName() {

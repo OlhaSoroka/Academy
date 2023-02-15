@@ -36,6 +36,7 @@ export default {
 			searchValue: "",
 		}
 	},
+	emits:["applySearch","resetSearch"],
 	directives: {
 		focus: {
 			updated: (el) => {

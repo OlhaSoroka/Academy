@@ -34,6 +34,7 @@ export default defineComponent({
       isDropdownMenuOpen: false,
     }
   },
+  emits:["onNavigationMenuToggle"],
   computed: {
     ...mapStores(useUserStore),
   },

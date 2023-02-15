@@ -59,7 +59,6 @@ export const useUpdateStore = defineStore("update", {
           mentorsLectures.forEach(lecture => courseIds.push(lecture.courseId));
         }
         const { updates, lastVisible, firstUpdate, total } = await getFirstPageUpdates(courseIds, userStore.currentUser?.role!);
-        console.log({updates});
         
         this._totalUpdates = total;
         this._firstUpdate = firstUpdate;
@@ -90,7 +89,6 @@ export const useUpdateStore = defineStore("update", {
             return update;
           });
       } catch (error) {
-        console.log(error);
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: `Can't fetch updates`,
@@ -122,8 +120,6 @@ export const useUpdateStore = defineStore("update", {
         this._firstVisible = firstVisible;
         const users = await getAllUsers();
         const courses = await getAllCourses();
-        console.log({updates});
-        
         this._updates = updates
           .sort((a, b) => b.createdAt - a.createdAt)
           .map((update) => {
@@ -220,8 +216,6 @@ export const useUpdateStore = defineStore("update", {
         this._updatesLoading = true;
         await createUpdate(update);
       } catch (error) {
-        console.log({ error });
-
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Can't create update!",
@@ -239,7 +233,6 @@ export const useUpdateStore = defineStore("update", {
           updatesToDelete.push(deleteUpdate(update.id)),
         );
         await Promise.all(updatesToDelete);
-        console.log("Course updates deleted");
       } catch (error) {
         const toastStore = useToastStore();
         toastStore.showToastMessage({

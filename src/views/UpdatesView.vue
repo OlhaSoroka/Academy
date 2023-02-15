@@ -1,12 +1,9 @@
 <template>
 	<div class="p-10 bg-primary-100 min-h-full">
 		<div class="font-semibold text-lg text-start text-primary-700 mb-5">The latest updates</div>
-		<div v-if="userStore.isAdmin||userStore.isMentor" class="flex justify-center items-center">
+		<div  class="flex justify-center">
 			<UpdateBox></UpdateBox>
-		</div>
-		<div v-else class="flex">
-			<UpdateBox ></UpdateBox>
-			<ReminderBox v-if="userStore.isStudent"></ReminderBox>
+			<ReminderBox v-if="!(userStore.isAdmin || userStore.isMentor)"></ReminderBox>
 		</div>
 	</div>
 </template>
@@ -30,8 +27,6 @@ export default {
 
 <style lang="css" scoped>
 .notification_admin {
-	@apply justify-center 
+	@apply justify-center
 }
-
-
 </style>

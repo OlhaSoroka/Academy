@@ -52,6 +52,7 @@ import BaseModal from './BaseModal.vue';
 		test: {},
 	  };
 	},
+	emits:["delete"],
 	watch: {
 	  toggleModal() {
 		(this.$refs.baseDeleteModal as typeof BaseModal).openModal();

@@ -27,7 +27,7 @@
 			<!-- Update without oldValue -->
 			<div v-if="isUpdateType && !update.oldValue">
 				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} changed</h1>
-				<div>{{ update.authorId }} made update in {{ update.courseId }} course</div>
+				<div>{{ update.authorId }} made update in <span class="font-semibold">{{ update.courseId }} </span> course</div>
 				<div><span class="font-semibold">{{ notificationField }}</span> was added to <span class="font-semibold">{{ notificationHeader }}
 						widget</span>. Check it!</div>
 				<div>Updated at: {{ update.createdAt }}</div>

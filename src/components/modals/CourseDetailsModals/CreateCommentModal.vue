@@ -51,6 +51,7 @@ export default {
 			message: "",
 		};
 	},
+	emits:['commentsAdded'],
 	computed: {
 		...mapStores(useUserStore, useCoursesStore, useCourseDetailsStore),
 		currentRouteName() {

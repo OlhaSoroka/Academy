@@ -149,6 +149,7 @@ export default defineComponent({
 
     };
   },
+  emits:['rowClick','deleteRow','cellValueChanged','headerNameChanged'],
   computed: {
 targetValue() {
   if (this.columnDefs[0].field==="avatarUrl") {

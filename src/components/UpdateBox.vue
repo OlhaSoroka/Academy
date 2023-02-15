@@ -49,7 +49,6 @@ export default {
 	beforeMount() {
 		this.updateStore.fetchUpdates()
 	},
-
 }
 </script>
 <style lang="css" scoped>

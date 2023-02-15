@@ -53,6 +53,7 @@ export default defineComponent({
       numberRules: "min_value:0",
     };
   },
+  emits:["update:modelValue"],
   computed: {
     allRules() {
       switch (this.type) {
