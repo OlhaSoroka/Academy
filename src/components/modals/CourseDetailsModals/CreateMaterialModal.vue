@@ -52,6 +52,7 @@ export default defineComponent({
 			link: "",
 		};
 	},
+	emits:['materialAdded'],
 	computed: {
 		...mapStores(useUserStore, useCoursesStore,useCourseDetailsStore),
 		currentRouteName() {

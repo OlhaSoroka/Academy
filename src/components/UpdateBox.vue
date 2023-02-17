@@ -17,19 +17,19 @@
 							<ArrowUpIcon class="rotate-90"></ArrowUpIcon>
 						</BaseButton>
 					</div>
-					<div v-if="updateStore.updates.length<1" class="flex justify-center items-center" >There is no update yet...</div>
+					<div v-if="updateStore.updates.length<1" class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10" >There is no update yet</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script lang="ts">
-import { useUpdateStore } from '../../store/update';
-import BaseButton from './BaseButton.vue';
-import NotificationItem from './NotificationItem.vue';
+import { useUpdateStore } from '../store/update';
+import BaseButton from './baseComponents/BaseButton.vue';
+import NotificationItem from './UpdateNotificationItem.vue';
 import { mapStores } from 'pinia'
-import ArrowUpIcon from './icons/ArrowUpIcon.vue';
-import Spinner from './spinner/Spinner.vue';
+import ArrowUpIcon from './baseComponents/icons/ArrowUpIcon.vue';
+import Spinner from './Spinner.vue'
 export default {
 	components: {
 		BaseButton,
@@ -49,7 +49,6 @@ export default {
 	beforeMount() {
 		this.updateStore.fetchUpdates()
 	},
-
 }
 </script>
 <style lang="css" scoped>

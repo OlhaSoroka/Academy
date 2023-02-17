@@ -1,5 +1,6 @@
 import { NavigationGuard } from "vue-router";
 import { getCourseById } from "../api/course";
+import { gethUserByID } from "../api/user";
 import { ROLES, ROUTE_NAMES } from "../models/router.model";
 import { useCourseDetailsStore } from "../store/course-details.store";
 import { useUserStore } from "../store/user";
@@ -40,6 +41,19 @@ export const authGuard: NavigationGuard = async (
   next,
 ): Promise<void> => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser")!);
+
+  // LOGOUT USER IF ROLE IN LOCAL STORAGE HAS BEEN CHANGED
+  if (currentUser && currentUser.id) {
+    const userInStore = await gethUserByID(currentUser.id);
+    if (userInStore && userInStore.role !== currentUser.role) {
+      next({
+        name: ROUTE_NAMES.LOGIN,
+      });
+      localStorage.removeItem("currentUser");
+    }
+  }
+  
+  
   if (to.matched.some((route) => route.meta.requiresAuth)) {
     if (!currentUser) {
       const userStore = useUserStore();

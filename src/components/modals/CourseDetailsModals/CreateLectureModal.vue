@@ -49,6 +49,7 @@ export default defineComponent({
 			name: "",
 		}
 	},
+	emits:['lectureCreated'],
 	computed: {
 		...mapStores(useCourseDetailsStore),
 		isFormValid() { return !!this.name },

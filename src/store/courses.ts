@@ -8,6 +8,7 @@ import {
 } from "../api/course";
 import { ToastType, useToastStore } from "../store/toast.store";
 import { Course, CourseStatus } from "../api/models/course.model";
+import { useStudentStore } from "../store/students"
 import { deleteCoursesEntryResults } from "../api/entry_results";
 import { deleteCoursesExitResults } from "../api/exit_results";
 import { deleteCoursesLectures } from "../api/lectures";
@@ -128,7 +129,6 @@ const useCoursesStore = defineStore("courses", {
         update.field = event.colDef.field;
         update.oldValue = event.oldValue;
         update.newValue = event.newValue;
-
         updateStore.createUpdate(update)
       } catch (error) {
         console.log({ error });
@@ -141,16 +141,28 @@ const useCoursesStore = defineStore("courses", {
       } finally {
         this.fetchCourses();
       }
-    },
+    }, 
     async deleteCourse(courseId: string) {
       try {
         this.courseLoading = true;
+        const studentStore=useStudentStore();
+        await studentStore.fetchStudents();
         await deleteCoursesEntryResults(courseId);
         await deleteCoursesExitResults(courseId);
         await deleteCoursesLectures(courseId);
         await deleteCoursesHomeworks(courseId);
         await deleteCoursesComments(courseId);
         await deleteCoursesMaterials(courseId);
+        const currentStudents=studentStore.allStudents.filter((student)=>{
+          return student.courseId===courseId;
+        })
+        console.log(currentStudents);
+        
+        currentStudents.forEach((student)=>{
+          console.log(student);
+          console.log(studentStore);
+        studentStore.deleteStudent(student.id!)
+        })
         const updateStore = useUpdateStore();
           updateStore.deleteUpdatesByCourseId(courseId)
         // TODO?: update users course id

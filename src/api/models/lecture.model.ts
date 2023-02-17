@@ -9,6 +9,7 @@ export class Lecture {
   dateOfLecture: string = "";
   dateOfDeadline: string = "";
   mentorId: string = "";
+  meet_link: string = "";
   presentation: string = "";
   mentor?: string;
   timeOfLecture: string = "";

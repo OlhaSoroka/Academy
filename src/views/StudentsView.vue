@@ -51,10 +51,11 @@ import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useStudentStore } from '../store/students';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
 import { useUserStore } from '../store/user';
-import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import Spinner from '../components/Spinner.vue';
 import { useCoursesStore } from '../store/courses';
 import { SelectItem } from '../models/options.model';
 import { AppUser, StudentStatus } from '../api/models/user.model';
+import { IColumnDefs } from '../api/models/base-table.model';
 
 export default {
     components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
@@ -64,13 +65,11 @@ export default {
         this.coursesStore.fetchCourses();
     },
     data(): {
-        columnDefs: any,
         isAddStudentModalOpen: boolean,
         isArchive: boolean
     } {
         return {
             isAddStudentModalOpen: false,
-            columnDefs: [],
             isArchive: false
         };
     },
@@ -98,7 +97,7 @@ export default {
     },
     computed: {
         ...mapStores(useStudentStore, useUserStore, useCoursesStore),
-        columnDefs() {
+        columnDefs(): IColumnDefs[] {
             const courseDropdownOptions: SelectItem[] = this.coursesStore.activeCourses.map(course => {
                 return {
                     label: course.name,
@@ -115,11 +114,11 @@ export default {
             }
             if (this.userStore.isAdmin || this.userStore.isMentor) {
                 if (this.isArchive) {
-                    return [
+                    return [ 
                         { field: "avatarUrl", headerName: "", width: 80, centered: true, image: true, },
                         { field: "fullName", headerName: "Name", sortable: true, editable: false, filter: true, width: 250 },
                         { field: "course", headerName: "Course", sortable: true, editable: false, filter: true, width: 200 },
-                        { field: "email", headerName: "Email", sortable: true, editable: false, width: 250 },
+                        { field: "email", headerName: "Email", sortable: true, editable: false, filter: true, width: 250 },
                         { field: "phone", headerName: "Phone", sortable: false, editable: true, width: 200 },
                         { field: "city", headerName: "City", sortable: true, editable: true, filter: true, width: 200 },
                         { field: "study_period", headerName: "Period of study", sortable: true, editable: true, filter: true, width: 200 },
@@ -135,7 +134,7 @@ export default {
                                 { label: "To contact later", value: StudentStatus.TO_CONTACT_LATER },
                             ]
                         },
-                        { field: "status_date", headerName: "Status date", sortable: true, editable: true, filter: true, width: 200 },
+                        { field: "status_date", headerName: "Status date", sortable: true, editable: true, date: true, filter: true, width: 200 },
                         { field: "comments", headerName: "Comments", sortable: true, editable: true, filter: true, width: 200 },
                         { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true,centered: true, delete: true },
 

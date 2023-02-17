@@ -51,6 +51,7 @@ export default {
 			file: null,
 		};
 	},
+	emits:['onProfileImageChange'],
 	computed: {
 		...mapStores(useUserStore)
 	},

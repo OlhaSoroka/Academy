@@ -18,14 +18,14 @@
 <script lang="ts">
 import { mapStores } from 'pinia';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
-import Spinner from '../components/baseComponents/spinner/Spinner.vue';
+import Spinner from '../components/Spinner.vue';
 import { useGuideStore } from '../store/guides';
 import { Guide } from '../api/models/guide.model';
 import { guideRoleOptions } from '../models/guide-role.model'
-import { ROLES } from '../models/router.model';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import CreateGuideModal from '../components/modals/CourseDetailsModals/CreateGuideModal.vue';
 import { SelectItem } from '../models/options.model';
+import { IColumnDefs } from '../api/models/base-table.model';
 
 
 export default {
@@ -33,15 +33,15 @@ export default {
 	mounted() {
 		this.guideStore.fetchGuides();
 	},
-	data() {
+	data(): {
+		isModalOpen: boolean,
+		columnDefs: IColumnDefs[]
+	} {
 		return {
 			isModalOpen: false,
 			columnDefs: [
-				{
-					field: "roleLabel", headerName: "Name", editable: false, sortable: true, minWidth: 150, width:400, dropdown: true,
-					options: guideRoleOptions
-				},
-				{ field: "link", headerName: "Link", sortable: true, editable: true, minWidth: 150, link: true },
+				{ field: "roleLabel", headerName: "Name", editable: false, sortable: true, minWidth: 150, width: 400, dropdown: true,options: guideRoleOptions },
+				{ field: "link", headerName: "Link", sortable: true, editable: true, minWidth: 150, width: 400, link: true },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
 			],
 		};

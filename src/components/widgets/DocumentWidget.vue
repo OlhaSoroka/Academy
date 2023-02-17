@@ -30,7 +30,7 @@ import BaseButton from "../baseComponents/BaseButton.vue";
 import { deleteDocument, updateDocumentById } from "../../api/document";
 import { Document } from "../../api/models/documents.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
-import Spinner from "../baseComponents/spinner/Spinner.vue";
+import Spinner from "../Spinner.vue";
 import CreateDocumentModal from "../modals/CourseDetailsModals/CreateDocumentModal.vue";
 export default {
 	components: {
@@ -61,14 +61,14 @@ export default {
 	beforeMount() {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Document name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true  },
-				{ field: "link", headerName: "Document link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
+				{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true  },
+				{ field: "link", headerName: "Link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Document name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true },
-				{ field: "link", headerName: "Document link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
+				{ field: "name", headerName: "Name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true },
+				{ field: "link", headerName: "Link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
 			]
 		}

@@ -63,6 +63,7 @@ export default defineComponent({
 			link: "",
 		};
 	},
+	emits:['guideAdded'],
 	computed: {
 		...mapStores(useGuideStore),
 		currentRouteName() {

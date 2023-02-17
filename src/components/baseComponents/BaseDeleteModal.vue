@@ -8,7 +8,7 @@
 		  v-if="targetValue"
 		  class="max-w-md"
 		>
-		  Do you really want to delete:
+		Are you sure you want to delete:
 		  <span class="font-bold break-all">{{ targetValue }}</span>?
 		</div>
 		<div class="flex justify-evenly mt-5">
@@ -52,6 +52,7 @@ import BaseModal from './BaseModal.vue';
 		test: {},
 	  };
 	},
+	emits:["delete"],
 	watch: {
 	  toggleModal() {
 		(this.$refs.baseDeleteModal as typeof BaseModal).openModal();

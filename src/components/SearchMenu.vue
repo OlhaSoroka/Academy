@@ -12,7 +12,7 @@
 </template>
 <script lang="ts">
 import { PropType } from 'vue';
-import BaseButton from './BaseButton.vue';
+import BaseButton from './baseComponents/BaseButton.vue';
 export default {
 	components: {
 		BaseButton
@@ -36,6 +36,7 @@ export default {
 			searchValue: "",
 		}
 	},
+	emits:["applySearch","resetSearch"],
 	directives: {
 		focus: {
 			updated: (el) => {

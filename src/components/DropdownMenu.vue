@@ -7,9 +7,9 @@
 	</div>
 </template>
 <script lang="ts">
-import { ROUTE_NAMES } from '../../models/router.model'
+import { ROUTE_NAMES } from '../models/router.model'
 import { mapStores } from "pinia";
-import { useUserStore } from '../../store/user';
+import { useUserStore } from '../store/user';
 export default {
 	data() {
 		return {
@@ -19,6 +19,7 @@ export default {
 			]
 		};
 	},
+	emits: ['linkClicked'],
 	computed: {
 		...mapStores(useUserStore),
 	},

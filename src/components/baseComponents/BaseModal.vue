@@ -39,7 +39,7 @@
 		show: false,
 	  };
 	},
-  
+  emits:["isClosed"],
 	methods: {
 	  closeModal() {
 		this.show = false;

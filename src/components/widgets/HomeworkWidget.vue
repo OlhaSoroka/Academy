@@ -25,7 +25,10 @@ import { updateStudentExitResult } from '../../api/exit_results';
 import { useCourseDetailsStore } from '../../store/course-details.store';
 import { useUserStore } from '../../store/user';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue';
-import { UpdateEvent } from '../../api/models/update.model';
+import { Update, UpdateEvent, UpdateType, UpdateCategory } from '../../api/models/update.model';
+import { useUpdateStore } from '../../store/update';
+import { ROLES } from '../../models/router.model';
+import { uuidv4 } from '@firebase/util';
 export default defineComponent({
     data(): {
         columnDefs: any,
@@ -41,15 +44,15 @@ export default defineComponent({
         if (this.userStore.isStudent) {
             this.columnDefs = [
                 { field: "student", headerName: "Student", sortable: true, editable: false, width: 300 },
-                { field: "rate", headerName: "Rate", sortable: true, editable: false, centered:true, width: 160 },
+                { field: "rate", headerName: "Rate", sortable: true, editable: false, centered: true, width: 160 },
                 { field: "link", headerName: "Link", sortable: true, editable: true, link: true, width: 300 },
                 { field: "date", headerName: "Completion date", sortable: true, editable: false, width: 150, date: true }
             ]
         }
         if (this.userStore.isAdmin || this.userStore.isMentor) {
             this.columnDefs = [
-                { field: "student", headerName: "Student", sortable: true, editable: false,filter:true, width: 300 },
-                { field: "rate", headerName: "Rate", sortable: true, editable: true, centered:true, width: 160 },
+                { field: "student", headerName: "Student", sortable: true, editable: false, filter: true, width: 300 },
+                { field: "rate", headerName: "Rate", sortable: true, editable: true, centered: true, width: 160 },
                 { field: "link", headerName: "Link", sortable: true, editable: true, link: true, width: 300 },
                 { field: "comment", headerName: "Comment", sortable: true, editable: true, width: 300 },
                 { field: "date", headerName: "Completion date", sortable: true, editable: true, width: 150, date: true },
@@ -57,7 +60,7 @@ export default defineComponent({
         }
     },
     computed: {
-        ...mapStores(useCourseDetailsStore, useUserStore),
+        ...mapStores(useCourseDetailsStore, useUserStore, useUpdateStore),
         students(): StudentHomework[] {
             if (this.userStore.isStudent) {
                 return this.courseDetailsStore.selectedHomework!.students.filter(student => student.studentId === this.userStore.currentUser?.id)
@@ -71,9 +74,6 @@ export default defineComponent({
     },
     methods: {
         async onCellEdit(event: UpdateEvent<StudentHomework>) {
-            console.log({event});
-            
-            // TODO: move this method to store
             const lectureHomework = {
                 id: this.courseDetailsStore.selectedHomework!.id,
                 courseId: this.courseDetailsStore.selectedHomework!.courseId,
@@ -94,6 +94,15 @@ export default defineComponent({
                 }
             }
             await updateHomeworkById(this.courseDetailsStore.selectedHomework!.id, lectureHomework);
+            const update = new Update(
+                uuidv4(),
+                lectureHomework.courseId,
+                event.data.studentId,
+                this.userStore.currentUser!.role,
+                UpdateType.CREATE,
+                UpdateCategory.HOMEWORK
+            )
+            this.updateStore.createUpdate(update)
             const courseHomeworks = await getCoursesHomeworks(this.courseDetailsStore.selectedHomework!.courseId);
             let studentRateSummary = 0;
             for (const homework of courseHomeworks) {
@@ -103,7 +112,7 @@ export default defineComponent({
                 }
             }
             const resultToUpdate = {
-                average_homework_score: `${studentRateSummary / courseHomeworks.length}`
+                average_homework_score: `${(studentRateSummary / courseHomeworks.length).toFixed(2)}`
             };
             await updateStudentExitResult(event.data.studentId, resultToUpdate);
             this.courseDetailsStore.selectLecture(this.courseDetailsStore.selectedHomework!.lectureId);

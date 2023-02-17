@@ -26,7 +26,7 @@
 								<option value="" disabled selected>
 									Select Course
 								</option>
-								<option v-for="course in coursesStore.courses" :key="course.id"
+								<option v-for="course in coursesStore.activeCourses" :key="course.id"
 									:value="course.id">
 									{{ course.name }}
 								</option>
