@@ -1,13 +1,15 @@
 <template>
 	<div class="update__container ">
-		<div>
-			<div>
+		<div class="h-full">
+			<div class="h-full">
 				<span class="update__header">Updates</span>
 				<Spinner v-if="updateStore.updatesLoading" />
-				<div v-else class="mt-8">
-					<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update">
-					</NotificationItem>
-					<div v-if="updateStore.updates.length" class="flex justify-center items-center mt-5">
+				<div v-else class="h-full flex flex-col justify-between">
+					<div class="mt-5">
+						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update">
+						</NotificationItem>
+					</div>
+					<div v-if="updateStore.updates.length" class="flex justify-center items-center mb-5">
 						<BaseButton :class="{ update__btn_disabled: isPrevDisabled }" class="mr-5"
 							@click="updateStore.fetchPrevPage()">
 							<ArrowUpIcon class="-rotate-90"></ArrowUpIcon>
@@ -17,7 +19,9 @@
 							<ArrowUpIcon class="rotate-90"></ArrowUpIcon>
 						</BaseButton>
 					</div>
-					<div v-if="updateStore.updates.length<1" class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10" >There is no update yet</div>
+					<div v-if="updateStore.updates.length < 1"
+						class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10">
+						There is no update yet</div>
 				</div>
 			</div>
 		</div>
@@ -53,7 +57,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .update__container {
-	@apply border-2 border-stone-300 rounded-md shadow-md bg-stone-50 p-8 w-1/2;
+	@apply border-2 border-stone-300 rounded-md shadow-md bg-stone-50 p-10 w-1/2 h-[800px];
 }
 
 .update__header {

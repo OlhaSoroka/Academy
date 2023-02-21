@@ -80,7 +80,7 @@ export const getFirstPageUpdates = async (courseIds: string[], role: ROLES) => {
       where("category","in",["main info","group","lecture","document","material"]),
       where("courseId", "==", courseIds[0]),
       orderBy("createdAt", "desc"),
-      limit(5),
+      limit(4),
     );
   }
   if (role === ROLES.ADMIN_ROLE) {
@@ -90,7 +90,7 @@ export const getFirstPageUpdates = async (courseIds: string[], role: ROLES) => {
     firstPageQuery = query(
       collection(firestore, Collection.UPDATES),
       orderBy("createdAt", "desc"),
-      limit(5),
+      limit(4),
     );
   }
   if (role === ROLES.MENTOR_ROLE) {
@@ -105,11 +105,11 @@ export const getFirstPageUpdates = async (courseIds: string[], role: ROLES) => {
       collection(firestore, Collection.UPDATES),
       where("courseId", "in", courseIds),
       orderBy("createdAt", "desc"),
-      limit(5),
+      limit(4),
     );
   }
 
-  const firstPageDocumentSnapshots = await getDocs(firstPageQuery as any);
+  const firstPageDocumentSnapshots = await getDocs(firstPageQuery as Query<DocumentData>);
   const updates: Update[] = [];
   firstPageDocumentSnapshots.forEach((document) => {
     const update = document.data();
@@ -139,7 +139,7 @@ export const getNextPageUpdates = async (
       where("category","in",["main info","group","lecture","document","material"]),
       orderBy("createdAt", "desc"),
       startAfter(lastVisible),
-      limit(5),
+      limit(4),
     );
   } 
   if (role === ROLES.MENTOR_ROLE) {
@@ -148,20 +148,19 @@ export const getNextPageUpdates = async (
       where("courseId", "in", courseIds),
       orderBy("createdAt", "desc"),
       startAfter(lastVisible),
-      limit(5),
+      limit(4),
     );
   }
-  
-  else {
+  if (role === ROLES.ADMIN_ROLE) {
     nextPageQuery = query(
       collection(firestore, Collection.UPDATES),
       orderBy("createdAt", "desc"),
       startAfter(lastVisible),
-      limit(5),
+      limit(4),
     );
   }
 
-  const nextPageDocumentSnapshots = await getDocs(nextPageQuery);
+  const nextPageDocumentSnapshots = await getDocs(nextPageQuery as Query<DocumentData>);
   const updates: Update[] = [];
   nextPageDocumentSnapshots.forEach((document) => {
     const update = document.data();
@@ -188,7 +187,7 @@ export const getPrevPageUpdates = async (
       where("category","in",["main info","group","lecture","document","material"]),
       orderBy("createdAt", "desc"),
       endBefore(firstVisible),
-      limitToLast(5),
+      limitToLast(4),
     );
   }
   if (role === ROLES.MENTOR_ROLE) {
@@ -197,20 +196,20 @@ export const getPrevPageUpdates = async (
       where("courseId", "in", courseIds),
       orderBy("createdAt", "desc"),
       endBefore(firstVisible),
-      limitToLast(5),
+      limitToLast(4),
     );
   }
   
-  else {
+  if (role === ROLES.ADMIN_ROLE) {
     prevPageQuery = query(
       collection(firestore, Collection.UPDATES),
       orderBy("createdAt", "desc"),
       endBefore(firstVisible),
-      limitToLast(5),
+      limitToLast(4),
     );
   }
 
-  const prevPageDocumentSnapshots = await getDocs(prevPageQuery);
+  const prevPageDocumentSnapshots = await getDocs(prevPageQuery as Query<DocumentData>);
   const updates: Update[] = [];
   prevPageDocumentSnapshots.forEach((document) => {
     const update = document.data();

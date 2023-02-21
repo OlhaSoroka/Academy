@@ -7,7 +7,9 @@
                     </h1>
                     <Spinner v-if="studentStore.isStudentLoading" />
                 </div>
-                <div class="students__subheader">{{ !isArchive ? 'Current Academy students' : 'All Academy students' }}
+                <div v-if="userStore.isStudent" class="students__subheader" > Current students of {{ currentStudentCourseName }} </div>
+                <div v-if="userStore.isMentor" class="students__subheader" >Current Academy students</div>
+                <div v-if="userStore.isAdmin" class="students__subheader">{{ !isArchive ? 'Current Academy students' : 'All Academy students' }}
                 </div>
             </div>
             <div>
@@ -97,6 +99,9 @@ export default {
     },
     computed: {
         ...mapStores(useStudentStore, useUserStore, useCoursesStore),
+        currentStudentCourseName(){
+            return this.coursesStore.getCourseById(this.userStore.currentUser!.courseId!)?.name
+        },
         columnDefs(): IColumnDefs[] {
             const courseDropdownOptions: SelectItem[] = this.coursesStore.activeCourses.map(course => {
                 return {
@@ -149,6 +154,7 @@ export default {
                 ]
             }
             return []
+            
         }
     }
 
