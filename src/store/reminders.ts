@@ -56,7 +56,7 @@ export const useRemindersStore = defineStore("reminders", {
     async calculateLecturesStartTime() {
       try {
         this._loading = true;
-        this._todaysLectures = [];
+        const todaysLectures: Lecture[] = [];
         const currentUserCourseId = useUserStore().currentUser?.courseId;
         if (currentUserCourseId) {
           const currentUserLectures = await getLectureByCourse(
@@ -64,9 +64,10 @@ export const useRemindersStore = defineStore("reminders", {
           );
           currentUserLectures.forEach((lecture) => {
             if (lecture.dateOfLecture && this.isToday(lecture.dateOfLecture)) {
-              this._todaysLectures.push(lecture);
+              todaysLectures.push(lecture);
             }
           });
+          this._todaysLectures=[...todaysLectures]
         }
       } catch (error) {
       } finally {
@@ -75,10 +76,8 @@ export const useRemindersStore = defineStore("reminders", {
     },
     isToday(date: string) {
       const [year, month, day] = date.split("-");
-
       const today = new Date().toISOString().split("T")[0];
       const [todayYear, todayMonth, todayDay] = today.split("-");
-
       return year === todayYear && month === todayMonth && day === todayDay;
     },
   },

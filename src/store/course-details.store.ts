@@ -262,8 +262,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._resultWidgetLoading = false;
     },
     async createLecture(lecture: Lecture) {
-      console.log({ createLecture: lecture });
-
       try {
         await createLecture(lecture);
         const updateStore = useUpdateStore();

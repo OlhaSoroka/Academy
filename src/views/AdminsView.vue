@@ -1,7 +1,7 @@
 <template>
     <div class="admin__container">
         <div class="admin__header_container">
-            <div class="flex items-center">
+            <div class="flex items-center h-16">
                 <h1 class="admin__header mr-3">Admins Dashboard
                 </h1>
                 <Spinner v-if="adminStore.isAdminsLoading" />
@@ -16,7 +16,7 @@
         <UserCreateModal :toggle-modal="isAddAdminModalOpen" :role="'mentor'" :header="'Add new admin'">
         </UserCreateModal>
     </div>
-</template>
+</template> 
 <script lang="ts">
 import { mapStores } from 'pinia';
 import UserCreateModal from '../components/modals/UserCreateModal.vue';
