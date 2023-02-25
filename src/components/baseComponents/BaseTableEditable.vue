@@ -6,8 +6,8 @@
     <table style="width: 100%" class="table">
       <tr>
         <th v-for="column in columnDefs" :key="column.field" class="table_header"
-          :class="{ 'table_header--solid': column.solid }">
-          <div class="table_header_cell" :style="{ width: column.width + 'px' }">
+          :class="[{ 'table_header--solid': column.solid },{ 'table_header_centered': column.headerCentered }]">
+          <div class="table_header_cell" :style="{ width: column.headerCentered ? '100%' : column.width + 'px' }">
             <input v-if="isHederActive(column)" v-focus type="text" class="table_cell_input" :value="column.headerName"
               @focusout="onHeaderFocusOut($event, column.field)"
               @keypress.enter="onHeaderEnterPress($event, column.field)" />
@@ -361,7 +361,15 @@ targetValue() {
 .table_header {
   @apply border-2 border-slate-200 text-start text-primary-700;
 }
-
+.table_header_centered {
+  .table_header_cell {
+   justify-content: center;
+   margin-left: 0px;
+   margin-right: 0px; 
+   padding-left: 10px;
+   padding-right: 10px; 
+  }
+}
 .table_header--solid {
   @apply bg-primary-300 text-white;
 }

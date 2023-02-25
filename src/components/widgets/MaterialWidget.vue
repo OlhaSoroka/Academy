@@ -69,7 +69,7 @@ export default {
 			this.columnDefs = [
 				{ field: "name", headerName: "Name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true  },
 				{ field: "link", headerName: "Link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
-				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
+				{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor ,headerCentered:true  },
 			]
 		}
 	},

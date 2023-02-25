@@ -141,7 +141,7 @@ export default {
                         },
                         { field: "status_date", headerName: "Status date", sortable: true, editable: true, date: true, filter: true, width: 200 },
                         { field: "comments", headerName: "Comments", sortable: true, editable: true, filter: true, width: 200 },
-                        { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true,centered: true, delete: true },
+                        { field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true,centered: true, delete: true ,headerCentered:true },
 
                     ]
                 }
@@ -150,7 +150,7 @@ export default {
                     { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                     { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                     { field: "course", headerName: "Course", sortable: true, editable: true, dropdown: true, options: courseDropdownOptions, filter: true, width: 200 },
-                    { field: "", headerName: "", sortable: false, editable: false, width: 120, centered: true, actionColumn: true, delete: true },
+                    { field: "", headerName: "Delete", sortable: false, editable: false, width: 120, centered: true, actionColumn: true, delete: true ,headerCentered:true },
                 ]
             }
             return []

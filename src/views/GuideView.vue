@@ -42,7 +42,7 @@ export default {
 			columnDefs: [
 				{ field: "roleLabel", headerName: "Name", editable: false, sortable: true, minWidth: 150, width: 400, dropdown: true,options: guideRoleOptions },
 				{ field: "link", headerName: "Link", sortable: true, editable: true, minWidth: 150, width: 400, link: true },
-				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
+				{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true },
 			],
 		};
 	},

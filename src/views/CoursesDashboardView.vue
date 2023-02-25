@@ -76,7 +76,7 @@ export default {
 				{ field: "name", headerName: "Name", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
 				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
 				{ field: "status", headerName: "Status", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
-				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
+				{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true },
 			]
 		}
 	},

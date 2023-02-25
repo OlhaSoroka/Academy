@@ -80,7 +80,7 @@ export default {
 			{ field: "message", headerName: "Message", sortable: true, editable: false, checkAuthor:true, currentUserId:this.userStore.currentUser?.id , width: 400 },
 			{ field: "author", headerName: "Author", sortable: true, editable: false,filter:true, width: 400 },
 			{ field: "createdAt", headerName: "Date", sortable: true, editable: false, width: 400 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true }
+			{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true  }
 		]
 	},
 	methods: {

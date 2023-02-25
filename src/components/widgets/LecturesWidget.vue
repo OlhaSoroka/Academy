@@ -83,8 +83,8 @@ export default {
 			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter: true },
 			{ field: "meet_link", headerName: "Meeting link", editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
 			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin }
+			{ field: "", headerName: "Homework", sortable: false, editable: false, width: 120, actionColumn: true, homework: true, headerCentered:true },
+			{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin,headerCentered:true }
 		]
 		}
 		if (this.userStore.isStudent) {
@@ -96,7 +96,7 @@ export default {
 			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter: true },
 			{ field: "meet_link", headerName: "Meeting link",editable: false, link: true, width: 300 },
 			{ field: "presentation", headerName: "Presentation", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
-			{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, homework: true },
+			{ field: "", headerName: "Homework", sortable: false, editable: false, width: 120, actionColumn: true, homework: true,headerCentered:true },
 		]
 		}
 		
