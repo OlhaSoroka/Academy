@@ -319,33 +319,35 @@ targetValue() {
         return;
       }
     },
-    /*     isNumber(value:string) {
-          return parseInt(value, 10) ? +value : value;
-        }, */
     isNumber(value: string | number) {
       if (+value == value) {
         return +value
       } else return value;
     },
     compare(a: any, b: any): number {
+      const firstValue = a[`${this.sortBy}`];
+      const secondValue = b[`${this.sortBy}`];
+      
       if (this.activeSort === "asc") {
-        if (this.isNumber(a[`${this.sortBy}`]) > this.isNumber(b[`${this.sortBy}`])) {
+        if (this.isNumber(firstValue) > this.isNumber(secondValue)) {
           return -1;
         }
-        if (this.isNumber(b[`${this.sortBy}`]) > this.isNumber(a[`${this.sortBy}`])) {
+        if (this.isNumber(secondValue) > this.isNumber(firstValue)) {
           return 1;
         }
       }
       if (this.activeSort === "desc") {
-        if (this.isNumber(a[`${this.sortBy}`]) < this.isNumber(b[`${this.sortBy}`])) {
+        if (this.isNumber(firstValue) < this.isNumber(secondValue)) {
           return -1;
         }
-        if (this.isNumber(b[`${this.sortBy}`]) < this.isNumber(a[`${this.sortBy}`])) {
+        if (this.isNumber(secondValue) < this.isNumber(firstValue)) {
           return 1;
         }
       }
-      if (typeof this.isNumber(a[`${this.sortBy}`]) === 'string') return a[`${this.sortBy}`].localeCompare(b[`${this.sortBy}`]);
-      if (this.activeSort === null) {
+      // if (typeof this.isNumber(firstValue) === 'string') {        
+      //   return firstValue.localeCompare(secondValue)
+      // };
+      if (!this.activeSort) {
         this.rows = [...this.rowData];
       }
       return 0

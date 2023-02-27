@@ -7,6 +7,7 @@ import {
   query,
   where,
   setDoc,
+  orderBy,
 } from "firebase/firestore";
 import { uuidv4 } from "@firebase/util";
 import { db, firestore } from "../../main";
@@ -55,6 +56,7 @@ export const getLectureByCourse = async (
   const collectionQuery = query(
     collection(firestore, Collection.LECTURES),
     where("courseId", "==", courseId),
+    orderBy("createdAt", "asc"),
   );
   const documents = await getDocs(collectionQuery);
   const lectures: Lecture[] = [];
@@ -71,6 +73,7 @@ export const getLectureByMentor = async (
   const collectionQuery = query(
     collection(firestore, Collection.LECTURES),
     where("mentorId", "==", mentorId),
+    orderBy("createdAt", "asc"),
   );
   const documents = await getDocs(collectionQuery);
   const lectures: Lecture[] = [];

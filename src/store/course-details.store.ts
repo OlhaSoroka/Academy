@@ -286,7 +286,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         )?.fullName!;
         return lecture;
       });
-      this._lecturesWidgetLoading = false;
     },
     async updateLecture(event: UpdateEvent<Lecture>) {
       try {
@@ -297,6 +296,8 @@ const useCourseDetailsStore = defineStore("courseDetails", {
           message: "Lecture successfully updated",
           type: ToastType.SUCCESS,
         });
+        await this.fetchLectures();
+        // Create update message logic
         const updateStore = useUpdateStore();
         const userStore = useUserStore();
         const update = new Update(
