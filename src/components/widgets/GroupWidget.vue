@@ -4,7 +4,7 @@
 			<h2 class="group__header mr-3">Group</h2>
 			<Spinner v-if="courseDetailsStore.groupWidgetLoading" />
 		</div>
-		<div class="min-h-20">
+		<div>
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.group" class="mt-5 min-h-[200px]"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>

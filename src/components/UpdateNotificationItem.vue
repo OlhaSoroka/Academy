@@ -5,7 +5,7 @@
 			<!-- Create -->
 			<div v-if="isCreateType" class="navigation__text">
 				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} added</h1>
-				<div>{{ update.authorId }} added a <span class="font-semibold">new {{
+				<div class="">{{ update.authorId }} added a <span class="font-semibold">new {{
 					notificationHeader!.toLowerCase()
 				}}</span> in <span class="font-semibold">{{ update.courseId }}.</span> Check it!
 				</div>
@@ -18,9 +18,9 @@
 				<div>{{ update.authorId }} made update in <span class="font-semibold">{{ update.courseId }}</span> course ({{ notificationHeader }}
 					widget).
 				</div>
-				<div><span class="font-semibold">{{ notificationField }}</span>  was changed from <span class="font-semibold">{{
+				<div><span class="font-semibold">{{ notificationField }}</span>  was changed from <span class="font-semibold break-all ">{{
 					update.oldValue || 'Empty'
-				}}</span> to <span class="font-semibold">{{ update.newValue }}.</span></div>
+				}}</span> to <span class="font-semibold  break-all">{{ update.newValue }}.</span></div>
 				<div>Updated at: {{ update.createdAt }}</div>
 			</div>
 
@@ -75,6 +75,7 @@ export default {
 }
 
 .navigation__text {
-	@apply text-base text-gray-800
+	@apply text-base text-gray-800;
+
 }
 </style>

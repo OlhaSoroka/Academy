@@ -2,10 +2,10 @@
 	<BaseModal ref="newMaterial" :header="'Add new material'" @isClosed="clearInputs()">
 		<template #body>
 			<form>
-				<div class="">
-					<BaseInput v-model="name" label="Material Name" rules="required" name="material_name" />
+				<Form>
+					<BaseInput v-model="name" label="Material Name" additionalRules="required|min:3|max:69" name="material_name" />
 					<BaseInput v-model="link" type="Link" label="Material Link" rules="required" name="material_link" />
-				</div>
+				</Form>
 				<div class="flex justify-between mt-5">
 					<div class="mx-2">
 						<BaseButton :variant="'btn_blue_outlined'" @click="confirmAdding(currentRouteName)"

@@ -57,7 +57,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .update__container {
-	@apply border-2 border-stone-300 rounded-md shadow-md bg-stone-50 p-10 w-1/2 h-[800px];
+	@apply border-2 border-stone-300 rounded-md shadow-md bg-stone-50 p-10 w-1/2 min-h-[800px];
 }
 
 .update__header {

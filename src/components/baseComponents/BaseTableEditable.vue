@@ -2,7 +2,7 @@
   <div v-if="rows.length === 0" class="w-full flex justify-center">
     <div class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10 w-full">There is no added data yet</div>
   </div>
-  <div v-else style="overflow-x: auto">
+  <div v-else style="overflow-x: auto" class="min-h-[200px]">
     <table style="width: 100%" class="table">
       <tr>
         <th v-for="column in columnDefs" :key="column.field" class="table_header"

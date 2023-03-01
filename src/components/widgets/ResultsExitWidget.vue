@@ -4,7 +4,7 @@
 			<h2 class="result__header mr-3">Exit Results</h2>
 			<Spinner v-if="courseDetailsStore.resultWidgetLoading" />
 		</div>
-		<div class="min-h-20">
+		<div>
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.exitResults" class="mt-5 min-h-[200px]"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)" />
 		</div>

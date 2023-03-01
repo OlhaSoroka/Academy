@@ -11,7 +11,7 @@
 				</BaseButton>
 			</div>
 		</div>
-		<div class="mt-5 min-h-[130px]">
+		<div class="mt-5">
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.comments" class="mt-5 min-h-52"			
 			:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
 				@deleteRow="onCommentDelete($event)" />

@@ -10,7 +10,7 @@
                 <BaseButton :variant="'btn_blue'" @click="addAdmin">Add new admin</BaseButton>
             </div>
         </div>
-        <div class="admin_widget">
+        <div class="admin_widget min-h-40">
             <BaseTableEditable :column-defs="columnDefs" :row-data="adminStore.admins" uniq-identifier="id" />
         </div>
         <UserCreateModal :toggle-modal="isAddAdminModalOpen" :role="'mentor'" :header="'Add new admin'">

@@ -3,8 +3,8 @@
     <label v-if="label" class="ml-1 block text-base font-semibold mt-3 mb-1">
       {{ label }}
     </label>
-    <Field v-bind="$attrs" :type="type" :value="value" :placeholder="placeholder" @input="updateInput"
-      class="base-input" :rules="allRules" :name="label" :validate-on-input="true" />
+    <Field v-bind="$attrs" :type="type" :value="value" :placeholder="placeholder" @input="updateInput" class="base-input"
+      :rules="combinedRules" :name="label" :validate-on-input="true" />
     <ErrorMessage :name="label" class="base-input-error-text" />
   </div>
 </template>
@@ -41,7 +41,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    rules: {
+    additionalRules: {
       type: String,
       default: '',
     }
@@ -53,18 +53,18 @@ export default defineComponent({
       numberRules: "min_value:0",
     };
   },
-  emits:["update:modelValue"],
+  emits: ["update:modelValue"],
   computed: {
-    allRules() {
+    combinedRules() {
       switch (this.type) {
         case "email":
-          return `${this.emailRules}|${this.rules}`;
+          return `${this.emailRules}|${this.additionalRules}`;
         case "password":
-          return `${this.passwordRules}|${this.rules}`;
+          return `${this.passwordRules}|${this.additionalRules}`;
         case "number":
-          return `${this.numberRules}|${this.rules}`;
+          return `${this.numberRules}|${this.additionalRules}`;
         default:
-          return `${this.rules}`;
+          return `${this.additionalRules}`;
       }
     },
   },
@@ -78,7 +78,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .base-input {
-  @apply relative block w-full max-w-md rounded-sm border-2  border-primary-600 p-1 font-mono text-base placeholder:text-slate-400 hover:bg-stone-50 focus:border-slate-500  focus:bg-stone-50 focus:outline-none focus:drop-shadow-md;
+  @apply relative block w-full max-w-md rounded-sm border-2 border-primary-600 p-1 font-mono text-base placeholder:text-slate-400 hover:bg-stone-50 focus:border-slate-500 focus:bg-stone-50 focus:outline-none focus:drop-shadow-md;
 }
 
 .base-input:disabled {
@@ -86,6 +86,6 @@ export default defineComponent({
 }
 
 .base-input-error-text {
-  @apply absolute text-[10px]  text-red-500 ml-1;
+  @apply absolute text-[10px] text-red-500 ml-1;
 }
 </style>
