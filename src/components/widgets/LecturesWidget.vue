@@ -74,7 +74,7 @@ export default {
 		}
 	},
 	beforeMount() { 
-		if (this.userStore.isAdmin || this.userStore.isMentor) {
+		if (this.userStore.isAdmin ) {
 			this.columnDefs = [
 			{ field: "name", headerName: "Name", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300, filter: true },
 			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200, },
@@ -85,6 +85,18 @@ export default {
 			{ field: "presentation", headerName: "Presentation link", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
 			{ field: "", headerName: "Homework", sortable: false, editable: false, width: 120, actionColumn: true, homework: true, headerCentered:true },
 			{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin,headerCentered:true }
+		]
+		}
+		if (this.userStore.isMentor) {
+			this.columnDefs = [
+			{ field: "name", headerName: "Name", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 300, filter: true },
+			{ field: "dateOfLecture", headerName: "Date", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200, },
+			{ field: "timeOfLecture", headerName: "Time", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 100 },
+			{ field: "dateOfDeadline", headerName: "Homework deadline", sortable: true, date: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 200 },
+			{ field: "mentor", headerName: "Mentor", sortable: true, editable: this.userStore.isAdmin, width: 200, dropdown: true, options: this.mentorsOptions, filter: true },
+			{ field: "meet_link", headerName: "Meeting link", editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
+			{ field: "presentation", headerName: "Presentation link", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, link: true, width: 300 },
+			{ field: "", headerName: "Homework", sortable: false, editable: false, width: 120, actionColumn: true, homework: true, headerCentered:true }
 		]
 		}
 		if (this.userStore.isStudent) {
