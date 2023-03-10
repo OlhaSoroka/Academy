@@ -12,7 +12,6 @@
 			<BaseTableEditable :column-defs="columnDefs" :row-data="guideStore.guides" uniq-identifier="id"
 				@deleteRow="onGuideDelete($event)" @cellValueChanged="onGuideEdit($event)" />
 		</div>
-		<CreateGuideModal :toggleModal="isModalOpen" :guidesOptions="availableGuides"></CreateGuideModal>
 	</div>
 </template>
 <script lang="ts">
@@ -23,13 +22,12 @@ import { useGuideStore } from '../store/guides';
 import { Guide } from '../api/models/guide.model';
 import { guideRoleOptions } from '../models/guide-role.model'
 import BaseButton from '../components/baseComponents/BaseButton.vue';
-import CreateGuideModal from '../components/modals/CourseDetailsModals/CreateGuideModal.vue';
 import { SelectItem } from '../models/options.model';
 import { IColumnDefs } from '../api/models/base-table.model';
 
 
 export default {
-	components: { BaseTableEditable, Spinner, BaseButton, CreateGuideModal },
+	components: { BaseTableEditable, Spinner, BaseButton },
 	mounted() {
 		this.guideStore.fetchGuides();
 	},
@@ -42,7 +40,7 @@ export default {
 			columnDefs: [
 				{ field: "roleLabel", headerName: "Name", editable: false, sortable: true, minWidth: 150, width: 400, dropdown: true,options: guideRoleOptions },
 				{ field: "link", headerName: "Link", sortable: true, editable: true, minWidth: 150, width: 400, link: true },
-				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
+				{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true },
 			],
 		};
 	},

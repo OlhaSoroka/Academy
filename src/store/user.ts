@@ -15,7 +15,6 @@ import { signOut } from "firebase/auth";
 import { firebaseAuth } from "../main";
 import { ROLES, ROUTE_NAMES } from "../models/router.model";
 import { ToastType, useToastStore } from "../store/toast.store";
-import { useResetForm } from "vee-validate";
 
 interface UserStoreState {
   user: AppUser | null;

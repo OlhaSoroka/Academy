@@ -1,6 +1,5 @@
 <template>
 	<div class="p-10 bg-primary-100 min-h-full">
-		<div class="font-semibold text-lg text-start text-primary-700 mb-5">The latest updates</div>
 		<div  class="flex justify-center">
 			<UpdateBox></UpdateBox>
 			<ReminderBox v-if="!(userStore.isAdmin || userStore.isMentor)"></ReminderBox>

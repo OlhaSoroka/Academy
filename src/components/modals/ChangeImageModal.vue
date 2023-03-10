@@ -71,7 +71,7 @@ export default {
 		},
 		onImageSelected(e: Event) {
 			const target = e.target as HTMLInputElement;
-			if (target && target.files) {
+			if (target && target.files && target.files[0]) {
 				this.file = target.files[0];
 				const fileReader = new FileReader();
 				fileReader.onloadend = () => {

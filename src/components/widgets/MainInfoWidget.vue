@@ -5,7 +5,7 @@
 			<Spinner v-if="courseDetailsStore.mainInfoWidgetLoading" />
 		</div>
 		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse"
-			class="mt-5 min-h-[130px]" :uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)">
+			class="mt-5" :uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)">
 		</BaseTableEditable>
 	</div>
 </template>

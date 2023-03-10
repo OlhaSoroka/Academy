@@ -3,9 +3,9 @@
 		<template #body>
 			<div>
 				<div class="">
-					<div>
-						<BaseInput v-model="name" label="Title:" name="lecture_name" />
-					</div>
+					<Form>
+						<BaseInput v-model="name" label="Title:" additionalRules="required|min:3|max:69" name="lecture_name" type="text"/>
+					</Form>
 					<div class="flex justify-between mt-5">
 						<div class="mx-2">
 							<BaseButton variant="btn_blue_outlined" :disabled="!isFormValid" @click="submit()">
@@ -29,7 +29,6 @@ import { uuidv4 } from '@firebase/util';
 import { mapStores } from 'pinia';
 import { Form } from 'vee-validate';
 import { defineComponent } from 'vue';
-import { createLecture } from '../../../api/lectures';
 import { Lecture } from '../../../api/models/lecture.model';
 import { useCourseDetailsStore } from '../../../store/course-details.store';
 import BaseButton from '../../baseComponents/BaseButton.vue';

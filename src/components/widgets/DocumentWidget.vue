@@ -11,7 +11,7 @@
 				</BaseButton>
 			</div>
 		</div>
-		<div class="mt-5 min-h-[130px]">
+		<div class="mt-5">
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.documents"
 				:uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)"
 				@deleteRow="onDocumentDelete($event)" />
@@ -61,15 +61,15 @@ export default {
 	beforeMount() {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Name", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true  },
-				{ field: "link", headerName: "Link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
+				{ field: "name", headerName: "Name", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true  },
+				{ field: "link", headerName: "Link", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
 			]
 		}
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "name", headerName: "Name", sortable: true, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true },
-				{ field: "link", headerName: "Link", sortable: true, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
-				{ field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor },
+				{ field: "name", headerName: "Name", sortable: false, editable:this.userStore.isAdmin || this.userStore.isMentor, width: 400 , filter:true },
+				{ field: "link", headerName: "Link", sortable: false, editable: this.userStore.isAdmin || this.userStore.isMentor, link:true,  width: 400 },
+				{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: this.userStore.isAdmin || this.userStore.isMentor ,headerCentered:true  },
 			]
 		}
 	},

@@ -58,7 +58,7 @@ export default {
 			{
 				field: "student",
 				headerName: "Name",
-				sortable: true,
+				sortable: false,
 				editable: false,
 				width: 300,
 				filter:true,
@@ -121,14 +121,14 @@ export default {
 			},
 			{
 				field: "entry_tech_interviewer_comment",
-				headerName: "Interviewer comments",
+				headerName: "Interviewer comment",
 				sortable: false,
 				editable: this.isAdmin || this.isMentor,
 				width: 300,
 			},
 			{
 				field: "entry_hr_interviewer_comments",
-				headerName: "HR interviewer comments",
+				headerName: "HR interviewer comment",
 				sortable: false,
 				editable: this.isAdmin,
 				width: 300,

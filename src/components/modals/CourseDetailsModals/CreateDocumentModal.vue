@@ -2,10 +2,10 @@
 	<BaseModal ref="newDocument" :header="'Add new document'" @isClosed="clearInputs()">
 		<template #body>
 			<form>
-				<div class="">
-					<BaseInput v-model="name" label="Document Name" rules="required" name="document_name" />
+				<Form>
+					<BaseInput v-model="name" label="Document Name" additionalRules="required|min:3|max:69" name="document_name" />
 					<BaseInput v-model="link" type="Link" label="Document Link" rules="required" name="document_link" />
-				</div>
+				</Form>
 				<div class="flex justify-between mt-5">
 					<div class="mx-2">
 						<BaseButton :variant="'btn_blue_outlined'" @click="confirmAdding(currentRouteName)"

@@ -2,12 +2,12 @@
   <div v-if="rows.length === 0" class="w-full flex justify-center">
     <div class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10 w-full">There is no added data yet</div>
   </div>
-  <div v-else style="overflow-x: auto">
+  <div v-else style="overflow-x: auto" class="min-h-[200px]">
     <table style="width: 100%" class="table">
       <tr>
         <th v-for="column in columnDefs" :key="column.field" class="table_header"
-          :class="{ 'table_header--solid': column.solid }">
-          <div class="table_header_cell" :style="{ width: column.width + 'px' }">
+          :class="[{ 'table_header--solid': column.solid },{ 'table_header_centered': column.headerCentered }]">
+          <div class="table_header_cell" :style="{ width: column.headerCentered ? '100%' : column.width + 'px' }">
             <input v-if="isHederActive(column)" v-focus type="text" class="table_cell_input" :value="column.headerName"
               @focusout="onHeaderFocusOut($event, column.field)"
               @keypress.enter="onHeaderEnterPress($event, column.field)" />
@@ -319,33 +319,35 @@ targetValue() {
         return;
       }
     },
-    /*     isNumber(value:string) {
-          return parseInt(value, 10) ? +value : value;
-        }, */
     isNumber(value: string | number) {
       if (+value == value) {
         return +value
       } else return value;
     },
     compare(a: any, b: any): number {
+      const firstValue = a[`${this.sortBy}`];
+      const secondValue = b[`${this.sortBy}`];
+      
       if (this.activeSort === "asc") {
-        if (this.isNumber(a[`${this.sortBy}`]) > this.isNumber(b[`${this.sortBy}`])) {
+        if (this.isNumber(firstValue) > this.isNumber(secondValue)) {
           return -1;
         }
-        if (this.isNumber(b[`${this.sortBy}`]) > this.isNumber(a[`${this.sortBy}`])) {
+        if (this.isNumber(secondValue) > this.isNumber(firstValue)) {
           return 1;
         }
       }
       if (this.activeSort === "desc") {
-        if (this.isNumber(a[`${this.sortBy}`]) < this.isNumber(b[`${this.sortBy}`])) {
+        if (this.isNumber(firstValue) < this.isNumber(secondValue)) {
           return -1;
         }
-        if (this.isNumber(b[`${this.sortBy}`]) < this.isNumber(a[`${this.sortBy}`])) {
+        if (this.isNumber(secondValue) < this.isNumber(firstValue)) {
           return 1;
         }
       }
-      if (typeof this.isNumber(a[`${this.sortBy}`]) === 'string') return a[`${this.sortBy}`].localeCompare(b[`${this.sortBy}`]);
-      if (this.activeSort === null) {
+      // if (typeof this.isNumber(firstValue) === 'string') {        
+      //   return firstValue.localeCompare(secondValue)
+      // };
+      if (!this.activeSort) {
         this.rows = [...this.rowData];
       }
       return 0
@@ -361,7 +363,15 @@ targetValue() {
 .table_header {
   @apply border-2 border-slate-200 text-start text-primary-700;
 }
-
+.table_header_centered {
+  .table_header_cell {
+   justify-content: center;
+   margin-left: 0px;
+   margin-right: 0px; 
+   padding-left: 10px;
+   padding-right: 10px; 
+  }
+}
 .table_header--solid {
   @apply bg-primary-300 text-white;
 }

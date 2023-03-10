@@ -48,8 +48,8 @@ export default {
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
 				{ field: "avatarUrl", headerName: "", width: 80, centered: true, image: true },
-				{ field: "fullName", headerName: "Name", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter: true, width: 300 },
-				{ field: "email", headerName: "Email", headerEditable: false, sortable: true, editable: false, filter: true, width: 250 },
+				{ field: "fullName", headerName: "Name", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter: true, width: 300 },
+				{ field: "email", headerName: "Email", headerEditable: false, sortable: false, editable: false, filter: true, width: 250 },
 				{ field: "phone", headerName: "Phone", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter: false, width: 200 },
 				{ field: "city", headerName: "City", headerEditable: false, sortable: true, editable: this.userStore.isAdmin, filter: true, width: 200 },
 				{ field: "age", headerName: "Age", headerEditable: false, sortable: true, editable: this.userStore.isAdmin,centered:true, width: 100 },

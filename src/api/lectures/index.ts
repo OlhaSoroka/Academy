@@ -7,10 +7,16 @@ import {
   query,
   where,
   setDoc,
+  orderBy,
 } from "firebase/firestore";
 import { uuidv4 } from "@firebase/util";
 import { db, firestore } from "../../main";
-import { createHomework, deleteLectureHomeworks } from "../homework";
+import {
+  createHomework,
+  deleteLectureHomeworks,
+  getHomeworksByLecture,
+  updateHomeworkById,
+} from "../homework";
 import { Collection } from "../models/collection.enum";
 import { LectureHomework, StudentHomework } from "../models/homework.model";
 import { Lecture } from "../models/lecture.model";
@@ -23,6 +29,11 @@ export const updateLectureById = async (
 ): Promise<boolean> => {
   const lectureRef = doc(db, Collection.LECTURES, `${id}`);
   delete lecture.mentor;
+  const lectureHomework = await getHomeworksByLecture(id);
+  lectureHomework.students.forEach((student) => {
+    student.deadline = lecture.dateOfDeadline;
+  });
+  await updateHomeworkById(lectureHomework.id,lectureHomework)
   await updateDoc(lectureRef, lecture as any);
   return true;
 };
@@ -45,6 +56,7 @@ export const getLectureByCourse = async (
   const collectionQuery = query(
     collection(firestore, Collection.LECTURES),
     where("courseId", "==", courseId),
+    orderBy("createdAt", "asc"),
   );
   const documents = await getDocs(collectionQuery);
   const lectures: Lecture[] = [];
@@ -61,6 +73,7 @@ export const getLectureByMentor = async (
   const collectionQuery = query(
     collection(firestore, Collection.LECTURES),
     where("mentorId", "==", mentorId),
+    orderBy("createdAt", "asc"),
   );
   const documents = await getDocs(collectionQuery);
   const lectures: Lecture[] = [];
@@ -83,8 +96,9 @@ export const createLecture = async (data: Lecture): Promise<Lecture> => {
   return data;
 };
 
-
-export const deleteCoursesLectures = async (courseId: string): Promise<void> => {
+export const deleteCoursesLectures = async (
+  courseId: string,
+): Promise<void> => {
   const collectionQuery = query(
     collection(firestore, Collection.LECTURES),
     where("courseId", "==", courseId),

@@ -1,4 +1,4 @@
-<template>
+<template> 
     <div class="mentor__container">
         <div class="mentor__header_container">
             <div class="flex items-center h-16">
@@ -39,7 +39,7 @@ export default {
                 { field: "avatarUrl", headerName: "", width: 80, centered: true, image: true },
                 { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                 { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
-                { field: "", headerName: "", sortable: false, editable: false, width: 120, actionColumn: true, delete: true },
+                { field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true },
             ],
         };
     },

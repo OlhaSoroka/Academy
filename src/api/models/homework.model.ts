@@ -27,6 +27,7 @@ export class StudentHomework {
   link: string = "";
   comment: string = "";
   date: string = "";
+  deadline: string="";
 
   asObject() {
     const studentHomework = { ...this };

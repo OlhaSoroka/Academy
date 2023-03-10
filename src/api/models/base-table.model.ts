@@ -18,6 +18,7 @@ export interface IColumnDefs {
 	homework?: boolean;
 	dropdown?: boolean;
 	centered?: boolean;
+	headerCentered?:boolean;
 	options?: SelectItem[];
 	checkAuthor?: boolean;
 	currentUserId?: string;

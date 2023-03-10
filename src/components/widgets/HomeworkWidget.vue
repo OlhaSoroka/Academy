@@ -3,7 +3,7 @@
         <div class="flex align-middle justify-between">
             <div class="flex items-center">
                 <h2 class="homework__header mr-3">
-                    <div>{{ lecture }}</div>
+                    <div>{{ lecture }} (Homework)</div>
                 </h2>
                 <Spinner v-if="courseDetailsStore.homeworkWidgetLoading" />
             </div>
@@ -46,7 +46,8 @@ export default defineComponent({
                 { field: "student", headerName: "Student", sortable: true, editable: false, width: 300 },
                 { field: "rate", headerName: "Rate", sortable: true, editable: false, centered: true, width: 160 },
                 { field: "link", headerName: "Link", sortable: true, editable: true, link: true, width: 300 },
-                { field: "date", headerName: "Completion date", sortable: true, editable: false, width: 150, date: true }
+                { field: "date", headerName: "Completion date", sortable: true, editable: false, width: 150, date: true },
+                { field: "deadline", headerName: "Homework Deadline", sortable: false, editable:false, width: 150 },
             ]
         }
         if (this.userStore.isAdmin || this.userStore.isMentor) {
@@ -56,6 +57,7 @@ export default defineComponent({
                 { field: "link", headerName: "Link", sortable: true, editable: true, link: true, width: 300 },
                 { field: "comment", headerName: "Comment", sortable: true, editable: true, width: 300 },
                 { field: "date", headerName: "Completion date", sortable: true, editable: true, width: 150, date: true },
+                { field: "deadline", headerName: "Homework Deadline", sortable: false, editable:false, width: 150 },
             ]
         }
     },
