@@ -176,6 +176,11 @@ const useCourseDetailsStore = defineStore("courseDetails", {
           UpdateCategory.MATERIAL,
         );
         updateStore.createUpdate(update);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Material successfully added",
+          type: ToastType.SUCCESS,
+        });
       } catch (error) {}
     },
     async updatedMaterials() {
@@ -199,6 +204,11 @@ const useCourseDetailsStore = defineStore("courseDetails", {
           UpdateCategory.DOCUMENT,
         );
         updateStore.createUpdate(update);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Document successfully added",
+          type: ToastType.SUCCESS,
+        });
       } catch (error) {}
     },
     async updatedDocuments() {
@@ -222,6 +232,12 @@ const useCourseDetailsStore = defineStore("courseDetails", {
           UpdateCategory.COMMENT,
         );
         updateStore.createUpdate(update);
+        updateStore.createUpdate(update);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Comment successfully added",
+          type: ToastType.SUCCESS,
+        });
       } catch (error) {}
     },
     async updateComments() {
@@ -275,6 +291,11 @@ const useCourseDetailsStore = defineStore("courseDetails", {
           UpdateCategory.LECTURE,
         );
         updateStore.createUpdate(update);
+        const toastStore = useToastStore();
+        toastStore.showToastMessage({
+          message: "Lecture successfully added",
+          type: ToastType.SUCCESS,
+        });
       } catch (error) {}
     },
     async fetchLectures() {

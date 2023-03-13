@@ -7,6 +7,7 @@ import {
   query,
   where,
   setDoc,
+  orderBy,
 } from "firebase/firestore";
 import { db, firestore } from "../../main";
 import { ToastType, useToastStore } from "../../store/toast.store";
@@ -44,6 +45,7 @@ export const getCommentsByCourse = async (
   const collectionQuery = query(
     collection(firestore, Collection.COMMENTS),
     where("courseId", "==", courseId),
+    orderBy("createdAt", "desc"),
   );
   const documents = await getDocs(collectionQuery);
   const comments: Comment[] = [];

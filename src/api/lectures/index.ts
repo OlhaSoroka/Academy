@@ -49,7 +49,7 @@ export const deleteLecture = async (id: string): Promise<boolean> => {
   });
   return true;
 };
-
+ 
 export const getLectureByCourse = async (
   courseId: string,
 ): Promise<Lecture[]> => {

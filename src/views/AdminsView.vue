@@ -35,7 +35,7 @@ export default {
         return {
             isAddAdminModalOpen: false,
             columnDefs: [
-                { field: "avatarUrl", headerName: "", width: 80, centered: true, image: true },
+                { field: "avatarUrl",headerName: "Profile image", width: 120, headerCentered:true, centered: true, image: true },
                 { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter: true, width: 300 },
                 { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter: true, width: 300 },
                 { field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true },
