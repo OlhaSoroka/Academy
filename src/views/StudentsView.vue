@@ -112,15 +112,22 @@ export default {
 
             if (this.userStore.isStudent) {
                 return [
-                    { field: "avatarUrl", headerName: "", width: 80, centered: true, image: true },
+                    { field: "avatarUrl", headerName: "Profile image", width: 120, headerCentered:true, centered: true, image: true },
                     { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                     { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                 ]
             }
-            if (this.userStore.isAdmin || this.userStore.isMentor) {
+            if (this.userStore.isMentor) {
+                return [
+                    { field: "avatarUrl", headerName: "Profile image", width: 120,headerCentered:true, centered: true, image: true },
+                    { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
+                    { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
+                ]
+            }
+            if (this.userStore.isAdmin) {
                 if (this.isArchive) {
                     return [ 
-                        { field: "avatarUrl", headerName: "", width: 80, centered: true, image: true, },
+                        { field: "avatarUrl", headerName: "Profile image", width: 120,headerCentered:true, centered: true, image: true, },
                         { field: "fullName", headerName: "Name", sortable: true, editable: false, filter: true, width: 250 },
                         { field: "course", headerName: "Course", sortable: true, editable: false, filter: true, width: 200 },
                         { field: "email", headerName: "Email", sortable: true, editable: false, filter: true, width: 250 },
@@ -146,7 +153,7 @@ export default {
                     ]
                 }
                 return [
-                    { field: "avatarUrl", headerName: "", width: 80, centered: true, image: true },
+                    { field: "avatarUrl", headerName: "Profile image",width: 120,headerCentered:true,centered: true, image: true },
                     { field: "fullName", headerName: "Name", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                     { field: "email", headerName: "Email", sortable: true, editable: false, minWidth: 150, filter: true, width: 200 },
                     { field: "course", headerName: "Course", sortable: true, editable: true, dropdown: true, options: courseDropdownOptions, filter: true, width: 200 },

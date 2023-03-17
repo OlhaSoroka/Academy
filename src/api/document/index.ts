@@ -7,6 +7,7 @@ import {
 	query,
 	where,
 	setDoc,
+	orderBy,
   } from "firebase/firestore";
   import { db, firestore } from "../../main";
   import { Collection } from "../models/collection.enum";
@@ -44,6 +45,7 @@ import {
 	const collectionQuery = query(
 	  collection(firestore, Collection.DOCUMENTS),
 	  where("courseId", "==", courseId),
+	  orderBy("createdAt", "desc"),
 	);
 	const documents = await getDocs(collectionQuery);
 	const materials: Document[] = [];

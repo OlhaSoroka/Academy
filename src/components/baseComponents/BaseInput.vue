@@ -78,7 +78,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .base-input {
-  @apply relative block w-full max-w-md rounded-sm border-2 border-primary-600 p-1 font-mono text-base placeholder:text-slate-400 hover:bg-stone-50 focus:border-slate-500 focus:bg-stone-50 focus:outline-none focus:drop-shadow-md;
+  @apply relative block w-full max-w-md rounded-sm border-2 border-primary-600 p-1 font-mono text-sm placeholder:text-slate-400 hover:bg-stone-50 focus:border-slate-500 focus:bg-stone-50 focus:outline-none focus:drop-shadow-md;
 }
 
 .base-input:disabled {
