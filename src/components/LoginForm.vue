@@ -2,11 +2,11 @@
 	<div>
 		<Form>
 			<div class="login__input_container ">
-				<BaseInput type="email" label="Email" v-model="formData.email" placeholder="Enter Email..."
+				<BaseInput type="email" label="Email" v-model="formData.email" placeholder="Enter email"
 					additionalRules="required" />
 			</div>
 			<div v-if="isLoginPage">
-				<BaseInput type="password" label="Password" v-model="formData.password" placeholder="Enter Password..."
+				<BaseInput type="password" label="Password" v-model="formData.password" placeholder="Enter password"
 					additionalRules="required" />
 				<p class="login__link" @click="goToResetPage">
 					Forgot password?
