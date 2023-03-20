@@ -4,12 +4,12 @@
 			<div class="h-full">
 				<span class="update__header">Updates</span>
 				<Spinner v-if="updateStore.updatesLoading" />
-				<div v-else class="h-full flex flex-col justify-between">
+				<div v-else class="h-full flex flex-col ">
 					<div class="mt-5">
 						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update">
 						</NotificationItem>
 					</div>
-					<div v-if="updateStore.updates.length" class="flex justify-center items-center mb-5">
+					<div v-if="updateStore.updates.length" class="flex justify-center items-center mb-5 mt-5">
 						<BaseButton :class="{ update__btn_disabled: isPrevDisabled }" class="mr-5"
 							@click="updateStore.fetchPrevPage()">
 							<ArrowUpIcon class="-rotate-90"></ArrowUpIcon>

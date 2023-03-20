@@ -36,7 +36,6 @@ export default {
 	beforeMount() {
 		this.remindersStore.calculateCourseEventsDates();
 		this.remindersStore.calculateLecturesStartTime();
-		console.log(this.remindersStore.todaysLectures);
 	}
 
 }

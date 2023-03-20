@@ -68,20 +68,20 @@ export default {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false, minWidth: 150, width: 200 },
+				{ field: "createdDate", headerName: "Created Date", sortable: true, editable: false, minWidth: 150, width: 200 },
 			]
 		}
 		if (this.userStore.isMentor) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Name", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
-				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
+				{ field: "createdDate", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
 				{ field: "status", headerName: "Status", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
 			]
 		}
 		if (this.userStore.isAdmin) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Name", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
-				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
+				{ field: "createdDate", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
 				{ field: "status", headerName: "Status", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
 				{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true },
 			]

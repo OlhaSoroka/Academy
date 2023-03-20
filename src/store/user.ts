@@ -67,7 +67,6 @@ const useUserStore = defineStore("user", {
         });
       } catch (error) {
         console.log({ error });
-
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Error: Can't change your password",

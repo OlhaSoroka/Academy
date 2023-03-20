@@ -203,7 +203,6 @@ export const useUpdateStore = defineStore("update", {
           });
       } catch (error) {
         console.log(error);
-        
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: `Can't fetch updates`,

@@ -161,8 +161,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._mainInfoWidgetLoading = false;
     },
     async createMaterial(material: Material) {
-      console.log({ createMaterial: material });
-
       try {
         await createMaterial(material);
         const updateStore = useUpdateStore();
@@ -218,7 +216,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._documentsWidgetLoading = false;
     },
     async createComment(comment: Comment) {
-      console.log({ createComment: comment });
       try {
         await createComment(comment);
         const updateStore = useUpdateStore();

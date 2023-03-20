@@ -27,7 +27,7 @@ export const updateMaterialById = async (
   });
   return true;
 };
-
+ 
 export const deleteMaterial = async (id: string): Promise<boolean> => {
   const materialRef = doc(db, Collection.MATERIALS, `${id}`);
   await deleteDoc(materialRef);
@@ -45,7 +45,7 @@ export const getMaterialsByCourse = async (
   const collectionQuery = query(
     collection(firestore, Collection.MATERIALS),
     where("courseId", "==", courseId),
-    orderBy("createdAt", "desc"),
+    orderBy("createdDate", "desc"),
   );
   const documents = await getDocs(collectionQuery);
   const materials: Material[] = [];
