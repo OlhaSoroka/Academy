@@ -27,7 +27,7 @@
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
-import { PropType } from "vue";
+import { defineComponent, PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
 import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialModal.vue";
@@ -39,7 +39,8 @@ import {UpdateEvent} from "../../api/models/update.model"
 import HomeworkWidget from "./HomeworkWidget.vue";
 import CreateLectureModal from "../modals/CourseDetailsModals/CreateLectureModal.vue";
 import Spinner from "../Spinner.vue";
-export default {
+
+export default defineComponent({
 	components: {
 		BaseTableEditable,
 		BaseButton,
@@ -135,7 +136,7 @@ export default {
 			this.courseDetailsStore.fetchLectures();
 		}
 	}
-};
+});
 </script>
   
 <style lang="scss" scoped>

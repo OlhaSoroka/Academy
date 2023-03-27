@@ -11,9 +11,9 @@
 	</div>
 </template>
 <script lang="ts">
-import { PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import BaseButton from './baseComponents/BaseButton.vue';
-export default {
+export default defineComponent({
 	components: {
 		BaseButton
 	},
@@ -61,5 +61,5 @@ export default {
 			}
 		}
 	},
-}
+});
 </script>

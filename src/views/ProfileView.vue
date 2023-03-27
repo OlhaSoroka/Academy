@@ -86,7 +86,7 @@
 </template>
   
 <script lang="ts">
-import { mapStores } from 'pinia';
+import { mapStores, Store } from 'pinia';
 import BaseButton from '../components/BaseComponents/BaseButton.vue';
 import ChangeImageModal from '../components/Modals/ChangeImageModal.vue';
 import ChangePasswordModal from '../components/Modals/ChangePasswordModal.vue';
@@ -94,6 +94,7 @@ import { ROLES } from '../models/router.model';
 import { useUserStore } from '../store/user';
 import { defineComponent } from 'vue';
 import { getCourseById } from '../api/course';
+
 export default defineComponent({
 	components: {
 		BaseButton,
@@ -117,7 +118,7 @@ export default defineComponent({
 	},
 	computed: {
 		...mapStores(useUserStore),
-		isStudent() {
+		isStudent(): any  {
 			return this.userStore.currentUser!.role === ROLES.STUDENTS_ROLE;
 		},
 		shouldCvShow(): boolean {

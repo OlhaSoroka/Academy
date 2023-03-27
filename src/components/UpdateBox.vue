@@ -34,7 +34,8 @@ import NotificationItem from './UpdateNotificationItem.vue';
 import { mapStores } from 'pinia'
 import ArrowUpIcon from './baseComponents/icons/ArrowUpIcon.vue';
 import Spinner from './Spinner.vue'
-export default {
+import { defineComponent } from 'vue';
+export default defineComponent({
 	components: {
 		BaseButton,
 		NotificationItem,
@@ -53,7 +54,7 @@ export default {
 	beforeMount() {
 		this.updateStore.fetchUpdates()
 	},
-}
+});
 </script>
 <style lang="css" scoped>
 .update__container {

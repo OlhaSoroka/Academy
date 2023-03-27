@@ -16,13 +16,13 @@ import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
 import { updateUserByID } from "../../api/user";
-import { PropType } from "vue";
+import { defineComponent, PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import { AppUser } from "../../api/models/user.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import { EnglishLevel } from "../../models/english-level.enum";
 import Spinner from "../Spinner.vue";
-export default {
+export default defineComponent({
 	components: {
 		BaseTableEditable,
 		Spinner
@@ -76,7 +76,7 @@ export default {
 			this.courseDetailsStore.updatedGroupOrResult();
 		},
 	}
-};
+});
 </script>
   
 <style lang="scss" scoped>

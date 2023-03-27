@@ -11,7 +11,7 @@
 </template>
 <script lang="ts">
 import { mapStores } from 'pinia';
-import { PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Course, CourseStatus } from '../../api/models/course.model';
 import { useCoursesStore } from '../../store/courses';
 import BaseButton from '../baseComponents/BaseButton.vue';
@@ -20,7 +20,7 @@ import { useCourseDetailsStore } from '../../store/course-details.store';
 import Spinner from '../Spinner.vue';
 import { useUserStore } from '../../store/user';
 import { UpdateEvent } from '../../api/models/update.model';
-export default {
+export default defineComponent({
 	props: {
 		currentCourse: {
 			type: Object as PropType<Course>
@@ -100,7 +100,7 @@ export default {
 			this.courseDetailsStore.updatedCourseInfo()
 		},
 	},
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -24,9 +24,10 @@ import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useAdminStore } from '../store/admins';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
 import Spinner from '../components/Spinner.vue';
+import { defineComponent } from 'vue';
 
 
-export default {
+export default defineComponent({
     components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
     mounted() {
         this.adminStore.fetchAdmins();
@@ -51,7 +52,7 @@ export default {
         ...mapStores(useAdminStore),
     }
 
-}
+});
 </script>
 <style lang="css" scoped>
 .admin__container {

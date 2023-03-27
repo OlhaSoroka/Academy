@@ -10,7 +10,8 @@
 import { ROUTE_NAMES } from '../models/router.model'
 import { mapStores } from "pinia";
 import { useUserStore } from '../store/user';
-export default {
+import { defineComponent } from 'vue';
+export default defineComponent({
 	data() {
 		return {
 			links: [
@@ -44,7 +45,7 @@ export default {
 			}, 100)
 		},
 	},
-}
+});
 </script>
 <style lang="scss">
 .dropdown__container {

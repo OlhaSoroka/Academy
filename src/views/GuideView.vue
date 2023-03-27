@@ -24,9 +24,10 @@ import { guideRoleOptions } from '../models/guide-role.model'
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { SelectItem } from '../models/options.model';
 import { IColumnDefs } from '../api/models/base-table.model';
+import { defineComponent } from 'vue';
 
 
-export default {
+export default defineComponent({
 	components: { BaseTableEditable, Spinner, BaseButton },
 	mounted() {
 		this.guideStore.fetchGuides();
@@ -63,7 +64,7 @@ export default {
 		}
 	}
 
-}
+});
 </script>
 <style lang="css" scoped>
 .guide__container {

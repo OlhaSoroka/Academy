@@ -82,7 +82,7 @@
 </template>
 <script lang="ts">
 import { ROUTE_NAMES } from '../models/router.model'
-import { mapStores } from 'pinia';
+import { mapStores, Store } from 'pinia';
 import { Course } from '../api/models/course.model';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import ArrowNextIcon from '../components/baseComponents/icons/ArrowNextIcon.vue';
@@ -102,6 +102,12 @@ import DocumentWidget from '../components/widgets/DocumentWidget.vue';
 import CourseNavigator from '../components/CourseNavigator.vue';
 import FilterMenu from '../components/SearchMenu.vue';
 
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $store: Store;
+  }
+}
+
 export default {
 	data() {
 		return {
@@ -114,7 +120,7 @@ export default {
 			return this.$route.params.id as string;
 		},
 		currentCourse(): Course {
-			return this.courseDetailsStore.selectedCourse[0];
+			return this.courseDetailsStore?.selectedCourse[0];
 		}
 	},
 	methods: {

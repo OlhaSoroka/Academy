@@ -21,11 +21,11 @@
             <div v-if="userStore.isAdmin" class="flex justify-end mb-4">
                 <div class="flex rounded-lg">
                     <div @click="showActive()"
-                        class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-r-none hover:bg-primary-100"
+                        class="students__active_button"
                         :class="!isArchive ? 'bg-primary-200 !text-primary-700 !border-primary-700' : 'border-r-0'">
                         Active</div>
                     <div @click="showArchive()"
-                        class="py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-l-none hover:bg-primary-100"
+                        class="students__archive_button"
                         :class="isArchive ? 'bg-primary-200 !text-primary-700 !border-primary-700' : 'border-l-0'">
                         Archive</div>
                 </div>
@@ -47,7 +47,7 @@
     </div>
 </template>
 <script lang="ts">
-import { mapStores } from 'pinia';
+import { mapStores, Store } from 'pinia';
 import UserCreateModal from '../components/modals/UserCreateModal.vue';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useStudentStore } from '../store/students';
@@ -58,8 +58,15 @@ import { useCoursesStore } from '../store/courses';
 import { SelectItem } from '../models/options.model';
 import { AppUser, StudentStatus } from '../api/models/user.model';
 import { IColumnDefs } from '../api/models/base-table.model';
+import { defineComponent } from 'vue';
 
-export default {
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $store: Store;
+  }
+}
+
+export default defineComponent({
     components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
 
     mounted() {
@@ -99,7 +106,7 @@ export default {
     },
     computed: {
         ...mapStores(useStudentStore, useUserStore, useCoursesStore),
-        currentStudentCourseName(){
+        currentStudentCourseName():any {
             return this.coursesStore.getCourseById(this.userStore.currentUser!.courseId!)?.name
         },
         columnDefs(): IColumnDefs[] {
@@ -165,7 +172,7 @@ export default {
         }
     }
 
-}
+});
 </script>
 <style lang="scss" scoped>
 .students__container {
@@ -187,4 +194,12 @@ export default {
 .students_widget {
     @apply shadow-md bg-stone-50 border border-stone-300 rounded-md p-14 w-full
 }
+
+.students__active_button {
+    @apply py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-r-none hover:bg-primary-100
+}
+.students__archive_button {
+    @apply py-2 px-6 font-semibold text-slate-400 cursor-pointer border-2 border-slate-400 rounded-lg rounded-l-none hover:bg-primary-100
+}
+
 </style>

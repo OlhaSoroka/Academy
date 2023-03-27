@@ -37,10 +37,10 @@
 </template>
 <script lang="ts">
 
-import { PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Update, UpdateType } from '../api/models/update.model';
 import { FIELD_TO_LABEL_MAPPER } from './widgets/update-widget/fieldToLabelMapper';
-export default {
+export default defineComponent({
 	components: {
 	},
 	computed: {
@@ -66,8 +66,7 @@ export default {
 			type: Object as PropType<Update>
 		},
 	}
-
-}
+});
 </script>
 <style lang="css" scoped>
 .navigation__container {

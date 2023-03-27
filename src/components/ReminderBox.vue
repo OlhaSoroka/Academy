@@ -22,10 +22,11 @@
 </template>
 <script lang="ts">
 import { mapStores } from "pinia";
+import { defineComponent } from "vue";
 import { useRemindersStore } from "../store/reminders";
 import ReminderNotificationItem from "./ReminderNotificationItem.vue"
 import Spinner from "./Spinner.vue"
-export default {
+export default defineComponent({
 	components: {
 		ReminderNotificationItem,
 		Spinner
@@ -37,8 +38,7 @@ export default {
 		this.remindersStore.calculateCourseEventsDates();
 		this.remindersStore.calculateLecturesStartTime();
 	}
-
-}
+});
 </script>
 <style lang="css" scoped>
 .reminders__container {

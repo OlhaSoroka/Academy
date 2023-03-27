@@ -46,9 +46,10 @@ import { ROUTE_NAMES } from '../models/router.model';
 import { useCourseDetailsStore } from '../store/course-details.store';
 import { useCoursesStore } from '../store/courses';
 import { useUserStore } from '../store/user';
+import { defineComponent } from 'vue';
 
 
-export default {
+export default defineComponent({
 	components: { BaseTableEditable, CourseCreateModal, BaseButton, Spinner },
 	mounted() {
 		this.coursesStore.fetchCourses();
@@ -110,7 +111,7 @@ export default {
 			this.isArchive = true;
 		}
 	}
-}
+});
 </script>
 
 <style lang="css" scoped>

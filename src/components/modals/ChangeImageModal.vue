@@ -33,11 +33,12 @@
   
 <script lang="ts">
 import { mapStores } from "pinia";
+import { defineComponent } from "vue";
 import { useUserStore } from "../../store/user";
 import BaseButton from "../baseComponents/BaseButton.vue";
 import BaseModal from "../baseComponents/BaseModal.vue";
 
-export default {
+export default defineComponent({
 	components: { BaseButton, BaseModal },
 	props: {
 		toggleModal: {
@@ -89,6 +90,6 @@ export default {
 			}
 		},
 	},
-};
+});
 </script>
   
