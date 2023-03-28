@@ -101,6 +101,7 @@ import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
 import DocumentWidget from '../components/widgets/DocumentWidget.vue';
 import CourseNavigator from '../components/CourseNavigator.vue';
 import FilterMenu from '../components/SearchMenu.vue';
+import { defineComponent } from 'vue';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -108,7 +109,7 @@ declare module '@vue/runtime-core' {
   }
 }
 
-export default {
+export default defineComponent({
 	data() {
 		return {
 			COURSE_DASHBOARD: ROUTE_NAMES.COURSE_DASHBOARD,
@@ -144,7 +145,7 @@ export default {
 		}
 	},
 	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget, DocumentWidget, CourseNavigator, FilterMenu }
-}
+})
 </script>
 
 <style lang="scss" scoped>
