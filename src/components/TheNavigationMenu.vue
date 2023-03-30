@@ -96,7 +96,8 @@ import { useUserStore } from '../store/user';
 import { useGuideStore } from '../store/guides'
 import { useRemindersStore } from '../store/reminders';
 import ExclamationIcon from '../components/baseComponents/icons/ExclamationIcon.vue'
-export default {
+import { defineComponent } from 'vue';
+export default defineComponent({
 	name: 'NavigationMenu',
 	components: {
 		ExclamationIcon,
@@ -152,7 +153,7 @@ export default {
 			}
 		}
 	},
-};
+});
 </script>
 <style lang="scss" scoped>
 .navigation-container {

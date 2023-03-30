@@ -20,8 +20,9 @@ import { updateEntryResultById } from "../../api/entry_results";
 import { EntryResult } from "../../api/models/result.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import Spinner from "../Spinner.vue";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
 	components: {
 		BaseTableEditable,
 		Spinner
@@ -149,7 +150,7 @@ export default {
 		}
 	},
 
-};
+});
 </script>
 <style lang="scss" scoped>
 .result__container {

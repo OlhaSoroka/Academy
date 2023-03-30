@@ -46,8 +46,9 @@ import { Form } from "vee-validate";
 import { ToastType, useToastStore } from "../store/toast.store";
 import { ROUTE_NAMES } from "../models/router.model";
 import { gethUserByID } from "../api/user";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
 	name: "LoginForm",
 	components: {
 		BaseButton,
@@ -154,7 +155,7 @@ export default {
 			this.errorHandler.message = "";
 		},
 	},
-};
+});
 </script>
   
 <style lang="scss" scoped>

@@ -82,7 +82,7 @@ const useCoursesStore = defineStore("courses", {
     async createNewCourse(course: Course) {
       try {
         this.courseLoading = true;
-        course.createdAt = new Date(Date.now())
+        course.createdDate = new Date(Date.now())
           .toISOString()
           .split("T")[0] as string;
         await createCourse(course);
@@ -132,7 +132,6 @@ const useCoursesStore = defineStore("courses", {
         updateStore.createUpdate(update)
       } catch (error) {
         console.log({ error });
-
         const toastStore = useToastStore();
         toastStore.showToastMessage({
           message: "Error: Can't update this course",
@@ -156,11 +155,7 @@ const useCoursesStore = defineStore("courses", {
         const currentStudents=studentStore.allStudents.filter((student)=>{
           return student.courseId===courseId;
         })
-        console.log(currentStudents);
-        
         currentStudents.forEach((student)=>{
-          console.log(student);
-          console.log(studentStore);
         studentStore.deleteStudent(student.id!)
         })
         const updateStore = useUpdateStore();

@@ -25,7 +25,7 @@ import { ROLES } from "../../models/router.model";
 import BaseTableEditable from "../baseComponents/BaseTableEditable.vue";
 import { mapStores } from 'pinia';
 import { useUserStore } from '../../store/user';
-import { PropType } from "vue";
+import { defineComponent, PropType } from "vue";
 import { Course } from "../../api/models/course.model";
 import BaseButton from "../baseComponents/BaseButton.vue";
 import { useCourseDetailsStore } from "../../store/course-details.store";
@@ -33,7 +33,7 @@ import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal
 import { Comment } from "../../api/models/comment.model";
 import { deleteComment, updateCommentById } from "../../api/comments";
 import Spinner from "../Spinner.vue";
-export default {
+export default defineComponent({
 	components: {
     BaseTableEditable,
     BaseButton,
@@ -100,7 +100,7 @@ export default {
 			this.courseDetailsStore.updateComments();
 		}
 	}
-};
+});
 </script>
   
 <style lang="postcss" scoped>

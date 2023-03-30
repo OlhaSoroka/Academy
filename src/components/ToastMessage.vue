@@ -17,8 +17,9 @@
   
 <script lang="ts">
 import { mapStores } from "pinia";
+import { defineComponent } from "vue";
 import { useToastStore, ToastType } from "../store/toast.store"
-export default {
+export default defineComponent({
 	data() {
 		return {
 			header: "header",
@@ -33,7 +34,7 @@ export default {
 			return this.toastStore.messageType === ToastType.FAILURE
 		}
 	}
-};
+});
 </script>
   
 <style lang="postcss" scoped>

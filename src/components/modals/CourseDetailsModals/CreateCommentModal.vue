@@ -36,9 +36,10 @@ import { Form } from "vee-validate";
 import { uuidv4 } from "@firebase/util";
 import { Comment } from "../../../api/models/comment.model";
 import { createComment } from "../../../api/comments";
+import { defineComponent } from "vue";
 
 
-export default {
+export default defineComponent({
 	components: { BaseModal, BaseButton, Form },
 	props: {
 		toggleModal: {
@@ -89,6 +90,6 @@ export default {
 			(this.$refs.addCommentModal as typeof BaseModal).closeModal();
 		},
 	},
-};
+});
 </script>
   

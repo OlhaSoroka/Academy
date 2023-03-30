@@ -31,10 +31,11 @@
   </template>
   
   <script lang="ts">
+import { defineComponent } from 'vue';
 import BaseButton from './BaseButton.vue';
 import BaseModal from './BaseModal.vue';
 
-  export default {
+  export default defineComponent({
 	name: "BaseDeleteModal",
 	components: { BaseModal, BaseButton },
 	props: {
@@ -67,6 +68,6 @@ import BaseModal from './BaseModal.vue';
 		(this.$refs.baseDeleteModal as typeof BaseModal).closeModal();
 	  },
 	},
-  };
+  });
   </script>
   

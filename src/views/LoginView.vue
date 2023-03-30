@@ -27,9 +27,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
 import LoginForm from '../components/LoginForm.vue';
 
-export default {
+export default defineComponent({
 	name: 'LoginView',
 	components: {
 		LoginForm,
@@ -43,7 +44,7 @@ export default {
 	async mounted() {
 		this.initialLoading = false;
 	},
-};
+});
 </script>
 <style lang="scss" scoped>
 .login-page-container {

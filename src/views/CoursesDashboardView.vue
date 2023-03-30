@@ -46,9 +46,10 @@ import { ROUTE_NAMES } from '../models/router.model';
 import { useCourseDetailsStore } from '../store/course-details.store';
 import { useCoursesStore } from '../store/courses';
 import { useUserStore } from '../store/user';
+import { defineComponent } from 'vue';
 
 
-export default {
+export default defineComponent({
 	components: { BaseTableEditable, CourseCreateModal, BaseButton, Spinner },
 	mounted() {
 		this.coursesStore.fetchCourses();
@@ -68,20 +69,20 @@ export default {
 		if (this.userStore.isStudent) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Name", sortable: true, editable: false, minWidth: 150, width: 200 },
-				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false, minWidth: 150, width: 200 },
+				{ field: "createdDate", headerName: "Created Date", sortable: true, editable: false, minWidth: 150, width: 200 },
 			]
 		}
 		if (this.userStore.isMentor) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Name", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
-				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
+				{ field: "createdDate", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
 				{ field: "status", headerName: "Status", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
 			]
 		}
 		if (this.userStore.isAdmin) {
 			this.columnDefs = [
 				{ field: "name", headerName: "Name", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
-				{ field: "createdAt", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
+				{ field: "createdDate", headerName: "Created Date", sortable: true, editable: false,filter:true, minWidth: 150, width: 200  },
 				{ field: "status", headerName: "Status", sortable: true, editable: false,filter:true, minWidth: 150, width: 200 },
 				{ field: "", headerName: "Delete", sortable: false, editable: false, width: 120, actionColumn: true, delete: true ,headerCentered:true },
 			]
@@ -110,7 +111,7 @@ export default {
 			this.isArchive = true;
 		}
 	}
-}
+});
 </script>
 
 <style lang="css" scoped>

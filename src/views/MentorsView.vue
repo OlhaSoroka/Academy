@@ -25,9 +25,10 @@ import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useMentorStore } from '../store/mentors';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
 import Spinner from '../components/Spinner.vue';
+import { defineComponent } from 'vue';
 
 
-export default {
+export default defineComponent({
     components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
     mounted() {
         this.mentorStore.fetchMentors();
@@ -55,7 +56,7 @@ export default {
         ...mapStores(useMentorStore),
     }
 
-}
+});
 </script>
 <style lang="css" scoped>
 .mentor__container {

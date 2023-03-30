@@ -8,6 +8,7 @@ import {
   query,
   where,
   setDoc,
+  orderBy,
 } from "firebase/firestore";
 import { db, firestore } from "../../main";
 import { Collection } from "../models/collection.enum";
@@ -16,9 +17,13 @@ import { ToastType, useToastStore } from "../../store/toast.store";
 
 export const getAllCourses = async ()/* : Promise<Course[] | undefined> */ => {
   try {
-    const coursesData = await getDocs(collection(db, Collection.COURSES));
+    const collectionQuery = query(
+      collection(firestore, Collection.COURSES),
+      orderBy("createdAt", "desc"),
+    );
+    const documents = await getDocs(collectionQuery);
     const courses: Course[] = [];
-    coursesData.forEach((course) => courses.push(course.data() as Course));
+    documents.forEach((document) => courses.push(document.data() as Course));
     return courses;
   } catch (error) {
     console.log({ error });
