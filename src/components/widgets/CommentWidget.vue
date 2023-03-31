@@ -3,7 +3,7 @@
 		<div class="flex align-middle justify-between">
 			<div class="flex items-center">
 				<h2 class="comment__header mr-3">Comments</h2>
-				<Spinner v-if="courseDetailsStore.commentsWidgetLoading"/>
+				<CustomSpinner v-if="courseDetailsStore.commentsWidgetLoading"/>
 			</div>
 			<div>
 				<BaseButton @click="openModal()">
@@ -32,13 +32,13 @@ import { useCourseDetailsStore } from "../../store/course-details.store";
 import CreateCommentModal from "../modals/CourseDetailsModals/CreateCommentModal.vue";
 import { Comment } from "../../api/models/comment.model";
 import { deleteComment, updateCommentById } from "../../api/comments";
-import Spinner from "../Spinner.vue";
+import CustomSpinner from "../CustomSpinner.vue";
 export default defineComponent({
 	components: {
     BaseTableEditable,
     BaseButton,
     CreateCommentModal,
-    Spinner
+    CustomSpinner
 },
 	props: {
 		currentCourse: {

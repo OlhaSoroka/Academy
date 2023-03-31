@@ -46,7 +46,7 @@ import {
 	  collection(firestore, Collection.DOCUMENTS),
 	  where("courseId", "==", courseId),
 	  orderBy("createdAt", "desc"),
-	);
+	); 
 	const documents = await getDocs(collectionQuery);
 	const materials: Document[] = [];
 	documents.forEach((document) => {

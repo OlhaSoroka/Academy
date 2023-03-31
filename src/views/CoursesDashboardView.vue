@@ -5,7 +5,7 @@
 				<div class="flex items-center h-16">
 					<h1 class="courses__header mr-3">Courses Dashboard
 					</h1>
-					<Spinner v-if="coursesStore.loadingStatus" />
+					<CustomSpinner v-if="coursesStore.loadingStatus" />
 				</div>
 				<div class="courses__subheader">{{ !isArchive ? 'Current Academy courses' : 'Finished Academy courses' }}</div>
 			</div>
@@ -40,17 +40,17 @@ import { mapStores } from 'pinia';
 import { getCourseById } from '../api/course';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
-import Spinner from '../components/Spinner.vue';
 import CourseCreateModal from '../components/modals/CourseCreateModal.vue';
 import { ROUTE_NAMES } from '../models/router.model';
 import { useCourseDetailsStore } from '../store/course-details.store';
 import { useCoursesStore } from '../store/courses';
 import { useUserStore } from '../store/user';
 import { defineComponent } from 'vue';
+import CustomSpinner from '../components/CustomSpinner.vue';
 
 
 export default defineComponent({
-	components: { BaseTableEditable, CourseCreateModal, BaseButton, Spinner },
+	components: { BaseTableEditable, CourseCreateModal, BaseButton, CustomSpinner },
 	mounted() {
 		this.coursesStore.fetchCourses();
 	},

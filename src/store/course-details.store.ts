@@ -188,7 +188,6 @@ const useCourseDetailsStore = defineStore("courseDetails", {
       this._materialsWidgetLoading = false;
     },
     async createDocument(document: Document) {
-      console.log({ createDocument: document });
       try {
         await createDocument(document);
         const updateStore = useUpdateStore();

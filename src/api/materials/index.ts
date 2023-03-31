@@ -45,7 +45,7 @@ export const getMaterialsByCourse = async (
   const collectionQuery = query(
     collection(firestore, Collection.MATERIALS),
     where("courseId", "==", courseId),
-    orderBy("createdDate", "desc"),
+    orderBy("createdAt", "desc"),
   );
   const documents = await getDocs(collectionQuery);
   const materials: Material[] = [];

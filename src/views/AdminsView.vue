@@ -4,7 +4,7 @@
             <div class="flex items-center h-16">
                 <h1 class="admin__header mr-3">Admins Dashboard
                 </h1>
-                <Spinner v-if="adminStore.isAdminsLoading" />
+                <CustomSpinner v-if="adminStore.isAdminsLoading" />
             </div>
             <div>
                 <BaseButton :variant="'btn_blue'" @click="addAdmin">Add new admin</BaseButton>
@@ -23,12 +23,12 @@ import UserCreateModal from '../components/modals/UserCreateModal.vue';
 import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useAdminStore } from '../store/admins';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
-import Spinner from '../components/Spinner.vue';
 import { defineComponent } from 'vue';
+import CustomSpinner from '../components/CustomSpinner.vue';
 
 
 export default defineComponent({
-    components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
+    components: { UserCreateModal, BaseButton, BaseTableEditable, CustomSpinner },
     mounted() {
         this.adminStore.fetchAdmins();
     },

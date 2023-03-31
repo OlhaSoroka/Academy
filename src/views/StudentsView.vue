@@ -5,7 +5,7 @@
                 <div class="flex items-center h-16">
                     <h1 class="students__header mr-3">Students Dashboard
                     </h1>
-                    <Spinner v-if="studentStore.isStudentLoading" />
+                    <CustomSpinner v-if="studentStore.isStudentLoading" />
                 </div>
                 <div v-if="userStore.isStudent" class="students__subheader" > Current students of {{ currentStudentCourseName }} </div>
                 <div v-if="userStore.isMentor" class="students__subheader" >Current Academy students</div>
@@ -53,12 +53,12 @@ import BaseButton from '../components/baseComponents/BaseButton.vue';
 import { useStudentStore } from '../store/students';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
 import { useUserStore } from '../store/user';
-import Spinner from '../components/Spinner.vue';
 import { useCoursesStore } from '../store/courses';
 import { SelectItem } from '../models/options.model';
 import { AppUser, StudentStatus } from '../api/models/user.model';
 import { IColumnDefs } from '../api/models/base-table.model';
 import { defineComponent } from 'vue';
+import CustomSpinner from '../components/CustomSpinner.vue';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -67,7 +67,7 @@ declare module '@vue/runtime-core' {
 }
 
 export default defineComponent({
-    components: { UserCreateModal, BaseButton, BaseTableEditable, Spinner },
+    components: { UserCreateModal, BaseButton, BaseTableEditable, CustomSpinner },
 
     mounted() {
         this.studentStore.fetchStudents();

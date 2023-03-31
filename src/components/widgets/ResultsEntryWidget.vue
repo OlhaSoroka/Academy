@@ -2,7 +2,7 @@
 	<div class="result__container">
 		<div class="flex items-center">
 			<h2 class="result__header mr-3">Entry Results</h2>
-			<Spinner v-if="courseDetailsStore.resultWidgetLoading" />
+			<CustomSpinner v-if="courseDetailsStore.resultWidgetLoading" />
 		</div>
 		<div>
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.entryResults" class="mt-5 min-h-[200px]"
@@ -19,14 +19,14 @@ import { useUserStore } from '../../store/user';
 import { updateEntryResultById } from "../../api/entry_results";
 import { EntryResult } from "../../api/models/result.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
-import Spinner from "../Spinner.vue";
 import { defineComponent } from "vue";
+import CustomSpinner from "../CustomSpinner.vue";
 
 export default defineComponent({
 	components: {
-		BaseTableEditable,
-		Spinner
-	},
+    BaseTableEditable,
+    CustomSpinner
+},
 	props: {
 		courseId: {
 			type: String

@@ -50,7 +50,7 @@
 				</BaseButton>
 			</div>
 		</div>
-		<Spinner class="mt-7" v-if="courseDetailsStore.isCourseDetailsLoading" />
+		<CustomSpinner class="mt-7" v-if="courseDetailsStore.isCourseDetailsLoading" />
 		<div v-else>
 			<div id="mainInfoWidget" class="mt-10">
 				<MainInfoWidget :currentCourse="currentCourse"></MainInfoWidget>
@@ -95,13 +95,13 @@ import { useCourseDetailsStore } from '../store/course-details.store';
 import CommentWidget from '../components/widgets/CommentWidget.vue';
 import LecturesWidget from '../components/widgets/LecturesWidget.vue';
 import { useUserStore } from '../store/user';
-import Spinner from '../components/Spinner.vue';
 import ResultsEntryWidget from '../components/widgets/ResultsEntryWidget.vue';
 import ResultsExitWidget from '../components/widgets/ResultsExitWidget.vue';
 import DocumentWidget from '../components/widgets/DocumentWidget.vue';
 import CourseNavigator from '../components/CourseNavigator.vue';
 import FilterMenu from '../components/SearchMenu.vue';
 import { defineComponent } from 'vue';
+import CustomSpinner from '../components/CustomSpinner.vue';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -144,7 +144,7 @@ export default defineComponent({
 			}
 		}
 	},
-	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, Spinner, ResultsEntryWidget, ResultsExitWidget, DocumentWidget, CourseNavigator, FilterMenu }
+	components: { GroupWidget, BaseButton, MainInfoWidget, ArrowUpIcon, ArrowNextIcon, ArrowPrevIcon, MaterialWidget, CommentWidget, LecturesWidget, ResultsEntryWidget, ResultsExitWidget, DocumentWidget, CourseNavigator, FilterMenu, CustomSpinner }
 })
 </script>
 

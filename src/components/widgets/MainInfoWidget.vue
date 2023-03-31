@@ -2,7 +2,7 @@
 	<div v-if="currentCourse" class="main__container">
 		<div class="flex items-center">
 			<h2 class="main__header mr-3">Main Info</h2>
-			<Spinner v-if="courseDetailsStore.mainInfoWidgetLoading" />
+			<CustomSpinner v-if="courseDetailsStore.mainInfoWidgetLoading" />
 		</div>
 		<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.selectedCourse"
 			class="mt-5" :uniq-identifier="uniqIdentifier" @cellValueChanged="onCellEdit($event)">
@@ -17,9 +17,9 @@ import { useCoursesStore } from '../../store/courses';
 import BaseButton from '../baseComponents/BaseButton.vue';
 import BaseTableEditable from '../baseComponents/BaseTableEditable.vue'
 import { useCourseDetailsStore } from '../../store/course-details.store';
-import Spinner from '../Spinner.vue';
 import { useUserStore } from '../../store/user';
 import { UpdateEvent } from '../../api/models/update.model';
+import CustomSpinner from '../CustomSpinner.vue';
 export default defineComponent({
 	props: {
 		currentCourse: {
@@ -40,7 +40,7 @@ export default defineComponent({
 	computed: {
 		...mapStores(useCoursesStore, useCourseDetailsStore, useUserStore),
 	},
-	components: { BaseButton, BaseTableEditable, Spinner },
+	components: { BaseButton, BaseTableEditable, CustomSpinner },
 	beforeMount() {
 		this.columnDefs = [
 			{
