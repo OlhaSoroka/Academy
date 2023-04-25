@@ -3,17 +3,22 @@
 		<template #body>
 			<Form v-slot="{ errors }">
 				<div class="w-72">
-					<BaseInput v-model="courseToAdd.name" type="text" label="Course Name"
-					placeholder="Enter course name" rules="required" />
-					<div class="flex justify-evenly mt-5">
-						<div class="mx-2">
+					<div class="base-input-container">
+						<label class="base-input-label" for="Course Name">Course Name</label>
+						<Field :validate-on-input="true" class="base-input" v-model="courseToAdd.name" :name="'Course Name'"
+							rules="required||min:3||max:69" placeholder="Enter course name"></Field>
+						<ErrorMessage class="base-input-error-text" :name="'Course Name'"></ErrorMessage>
+					</div>
+					<div class="flex justify-end mt-6">
+						<div class="mr-2">
 							<BaseButton button-type="button" :disabled="!isFormValid(errors)" :variant="'btn_blue_outlined'"
 								@click="submitCourseCreateButton">
 								Create
 							</BaseButton>
 						</div>
-						<div class="mx-2">
-							<BaseButton button-type="reset" :disabled="false" :variant="'btn_red_outlined'" @click="cancelCourseCreateButton">
+						<div class="">
+							<BaseButton button-type="reset" :disabled="false" :variant="'btn_red_outlined'"
+								@click="cancelCourseCreateButton">
 								Cancel
 							</BaseButton>
 						</div>
@@ -29,15 +34,14 @@ import { mapStores } from "pinia";
 import { useCoursesStore } from "../../store/courses";
 import { defineComponent } from 'vue';
 import BaseButton from "../baseComponents/BaseButton.vue";
-import BaseInput from "../baseComponents/BaseInput.vue";
 import BaseModal from "../baseComponents/BaseModal.vue";
 import { Course, CourseStatus } from "../../api/models/course.model";
-import { Form } from "vee-validate";
+import { ErrorMessage, Field, Form } from "vee-validate";
 import { uuidv4 } from "@firebase/util";
 
 export default defineComponent({
 	name: "CourseCreateModal",
-	components: { BaseButton, BaseInput, BaseModal, Form },
+	components: { BaseButton, BaseModal, Form, Field, ErrorMessage },
 	props: {
 		toggleModal: {
 			required: true,

@@ -2,18 +2,18 @@
 	<BaseModal ref="addCommentModal" :header="'Add comment'" @isClosed="clearInputs()">
 		<template #body>
 			<div>
-				<div class="flex items-center flex-col mt-4">
+				<div class="flex flex-col mt-4">
 					<div class="mt-2">
-						<textarea v-model="message" class="border" cols="45" rows="3" />
+						<textarea v-model="message" class="border" cols="45" rows="4" />
 					</div>
-					<div class="flex justify-between mt-5">
-						<div class="mx-2">
+					<div class="flex justify-end mt-5">
+						<div class="mr-2">
 							<BaseButton :variant="'btn_blue_outlined'" :disabled="!isFormValid()" button-type="submit"
 								@click="submit(currentRouteName)">
 								Add
 							</BaseButton>
 						</div>
-						<div class="mx-2">
+						<div>
 							<BaseButton :variant="'btn_red_outlined'" @click="cancel" button-type="reset">
 								Cancel
 							</BaseButton>

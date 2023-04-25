@@ -2,22 +2,33 @@
 	<BaseModal ref="passwordModal" :header="'Change password'" @isClosed="clearInputs()">
 		<template #body>
 			<Form @submit.prevent v-slot="{ errors }">
-				<div class="flex flex-col items-center">
-					<div class="w-64">
-						<BaseInput type="password" label="Password" v-model="newPassword"
-							placeholder="Enter new password" rules="required" />
+				<div class="flex flex-col">
+					<div class="w-52">
+						<div class="base-input-container">
+							<label for="New password">Password</label>
+							<Field class="base-input" v-model="newPassword" name="New password" rules="required"
+								:validate-on-input="true" />
+							<div>
+								<ErrorMessage class="base-input-error-text" name="New password" />
+							</div>
+						</div>
+						<div class="base-input-container">
+							<label for="Confirmed password">Confirmed password</label>
+							<Field class="base-input" v-model="confirmedPassword" name="Confirmed password"
+								rules="required|confirmed:@New password" :validate-on-input="true" />
+							<div>
+								<ErrorMessage class="base-input-error-text" name="Confirmed password" />
+							</div>
+						</div>
 					</div>
-					<div class="w-64">
-						<BaseInput v-model="confirmedPassword" type="password" label="Confirm password"
-							rules="required" placeholder="Confirm new password" />
-					</div>
-					<div class="flex justify-between mt-5">
-						<div class="mx-2">
-							<BaseButton :variant="'btn_blue_outlined'" :disabled="!isFormValid(errors)" @click="submitPasswordChange">
+					<div class="flex justify-end mt-5">
+						<div class="mr-2">
+							<BaseButton :variant="'btn_blue_outlined'" :disabled="!isFormValid(errors)"
+								@click="submitPasswordChange">
 								Submit
 							</BaseButton>
 						</div>
-						<div class="mx-2">
+						<div>
 							<BaseButton :variant="'btn_red_outlined'" @click="cancelPasswordChange">
 								Cancel
 							</BaseButton>
@@ -30,15 +41,14 @@
 </template>
   
 <script lang="ts">
-import { Form } from 'vee-validate';
+import { ErrorMessage, Field, Form } from 'vee-validate';
 import BaseButton from '../baseComponents/BaseButton.vue';
 import BaseModal from '../baseComponents/BaseModal.vue';
-import BaseInput from '../baseComponents/BaseInput.vue';
 import { defineComponent } from 'vue';
 import { changePassword } from '../../api/user';
 
 export default defineComponent({
-	components: { BaseButton, BaseModal, BaseInput, Form },
+	components: { BaseButton, BaseModal, Form, ErrorMessage, Field },
 	props: {
 		toggleModal: {
 			type: Boolean,
@@ -74,7 +84,7 @@ export default defineComponent({
 			this.clearInputs();
 		},
 		isFormValid(errors: Partial<Record<string, string | undefined>>) {
-			return Object.keys(errors).length === 0 && this.newPassword === this.confirmedPassword;
+			return Object.keys(errors).length === 0;
 		},
 	},
 });

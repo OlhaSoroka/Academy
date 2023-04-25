@@ -135,7 +135,7 @@ export const updateUserByID = async (
     
   }
 };
-
+ 
 export const registerUser = async (
   data: RegisterUserBody,
 ): Promise<AppUser> => {

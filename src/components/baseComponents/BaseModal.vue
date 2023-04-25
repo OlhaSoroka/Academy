@@ -91,7 +91,7 @@
 
   }
   .modal__body {
-	@apply px-5 pt-2.5 flex flex-col items-center overflow-auto p-1;
+	@apply px-5 flex flex-col items-center overflow-auto p-1;
   }
   .modal__footer {
 	@apply px-5 pt-2.5;

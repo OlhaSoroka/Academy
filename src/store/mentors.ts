@@ -42,7 +42,7 @@ const useMentorStore = defineStore("mentor", {
         this.mentorLoading = false;
       }
     },
-    async createMentor(mentor: RegisterUserBody) {
+    async createMentor(mentor: RegisterUserBody) { 
       try {
         this.mentorLoading = true;
         await registerUser(mentor);

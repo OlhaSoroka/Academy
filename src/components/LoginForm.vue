@@ -2,12 +2,24 @@
 	<div>
 		<Form>
 			<div class="login__input_container ">
-				<BaseInput type="email" label="Email" v-model="formData.email" placeholder="Enter email"
-					additionalRules="required" />
+				<div class="base-input-container">
+					<label for="Email" class="base-input-label">Email</label>
+					<Field class="base-input" v-model="formData.email" name="Email" rules="required||email"
+						placeholder="Enter email" :validate-on-input="true" />
+					<div>
+						<ErrorMessage class="base-input-error-text" name="Email" />
+					</div>
+				</div>
 			</div>
 			<div v-if="isLoginPage">
-				<BaseInput type="password" label="Password" v-model="formData.password" placeholder="Enter password"
-					additionalRules="required" />
+				<div class="base-input-container">
+					<label for="Password" class="base-input-label">Password</label>
+					<Field class="base-input" v-model="formData.password" name="Password" rules="required||password"
+						placeholder="Enter password" :validate-on-input="true" />
+					<div>
+						<ErrorMessage class="base-input-error-text" name="Password" />
+					</div>
+				</div>
 				<p class="login__link" @click="goToResetPage">
 					Forgot password?
 				</p>
@@ -21,9 +33,11 @@
 			</div>
 		</Form>
 		<div v-if="!isLoginPage">
-			<div class="login__button_container "><BaseButton @click="resetPasswordOnEmail">
-				Reset Password
-			</BaseButton></div>
+			<div class="login__button_container ">
+				<BaseButton @click="resetPasswordOnEmail">
+					Reset Password
+				</BaseButton>
+			</div>
 			<p class="login__link" @click="goToLoginPage">
 				Back to login
 			</p>
@@ -41,8 +55,7 @@ import {
 	sendPasswordResetEmail,
 } from "firebase/auth";
 import BaseButton from "./baseComponents/BaseButton.vue";
-import BaseInput from "./baseComponents/BaseInput.vue";
-import { Form } from "vee-validate";
+import { ErrorMessage, Field, Form } from "vee-validate";
 import { ToastType, useToastStore } from "../store/toast.store";
 import { ROUTE_NAMES } from "../models/router.model";
 import { gethUserByID } from "../api/user";
@@ -52,8 +65,9 @@ export default defineComponent({
 	name: "LoginForm",
 	components: {
 		BaseButton,
-		BaseInput,
-		Form
+		Form,
+		Field,
+		ErrorMessage
 	},
 	data: () => ({
 		formData: {
@@ -90,10 +104,10 @@ export default defineComponent({
 				}
 				if (currentUser?.archive) {
 					this.toastStore.showToastMessage({ message: "You can't enter.Your course already finished", type: ToastType.FAILURE })
-				}else {
+				} else {
 					localStorage.setItem("currentUser", JSON.stringify(currentUser));
-				
-				this.$router.push({ name: ROUTE_NAMES.COURSE_DASHBOARD });
+
+					this.$router.push({ name: ROUTE_NAMES.COURSE_DASHBOARD });
 				}
 
 
@@ -160,11 +174,13 @@ export default defineComponent({
   
 <style lang="scss" scoped>
 .login__link {
-	@apply cursor-pointer hover:opacity-75 transition-opacity underline text-xs text-end;
+	@apply cursor-pointer hover:opacity-75 transition-opacity underline text-xs text-end mt-3;
 }
+
 .login__input_container {
-	@apply mb-4 
+	@apply mb-4
 }
+
 .login__button_container {
 	@apply flex justify-center items-center
 }

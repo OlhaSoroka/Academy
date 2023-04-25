@@ -9,6 +9,9 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import AllRules from "@vee-validate/rules";
+import { defineRule } from "vee-validate";
+
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_API_KEY,
@@ -26,6 +29,10 @@ export const firestore = getFirestore(firebase);
 export const firebaseAuth = getAuth(firebase);
 export const storage = getStorage(firebase);
 
+
+Object.keys(AllRules).forEach((rule) => {
+  defineRule(rule, AllRules[rule]);
+});
 const app = createApp(App);
 
 app.use(createPinia()); // Create the root store

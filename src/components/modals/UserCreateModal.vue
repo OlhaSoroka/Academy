@@ -3,25 +3,29 @@
 		<BaseModal ref="userCreateModal" :header="header" @isClosed="clearInputs()">
 			<template #body>
 				<Form @submit.prevent v-slot="{ errors }">
-					<div>
-						<div>
-							<BaseInput v-model="fullName" type="text" label="Full Name" placeholder="Enter name"
-								rules="required" />
+					<div class="w-60">
+						<div class="base-input-container">
+								<label class="base-input-label" for="Full Name">Full Name</label>
+								<Field :validate-on-input="true" class="base-input" v-model="fullName" :name="'Full Name'" rules="required" placeholder="Enter name"></Field>
+								<ErrorMessage class="base-input-error-text" :name="'Full Name'"></ErrorMessage>
 						</div>
-						<div>
-							<BaseInput v-model="email" type="email" label="Email" placeholder="Enter email"
-								rules="required" />
+						<div class="base-input-container">
+								<label class="base-input-label" for="Password">Email</label>
+								<Field :validate-on-input="true" class="base-input" v-model="email" :name="'Email'" rules="required" placeholder="Enter email"></Field>
+								<ErrorMessage class="base-input-error-text" :name="'Email'"></ErrorMessage>
 						</div>
-						<div>
-							<BaseInput v-model="password" type="password" label="Password" placeholder="Enter password"
-								rules="required" />
+						<div class="base-input-container">
+								<label class="base-input-label" for="Password">Password</label>
+								<Field :validate-on-input="true" class="base-input" v-model="password" :name="'Password'" rules="required" placeholder="Enter password"></Field>
+								<ErrorMessage class="base-input-error-text" :name="'Password'"></ErrorMessage>
 						</div>
-						<div>
-							<BaseInput v-model="confirmPassword" type="password" label="Confirm password"
-								placeholder="Confirm password" rules="required" />
+						<div class="base-input-container">
+								<label class="base-input-label" for="Confirm password">Confirm password</label>
+								<Field :validate-on-input="true" class="base-input" v-model="confirmPassword" :name="'Confirm password'" rules="required|confirmed:@Password" placeholder="Confirm password"></Field>
+								<ErrorMessage class="base-input-error-text" :name="'Confirm password'"></ErrorMessage>
 						</div>
-						<div v-if="isStudent">
-							<label for="courses" class="block ml-1 font-semibold mt-2">Select Course</label>
+						<div v-if="isStudent" class="mt-5">
+							<label for="courses" class="base-input-label">Select Course</label>
 							<select id="courses" v-model="courseId" class="select__course">
 								<option value="" disabled selected>
 									Select Course
@@ -32,18 +36,17 @@
 								</option>
 							</select>
 						</div>
-						<div class="flex justify-between mt-5">
-							<div class="mx-2">
+						<div class="flex justify-end mt-6">
+							<div class="mr-2">
 								<BaseButton :disabled="!isFormValid(errors)" :variant="'btn_blue_outlined'" @click="submitUserCreateButton">
 									Create
 								</BaseButton>
 							</div>
-							<div class="mx-2">
+							<div>
 								<BaseButton :disabled="false" :variant="'btn_red_outlined'" @click="cancelUserCreateButton">
 									Cancel
 								</BaseButton>
 							</div>
-							
 						</div>
 					</div>
 				</Form>
@@ -58,13 +61,12 @@ import { defineComponent } from 'vue'
 import { ROLES } from '../../models/router.model';
 import { useCoursesStore } from '../../store/courses';
 import BaseButton from '../baseComponents/BaseButton.vue';
-import BaseInput from '../baseComponents/BaseInput.vue';
 import BaseModal from '../baseComponents/BaseModal.vue';
 import { RegisterUserBody } from "../../api/models/user.model";
 import { useStudentStore } from '../../store/students';
 import { useAdminStore } from '../../store/admins';
 import { useMentorStore } from '../../store/mentors';
-import { Form } from 'vee-validate';
+import { ErrorMessage, Field, Form } from 'vee-validate';
 
 interface CreateUserData {
 	courseId?: string;
@@ -156,7 +158,7 @@ export default defineComponent({
 			this.clearInputs();
 		},
 	},
-	components: { BaseModal, BaseButton, BaseInput, Form }
+	components: { BaseModal, BaseButton, Form, Field, ErrorMessage }
 })
 </script>
   

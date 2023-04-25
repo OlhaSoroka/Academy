@@ -13,7 +13,7 @@
         <div class="admin_widget min-h-40">
             <BaseTableEditable :column-defs="columnDefs" :row-data="adminStore.admins" uniq-identifier="id" />
         </div>
-        <UserCreateModal :toggle-modal="isAddAdminModalOpen" :role="'mentor'" :header="'Add new admin'">
+        <UserCreateModal :toggle-modal="isAddAdminModalOpen" :role="'admin'" :header="'Add new admin'">
         </UserCreateModal>
     </div>
 </template> 

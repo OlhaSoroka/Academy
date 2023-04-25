@@ -303,6 +303,7 @@ const useCourseDetailsStore = defineStore("courseDetails", {
         )?.fullName!;
         return lecture;
       });
+      this._lecturesWidgetLoading = false;
     },
     async updateLecture(event: UpdateEvent<Lecture>) {
       try {
