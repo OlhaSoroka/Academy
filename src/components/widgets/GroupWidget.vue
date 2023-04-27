@@ -2,7 +2,7 @@
 	<div class="group__container ">
 		<div class="flex items-center">
 			<h2 class="group__header mr-3">Group</h2>
-			<Spinner v-if="courseDetailsStore.groupWidgetLoading" />
+			<CustomSpinner v-if="courseDetailsStore.groupWidgetLoading" />
 		</div>
 		<div>
 			<BaseTableEditable :column-defs="columnDefs" :row-data="courseDetailsStore.group" class="mt-5 min-h-[200px]"
@@ -21,12 +21,12 @@ import { Course } from "../../api/models/course.model";
 import { AppUser } from "../../api/models/user.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
 import { EnglishLevel } from "../../models/english-level.enum";
-import Spinner from "../Spinner.vue";
+import CustomSpinner from "../CustomSpinner.vue";
 export default defineComponent({
 	components: {
-		BaseTableEditable,
-		Spinner
-	},
+    BaseTableEditable,
+    CustomSpinner
+},
 	props: {
 		currentCourse: {
 			type: Object as PropType<Course>

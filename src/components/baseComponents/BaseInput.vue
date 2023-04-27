@@ -10,13 +10,8 @@
 </template>
 
 <script lang="ts">
-import AllRules from "@vee-validate/rules";
 import { Field, defineRule, ErrorMessage } from "vee-validate";
 import { defineComponent } from "vue";
-
-Object.keys(AllRules).forEach((rule) => {
-  defineRule(rule, AllRules[rule]);
-});
 
 export default defineComponent({
   name: "BaseInput",
@@ -76,16 +71,19 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-.base-input {
-  @apply relative block w-full max-w-md rounded-sm border-2 border-primary-600 p-1 font-mono text-sm placeholder:text-slate-400 hover:bg-stone-50 focus:border-slate-500 focus:bg-stone-50 focus:outline-none focus:drop-shadow-md;
-}
+<style lang="scss">
+// .base-input {
+//   @apply relative block w-full rounded-sm border-2 border-primary-600 p-1 font-mono text-sm placeholder:text-slate-400 hover:bg-stone-50 focus:border-slate-500 focus:bg-stone-50 focus:outline-none focus:drop-shadow-md;
+// }
 
-.base-input:disabled {
-  @apply border-gray-300 bg-gray-50;
-}
+// .base-input:disabled {
+//   @apply border-gray-300 bg-gray-50;
+// }
 
-.base-input-error-text {
-  @apply absolute text-[10px] text-red-500 ml-1;
-}
+// .base-input-error-text {
+//   @apply  text-[10px] text-red-500 ml-1 mb-8;
+// }
+// .base-input-container {
+//   @apply flex flex-col mt-3
+// }
 </style>

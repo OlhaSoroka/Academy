@@ -3,7 +3,7 @@
 		<div class="flex align-middle justify-between">
 			<div class="flex items-center">
 				<h2 class="material__header mr-3">Materials</h2>
-				<Spinner v-if="courseDetailsStore.materialsWidgetLoading"/>
+				<CustomSpinner v-if="courseDetailsStore.materialsWidgetLoading"/>
 			</div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
@@ -31,13 +31,13 @@ import CreateMaterialModal from "../modals/CourseDetailsModals/CreateMaterialMod
 import { deleteMaterial,updateMaterialById } from "../../api/materials";
 import { Material } from "../../api/models/material.model";
 import { useCourseDetailsStore } from "../../store/course-details.store";
-import Spinner from "../Spinner.vue";
+import CustomSpinner from "../CustomSpinner.vue";
 export default defineComponent({
 	components: {
     BaseTableEditable,
     BaseButton,
     CreateMaterialModal,
-    Spinner
+    CustomSpinner
 },
 	props: {
 		currentCourse: {

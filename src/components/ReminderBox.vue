@@ -3,7 +3,7 @@
 		<div>
 			<div>
 				<span class="reminders__header">Reminders</span>
-				<Spinner v-if="remindersStore.isLoading" />
+				<CustomSpinner v-if="remindersStore.isLoading" />
 				<div v-if="!remindersStore.shouldShowNavMenuReminder" class="flex justify-center items-center text-start border border-solid border-stone-300 p-5 rounded-md mt-10">There is no reminders for today</div>
 				<div v-else class="mt-8">
 					<ReminderNotificationItem v-if="remindersStore.isDemoToday"
@@ -24,13 +24,13 @@
 import { mapStores } from "pinia";
 import { defineComponent } from "vue";
 import { useRemindersStore } from "../store/reminders";
-import ReminderNotificationItem from "./ReminderNotificationItem.vue"
-import Spinner from "./Spinner.vue"
+import ReminderNotificationItem from "./ReminderNotificationItem.vue";
+import CustomSpinner from "./CustomSpinner.vue";
 export default defineComponent({
 	components: {
-		ReminderNotificationItem,
-		Spinner
-	},
+    ReminderNotificationItem,
+    CustomSpinner
+},
 	computed: {
 		...mapStores(useRemindersStore)
 	},

@@ -3,8 +3,8 @@
 		<div class="h-full">
 			<div class="h-full">
 				<span class="update__header">Updates</span>
-				<Spinner v-if="updateStore.updatesLoading" />
-				<div v-else class="h-full flex flex-col ">
+				<CustomSpinner class="mt-60" v-if="updateStore.updatesLoading" ></CustomSpinner>
+				<div v-else class="h-full flex flex-col justify-between">
 					<div class="mt-5">
 						<NotificationItem v-for="update in updateStore.updates" :key="update.id" :update="update">
 						</NotificationItem>
@@ -33,14 +33,14 @@ import BaseButton from './baseComponents/BaseButton.vue';
 import NotificationItem from './UpdateNotificationItem.vue';
 import { mapStores } from 'pinia'
 import ArrowUpIcon from './baseComponents/icons/ArrowUpIcon.vue';
-import Spinner from './Spinner.vue'
+import CustomSpinner from './CustomSpinner.vue';
 import { defineComponent } from 'vue';
 export default defineComponent({
 	components: {
 		BaseButton,
 		NotificationItem,
 		ArrowUpIcon,
-		Spinner
+		CustomSpinner
 	},
 	computed: {
 		...mapStores(useUpdateStore),
@@ -58,7 +58,7 @@ export default defineComponent({
 </script>
 <style lang="css" scoped>
 .update__container {
-	@apply border-2 border-stone-300 rounded-md shadow-md bg-stone-50 p-10 w-1/2 min-h-[800px];
+	@apply border-2 border-stone-300 rounded-md shadow-md bg-stone-50 p-10 w-1/2 h-[730px];
 }
 
 .update__header {

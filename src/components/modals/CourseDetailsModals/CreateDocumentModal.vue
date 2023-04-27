@@ -3,17 +3,33 @@
 		<template #body>
 			<form>
 				<Form>
-					<BaseInput v-model="name" label="Document Name" additionalRules="required|min:3|max:69" name="document_name" />
-					<BaseInput v-model="link" type="Link" label="Document Link" rules="required" name="document_link" />
+					<div class="w-52">
+						<div class="base-input-container">
+							<label for="Document name">Document name</label>
+							<Field class="base-input" v-model="name" name="Document name" rules="required||min:3||max:69"
+								:validate-on-input="true" />
+							<div>
+								<ErrorMessage class="base-input-error-text" name="Document name" />
+							</div>
+						</div>
+						<div class="base-input-container">
+							<label for="Document link">Document link</label>
+							<Field class="base-input" v-model="link" name="Document link" rules="required"
+								:validate-on-input="true" />
+							<div>
+								<ErrorMessage class="base-input-error-text" name="Document link" />
+							</div>
+						</div>
+					</div>
 				</Form>
-				<div class="flex justify-between mt-5">
-					<div class="mx-2">
+				<div class="flex justify-end mt-5">
+					<div class="mr-2">
 						<BaseButton :variant="'btn_blue_outlined'" @click="confirmAdding(currentRouteName)"
 							:disabled="!(name.length && link.length)">
 							Add
 						</BaseButton>
 					</div>
-					<div class="mx-2">
+					<div>
 						<BaseButton :variant="'btn_red_outlined'" @click="cancelModal">
 							Cancel
 						</BaseButton>
@@ -32,11 +48,10 @@ import { useCourseDetailsStore } from "../../../store/course-details.store";
 import { defineComponent } from "vue";
 import BaseModal from "../../baseComponents/BaseModal.vue";
 import BaseButton from "../../baseComponents/BaseButton.vue";
-import BaseInput from "../../baseComponents/BaseInput.vue";
 import { createDocument } from "../../../api/document";
 import { Document } from "../../../api/models/documents.model";
 import { uuidv4 } from "@firebase/util";
-import { Form } from 'vee-validate'
+import { ErrorMessage, Field, Form } from 'vee-validate'
 
 
 export default defineComponent({
@@ -52,9 +67,9 @@ export default defineComponent({
 			link: "",
 		};
 	},
-	emits:['documentAdded'],
+	emits: ['documentAdded'],
 	computed: {
-		...mapStores(useUserStore, useCoursesStore, useCourseDetailsStore ),
+		...mapStores(useUserStore, useCoursesStore, useCourseDetailsStore),
 		currentRouteName() {
 			return this.$route.params.id as string
 		},
@@ -84,7 +99,7 @@ export default defineComponent({
 			this.clearInputs();
 		},
 	},
-	components: { BaseModal, BaseButton, BaseInput, Form }
+	components: { BaseModal, BaseButton, Form, Field, ErrorMessage }
 });
 </script>
   

@@ -4,15 +4,22 @@
 			<div>
 				<div class="">
 					<Form>
-						<BaseInput v-model="name" label="Title:" additionalRules="required|min:3|max:69" name="lecture_name" type="text"/>
+						<div class="base-input-container w-60">
+							<label for="Title" class="mb-2">Lecture name</label>
+							<Field class="base-input" v-model="name" name="Lecture name" rules="required||min:3||max:69"
+								:validate-on-input="true" />
+							<div>
+								<ErrorMessage class="base-input-error-text" name="Lecture name" />
+							</div>
+						</div>
 					</Form>
-					<div class="flex justify-between mt-5">
-						<div class="mx-2">
+					<div class="flex justify-end mt-6">
+						<div class="mr-2">
 							<BaseButton variant="btn_blue_outlined" :disabled="!isFormValid" @click="submit()">
 								Add
 							</BaseButton>
 						</div>
-						<div class="mx-2">
+						<div>
 							<BaseButton variant="btn_red_outlined" @click="cancel">
 								Cancel
 							</BaseButton>
@@ -27,16 +34,15 @@
 <script lang="ts">
 import { uuidv4 } from '@firebase/util';
 import { mapStores } from 'pinia';
-import { Form } from 'vee-validate';
+import { ErrorMessage, Field, Form } from 'vee-validate';
 import { defineComponent } from 'vue';
 import { Lecture } from '../../../api/models/lecture.model';
 import { useCourseDetailsStore } from '../../../store/course-details.store';
 import BaseButton from '../../baseComponents/BaseButton.vue';
-import BaseInput from '../../baseComponents/BaseInput.vue';
 import BaseModal from '../../baseComponents/BaseModal.vue';
 
 export default defineComponent({
-	components: { BaseModal, Form, BaseInput, BaseButton },
+	components: { BaseModal, Form, BaseButton, ErrorMessage, Field },
 	props: {
 		toggleModal: {
 			type: Boolean,
@@ -48,7 +54,7 @@ export default defineComponent({
 			name: "",
 		}
 	},
-	emits:['lectureCreated'],
+	emits: ['lectureCreated'],
 	computed: {
 		...mapStores(useCourseDetailsStore),
 		isFormValid() { return !!this.name },
@@ -78,4 +84,5 @@ export default defineComponent({
 			this.clearInputs();
 		}
 	}
-})</script>
+})
+</script>

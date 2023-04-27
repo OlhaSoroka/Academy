@@ -17,7 +17,6 @@
 <script lang="ts">
 import { mapStores } from 'pinia';
 import BaseTableEditable from '../components/baseComponents/BaseTableEditable.vue';
-import Spinner from '../components/Spinner.vue';
 import { useGuideStore } from '../store/guides';
 import { Guide } from '../api/models/guide.model';
 import { guideRoleOptions } from '../models/guide-role.model'
@@ -28,7 +27,7 @@ import { defineComponent } from 'vue';
 
 
 export default defineComponent({
-	components: { BaseTableEditable, Spinner, BaseButton },
+	components: { BaseTableEditable, BaseButton },
 	mounted() {
 		this.guideStore.fetchGuides();
 	},

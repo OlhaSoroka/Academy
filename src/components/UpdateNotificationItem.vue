@@ -1,9 +1,9 @@
 <template>
 	<div v-if="update">
-		<div class="navigation__container">
+		<div class="notification__container">
 
 			<!-- Create -->
-			<div v-if="isCreateType" class="navigation__text">
+			<div v-if="isCreateType" class="notification__text">
 				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} added</h1>
 				<div class="">{{ update.authorId }} added a <span class="font-semibold">new {{
 					notificationHeader!.toLowerCase()
@@ -27,7 +27,7 @@
 			<!-- Update without oldValue -->
 			<div v-if="isUpdateType && !update.oldValue">
 				<h1 class="text-primary-700 font-bold">{{ notificationHeader }} changed</h1>
-				<div>{{ update.authorId }} made update in <span class="font-semibold">{{ update.courseId }} </span> course</div>
+				<div>{{ update.authorId }} made update in <span class="font-semibold">{{ update.courseId }} </span> course.</div>
 				<div><span class="font-semibold">{{ notificationField }}</span> was added to <span class="font-semibold">{{ notificationHeader }}
 						widget</span>. Check it!</div>
 				<div>Updated at: {{ update.createdAt }}</div>
@@ -69,12 +69,12 @@ export default defineComponent({
 });
 </script>
 <style lang="css" scoped>
-.navigation__container {
-	@apply shadow-md bg-stone-50 border border-primary-700 rounded-md p-5 mt-3;
+.notification__container {
+	@apply text-sm shadow-md bg-stone-50 border border-primary-700 rounded-md p-5 mt-3;
 }
 
-.navigation__text {
-	@apply text-base text-gray-800;
+.notification__text {
+	@apply text-sm text-gray-800;
 
 }
 </style>

@@ -3,7 +3,7 @@
 		<div class="flex align-middle justify-between">
 			<div class="flex items-center">
 				<h2 class="lecture__header mr-3">Lectures</h2>
-				<Spinner v-if="courseDetailsStore.lecturesWidgetLoading" />
+				<CustomSpinner v-if="courseDetailsStore.lecturesWidgetLoading" />
 			</div>
 			<div>
 				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" @click="openModal()">
@@ -38,18 +38,18 @@ import { Lecture } from "../../api/models/lecture.model";
 import {UpdateEvent} from "../../api/models/update.model"
 import HomeworkWidget from "./HomeworkWidget.vue";
 import CreateLectureModal from "../modals/CourseDetailsModals/CreateLectureModal.vue";
-import Spinner from "../Spinner.vue";
+import CustomSpinner from "../CustomSpinner.vue";
 
 export default defineComponent({
 	components: {
-		BaseTableEditable,
-		BaseButton,
-		CreateMaterialModal,
-		CreateCommentModal,
-		HomeworkWidget,
-		CreateLectureModal,
-		Spinner
-	},
+    BaseTableEditable,
+    BaseButton,
+    CreateMaterialModal,
+    CreateCommentModal,
+    HomeworkWidget,
+    CreateLectureModal,
+    CustomSpinner
+},
 	props: {
 		currentCourse: {
 			type: Object as PropType<Course>
