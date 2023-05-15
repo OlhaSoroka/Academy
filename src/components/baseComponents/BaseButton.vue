@@ -67,5 +67,8 @@ export default defineComponent({
 .btn_blue_outlined {
   @apply border border-primary-700 text-primary-700 hover:bg-primary-700 hover:text-white;
 }
+.btn_blue_outlined_light {
+  @apply border border-primary-700 text-primary-700 hover:bg-primary-300 hover:text-white;
+}
 </style>
   
