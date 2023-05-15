@@ -7,22 +7,30 @@
 						<div class="base-input-container">
 								<label class="base-input-label" for="Full Name">Full Name</label>
 								<Field :validate-on-input="true" class="base-input" v-model="fullName" :name="'Full Name'" rules="required" placeholder="Enter name"></Field>
-								<ErrorMessage class="base-input-error-text" :name="'Full Name'"></ErrorMessage>
-						</div>
+								<ErrorMessage class="base-input-error-text" :name="'Full Name'">
+								<p class="base-input-error-text">{{ requiredErrorMessage }}</p>
+								</ErrorMessage>
+						</div> 
 						<div class="base-input-container">
 								<label class="base-input-label" for="Password">Email</label>
-								<Field :validate-on-input="true" class="base-input" v-model="email" :name="'Email'" rules="required" placeholder="Enter email"></Field>
-								<ErrorMessage class="base-input-error-text" :name="'Email'"></ErrorMessage>
-						</div>
+								<Field :validate-on-input="true" class="base-input" v-model="email" :name="'Email'" rules="required||email" placeholder="Enter email"></Field>
+								<ErrorMessage class="base-input-error-text" :name="'Email'">
+								<p class="base-input-error-text">{{ emailErrorMessage }}</p>
+							</ErrorMessage>
+						</div> 
 						<div class="base-input-container">
 								<label class="base-input-label" for="Password">Password</label>
-								<Field :validate-on-input="true" class="base-input" v-model="password" :name="'Password'" rules="required" placeholder="Enter password"></Field>
-								<ErrorMessage class="base-input-error-text" :name="'Password'"></ErrorMessage>
+								<Field :validate-on-input="true" class="base-input" v-model="password" type="password" :name="'Password'" rules="min:9" placeholder="Enter password"></Field>
+								<ErrorMessage class="base-input-error-text" :name="'Password'">
+								<p class="base-input-error-text">{{ passwordErrorMessage }}</p>
+								</ErrorMessage>
 						</div>
 						<div class="base-input-container">
 								<label class="base-input-label" for="Confirm password">Confirm password</label>
-								<Field :validate-on-input="true" class="base-input" v-model="confirmPassword" :name="'Confirm password'" rules="required|confirmed:@Password" placeholder="Confirm password"></Field>
-								<ErrorMessage class="base-input-error-text" :name="'Confirm password'"></ErrorMessage>
+								<Field :validate-on-input="true" class="base-input" v-model="confirmPassword" type="password" :name="'Confirm password'" rules="required|confirmed:@Password" placeholder="Confirm password"></Field>
+								<ErrorMessage class="base-input-error-text" :name="'Confirm password'">
+								<p class="base-input-error-text">{{ confirmedPasswordMessage }}</p>
+								</ErrorMessage>
 						</div>
 						<div v-if="isStudent" class="mt-5">
 							<label for="courses" class="base-input-label">Select Course</label>
@@ -67,6 +75,7 @@ import { useStudentStore } from '../../store/students';
 import { useAdminStore } from '../../store/admins';
 import { useMentorStore } from '../../store/mentors';
 import { ErrorMessage, Field, Form } from 'vee-validate';
+import { REQUIRED_ERROR_MESSAGE,INVALID_EMAIL_ERROR_MESSAGE,INVALID_PASSWORD, INVALID_CONFIRMED_PASSWORD } from '../../constants/form-errors-constants';
 
 interface CreateUserData {
 	courseId?: string;
@@ -105,6 +114,18 @@ export default defineComponent({
 		...mapStores(useCoursesStore, useStudentStore, useAdminStore, useMentorStore),
 		isStudent() {
 			return this.role === 'student';
+		},
+		requiredErrorMessage() {
+			return REQUIRED_ERROR_MESSAGE;
+		},
+		emailErrorMessage() {
+			return !this.email ? REQUIRED_ERROR_MESSAGE : INVALID_EMAIL_ERROR_MESSAGE;
+		},
+		passwordErrorMessage() {
+			return INVALID_PASSWORD;
+		},
+		confirmedPasswordMessage() {
+			return INVALID_CONFIRMED_PASSWORD;
 		}
 	},
 	watch: {

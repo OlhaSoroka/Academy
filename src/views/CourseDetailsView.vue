@@ -18,35 +18,35 @@
 		</nav>
 		<div class="flex justify-center items-center pr-32 pl-32 ">
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('mainInfoWidget')">Main Info
+				<BaseButton variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('mainInfoWidget')">Main Info
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('groupWidget')">Group
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('groupWidget')">Group
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton v-if="userStore.isAdmin || userStore.isMentor"  variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultEntryWidget')">Entry
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor"  variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('resultEntryWidget')">Entry
 					Results</BaseButton>
 			</div>
 			<div>
-				<BaseButton v-if="userStore.isAdmin || userStore.isMentor"  variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('resultExitWidget')">Exit
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor"  variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('resultExitWidget')">Exit
 					Results</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('lectureWidget')">Lectures
+				<BaseButton variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('lectureWidget')">Lectures
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('materialWidget')">Materials
+				<BaseButton variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('materialWidget')">Materials
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('documentWidget')">Documents
+				<BaseButton variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('documentWidget')">Documents
 				</BaseButton>
 			</div>
 			<div>
-				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" variant="btn_blue_outlined" class="mr-3" @click="scrollToWidget('commentWidget')">Comments
+				<BaseButton v-if="userStore.isAdmin || userStore.isMentor" variant="btn_blue_outlined_light" class="mr-3" @click="scrollToWidget('commentWidget')">Comments
 				</BaseButton>
 			</div>
 		</div>
@@ -84,7 +84,6 @@
 import { ROUTE_NAMES } from '../models/router.model'
 import { mapStores, Store } from 'pinia';
 import { Course } from '../api/models/course.model';
-import BaseButton from '../components/baseComponents/BaseButton.vue';
 import ArrowNextIcon from '../components/baseComponents/icons/ArrowNextIcon.vue';
 import ArrowPrevIcon from '../components/baseComponents/icons/ArrowPrevIcon.vue';
 import ArrowUpIcon from '../components/baseComponents/icons/ArrowUpIcon.vue';
@@ -102,6 +101,7 @@ import CourseNavigator from '../components/CourseNavigator.vue';
 import FilterMenu from '../components/SearchMenu.vue';
 import { defineComponent } from 'vue';
 import CustomSpinner from '../components/CustomSpinner.vue';
+import BaseButton from '../components/baseComponents/BaseButton.vue';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {

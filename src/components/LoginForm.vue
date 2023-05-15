@@ -7,17 +7,21 @@
 					<Field class="base-input" v-model="formData.email" name="Email" rules="required||email"
 						placeholder="Enter email" :validate-on-input="true" />
 					<div>
-						<ErrorMessage class="base-input-error-text" name="Email" />
+						<ErrorMessage class="base-input-error-text" name="Email">
+							<p class="base-input-error-text">{{ emailErrorMessage }}</p>
+						</ErrorMessage>
 					</div>
 				</div>
 			</div>
 			<div v-if="isLoginPage">
 				<div class="base-input-container">
 					<label for="Password" class="base-input-label">Password</label>
-					<Field class="base-input" v-model="formData.password" name="Password" rules="required||password"
+					<Field class="base-input" v-model="formData.password" name="Password" rules="required"
 						placeholder="Enter password" :validate-on-input="true" />
 					<div>
-						<ErrorMessage class="base-input-error-text" name="Password" />
+						<ErrorMessage class="base-input-error-text" name="Password">
+							<p class="base-input-error-text">{{ passwordErrorMessage }}</p>
+						</ErrorMessage>
 					</div>
 				</div>
 				<p class="login__link" @click="goToResetPage">
@@ -60,6 +64,7 @@ import { ToastType, useToastStore } from "../store/toast.store";
 import { ROUTE_NAMES } from "../models/router.model";
 import { gethUserByID } from "../api/user";
 import { defineComponent } from "vue";
+import { REQUIRED_ERROR_MESSAGE, INVALID_EMAIL_ERROR_MESSAGE } from "../constants/form-errors-constants";
 
 export default defineComponent({
 	name: "LoginForm",
@@ -87,6 +92,12 @@ export default defineComponent({
 	}),
 	computed: {
 		...mapStores(useUserStore, useToastStore),
+		emailErrorMessage() {
+			return !this.formData.email ? REQUIRED_ERROR_MESSAGE : INVALID_EMAIL_ERROR_MESSAGE;
+		},
+		passwordErrorMessage() {
+			return REQUIRED_ERROR_MESSAGE;
+		}
 	},
 	methods: {
 		async onSubmit() {
