@@ -47,7 +47,7 @@ export default defineComponent({
 	beforeMount() {
 		if (this.userStore.isAdmin || this.userStore.isMentor) {
 			this.columnDefs = [
-				{ field: "avatarUrl", headerName: "", width: 80, centered: true, image: true },
+				{ field: "avatarUrl", headerName: "Profile image", width: 140, headerCentered:true, centered: true, image: true },
 				{ field: "fullName", headerName: "Name", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter: true, width: 300 },
 				{ field: "email", headerName: "Email", headerEditable: false, sortable: false, editable: false, filter: true, width: 250 },
 				{ field: "phone", headerName: "Phone", headerEditable: false, sortable: false, editable: this.userStore.isAdmin, filter: false, width: 200 },

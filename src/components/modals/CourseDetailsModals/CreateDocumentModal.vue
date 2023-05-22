@@ -5,16 +5,16 @@
 				<Form>
 					<div class="w-52">
 						<div class="base-input-container">
-							<label for="Document name">Document name</label>
-							<Field class="base-input" v-model="name" name="Document name" rules="required||min:3||max:69"
+							<label for="Document name" class="input_label">Document name</label>
+							<Field class="base-input" v-model="name" name="Document name" rules="required||min:3||max:69" placeholder="Enter document name"
 								:validate-on-input="true" />
 							<div>
 								<ErrorMessage class="base-input-error-text" name="Document name" />
 							</div>
 						</div>
 						<div class="base-input-container">
-							<label for="Document link">Document link</label>
-							<Field class="base-input" v-model="link" name="Document link" rules="required"
+							<label for="Document link" class="input_label">Document link</label>
+							<Field class="base-input" v-model="link" name="Document link" rules="required" placeholder="Enter document link"
 								:validate-on-input="true" />
 							<div>
 								<ErrorMessage class="base-input-error-text" name="Document link" />
@@ -103,3 +103,9 @@ export default defineComponent({
 });
 </script>
   
+
+<style lang="scss" scoped>
+.input_label {
+  @apply ml-1 block text-base font-semibold mb-1;
+}
+</style>

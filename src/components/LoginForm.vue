@@ -14,15 +14,27 @@
 				</div>
 			</div>
 			<div v-if="isLoginPage">
-				<div class="base-input-container">
+
+				<div class="base-input-container relative">
 					<label for="Password" class="base-input-label">Password</label>
 					<Field class="base-input" v-model="formData.password" name="Password" rules="required"
-						placeholder="Enter password" :validate-on-input="true" />
+						v-bind:type="isPasswordHidden ? 'text' : 'password'" placeholder="Enter password"
+						:validate-on-input="true" />
 					<div>
 						<ErrorMessage class="base-input-error-text" name="Password">
 							<p class="base-input-error-text">{{ passwordErrorMessage }}</p>
 						</ErrorMessage>
 					</div>
+					<div v-show="isPasswordHidden" @click="showPassword()" class="cursor-pointer "><svg
+							id="password-eye-fill" width="32" height="32"
+							class="absolute top-[48px] left-[258px] text-slate-700">
+							<use href="../icons/spite-navigation.svg#password-eye-fill" />
+						</svg></div>
+					<div v-show="!isPasswordHidden" @click="showPassword()" class="cursor-pointer "><svg
+							id="password-eye-slash" width="32" height="32"
+							class="absolute top-[48px] left-[258px] text-slate-600">
+							<use href="../icons/spite-navigation.svg#password-eye-slash" />
+						</svg></div>
 				</div>
 				<p class="login__link" @click="goToResetPage">
 					Forgot password?
@@ -32,12 +44,10 @@
 						Submit
 					</BaseButton>
 				</div>
-
-				<!-- <BaseSpinner v-if="isDataLoading" /> -->
 			</div>
 		</Form>
 		<div v-if="!isLoginPage">
-			<div class="login__button_container ">
+			<div class="login__button_container mt-8">
 				<BaseButton @click="resetPasswordOnEmail">
 					Reset Password
 				</BaseButton>
@@ -74,22 +84,25 @@ export default defineComponent({
 		Field,
 		ErrorMessage
 	},
-	data: () => ({
-		formData: {
-			email: "",
-			password: "",
-		},
-		errorHandler: {
-			isError: false,
-			message: "",
-		},
-		isLoginPage: true,
-		isDataLoading: false,
-		errorResetHandler: {
-			isError: false,
-			message: "",
-		},
-	}),
+	data() {
+		return {
+			formData: {
+				email: "",
+				password: "",
+			},
+			errorHandler: {
+				isError: false,
+				message: "",
+			},
+			isLoginPage: true,
+			isDataLoading: false,
+			errorResetHandler: {
+				isError: false,
+				message: "",
+			},
+			isPasswordHidden: false,
+		}
+	},
 	computed: {
 		...mapStores(useUserStore, useToastStore),
 		emailErrorMessage() {
@@ -179,6 +192,9 @@ export default defineComponent({
 			this.isLoginPage = false;
 			this.errorHandler.message = "";
 		},
+		showPassword() {
+			this.isPasswordHidden = !this.isPasswordHidden;
+		}
 	},
 });
 </script>

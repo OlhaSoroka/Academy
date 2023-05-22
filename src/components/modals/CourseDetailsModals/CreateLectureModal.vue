@@ -5,15 +5,15 @@
 				<div class="">
 					<Form>
 						<div class="base-input-container w-60">
-							<label for="Title" class="mb-2">Lecture name</label>
-							<Field class="base-input" v-model="name" name="Lecture name" rules="required||min:3||max:69"
+							<label for="Title" class="input_label">Lecture name</label>
+							<Field class="base-input" v-model="name" name="Lecture name" rules="required||min:3||max:69" placeholder="Enter lecture name"
 								:validate-on-input="true" />
 							<div>
 								<ErrorMessage class="base-input-error-text" name="Lecture name" />
 							</div>
 						</div>
 					</Form>
-					<div class="flex justify-end mt-6">
+					<div class="flex justify-end mt-5">
 						<div class="mr-2">
 							<BaseButton variant="btn_blue_outlined" :disabled="!isFormValid" @click="submit()">
 								Add
@@ -60,7 +60,7 @@ export default defineComponent({
 		isFormValid() { return !!this.name },
 		courseId() {
 			return this.$route.params.id as string
-		}
+		},
 	},
 	watch: {
 		toggleModal() {
@@ -86,3 +86,9 @@ export default defineComponent({
 	}
 })
 </script>
+
+<style lang="scss" scoped>
+.input_label {
+  @apply ml-1 block text-base font-semibold mb-1;
+}
+</style>

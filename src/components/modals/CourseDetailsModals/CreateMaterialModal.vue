@@ -3,18 +3,18 @@
 		<template #body>
 			<form>
 				<Form>
-					<div class="w-52">
+					<div class="w-52"> 
 						<div class="base-input-container">
-							<label for="Material name">Material name</label>
+							<label for="Material name" class="input_label">Material name</label>
 							<Field class="base-input" v-model="name" name="Material name" rules="required||min:3||max:69"
-								:validate-on-input="true" />
+								:validate-on-input="true" placeholder="Enter material name"/>
 							<div>
 								<ErrorMessage class="base-input-error-text" name="Material name" />
 							</div>
 						</div>
 						<div class="base-input-container">
-							<label for="Material link">Material link</label>
-							<Field class="base-input" v-model="link" name="Material link" rules="required"
+							<label for="Material link" class="input_label">Material link</label>
+							<Field class="base-input" v-model="link" name="Material link" rules="required" placeholder="Enter material link"
 								:validate-on-input="true" />
 							<div>
 								<ErrorMessage class="base-input-error-text" name="Material link" />
@@ -107,6 +107,12 @@ export default defineComponent({
 	components: { BaseModal, BaseButton, Form, Field, ErrorMessage }
 });
 </script>
+
+<style lang="scss" scoped>
+.input_label {
+  @apply ml-1 block text-base font-semibold mb-1;
+}
+</style>
 
 
   
